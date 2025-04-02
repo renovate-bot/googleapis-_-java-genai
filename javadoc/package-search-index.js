@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.google.genai"},{"l":"com.google.genai.types"}];updateSearchResults();
