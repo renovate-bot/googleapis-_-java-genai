@@ -1,2 +1,3 @@
 com.google.genai
+com.google.genai.errors
 com.google.genai.types
