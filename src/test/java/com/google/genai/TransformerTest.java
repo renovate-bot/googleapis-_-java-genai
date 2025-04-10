@@ -88,4 +88,28 @@ public class TransformerTest {
     assertEquals("STRING", transformedSchema.items().get().type().get());
     assertEquals("ARRAY", transformedSchema.type().get());
   }
+
+  @Test
+  public void testTSchema_Required_sucess() {
+    Schema schema = Schema.builder()
+            .type("ARRAY")
+            .items(
+                Schema.builder()
+                    .type("OBJECT")
+                    .properties(
+                        ImmutableMap.of(
+                            "recipe_name",
+                            Schema.builder().type("STRING").build(),
+                            "ingredients",
+                            Schema.builder()
+                                .type("ARRAY")
+                                .items(Schema.builder().type("STRING").build())
+                                .build()
+                            ))
+                    .required(ImmutableList.of("recipe_name", "ingredients"))
+                    .build())
+            .build();
+    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    assertEquals(schema, transformedSchema);
+  }
 }

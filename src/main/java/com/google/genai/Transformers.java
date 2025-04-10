@@ -28,6 +28,7 @@ import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.Tool;
 import com.google.genai.types.VoiceConfig;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.Nullable;
@@ -263,20 +264,18 @@ final class Transformers {
     }
 
     if (schema.items().isPresent()) {
-      schema = schema.toBuilder().items(processSchema(apiClient, schema.items().get())).build();
+      Schema items = processSchema(apiClient, schema.items().get());
+      schema = schema.toBuilder().items(items).build();
     }
 
     if (schema.properties().isPresent()) {
+      Map<String, Schema> properties = new HashMap<>();
       for (Map.Entry<String, Schema> entry : schema.properties().get().entrySet()) {
         String propertyName = entry.getKey();
         Schema propertySchema = entry.getValue();
-        schema =
-            schema.toBuilder()
-                .properties(
-                    ImmutableMap.of(
-                        propertyName, processSchema(apiClient, propertySchema).toBuilder().build()))
-                .build();
+        properties.put(propertyName, processSchema(apiClient, propertySchema));
       }
+      schema = schema.toBuilder().properties(ImmutableMap.copyOf(properties)).build();
     }
 
     return schema;

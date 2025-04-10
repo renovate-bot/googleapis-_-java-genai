@@ -39,6 +39,7 @@
  */
 package com.google.genai.examples;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
 import com.google.genai.types.FunctionDeclaration;
@@ -64,7 +65,13 @@ public class GenerateContentWithFunctionCall {
                             Schema.builder()
                                 .type("string")
                                 .description("The location to get the weather for.")
+                                .build(),
+                            "unit",
+                            Schema.builder()
+                                .type("string")
+                                .description("The unit to return the weather in, e.g. 'celsius'.")
                                 .build()))
+                    .required(ImmutableList.of("location", "unit"))
                     .build())
             .build();
 
