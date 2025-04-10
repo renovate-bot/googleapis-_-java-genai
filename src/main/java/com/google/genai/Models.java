@@ -3272,19 +3272,6 @@ public final class Models {
               toObject));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"response", "generateVideoResponse"})
-        != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"result"},
-          GenerateVideosResponseFromMldev(
-              apiClient,
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(
-                      fromObject, new String[] {"response", "generateVideoResponse"})),
-              toObject));
-    }
-
     return toObject;
   }
 
@@ -3916,17 +3903,6 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"response"},
-          GenerateVideosResponseFromVertex(
-              apiClient,
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"response"})),
-              toObject));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"result"},
           GenerateVideosResponseFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
