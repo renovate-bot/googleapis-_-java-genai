@@ -33,6 +33,12 @@ public abstract class SpeechConfig extends JsonSerializable {
   @JsonProperty("voiceConfig")
   public abstract Optional<VoiceConfig> voiceConfig();
 
+  /**
+   * Language code (ISO 639. e.g. en-US) for the speech synthesization. Only available for Live API.
+   */
+  @JsonProperty("languageCode")
+  public abstract Optional<String> languageCode();
+
   /** Instantiates a builder for SpeechConfig. */
   public static Builder builder() {
     return new AutoValue_SpeechConfig.Builder();
@@ -52,6 +58,9 @@ public abstract class SpeechConfig extends JsonSerializable {
 
     @JsonProperty("voiceConfig")
     public abstract Builder voiceConfig(VoiceConfig voiceConfig);
+
+    @JsonProperty("languageCode")
+    public abstract Builder languageCode(String languageCode);
 
     public abstract SpeechConfig build();
   }

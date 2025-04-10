@@ -154,6 +154,7 @@ public class LiveAudioConversationAsync {
                             .prebuiltVoiceConfig(
                                 PrebuiltVoiceConfig.builder().voiceName(voiceName).build())
                             .build())
+                    .languageCode("en-US")
                     .build())
             .build();
 
