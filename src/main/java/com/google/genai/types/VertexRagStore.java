@@ -42,6 +42,10 @@ public abstract class VertexRagStore extends JsonSerializable {
   @JsonProperty("ragResources")
   public abstract Optional<List<VertexRagStoreRagResource>> ragResources();
 
+  /** Optional. The retrieval config for the Rag query. */
+  @JsonProperty("ragRetrievalConfig")
+  public abstract Optional<RagRetrievalConfig> ragRetrievalConfig();
+
   /** Optional. Number of top k results to return from the selected corpora. */
   @JsonProperty("similarityTopK")
   public abstract Optional<Integer> similarityTopK();
@@ -72,6 +76,9 @@ public abstract class VertexRagStore extends JsonSerializable {
 
     @JsonProperty("ragResources")
     public abstract Builder ragResources(List<VertexRagStoreRagResource> ragResources);
+
+    @JsonProperty("ragRetrievalConfig")
+    public abstract Builder ragRetrievalConfig(RagRetrievalConfig ragRetrievalConfig);
 
     @JsonProperty("similarityTopK")
     public abstract Builder similarityTopK(Integer similarityTopK);
