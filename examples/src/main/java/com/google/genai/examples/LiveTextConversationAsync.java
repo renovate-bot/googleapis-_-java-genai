@@ -61,7 +61,11 @@ public class LiveTextConversationAsync {
         Client.builder().httpOptions(HttpOptions.builder().apiVersion("v1alpha").build()).build();
 
     LiveConnectConfig config =
-        LiveConnectConfig.builder().responseModalities(ImmutableList.of("TEXT")).build();
+        LiveConnectConfig.builder()
+            .responseModalities(ImmutableList.of("TEXT"))
+            .maxOutputTokens(30)
+            .seed(1234)
+            .build();
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 

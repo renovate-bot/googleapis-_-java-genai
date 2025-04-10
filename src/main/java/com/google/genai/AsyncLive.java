@@ -149,9 +149,33 @@ public class AsyncLive {
     // responseModalities and speechConfig are missing in the LiveClientSetup.
     // we need to manually add them to the request message.
     ObjectNode generationConfigNode = JsonSerializable.objectMapper.createObjectNode();
-    if (config.generationConfig().isPresent()) {
+    if (config.temperature().isPresent()) {
       generationConfigNode =
-          JsonSerializable.toJsonNode(config.generationConfig().get()).deepCopy();
+          JsonSerializable.toJsonNode(config.temperature().get()).deepCopy();
+    }
+
+    if (config.topP().isPresent()) {
+      generationConfigNode =
+          JsonSerializable.toJsonNode(config.topP().get()).deepCopy();
+    }
+
+    if (config.topK().isPresent()) {
+      generationConfigNode =
+          JsonSerializable.toJsonNode(config.topK().get()).deepCopy();
+    }
+
+    if (config.maxOutputTokens().isPresent()) {
+      generationConfigNode =
+          JsonSerializable.toJsonNode(config.maxOutputTokens().get()).deepCopy();
+    }
+
+    if (config.mediaResolution().isPresent()) {
+      generationConfigNode =
+          JsonSerializable.toJsonNode(config.mediaResolution().get()).deepCopy();
+    }
+
+    if (config.seed().isPresent()) {
+      generationConfigNode = JsonSerializable.toJsonNode(config.seed().get()).deepCopy();
     }
 
     if (config.responseModalities().isPresent()) {
