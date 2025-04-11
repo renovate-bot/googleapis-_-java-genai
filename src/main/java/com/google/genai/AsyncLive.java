@@ -145,37 +145,41 @@ public class AsyncLive {
 
     config.systemInstruction().ifPresent(setupBuilder::systemInstruction);
     config.tools().ifPresent(setupBuilder::tools);
+    config.inputAudioTranscription().ifPresent(setupBuilder::inputAudioTranscription);
+    config.outputAudioTranscription().ifPresent(setupBuilder::outputAudioTranscription);
 
     // responseModalities and speechConfig are missing in the LiveClientSetup.
     // we need to manually add them to the request message.
     ObjectNode generationConfigNode = JsonSerializable.objectMapper.createObjectNode();
     if (config.temperature().isPresent()) {
-      generationConfigNode =
-          JsonSerializable.toJsonNode(config.temperature().get()).deepCopy();
+      generationConfigNode.set(
+          "temperature", JsonSerializable.toJsonNode(config.temperature().get()));
     }
 
     if (config.topP().isPresent()) {
-      generationConfigNode =
-          JsonSerializable.toJsonNode(config.topP().get()).deepCopy();
+      generationConfigNode.set("topP", JsonSerializable.toJsonNode(config.topP().get()));
     }
 
     if (config.topK().isPresent()) {
-      generationConfigNode =
-          JsonSerializable.toJsonNode(config.topK().get()).deepCopy();
+      generationConfigNode.set("topK",
+          JsonSerializable.toJsonNode(config.topK().get()).deepCopy());
     }
 
     if (config.maxOutputTokens().isPresent()) {
-      generationConfigNode =
-          JsonSerializable.toJsonNode(config.maxOutputTokens().get()).deepCopy();
+      generationConfigNode.set(
+          "maxOutputTokens",
+          JsonSerializable.toJsonNode(config.maxOutputTokens().get()).deepCopy());
     }
 
     if (config.mediaResolution().isPresent()) {
-      generationConfigNode =
-          JsonSerializable.toJsonNode(config.mediaResolution().get()).deepCopy();
+      generationConfigNode.set(
+          "mediaResolution",
+          JsonSerializable.toJsonNode(config.mediaResolution().get()).deepCopy());
     }
 
     if (config.seed().isPresent()) {
-      generationConfigNode = JsonSerializable.toJsonNode(config.seed().get()).deepCopy();
+      generationConfigNode.set(
+          "seed", JsonSerializable.toJsonNode(config.seed().get()).deepCopy());
     }
 
     if (config.responseModalities().isPresent()) {

@@ -63,6 +63,7 @@ public class LiveTextConversationAsync {
     LiveConnectConfig config =
         LiveConnectConfig.builder()
             .responseModalities(ImmutableList.of("TEXT"))
+            .topP(0.8f)
             .maxOutputTokens(30)
             .seed(1234)
             .build();

@@ -65,6 +65,20 @@ public abstract class LiveServerContent extends JsonSerializable {
   @JsonProperty("generationComplete")
   public abstract Optional<Boolean> generationComplete();
 
+  /**
+   * Input transcription. The transcription is independent to the model turn which means it doesn’t
+   * imply any ordering between transcription and model turn.
+   */
+  @JsonProperty("inputTranscription")
+  public abstract Optional<Transcription> inputTranscription();
+
+  /**
+   * Output transcription. The transcription is independent to the model turn which means it doesn’t
+   * imply any ordering between transcription and model turn.
+   */
+  @JsonProperty("outputTranscription")
+  public abstract Optional<Transcription> outputTranscription();
+
   /** Instantiates a builder for LiveServerContent. */
   public static Builder builder() {
     return new AutoValue_LiveServerContent.Builder();
@@ -93,6 +107,12 @@ public abstract class LiveServerContent extends JsonSerializable {
 
     @JsonProperty("generationComplete")
     public abstract Builder generationComplete(boolean generationComplete);
+
+    @JsonProperty("inputTranscription")
+    public abstract Builder inputTranscription(Transcription inputTranscription);
+
+    @JsonProperty("outputTranscription")
+    public abstract Builder outputTranscription(Transcription outputTranscription);
 
     public abstract LiveServerContent build();
   }

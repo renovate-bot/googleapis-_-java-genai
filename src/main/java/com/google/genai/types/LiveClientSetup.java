@@ -54,6 +54,16 @@ public abstract class LiveClientSetup extends JsonSerializable {
   @JsonProperty("tools")
   public abstract Optional<List<Tool>> tools();
 
+  /** The transcription of the input aligns with the input audio language. */
+  @JsonProperty("inputAudioTranscription")
+  public abstract Optional<AudioTranscriptionConfig> inputAudioTranscription();
+
+  /**
+   * The transcription of the output aligns with the language code specified for the output audio.
+   */
+  @JsonProperty("outputAudioTranscription")
+  public abstract Optional<AudioTranscriptionConfig> outputAudioTranscription();
+
   /** Instantiates a builder for LiveClientSetup. */
   public static Builder builder() {
     return new AutoValue_LiveClientSetup.Builder();
@@ -82,6 +92,14 @@ public abstract class LiveClientSetup extends JsonSerializable {
 
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
+
+    @JsonProperty("inputAudioTranscription")
+    public abstract Builder inputAudioTranscription(
+        AudioTranscriptionConfig inputAudioTranscription);
+
+    @JsonProperty("outputAudioTranscription")
+    public abstract Builder outputAudioTranscription(
+        AudioTranscriptionConfig outputAudioTranscription);
 
     public abstract LiveClientSetup build();
   }
