@@ -63,7 +63,7 @@ public class LiveTextToTextGenerationAsync {
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 
     String modelName;
-    if (client.vertexAi()) {
+    if (client.vertexAI()) {
       modelName = "gemini-2.0-flash-live-preview-04-09";
     } else {
       modelName = "gemini-2.0-flash-live-001";

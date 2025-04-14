@@ -196,7 +196,7 @@ public class LiveAudioConversationAsync {
       // --- Connect to Gemini Live API ---
       System.out.println("Connecting to Gemini Live API...");
 
-      if (client.vertexAi()) {
+      if (client.vertexAI()) {
         session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
       } else {
         session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();

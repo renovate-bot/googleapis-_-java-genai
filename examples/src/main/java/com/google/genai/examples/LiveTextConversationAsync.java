@@ -70,12 +70,13 @@ public class LiveTextConversationAsync {
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 
+    AsyncSession session;
+
     try {
-      if (client.vertexAi()) {
-        AsyncSession session =
-            client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
+      if (client.vertexAI()) {
+        session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
       } else {
-        AsyncSession session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
+        session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
       }
       // Start receiving messages.
       CompletableFuture<Void> receiveFuture =
