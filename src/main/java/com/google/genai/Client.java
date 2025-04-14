@@ -44,6 +44,7 @@ public final class Client implements AutoCloseable {
   private final ApiClient apiClient;
   public final Models models;
   public final Operations operations;
+  public final ChatSession chats;
   public final Async async;
 
   /** Builder for {@link Client}. */
@@ -217,6 +218,7 @@ public final class Client implements AutoCloseable {
 
     models = new Models(this.apiClient);
     operations = new Operations(this.apiClient);
+    chats = new ChatSession(this.apiClient);
     async = new Async(this.apiClient);
   }
 

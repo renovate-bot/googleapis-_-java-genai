@@ -21,6 +21,7 @@ package com.google.genai.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.api.core.InternalApi;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.JsonSerializable;
@@ -259,8 +260,9 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   }
 
   /** Throws an exception if the response finishes unexpectedly. */
-  private void checkFinishReason() {
-    String finishReason = finishReason();
+  @InternalApi
+  public void checkFinishReason() {
+    String finishReason = this.finishReason();
     if (!EXPECTED_FINISH_REASONS.contains(finishReason)) {
       throw new IllegalArgumentException(
           String.format("The response finished unexpectedly with reason %s.", finishReason));
