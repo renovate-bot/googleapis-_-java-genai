@@ -127,6 +127,10 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   @JsonProperty("routingConfig")
   public abstract Optional<GenerationConfigRoutingConfig> routingConfig();
 
+  /** Configuration for model selection. */
+  @JsonProperty("modelSelectionConfig")
+  public abstract Optional<ModelSelectionConfig> modelSelectionConfig();
+
   /** Safety settings in the request to block unsafe content in the response. */
   @JsonProperty("safetySettings")
   public abstract Optional<List<SafetySetting>> safetySettings();
@@ -234,6 +238,9 @@ public abstract class GenerateContentConfig extends JsonSerializable {
 
     @JsonProperty("routingConfig")
     public abstract Builder routingConfig(GenerationConfigRoutingConfig routingConfig);
+
+    @JsonProperty("modelSelectionConfig")
+    public abstract Builder modelSelectionConfig(ModelSelectionConfig modelSelectionConfig);
 
     @JsonProperty("safetySettings")
     public abstract Builder safetySettings(List<SafetySetting> safetySettings);

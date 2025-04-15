@@ -294,6 +294,18 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode ModelSelectionConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(
+        Common.getValueByPath(fromObject, new String[] {"featureSelectionPreference"}))) {
+      throw new Error("featureSelectionPreference parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetySettingToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -682,6 +694,10 @@ public final class Models {
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"routingConfig"}))) {
       throw new Error("routingConfig parameter is not supported in Gemini API.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"}))) {
+      throw new Error("modelSelectionConfig parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"safetySettings"}) != null) {
@@ -1418,6 +1434,20 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode ModelSelectionConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"featureSelectionPreference"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"featureSelectionPreference"},
+          Common.getValueByPath(fromObject, new String[] {"featureSelectionPreference"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetySettingToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1824,6 +1854,17 @@ public final class Models {
           toObject,
           new String[] {"routingConfig"},
           Common.getValueByPath(fromObject, new String[] {"routingConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"modelConfig"},
+          ModelSelectionConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"safetySettings"}) != null) {
