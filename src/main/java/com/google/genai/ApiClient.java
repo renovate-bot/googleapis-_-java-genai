@@ -163,6 +163,15 @@ abstract class ApiClient {
     return httpClient;
   }
 
+  private Optional<Map<String, String>> getTimeoutHeader(HttpOptions httpOptionsToApply) {
+    if (httpOptionsToApply.timeout().isPresent()) {
+      int timeoutInSeconds = (int) Math.ceil((double) httpOptionsToApply.timeout().get() / 1000.0);
+      // TODO(b/329147724): Document the usage of X-Server-Timeout header.
+      return Optional.of(ImmutableMap.of("X-Server-Timeout", Integer.toString(timeoutInSeconds)));
+    }
+    return Optional.empty();
+  }
+
   private void applyHttpOptions(HttpOptions httpOptionsToApply) {
     HttpOptions.Builder mergedHttpOptionsBuilder = this.httpOptions.toBuilder();
     if (httpOptionsToApply.baseUrl().isPresent()) {
@@ -177,8 +186,9 @@ abstract class ApiClient {
     if (httpOptionsToApply.headers().isPresent()) {
       Map<String, String> mergedHeaders =
           ImmutableMap.<String, String>builder()
-              .putAll(httpOptionsToApply.headers().get())
-              .putAll(this.httpOptions.headers().get())
+              .putAll(httpOptionsToApply.headers().orElse(ImmutableMap.of()))
+              .putAll(this.httpOptions.headers().orElse(ImmutableMap.of()))
+              .putAll(getTimeoutHeader(httpOptionsToApply).orElse(ImmutableMap.of()))
               .build();
       mergedHttpOptionsBuilder.headers(mergedHeaders);
     }

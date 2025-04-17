@@ -193,6 +193,7 @@ public class HttpApiClientTest {
             .orElse(ImmutableMap.of())
             .entrySet()
             .containsAll(httpOptions.headers().orElse(ImmutableMap.of()).entrySet()));
+    assertEquals("5", client.httpOptions.headers().get().get("X-Server-Timeout"));
   }
 
   @Test
@@ -202,7 +203,7 @@ public class HttpApiClientTest {
             .baseUrl("https://aiplatform.googleapis.com")
             .apiVersion("v1beta1")
             .headers(ImmutableMap.of("test", "header"))
-            .timeout(5000)
+            .timeout(5001)
             .build();
     HttpApiClient client =
         new HttpApiClient(
@@ -224,6 +225,8 @@ public class HttpApiClientTest {
             .orElse(ImmutableMap.of())
             .entrySet()
             .containsAll(httpOptions.headers().orElse(ImmutableMap.of()).entrySet()));
+    // Note that the timeout is rounded up to the nearest integer number of seconds.
+    assertEquals("6", client.httpOptions.headers().get().get("X-Server-Timeout"));
   }
 
   @Test
@@ -236,6 +239,8 @@ public class HttpApiClientTest {
     // Default values for baseUrl and apiVersion are used.
     assertEquals(defaultHttpOptionsMLDev.baseUrl(), client.httpOptions.baseUrl());
     assertEquals(defaultHttpOptionsMLDev.headers(), client.httpOptions.headers());
+    // Defaults to having no timeout.
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   @Test
@@ -253,6 +258,8 @@ public class HttpApiClientTest {
     // Default values for baseUrl and apiVersion are used.
     assertEquals(defaultHttpOptionsVertex.baseUrl(), client.httpOptions.baseUrl());
     assertEquals(defaultHttpOptionsVertex.headers(), client.httpOptions.headers());
+    // Defaults to having no timeout.
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   @Test
@@ -272,7 +279,7 @@ public class HttpApiClientTest {
 
   @Test
   public void testHttpClientVertexTimeout() throws Exception {
-    HttpOptions httpOptions = HttpOptions.builder().timeout(5000).build();
+    HttpOptions httpOptions = HttpOptions.builder().timeout(4999).build();
     Optional<String> project = Optional.of("project");
     Optional<String> location = Optional.of("location");
     Optional<GoogleCredentials> credentials =
@@ -285,7 +292,7 @@ public class HttpApiClientTest {
 
     RequestConfig config = getRequestConfig(httpClient);
 
-    assertEquals(5000, config.getConnectTimeout());
+    assertEquals(4999, config.getConnectTimeout());
     assertEquals("project", client.project());
     assertEquals("location", client.location());
     assertTrue(client.vertexAI());
@@ -303,6 +310,7 @@ public class HttpApiClientTest {
 
     assertEquals(-1, config.getConnectTimeout());
     assertEquals("api-key", client.apiKey());
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   @Test
@@ -324,6 +332,7 @@ public class HttpApiClientTest {
     assertEquals("project", client.project());
     assertEquals("location", client.location());
     assertTrue(client.vertexAI());
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   private RequestConfig getRequestConfig(CloseableHttpClient client) throws Exception {
@@ -358,6 +367,29 @@ public class HttpApiClientTest {
     assertEquals("global", client.location());
     assertTrue(client.vertexAI());
     assertEquals(Optional.of("https://aiplatform.googleapis.com"), client.httpOptions.baseUrl());
+  }
+
+  @Test
+  public void testHttpClientVertexWithNoHttpOptions() throws Exception {
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(PROJECT), Optional.of("global"), Optional.empty(), Optional.empty());
+
+    assertEquals("global", client.location());
+    assertTrue(client.vertexAI());
+    assertEquals(Optional.of("https://aiplatform.googleapis.com/"), client.httpOptions.baseUrl());
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
+  }
+
+  @Test
+  public void testHttpClientMLDevWithNoHttpOptions() throws Exception {
+    HttpApiClient client = new HttpApiClient(Optional.of("api-key"), Optional.empty());
+
+    assertEquals(API_KEY, client.apiKey());
+    assertFalse(client.vertexAI());
+    assertEquals(
+        Optional.of("https://generativelanguage.googleapis.com/"), client.httpOptions.baseUrl());
+    assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   @Test
