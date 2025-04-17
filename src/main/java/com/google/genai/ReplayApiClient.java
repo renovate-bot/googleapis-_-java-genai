@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,19 +119,19 @@ final class ReplayApiClient extends ApiClient {
   /** Sends a Http Post request given the path and request json string. */
   @SuppressWarnings("unchecked")
   @Override
-  public ApiResponse post(String path, String requestJson) {
+  public ApiResponse request(String httpMethod, String path, String requestJson) {
     if (this.clientMode.equals("replay") || this.clientMode.equals("auto")) {
       System.out.println("    === Using replay for ID: " + this.replayId);
       List<Object> interactions = Arrays.asList(this.replaySession.get("interactions"));
       // TODO(b/369384123): Ensure the replay is correctly loaded by index for multi-turn
       // conversations.
       Object currentInteraction = Arrays.asList(interactions.get(this.replayIndex)).get(0);
-      java.util.LinkedHashMap<String, Object> currentMember =
-          ((ArrayList<java.util.LinkedHashMap<String, Object>>) currentInteraction).get(0);
+      LinkedHashMap<String, Object> currentMember =
+          ((ArrayList<LinkedHashMap<String, Object>>) currentInteraction).get(0);
       Map<String, Object> responseMap = (Map<String, Object>) currentMember.get("response");
       Integer statusCode = (Integer) responseMap.get("status_code");
       List<Object> bodySegments = (List<Object>) responseMap.get("body_segments");
-      StringBuffer responseBody = new StringBuffer();
+      StringBuilder responseBody = new StringBuilder();
       for (Object bodySegment : bodySegments) {
         responseBody.append(bodySegment.toString());
       }

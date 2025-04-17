@@ -127,8 +127,8 @@ abstract class ApiClient {
     return HttpClientBuilder.create().setDefaultRequestConfig(config).build();
   }
 
-  /** Sends a Http Post request given the path and request json string. */
-  public abstract ApiResponse post(String path, String requestJson);
+  /** Sends a Http request given the http method, path, and request json string. */
+  public abstract ApiResponse request(String httpMethod, String path, String requestJson);
 
   /** Returns the library version. */
   static String libraryVersion() {
@@ -198,14 +198,14 @@ abstract class ApiClient {
       defaultHttpOptionsBuilder
           .baseUrl(
               location.get().equalsIgnoreCase("global")
-                  ? "https://aiplatform.googleapis.com/"
-                  : String.format("https://%s-aiplatform.googleapis.com/", location.get()))
+                  ? "https://aiplatform.googleapis.com"
+                  : String.format("https://%s-aiplatform.googleapis.com", location.get()))
           .apiVersion("v1beta1");
     } else if (vertexAI && !location.isPresent()) {
       throw new IllegalArgumentException("Location must be provided for Vertex AI APIs.");
     } else {
       defaultHttpOptionsBuilder
-          .baseUrl("https://generativelanguage.googleapis.com/")
+          .baseUrl("https://generativelanguage.googleapis.com")
           .apiVersion("v1beta");
     }
     return defaultHttpOptionsBuilder.build();

@@ -45,7 +45,7 @@ public class ChatTest {
   void setUp() {
     mockedClient = Mockito.mock(ApiClient.class);
     mockedResponse = Mockito.mock(ApiResponse.class);
-    when(mockedClient.post(anyString(), anyString())).thenReturn(mockedResponse);
+    when(mockedClient.request(anyString(), anyString(), anyString())).thenReturn(mockedResponse);
     mockedEntity = Mockito.mock(HttpEntity.class);
 
     client = Client.builder().build();

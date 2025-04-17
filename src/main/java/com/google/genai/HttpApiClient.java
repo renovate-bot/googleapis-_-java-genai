@@ -23,7 +23,10 @@ import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 
@@ -44,25 +47,47 @@ final class HttpApiClient extends ApiClient {
     super(project, location, credentials, httpOptions);
   }
 
-  /** Sends a Http Post request given the path and request json string. */
+  /** Sends a Http request given the http method, path, and request json string. */
   @Override
-  public ApiResponse post(String path, String requestJson) {
-    if (this.vertexAI() && !path.startsWith("projects/")) {
+  public ApiResponse request(String httpMethod, String path, String requestJson) {
+    boolean queryBaseModel =
+        httpMethod.equalsIgnoreCase("GET") && path.startsWith("publishers/google/models/");
+    if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
               + path;
     }
-    HttpPost httpPost =
-        new HttpPost(
-            String.format(
-                "%s/%s/%s", httpOptions.baseUrl().get(), httpOptions.apiVersion().get(), path));
+    String requestUrl =
+        String.format(
+            "%s/%s/%s", httpOptions.baseUrl().get(), httpOptions.apiVersion().get(), path);
 
+    if (httpMethod.equalsIgnoreCase("POST")) {
+      HttpPost httpPost = new HttpPost(requestUrl);
+      setHeaders(httpPost);
+      httpPost.setEntity(new StringEntity(requestJson, ContentType.APPLICATION_JSON));
+      return executeRequest(httpPost);
+    } else if (httpMethod.equalsIgnoreCase("GET")) {
+      HttpGet httpGet = new HttpGet(requestUrl);
+      setHeaders(httpGet);
+      return executeRequest(httpGet);
+    } else if (httpMethod.equalsIgnoreCase("DELETE")) {
+      HttpDelete httpDelete = new HttpDelete(requestUrl);
+      setHeaders(httpDelete);
+      return executeRequest(httpDelete);
+    } else {
+      throw new IllegalArgumentException("Unsupported HTTP method: " + httpMethod);
+    }
+  }
+
+  /** Sets the required headers (including auth) on the request object. */
+  private void setHeaders(HttpRequestBase request) {
     for (Map.Entry<String, String> header :
         httpOptions.headers().orElse(ImmutableMap.of()).entrySet()) {
-      httpPost.setHeader(header.getKey(), header.getValue());
+      request.setHeader(header.getKey(), header.getValue());
     }
+
     if (apiKey.isPresent()) {
-      httpPost.setHeader("x-goog-api-key", apiKey.get());
+      request.setHeader("x-goog-api-key", apiKey.get());
     } else {
       GoogleCredentials cred =
           credentials.orElseThrow(() -> new IllegalStateException("credentials is required"));
@@ -71,13 +96,32 @@ final class HttpApiClient extends ApiClient {
       } catch (IOException e) {
         throw new GenAiIOException("Failed to refresh credentials.", e);
       }
-      httpPost.setHeader("Authorization", "Bearer " + cred.getAccessToken().getTokenValue());
+      String accessToken;
+      try {
+        accessToken = cred.getAccessToken().getTokenValue();
+      } catch (NullPointerException e) {
+        // For test cases where the access token is not available.
+        if (e.getMessage()
+            .contains(
+                "because the return value of"
+                    + " \"com.google.auth.oauth2.GoogleCredentials.getAccessToken()\" is null")) {
+          accessToken = "";
+        } else {
+          throw e;
+        }
+      }
+      request.setHeader("Authorization", "Bearer " + accessToken);
+
+      if (cred.getQuotaProjectId() != null) {
+        request.setHeader("x-goog-user-project", cred.getQuotaProjectId());
+      }
     }
+  }
 
-    httpPost.setEntity(new StringEntity(requestJson, ContentType.APPLICATION_JSON));
-
+  /** Executes the given HTTP request. */
+  private ApiResponse executeRequest(HttpRequestBase request) {
     try {
-      return new HttpApiResponse(httpClient.execute(httpPost));
+      return new HttpApiResponse(httpClient.execute(request));
     } catch (IOException e) {
       throw new GenAiIOException("Failed to execute HTTP request.", e);
     }

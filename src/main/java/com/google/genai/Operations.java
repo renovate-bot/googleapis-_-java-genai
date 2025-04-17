@@ -389,10 +389,14 @@ public final class Operations {
       path = Common.formatMap("{operationName}", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("get", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -437,10 +441,14 @@ public final class Operations {
           "This method is only supported by the Gemini Developer API.");
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {

@@ -24,7 +24,11 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -38,9 +42,20 @@ import com.google.genai.types.HttpOptions;
 import com.google.genai.types.Part;
 import java.lang.reflect.Field;
 import java.util.Optional;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 public class HttpApiClientTest {
@@ -52,6 +67,108 @@ public class HttpApiClientTest {
       HttpApiClient.defaultHttpOptions(false, Optional.empty());
   private static final HttpOptions defaultHttpOptionsVertex =
       HttpApiClient.defaultHttpOptions(true, Optional.of(LOCATION));
+  private static final String TEST_PATH = "test-path";
+  private static final String TEST_REQUEST_JSON = "{\"test\": \"request-json\"}";
+
+  @Mock CloseableHttpClient mockHttpClient;
+
+  private void setMockClient(HttpApiClient client) throws Exception {
+    mockHttpClient = Mockito.mock(CloseableHttpClient.class);
+    CloseableHttpResponse mockResponse = Mockito.mock(CloseableHttpResponse.class);
+    when(mockHttpClient.execute(any())).thenReturn(mockResponse);
+    Field clientField = ApiClient.class.getDeclaredField("httpClient");
+    clientField.setAccessible(true);
+    clientField.set(client, mockHttpClient);
+    GoogleCredentials credentials = Mockito.mock(GoogleCredentials.class);
+    Field credentialsField = ApiClient.class.getDeclaredField("credentials");
+    credentialsField.setAccessible(true);
+    credentialsField.set(client, Optional.of(credentials));
+  }
+
+  @Test
+  public void testRequestPostMethodWithVertexAI() throws Exception {
+    // Arrange
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(PROJECT), Optional.of(LOCATION), Optional.empty(), Optional.empty());
+    setMockClient(client);
+
+    // Act
+    client.request("POST", TEST_PATH, TEST_REQUEST_JSON);
+
+    // Assert
+    ArgumentCaptor<HttpRequestBase> requestCaptor = ArgumentCaptor.forClass(HttpRequestBase.class);
+    verify(mockHttpClient).execute(requestCaptor.capture());
+    HttpRequestBase capturedRequest = requestCaptor.getValue();
+
+    assertTrue(capturedRequest instanceof HttpPost);
+    assertEquals("POST", capturedRequest.getMethod());
+    assertEquals(
+        String.format(
+            "https://%s-aiplatform.googleapis.com/v1beta1/projects/%s/locations/%s/%s",
+            LOCATION, PROJECT, LOCATION, TEST_PATH),
+        capturedRequest.getURI().toString());
+    Header authHeader = capturedRequest.getFirstHeader("Authorization");
+    assertNotNull(authHeader);
+    assertEquals("Bearer ", authHeader.getValue());
+    assertNull(capturedRequest.getFirstHeader("x-goog-api-key"));
+
+    HttpEntity entity = ((HttpPost) capturedRequest).getEntity();
+    assertNotNull(entity);
+    assertEquals(TEST_REQUEST_JSON, EntityUtils.toString(entity));
+    assertTrue(
+        entity.getContentType().getValue().contains(ContentType.APPLICATION_JSON.getMimeType()));
+  }
+
+  @Test
+  public void testRequestGetMethodWithMldev() throws Exception {
+    // Arrange
+    HttpApiClient client = new HttpApiClient(Optional.of(API_KEY), Optional.empty());
+    setMockClient(client);
+
+    // Act
+    client.request("GET", TEST_PATH, null);
+
+    // Assert
+    ArgumentCaptor<HttpRequestBase> requestCaptor = ArgumentCaptor.forClass(HttpRequestBase.class);
+    verify(mockHttpClient).execute(requestCaptor.capture());
+    HttpRequestBase capturedRequest = requestCaptor.getValue();
+
+    assertTrue(capturedRequest instanceof HttpGet);
+    assertEquals("GET", capturedRequest.getMethod());
+    assertEquals(
+        "https://generativelanguage.googleapis.com/v1beta/" + TEST_PATH,
+        capturedRequest.getURI().toString());
+    Header authHeader = capturedRequest.getFirstHeader("x-goog-api-key");
+    assertNotNull(authHeader);
+    assertEquals(API_KEY, authHeader.getValue());
+    assertNull(capturedRequest.getFirstHeader("Authorization"));
+  }
+
+  @Test
+  public void testRequestDeleteMethodWithMldev() throws Exception {
+    // Arrange
+    HttpApiClient client = new HttpApiClient(Optional.of(API_KEY), Optional.empty());
+    setMockClient(client);
+
+    // Act
+    client.request("DELETE", TEST_PATH, null);
+
+    // Assert
+    ArgumentCaptor<HttpRequestBase> requestCaptor = ArgumentCaptor.forClass(HttpRequestBase.class);
+    verify(mockHttpClient).execute(requestCaptor.capture());
+    HttpRequestBase capturedRequest = requestCaptor.getValue();
+
+    assertTrue(capturedRequest instanceof HttpDelete);
+    assertEquals("DELETE", capturedRequest.getMethod());
+    assertEquals(
+        "https://generativelanguage.googleapis.com/v1beta/" + TEST_PATH,
+        capturedRequest.getURI().toString());
+    Header authHeader = capturedRequest.getFirstHeader("x-goog-api-key");
+    assertNotNull(authHeader);
+    assertEquals(API_KEY, authHeader.getValue());
+    assertNull(capturedRequest.getFirstHeader("Authorization"));
+  }
 
   @Test
   public void testInitHttpClientMldev() throws Exception {
@@ -82,7 +199,7 @@ public class HttpApiClientTest {
   public void testInitHttpClientVertex() throws Exception {
     HttpOptions httpOptions =
         HttpOptions.builder()
-            .baseUrl("https://aiplatform.googleapis.com/")
+            .baseUrl("https://aiplatform.googleapis.com")
             .apiVersion("v1beta1")
             .headers(ImmutableMap.of("test", "header"))
             .timeout(5000)
@@ -240,7 +357,7 @@ public class HttpApiClientTest {
 
     assertEquals("global", client.location());
     assertTrue(client.vertexAI());
-    assertEquals(Optional.of("https://aiplatform.googleapis.com/"), client.httpOptions.baseUrl());
+    assertEquals(Optional.of("https://aiplatform.googleapis.com"), client.httpOptions.baseUrl());
   }
 
   @Test

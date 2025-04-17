@@ -36,7 +36,7 @@ public class ForwardCompatibilityTest {
     // Mocks and test setup.
     ApiClient mockedClient = Mockito.mock(ApiClient.class);
     ApiResponse mockedResponse = Mockito.mock(ApiResponse.class);
-    when(mockedClient.post(anyString(), anyString())).thenReturn(mockedResponse);
+    when(mockedClient.request(anyString(), anyString(), anyString())).thenReturn(mockedResponse);
     HttpEntity mockedEntity = Mockito.mock(HttpEntity.class);
     GenerateContentResponse returnResponse = GenerateContentResponse.builder().build();
 

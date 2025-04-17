@@ -3994,10 +3994,14 @@ public final class Models {
       path = Common.formatMap("{model}:generateContent", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -4041,10 +4045,14 @@ public final class Models {
       path = Common.formatMap("{model}:streamGenerateContent?alt=sse", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body));
+    ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body));
     String converterName;
     if (this.apiClient.vertexAI()) {
       converterName = "GenerateContentResponseFromVertex";
@@ -4081,10 +4089,14 @@ public final class Models {
       path = Common.formatMap("{model}:batchEmbedContents", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -4128,10 +4140,14 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -4181,10 +4197,14 @@ public final class Models {
           "This method is only supported by the Gemini Developer API.");
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -4232,10 +4252,14 @@ public final class Models {
           "This method is only supported by the Gemini Developer API.");
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -4283,10 +4307,14 @@ public final class Models {
       path = Common.formatMap("{model}:predictLongRunning", body.get("_url"));
     }
     body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {

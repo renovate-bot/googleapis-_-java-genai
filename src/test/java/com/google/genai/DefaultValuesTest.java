@@ -37,7 +37,7 @@ public class DefaultValuesTest {
     // Mocks and test setup.
     ApiClient httpClientSpy = Mockito.spy(Mockito.mock(ApiClient.class));
     ApiResponse mockedResponse = Mockito.mock(ApiResponse.class);
-    when(httpClientSpy.post(anyString(), anyString())).thenReturn(mockedResponse);
+    when(httpClientSpy.request(anyString(), anyString(), anyString())).thenReturn(mockedResponse);
     HttpEntity mockedEntity = Mockito.mock(HttpEntity.class);
     GenerateContentResponse returnResponse = GenerateContentResponse.builder().build();
     StringEntity content = new StringEntity(returnResponse.toJson());
@@ -54,9 +54,10 @@ public class DefaultValuesTest {
         client.models.generateContent("gemini-2.0-flash", "What is your name?", null);
 
     ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-    verify(httpClientSpy).post(argumentCaptor.capture(), argumentCaptor.capture());
+    verify(httpClientSpy)
+        .request(argumentCaptor.capture(), argumentCaptor.capture(), argumentCaptor.capture());
     GenerateContentConfig spiedConfig =
-        GenerateContentConfig.fromJson(argumentCaptor.getAllValues().get(1));
+        GenerateContentConfig.fromJson(argumentCaptor.getAllValues().get(2));
 
     // Assert that the temperature and candidateCount fields are not set when not passed via config.
     assertEquals(spiedConfig.audioTimestamp(), Optional.empty());
