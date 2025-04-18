@@ -218,6 +218,8 @@ final class Transformers {
         "Unsupported cached content name type: " + origin.getClass());
   }
 
+  /** Transforms an object to a list of Content for the embedding API. */
+  @SuppressWarnings("unchecked")
   public static @Nullable List<Object> tContentsForEmbed(ApiClient apiClient, Object origin) {
     if (origin == null) {
       return null;
