@@ -37,23 +37,23 @@ public class TransformerTest {
           Optional.of(HttpOptions.builder().build()));
 
   @Test
-  public void testTSchema_GeminiAPI_defaultValue_throwsException() {
+  public void testTSchema_GeminiAPI_defaultValue_noChange() {
     Schema schema =
         Schema.builder()
             .properties(ImmutableMap.of("test", Schema.builder().default_(1).build()))
             .build();
-    assertThrows(
-        IllegalArgumentException.class, () -> Transformers.tSchema(GEMINI_API_CLIENT, schema));
+    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    assertEquals(schema, transformedSchema);
   }
 
   @Test
-  public void testTSchema_VertexAI_defaultValue_success() {
+  public void testTSchema_VertexAI_defaultValue_noChange() {
     Schema schema =
         Schema.builder()
             .properties(ImmutableMap.of("test", Schema.builder().default_(1).build()))
             .build();
     Schema transformedSchema = Transformers.tSchema(VERTEX_AI_CLIENT, schema);
-    assertEquals(1, transformedSchema.properties().get().get("test").default_().get());
+    assertEquals(schema, transformedSchema);
   }
 
   @Test

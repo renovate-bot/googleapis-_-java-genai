@@ -377,7 +377,7 @@ public class HttpApiClientTest {
 
     assertEquals("global", client.location());
     assertTrue(client.vertexAI());
-    assertEquals(Optional.of("https://aiplatform.googleapis.com/"), client.httpOptions.baseUrl());
+    assertEquals(Optional.of("https://aiplatform.googleapis.com"), client.httpOptions.baseUrl());
     assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
@@ -388,7 +388,7 @@ public class HttpApiClientTest {
     assertEquals(API_KEY, client.apiKey());
     assertFalse(client.vertexAI());
     assertEquals(
-        Optional.of("https://generativelanguage.googleapis.com/"), client.httpOptions.baseUrl());
+        Optional.of("https://generativelanguage.googleapis.com"), client.httpOptions.baseUrl());
     assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
