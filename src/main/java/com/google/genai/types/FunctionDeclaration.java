@@ -23,6 +23,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -98,5 +105,107 @@ public abstract class FunctionDeclaration extends JsonSerializable {
   /** Deserializes a JSON string to a FunctionDeclaration object. */
   public static FunctionDeclaration fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, FunctionDeclaration.class);
+  }
+
+  /**
+   * Creates a FunctionDeclaration instance from a {@link Method} instance.
+   *
+   * @param method The {@link Method} instance to be parsed into the FunctionDeclaration instance.
+   *     Only static method is supported.
+   * @param orderedParameterNames Optional ordered parameter names. If not provided, parameter names
+   *     will be retrieved via reflection.
+   * @return A FunctionDeclaration instance.
+   */
+  public static FunctionDeclaration fromMethod(Method method, String... orderedParameterNames) {
+    return fromMethod("", method, orderedParameterNames);
+  }
+
+  /**
+   * Creates a FunctionDeclaration instance from a {@link Method} instance.
+   *
+   * @param functionDescription Description of the function.
+   * @param method The {@link Method} instance to be parsed into the FunctionDeclaration instance.
+   *     Only static method is supported.
+   * @param orderedParameterNames Optional ordered parameter names. If not provided, parameter names
+   *     will be retrieved via reflection.
+   * @return A FunctionDeclaration instance.
+   */
+  public static FunctionDeclaration fromMethod(
+      String functionDescription, Method method, String... orderedParameterNames) {
+    if (!Modifier.isStatic(method.getModifiers())) {
+      throw new IllegalArgumentException(
+          "Instance methods are not supported. Please use static methods.");
+    }
+
+    Schema.Builder parametersBuilder = Schema.builder().type("OBJECT");
+
+    Parameter[] parameters = method.getParameters();
+
+    if (orderedParameterNames.length > 0 && orderedParameterNames.length != parameters.length) {
+      throw new IllegalArgumentException(
+          "The number of parameter names passed to the orderedParameterNames argument "
+              + "does not match the number of parameters in the method.");
+    }
+
+    Map<String, Schema> properties = new HashMap<>();
+    List<String> required = new ArrayList<>();
+    for (int i = 0; i < parameters.length; i++) {
+      String parameterName;
+      if (orderedParameterNames.length == 0) {
+
+        if (!parameters[i].isNamePresent()) {
+          throw new IllegalStateException(
+              "Failed to retrieve the parameter name from reflection. Please compile your"
+                  + " code with the \"-parameters\" flag or provide parameter names manually.");
+        }
+        parameterName = parameters[i].getName();
+      } else {
+        parameterName = orderedParameterNames[i];
+      }
+      properties.put(parameterName, buildTypeSchema(parameterName, parameters[i].getType()));
+      required.add(parameterName);
+    }
+    parametersBuilder.properties(properties).required(required);
+
+    return FunctionDeclaration.builder()
+        .name(method.getName())
+        .description(functionDescription)
+        .parameters(parametersBuilder.build())
+        .build();
+  }
+
+  /**
+   * Builds a Schema object for a given parameter name and type.
+   *
+   * @param parameterName The name of the parameter.
+   * @param parameterType The type of the parameter as a Class object.
+   * @return A Schema object representing the parameter's type and metadata.
+   * @throws IllegalArgumentException If the parameter type is unsupported.
+   */
+  private static Schema buildTypeSchema(String parameterName, Class<?> parameterType) {
+    Schema.Builder parameterSchemaBuilder = Schema.builder().title(parameterName);
+    switch (parameterType.getName()) {
+      case "java.lang.String":
+        parameterSchemaBuilder.type("STRING");
+        break;
+      case "boolean":
+        parameterSchemaBuilder.type("BOOLEAN");
+        break;
+      case "int":
+        parameterSchemaBuilder.type("INTEGER");
+        break;
+      case "double":
+      case "float":
+        parameterSchemaBuilder.type("NUMBER");
+        break;
+      default:
+        throw new IllegalArgumentException(
+            "Unsupported parameter type "
+                + parameterType.getName()
+                + " for parameter "
+                + parameterName
+                + ". Currently, supported types are String, boolean, int, double, float.");
+    }
+    return parameterSchemaBuilder.build();
   }
 }
