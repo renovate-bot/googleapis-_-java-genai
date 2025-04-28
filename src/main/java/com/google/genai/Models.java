@@ -4194,7 +4194,7 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is only supported by the Gemini Developer API.");
+          "This method is not supported by the Gemini Developer API.");
     }
     body.remove("_url");
 
@@ -4217,7 +4217,7 @@ public final class Models {
         responseNode = EditImageResponseFromVertex(this.apiClient, responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is only supported by the Gemini Developer API.");
+            "This method is not supported by the Gemini Developer API.");
       }
       return JsonSerializable.fromJsonNode(responseNode, EditImageResponse.class);
     }
@@ -4249,7 +4249,7 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is only supported by the Gemini Developer API.");
+          "This method is not supported by the Gemini Developer API.");
     }
     body.remove("_url");
 
@@ -4272,7 +4272,7 @@ public final class Models {
         responseNode = UpscaleImageResponseFromVertex(this.apiClient, responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is only supported by the Gemini Developer API.");
+            "This method is not supported by the Gemini Developer API.");
       }
       return JsonSerializable.fromJsonNode(responseNode, UpscaleImageResponse.class);
     }

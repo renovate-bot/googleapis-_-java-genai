@@ -438,7 +438,7 @@ public final class Operations {
       path = Common.formatMap("{resourceName}:fetchPredictOperation", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is only supported by the Gemini Developer API.");
+          "This method is not supported by the Gemini Developer API.");
     }
     body.remove("_url");
 
@@ -461,7 +461,7 @@ public final class Operations {
         responseNode = GenerateVideosOperationFromVertex(this.apiClient, responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is only supported by the Gemini Developer API.");
+            "This method is not supported by the Gemini Developer API.");
       }
       return JsonSerializable.fromJsonNode(responseNode, GenerateVideosOperation.class);
     }
