@@ -18,11 +18,12 @@ package com.google.genai;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.genai.errors.GenAiIOException;
-import com.google.genai.types.LiveClientSetup;
 import com.google.genai.types.LiveConnectConfig;
+import com.google.genai.types.LiveConnectParameters;
 import com.google.genai.types.LiveServerMessage;
 import java.io.IOException;
 import java.net.URI;
@@ -94,14 +95,14 @@ public class AsyncLive {
       if (!apiClient.vertexAI()) {
         return new URI(
             String.format(
-                "%sws/google.ai.generativelanguage.%s.GenerativeService.BidiGenerateContent?key=%s",
+                "%s/ws/google.ai.generativelanguage.%s.GenerativeService.BidiGenerateContent?key=%s",
                 wsBaseUrl,
                 apiClient.httpOptions.apiVersion().orElse("v1beta"),
                 apiClient.apiKey()));
       } else {
         return new URI(
             String.format(
-                "%sws/google.cloud.aiplatform.%s.LlmBidiService/BidiGenerateContent",
+                "%s/ws/google.cloud.aiplatform.%s.LlmBidiService/BidiGenerateContent",
                 wsBaseUrl, apiClient.httpOptions.apiVersion().orElse("v1beta1")));
       }
     } catch (URISyntaxException e) {
@@ -129,75 +130,37 @@ public class AsyncLive {
 
   /** Gets the request message for the initial setup. */
   private String getSetupRequest(String model, LiveConnectConfig config) {
-    LiveClientSetup.Builder setupBuilder = LiveClientSetup.builder();
 
     String transformedModel = Transformers.tModel(apiClient, model);
+    // Vertex requires the full resource path for the model.
     if (apiClient.vertexAI() && transformedModel.startsWith("publishers/")) {
-      transformedModel =
+      model =
           String.format(
               "projects/%s/locations/%s/%s",
               apiClient.project(), apiClient.location(), transformedModel);
     }
-    setupBuilder.model(transformedModel);
-    if (config == null) {
-      return setupBuilder.build().toJson();
+
+    LiveConverters liveConverters = new LiveConverters(apiClient);
+    LiveConnectParameters.Builder parameterBuilder = LiveConnectParameters.builder();
+    if (!Common.isZero(model)) {
+      parameterBuilder.model(model);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    if (this.apiClient.vertexAI()) {
+      body = liveConverters.LiveConnectParametersToVertex(this.apiClient, parameterNode, null);
+    } else {
+      body = liveConverters.LiveConnectParametersToMldev(this.apiClient, parameterNode, null);
     }
 
-    config.systemInstruction().ifPresent(setupBuilder::systemInstruction);
-    config.tools().ifPresent(setupBuilder::tools);
-    config.inputAudioTranscription().ifPresent(setupBuilder::inputAudioTranscription);
-    config.outputAudioTranscription().ifPresent(setupBuilder::outputAudioTranscription);
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
 
-    // responseModalities and speechConfig are missing in the LiveClientSetup.
-    // we need to manually add them to the request message.
-    ObjectNode generationConfigNode = JsonSerializable.objectMapper.createObjectNode();
-    if (config.temperature().isPresent()) {
-      generationConfigNode.set(
-          "temperature", JsonSerializable.toJsonNode(config.temperature().get()));
-    }
-
-    if (config.topP().isPresent()) {
-      generationConfigNode.set("topP", JsonSerializable.toJsonNode(config.topP().get()));
-    }
-
-    if (config.topK().isPresent()) {
-      generationConfigNode.set("topK",
-          JsonSerializable.toJsonNode(config.topK().get()).deepCopy());
-    }
-
-    if (config.maxOutputTokens().isPresent()) {
-      generationConfigNode.set(
-          "maxOutputTokens",
-          JsonSerializable.toJsonNode(config.maxOutputTokens().get()).deepCopy());
-    }
-
-    if (config.mediaResolution().isPresent()) {
-      generationConfigNode.set(
-          "mediaResolution",
-          JsonSerializable.toJsonNode(config.mediaResolution().get()).deepCopy());
-    }
-
-    if (config.seed().isPresent()) {
-      generationConfigNode.set(
-          "seed", JsonSerializable.toJsonNode(config.seed().get()).deepCopy());
-    }
-
-    if (config.responseModalities().isPresent()) {
-      generationConfigNode.set(
-          "responseModalities", JsonSerializable.toJsonNode(config.responseModalities().get()));
-    }
-
-    if (config.speechConfig().isPresent()) {
-      generationConfigNode.set(
-          "speechConfig", JsonSerializable.toJsonNode(config.speechConfig().get()));
-    }
-
-    ObjectNode setupNode = JsonSerializable.toJsonNode(setupBuilder.build()).deepCopy();
-    if (!generationConfigNode.isEmpty()) {
-      setupNode.set("generationConfig", generationConfigNode);
-    }
-
-    return String.format("{'setup':%s}", JsonSerializable.toJsonString(setupNode));
+    return JsonSerializable.toJsonString(body);
   }
 
   static class GenAiWebSocketClient extends WebSocketClient {

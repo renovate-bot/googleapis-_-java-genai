@@ -191,6 +191,12 @@ final class Transformers {
     throw new IllegalArgumentException("Unsupported tool type: " + origin.getClass());
   }
 
+  /** Dummy Blobs transformer. */
+  public static Object tBlobs(ApiClient apiClient, Object origin) {
+    // TODO(b/413689280): Remove dummy blobs converter.
+    return origin;
+  }
+
   /** Dummy bytes transformer. */
   public static Object tBytes(ApiClient apiClient, Object origin) {
     // TODO(b/389133914): Remove dummy bytes converter.

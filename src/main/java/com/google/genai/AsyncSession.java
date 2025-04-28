@@ -16,6 +16,8 @@
 
 package com.google.genai;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.types.Blob;
 import com.google.genai.types.LiveClientContent;
@@ -100,7 +102,18 @@ public final class AsyncSession {
    *     will fail if the message cannot be sent.
    */
   private CompletableFuture<Void> send(LiveClientMessage input) {
-    return CompletableFuture.runAsync(() -> websocket.send(input.toJson()));
+
+    LiveConverters liveConverters = new LiveConverters(apiClient);
+    JsonNode parameterNode = JsonSerializable.toJsonNode(input);
+
+    ObjectNode body;
+    if (this.apiClient.vertexAI()) {
+      body = liveConverters.LiveClientMessageToVertex(this.apiClient, parameterNode, null);
+    } else {
+      body = liveConverters.LiveClientMessageToMldev(this.apiClient, parameterNode, null);
+    }
+
+    return CompletableFuture.runAsync(() -> websocket.send(JsonSerializable.toJsonString(body)));
   }
 
   /**
