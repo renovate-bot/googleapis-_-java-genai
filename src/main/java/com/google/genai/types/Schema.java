@@ -43,10 +43,6 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("pattern")
   public abstract Optional<String> pattern();
 
-  /** Optional. Default value of the data. */
-  @JsonProperty("default")
-  public abstract Optional<Object> default_();
-
   /** Optional. Maximum length of the Type.STRING */
   @JsonProperty("maxLength")
   public abstract Optional<Long> maxLength();
@@ -69,6 +65,10 @@ public abstract class Schema extends JsonSerializable {
    */
   @JsonProperty("anyOf")
   public abstract Optional<List<Schema>> anyOf();
+
+  /** Optional. Default value of the data. */
+  @JsonProperty("default")
+  public abstract Optional<Object> default_();
 
   /** Optional. The description of the data. */
   @JsonProperty("description")
@@ -162,9 +162,6 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("pattern")
     public abstract Builder pattern(String pattern);
 
-    @JsonProperty("default")
-    public abstract Builder default_(Object default_);
-
     @JsonProperty("maxLength")
     public abstract Builder maxLength(Long maxLength);
 
@@ -179,6 +176,9 @@ public abstract class Schema extends JsonSerializable {
 
     @JsonProperty("anyOf")
     public abstract Builder anyOf(List<Schema> anyOf);
+
+    @JsonProperty("default")
+    public abstract Builder default_(Object default_);
 
     @JsonProperty("description")
     public abstract Builder description(String description);

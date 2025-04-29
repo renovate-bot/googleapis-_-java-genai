@@ -226,10 +226,6 @@ final class LiveConverters {
       throw new Error("pattern parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"default"}))) {
-      throw new Error("default parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxLength"}))) {
       throw new Error("maxLength parameter is not supported in Gemini API.");
     }
@@ -251,6 +247,13 @@ final class LiveConverters {
           toObject,
           new String[] {"anyOf"},
           Common.getValueByPath(fromObject, new String[] {"anyOf"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"default"},
+          Common.getValueByPath(fromObject, new String[] {"default"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
@@ -371,13 +374,6 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"pattern"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"default"},
-          Common.getValueByPath(fromObject, new String[] {"default"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"maxLength"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -411,6 +407,13 @@ final class LiveConverters {
           toObject,
           new String[] {"anyOf"},
           Common.getValueByPath(fromObject, new String[] {"anyOf"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"default"},
+          Common.getValueByPath(fromObject, new String[] {"default"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
