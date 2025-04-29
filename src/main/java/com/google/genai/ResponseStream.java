@@ -26,12 +26,21 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
 import java.util.NoSuchElementException;
 import org.apache.http.HttpEntity;
 
 /** An iterable of datatype objects. */
 public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, AutoCloseable {
+
+  boolean recordingHistory = false;
+  List<T> history = new ArrayList<>();
+  Chat chatSession = null;
+
+  private static final Logger logger = Logger.getLogger(ChatBase.class.getName());
 
   /** Iterator for the ResponseStream. */
   class ResponseStreamIterator implements Iterator<T> {
@@ -40,6 +49,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
     private final Object obj;
     private final Method converter;
     private String nextJson;
+    private boolean consumed = false;
 
     ResponseStreamIterator(
         Class<T> clazz, BufferedReader reader, Object obj, String converterName) {
@@ -59,6 +69,18 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
 
     @Override
     public boolean hasNext() {
+      if (nextJson == null) {
+        consumed = true;
+        if (recordingHistory) {
+          try {
+            chatSession.checkStreamResponseAndUpdateHistory();
+            recordingHistory = false;
+          } catch (IllegalStateException e) {
+            logger.info(
+                "Error while updating history: " + e.getMessage() + ". Continuing execution...");
+          }
+        }
+      }
       return nextJson != null;
     }
 
@@ -72,6 +94,11 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       try {
         JsonNode currentJsonNode = JsonSerializable.stringToJsonNode(currentJson);
         currentJsonNode = (JsonNode) converter.invoke(obj, null, currentJsonNode, null);
+        if (recordingHistory) {
+          T response = JsonSerializable.fromJsonNode(currentJsonNode, clazz);
+          history.add(response);
+          return response;
+        }
         return JsonSerializable.fromJsonNode(currentJsonNode, clazz);
       } catch (IllegalAccessException | InvocationTargetException e) {
         throw new IllegalStateException("Failed to convert JSON object " + currentJson, e);
@@ -137,5 +164,9 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
         response.close();
       }
     }
+  }
+
+  boolean isConsumed() {
+    return iterator.consumed;
   }
 }

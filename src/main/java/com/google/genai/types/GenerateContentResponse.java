@@ -248,7 +248,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   }
 
   /** Gets the finish reason in a GenerateContentResponse. */
-  private String finishReason() {
+  public String finishReason() {
     List<Candidate> candidates = candidates().orElse(Arrays.asList(Candidate.builder().build()));
     if (candidates.size() > 1) {
       logger.warning(

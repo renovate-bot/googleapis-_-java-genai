@@ -29,7 +29,7 @@ import java.util.List;
  * <p>This class provides a way to interact with a generative model in a multi-turn chat session. It
  * keeps track of the chat history and uses it to provide context for subsequent messages.
  */
-public final class Chat extends ChatBase {
+public class Chat extends ChatBase {
   private final ApiClient apiClient;
   private final Models models;
   private final String model;
@@ -128,7 +128,6 @@ public final class Chat extends ChatBase {
    * chats.create() before calling sendMessage.
    *
    * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
-   *     the optional configurations
    */
   public GenerateContentResponse sendMessage(List<Content> contents) {
     return privateSendMessage(contents, null);
@@ -136,6 +135,8 @@ public final class Chat extends ChatBase {
 
   private GenerateContentResponse privateSendMessage(
       List<Content> contents, GenerateContentConfig config) {
+
+    throwIfStreamNotConsumed();
 
     // Validate user input before sending to the model.
     if (!validateContents(contents)) {
@@ -153,8 +154,6 @@ public final class Chat extends ChatBase {
     GenerateContentResponse response =
         this.models.generateContent(this.model, requestContents, config);
 
-    response.checkFinishReason();
-
     List<Content> responseContents = new ArrayList<>();
     for (Candidate candidate : response.candidates().get()) {
       responseContents.add(candidate.content().get());
@@ -162,7 +161,130 @@ public final class Chat extends ChatBase {
     List<Content> currentHistory = new ArrayList<>();
     currentHistory.addAll(contents);
     currentHistory.addAll(responseContents);
-    recordHistory(currentHistory);
+    recordHistory(currentHistory, response);
     return response;
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns a stream of
+   * responses.
+   *
+   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
+   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
+   * before calling sendMessageStream.
+   *
+   * @param text the text to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations *
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(
+      String text, GenerateContentConfig config) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns a stream of
+   * responses.
+   *
+   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
+   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
+   * before calling sendMessageStream.
+   *
+   * @param text the text to send to the generative model
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(String text) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), null);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns a stream of
+   * responses.
+   *
+   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
+   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
+   * before calling sendMessageStream.
+   *
+   * @param content a {@link com.google.genai.types.Content} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations *
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(
+      Content content, GenerateContentConfig config) {
+    return privateSendMessageStream(
+        Transformers.tContents(this.apiClient, (Object) content), config);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns a stream of
+   * responses.
+   *
+   * <p>This appends the message and the model's response to the chat history, which is sent back to
+   * the model in subsequent calls to sendMessage or sendMessageStream. Be sure to initialize a chat
+   * session using chats.create() before calling sendMessageStream.
+   *
+   * @param content a {@link com.google.genai.types.Content} to send to the generative model
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(Content content) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) content), null);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns a stream of
+   * responses.
+   *
+   * <p>This appends the message and the model's response to the chat history, which is sent back to
+   * the model in subsequent calls to sendMessage or sendMessageStream. Be sure to initialize a chat
+   * session using chats.create() before calling sendMessageStream.
+   *
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(
+      List<Content> contents, GenerateContentConfig config) {
+    return privateSendMessageStream(contents, config);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns the model's
+   * response.
+   *
+   * <p>This appends the message and the model's response to the chat history, which is sent back to
+   * the model in subsequent calls to sendMessage. Be sure to initialize a chat session using
+   * chats.create() before calling sendMessage.
+   *
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   *     the optional configurations
+   */
+  public ResponseStream<GenerateContentResponse> sendMessageStream(List<Content> contents) {
+    return privateSendMessageStream(contents, null);
+  }
+
+  private ResponseStream<GenerateContentResponse> privateSendMessageStream(
+      List<Content> contents, GenerateContentConfig config) {
+
+    throwIfStreamNotConsumed();
+
+    // Validate user input before sending to the model.
+    if (!validateContents(contents)) {
+      throw new IllegalArgumentException("The content of the message is invalid.");
+    }
+
+    List<Content> requestContents = new ArrayList<>();
+    requestContents.addAll(this.curatedHistory);
+    requestContents.addAll(contents);
+
+    if (this.config != null && config == null) {
+      config = this.config;
+    }
+
+    ResponseStream<GenerateContentResponse> responseStream =
+        this.models.generateContentStream(this.model, requestContents, config);
+    responseStream.recordingHistory = true;
+    responseStream.chatSession = this;
+    this.currentUserMessage = contents;
+    this.currentResponseStream = responseStream;
+
+    return responseStream;
   }
 }

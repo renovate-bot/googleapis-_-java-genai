@@ -16,16 +16,25 @@
 
 package com.google.genai;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.genai.types.Candidate;
 import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Part;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 /** Base class for chat sessions, used for history management. */
 class ChatBase {
   protected final List<Content> comprehensiveHistory;
   protected final List<Content> curatedHistory;
+  protected ResponseStream<GenerateContentResponse> currentResponseStream;
+  protected List<Content> currentUserMessage;
+
+  private static final Logger logger = Logger.getLogger(ChatBase.class.getName());
 
   ChatBase(List<Content> comprehensiveHistory, List<Content> curatedHistory) {
     this.comprehensiveHistory = new ArrayList<>();
@@ -37,10 +46,26 @@ class ChatBase {
    *
    * @param currentHistory The current history of messages.
    */
-  protected void recordHistory(List<Content> currentHistory) {
+  protected void recordHistory(List<Content> currentHistory, GenerateContentResponse response) {
+
     this.comprehensiveHistory.addAll(currentHistory);
+
+    // This will throw for invalid history
     List<Content> validatedHistory = validateHistory(currentHistory);
-    this.curatedHistory.addAll(validatedHistory);
+
+    // Catch exception on checkFinishReason() and only add to curated history if checkFinishReason()
+    // doesn't throw
+    try {
+      response.checkFinishReason();
+      this.curatedHistory.addAll(validatedHistory);
+    } catch (IllegalArgumentException e) {
+      if (!response.finishReason().isEmpty()) {
+        logger.warning(
+            "Response finished unexpectedly with reason: "
+                + response.finishReason()
+                + ". Adding the response to comprehenisive history, but not to curated history.");
+      }
+    }
   }
 
   /**
@@ -90,9 +115,15 @@ class ChatBase {
     List<Content> currentOutput = new ArrayList<>();
     List<String> validRoles = Arrays.asList("user", "model");
     for (int i = 0; i < history.size(); i++) {
-      if (i == 0
-          && history.get(i).role().isPresent()
-          && !history.get(i).role().get().equals("user")) {
+      // The second condition handles the case where the history is empty and we are validating the
+      // first message in a streaming call
+      if ((i == 0
+              && history.get(i).role().isPresent()
+              && !history.get(i).role().get().equals("user"))
+          || (curatedHistory.isEmpty()
+              && !history.isEmpty()
+              && history.get(0).role().isPresent()
+              && !history.get(0).role().get().equals("user"))) {
         throw new IllegalArgumentException(
             "The first message in the history must be from the user.");
       }
@@ -133,11 +164,77 @@ class ChatBase {
    *     Comprehensive history includes all messages, including empty or invalid parts. Curated
    *     history excludes empty or invalid parts.
    */
-  public List<Content> getHistory(boolean curated) {
+  public ImmutableList<Content> getHistory(boolean curated) {
+    throwIfStreamNotConsumed();
+
     if (curated) {
-      return this.curatedHistory;
+      return ImmutableList.copyOf(this.curatedHistory);
     } else {
-      return this.comprehensiveHistory;
+      return ImmutableList.copyOf(this.comprehensiveHistory);
+    }
+  }
+
+  private Content aggregateStreamingResponse(List<GenerateContentResponse> responseChunks) {
+
+    if (responseChunks == null || responseChunks.isEmpty()) {
+      return Content.builder().build();
+    }
+
+    List<Part> aggregatedParts = new ArrayList<>();
+    String aggregatedText = "";
+
+    for (GenerateContentResponse responseChunk : responseChunks) {
+      if (responseChunk == null) {
+        continue;
+      }
+      Candidate candidate = responseChunk.candidates().get().get(0);
+      if (candidate.content().isPresent() && candidate.content().get().parts().isPresent()) {
+        List<Part> parts = candidate.content().get().parts().get();
+        for (Part part : parts) {
+          if (part.text().isPresent()) {
+            aggregatedText += part.text().get();
+          } else {
+            boolean hasOtherContentParts =
+                part.functionCall().isPresent()
+                    || part.functionResponse().isPresent()
+                    || part.codeExecutionResult().isPresent()
+                    || part.executableCode().isPresent()
+                    || part.fileData().isPresent()
+                    || part.videoMetadata().isPresent()
+                    || part.thought().isPresent()
+                    || part.inlineData().isPresent();
+            if (hasOtherContentParts) {
+              aggregatedParts.add(part);
+            }
+          }
+        }
+      }
+    }
+
+    // Construct the final response
+    aggregatedParts.add(Part.fromText(aggregatedText));
+    return Content.builder().parts(aggregatedParts).role("model").build();
+  }
+
+  protected void checkStreamResponseAndUpdateHistory() {
+    if (this.currentResponseStream != null && this.currentUserMessage != null) {
+      throwIfStreamNotConsumed();
+      List<Content> streamingResponseContents = new ArrayList<>();
+      streamingResponseContents.addAll(this.currentUserMessage);
+      Content aggregatedResponse = aggregateStreamingResponse(this.currentResponseStream.history);
+      streamingResponseContents.add(aggregatedResponse);
+      recordHistory(
+          streamingResponseContents, Iterables.getLast(this.currentResponseStream.history));
+    }
+    this.currentUserMessage = null;
+    this.currentResponseStream = null;
+  }
+
+  protected void throwIfStreamNotConsumed() {
+    if (this.currentResponseStream != null && this.currentUserMessage != null) {
+      if (!this.currentResponseStream.isConsumed()) {
+        throw new IllegalStateException("Response stream is not consumed");
+      }
     }
   }
 }
