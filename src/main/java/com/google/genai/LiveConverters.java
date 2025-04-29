@@ -791,6 +791,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "contextWindowCompression"},
+          ContextWindowCompressionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -903,6 +914,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "contextWindowCompression"},
+          ContextWindowCompressionConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
               toObject));
     }
 
@@ -1069,6 +1091,17 @@ final class LiveConverters {
       Common.setValueByPath(toObject, new String[] {"tools"}, result);
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"contextWindowCompression"},
+          ContextWindowCompressionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
+              toObject));
+    }
+
     if (!Common.isZero(
         Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}))) {
       throw new Error("inputAudioTranscription parameter is not supported in Gemini API.");
@@ -1133,6 +1166,17 @@ final class LiveConverters {
                     toObject));
           });
       Common.setValueByPath(toObject, new String[] {"tools"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"contextWindowCompression"},
+          ContextWindowCompressionConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}) != null) {

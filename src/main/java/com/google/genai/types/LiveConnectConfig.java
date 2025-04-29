@@ -107,6 +107,14 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   @JsonProperty("outputAudioTranscription")
   public abstract Optional<AudioTranscriptionConfig> outputAudioTranscription();
 
+  /**
+   * Configures context window compression mechanism.
+   *
+   * <p>If included, server will compress context window to fit into given length.
+   */
+  @JsonProperty("contextWindowCompression")
+  public abstract Optional<ContextWindowCompressionConfig> contextWindowCompression();
+
   /** Instantiates a builder for LiveConnectConfig. */
   public static Builder builder() {
     return new AutoValue_LiveConnectConfig.Builder();
@@ -161,6 +169,10 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("outputAudioTranscription")
     public abstract Builder outputAudioTranscription(
         AudioTranscriptionConfig outputAudioTranscription);
+
+    @JsonProperty("contextWindowCompression")
+    public abstract Builder contextWindowCompression(
+        ContextWindowCompressionConfig contextWindowCompression);
 
     public abstract LiveConnectConfig build();
   }

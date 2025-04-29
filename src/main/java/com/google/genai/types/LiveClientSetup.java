@@ -54,6 +54,14 @@ public abstract class LiveClientSetup extends JsonSerializable {
   @JsonProperty("tools")
   public abstract Optional<List<Tool>> tools();
 
+  /**
+   * Configures context window compression mechanism.
+   *
+   * <p>If included, server will compress context window to fit into given length.
+   */
+  @JsonProperty("contextWindowCompression")
+  public abstract Optional<ContextWindowCompressionConfig> contextWindowCompression();
+
   /** The transcription of the input aligns with the input audio language. */
   @JsonProperty("inputAudioTranscription")
   public abstract Optional<AudioTranscriptionConfig> inputAudioTranscription();
@@ -92,6 +100,10 @@ public abstract class LiveClientSetup extends JsonSerializable {
 
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
+
+    @JsonProperty("contextWindowCompression")
+    public abstract Builder contextWindowCompression(
+        ContextWindowCompressionConfig contextWindowCompression);
 
     @JsonProperty("inputAudioTranscription")
     public abstract Builder inputAudioTranscription(
