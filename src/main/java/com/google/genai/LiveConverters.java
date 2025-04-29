@@ -216,379 +216,6 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode SchemaToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"example"}))) {
-      throw new Error("example parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"pattern"}))) {
-      throw new Error("pattern parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxLength"}))) {
-      throw new Error("maxLength parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"minLength"}))) {
-      throw new Error("minLength parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"minProperties"}))) {
-      throw new Error("minProperties parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxProperties"}))) {
-      throw new Error("maxProperties parameter is not supported in Gemini API.");
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"anyOf"},
-          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"default"},
-          Common.getValueByPath(fromObject, new String[] {"default"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"description"},
-          Common.getValueByPath(fromObject, new String[] {"description"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"enum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"enum"},
-          Common.getValueByPath(fromObject, new String[] {"enum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"format"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"format"},
-          Common.getValueByPath(fromObject, new String[] {"format"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"items"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"items"},
-          Common.getValueByPath(fromObject, new String[] {"items"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maxItems"},
-          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maximum"},
-          Common.getValueByPath(fromObject, new String[] {"maximum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minItems"},
-          Common.getValueByPath(fromObject, new String[] {"minItems"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minimum"},
-          Common.getValueByPath(fromObject, new String[] {"minimum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"nullable"},
-          Common.getValueByPath(fromObject, new String[] {"nullable"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"properties"},
-          Common.getValueByPath(fromObject, new String[] {"properties"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"propertyOrdering"},
-          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"required"},
-          Common.getValueByPath(fromObject, new String[] {"required"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"title"},
-          Common.getValueByPath(fromObject, new String[] {"title"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"type"},
-          Common.getValueByPath(fromObject, new String[] {"type"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode SchemaToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"example"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"example"},
-          Common.getValueByPath(fromObject, new String[] {"example"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"pattern"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"pattern"},
-          Common.getValueByPath(fromObject, new String[] {"pattern"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maxLength"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maxLength"},
-          Common.getValueByPath(fromObject, new String[] {"maxLength"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minLength"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minLength"},
-          Common.getValueByPath(fromObject, new String[] {"minLength"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minProperties"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minProperties"},
-          Common.getValueByPath(fromObject, new String[] {"minProperties"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maxProperties"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maxProperties"},
-          Common.getValueByPath(fromObject, new String[] {"maxProperties"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"anyOf"},
-          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"default"},
-          Common.getValueByPath(fromObject, new String[] {"default"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"description"},
-          Common.getValueByPath(fromObject, new String[] {"description"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"enum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"enum"},
-          Common.getValueByPath(fromObject, new String[] {"enum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"format"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"format"},
-          Common.getValueByPath(fromObject, new String[] {"format"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"items"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"items"},
-          Common.getValueByPath(fromObject, new String[] {"items"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maxItems"},
-          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maximum"},
-          Common.getValueByPath(fromObject, new String[] {"maximum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minItems"},
-          Common.getValueByPath(fromObject, new String[] {"minItems"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minimum"},
-          Common.getValueByPath(fromObject, new String[] {"minimum"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"nullable"},
-          Common.getValueByPath(fromObject, new String[] {"nullable"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"properties"},
-          Common.getValueByPath(fromObject, new String[] {"properties"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"propertyOrdering"},
-          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"required"},
-          Common.getValueByPath(fromObject, new String[] {"required"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"title"},
-          Common.getValueByPath(fromObject, new String[] {"title"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"type"},
-          Common.getValueByPath(fromObject, new String[] {"type"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionDeclarationToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"response"}))) {
-      throw new Error("response parameter is not supported in Gemini API.");
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"description"},
-          Common.getValueByPath(fromObject, new String[] {"description"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"name"},
-          Common.getValueByPath(fromObject, new String[] {"name"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"parameters"},
-          Common.getValueByPath(fromObject, new String[] {"parameters"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionDeclarationToVertex(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"response"},
-          SchemaToVertex(
-              apiClient,
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"response"})),
-              toObject));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"description"},
-          Common.getValueByPath(fromObject, new String[] {"description"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"name"},
-          Common.getValueByPath(fromObject, new String[] {"name"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"parameters"},
-          Common.getValueByPath(fromObject, new String[] {"parameters"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
   ObjectNode GoogleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -685,20 +312,6 @@ final class LiveConverters {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      ArrayNode keyArray =
-          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
-      ObjectMapper objectMapper = new ObjectMapper();
-      ArrayNode result = objectMapper.createArrayNode();
-
-      keyArray.forEach(
-          item -> {
-            result.add(
-                FunctionDeclarationToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
-      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"retrieval"}))) {
       throw new Error("retrieval parameter is not supported in Gemini API.");
     }
@@ -732,27 +345,19 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"functionDeclarations"},
+          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
+    }
+
     return toObject;
   }
 
   @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      ArrayNode keyArray =
-          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
-      ObjectMapper objectMapper = new ObjectMapper();
-      ArrayNode result = objectMapper.createArrayNode();
-
-      keyArray.forEach(
-          item -> {
-            result.add(
-                FunctionDeclarationToVertex(
-                    apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
-      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"retrieval"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -787,6 +392,13 @@ final class LiveConverters {
           toObject,
           new String[] {"codeExecution"},
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"functionDeclarations"},
+          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
     }
 
     return toObject;

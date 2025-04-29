@@ -28,37 +28,13 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Schema that defines the format of input and output data.
- *
- * <p>Represents a select subset of an OpenAPI 3.0 schema object.
+ * Schema is used to define the format of input/output data. Represents a select subset of an
+ * [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema-object). More fields may
+ * be added in the future as needed.
  */
 @AutoValue
 @JsonDeserialize(builder = Schema.Builder.class)
 public abstract class Schema extends JsonSerializable {
-  /** Optional. Example of the object. Will only populated when the object is the root. */
-  @JsonProperty("example")
-  public abstract Optional<Object> example();
-
-  /** Optional. Pattern of the Type.STRING to restrict a string to a regular expression. */
-  @JsonProperty("pattern")
-  public abstract Optional<String> pattern();
-
-  /** Optional. Maximum length of the Type.STRING */
-  @JsonProperty("maxLength")
-  public abstract Optional<Long> maxLength();
-
-  /** Optional. SCHEMA FIELDS FOR TYPE STRING Minimum length of the Type.STRING */
-  @JsonProperty("minLength")
-  public abstract Optional<Long> minLength();
-
-  /** Optional. Minimum number of the properties for Type.OBJECT. */
-  @JsonProperty("minProperties")
-  public abstract Optional<Long> minProperties();
-
-  /** Optional. Maximum number of the properties for Type.OBJECT. */
-  @JsonProperty("maxProperties")
-  public abstract Optional<Long> maxProperties();
-
   /**
    * Optional. The value should be validated against any (one or more) of the subschemas in the
    * list.
@@ -82,6 +58,10 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("enum")
   public abstract Optional<List<String>> enum_();
 
+  /** Optional. Example of the object. Will only populated when the object is the root. */
+  @JsonProperty("example")
+  public abstract Optional<Object> example();
+
   /**
    * Optional. The format of the data. Supported formats: for NUMBER type: "float", "double" for
    * INTEGER type: "int32", "int64" for STRING type: "email", "byte", etc
@@ -97,6 +77,14 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("maxItems")
   public abstract Optional<Long> maxItems();
 
+  /** Optional. Maximum length of the Type.STRING */
+  @JsonProperty("maxLength")
+  public abstract Optional<Long> maxLength();
+
+  /** Optional. Maximum number of the properties for Type.OBJECT. */
+  @JsonProperty("maxProperties")
+  public abstract Optional<Long> maxProperties();
+
   /** Optional. Maximum value of the Type.INTEGER and Type.NUMBER */
   @JsonProperty("maximum")
   public abstract Optional<Double> maximum();
@@ -104,6 +92,14 @@ public abstract class Schema extends JsonSerializable {
   /** Optional. Minimum number of the elements for Type.ARRAY. */
   @JsonProperty("minItems")
   public abstract Optional<Long> minItems();
+
+  /** Optional. SCHEMA FIELDS FOR TYPE STRING Minimum length of the Type.STRING */
+  @JsonProperty("minLength")
+  public abstract Optional<Long> minLength();
+
+  /** Optional. Minimum number of the properties for Type.OBJECT. */
+  @JsonProperty("minProperties")
+  public abstract Optional<Long> minProperties();
 
   /**
    * Optional. SCHEMA FIELDS FOR TYPE INTEGER and NUMBER Minimum value of the Type.INTEGER and
@@ -115,6 +111,10 @@ public abstract class Schema extends JsonSerializable {
   /** Optional. Indicates if the value may be null. */
   @JsonProperty("nullable")
   public abstract Optional<Boolean> nullable();
+
+  /** Optional. Pattern of the Type.STRING to restrict a string to a regular expression. */
+  @JsonProperty("pattern")
+  public abstract Optional<String> pattern();
 
   /** Optional. SCHEMA FIELDS FOR TYPE OBJECT Properties of Type.OBJECT. */
   @JsonProperty("properties")
@@ -156,24 +156,6 @@ public abstract class Schema extends JsonSerializable {
       return new AutoValue_Schema.Builder();
     }
 
-    @JsonProperty("example")
-    public abstract Builder example(Object example);
-
-    @JsonProperty("pattern")
-    public abstract Builder pattern(String pattern);
-
-    @JsonProperty("maxLength")
-    public abstract Builder maxLength(Long maxLength);
-
-    @JsonProperty("minLength")
-    public abstract Builder minLength(Long minLength);
-
-    @JsonProperty("minProperties")
-    public abstract Builder minProperties(Long minProperties);
-
-    @JsonProperty("maxProperties")
-    public abstract Builder maxProperties(Long maxProperties);
-
     @JsonProperty("anyOf")
     public abstract Builder anyOf(List<Schema> anyOf);
 
@@ -186,6 +168,9 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("enum")
     public abstract Builder enum_(List<String> enum_);
 
+    @JsonProperty("example")
+    public abstract Builder example(Object example);
+
     @JsonProperty("format")
     public abstract Builder format(String format);
 
@@ -195,17 +180,32 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("maxItems")
     public abstract Builder maxItems(Long maxItems);
 
+    @JsonProperty("maxLength")
+    public abstract Builder maxLength(Long maxLength);
+
+    @JsonProperty("maxProperties")
+    public abstract Builder maxProperties(Long maxProperties);
+
     @JsonProperty("maximum")
     public abstract Builder maximum(Double maximum);
 
     @JsonProperty("minItems")
     public abstract Builder minItems(Long minItems);
 
+    @JsonProperty("minLength")
+    public abstract Builder minLength(Long minLength);
+
+    @JsonProperty("minProperties")
+    public abstract Builder minProperties(Long minProperties);
+
     @JsonProperty("minimum")
     public abstract Builder minimum(Double minimum);
 
     @JsonProperty("nullable")
     public abstract Builder nullable(boolean nullable);
+
+    @JsonProperty("pattern")
+    public abstract Builder pattern(String pattern);
 
     @JsonProperty("properties")
     public abstract Builder properties(Map<String, Schema> properties);

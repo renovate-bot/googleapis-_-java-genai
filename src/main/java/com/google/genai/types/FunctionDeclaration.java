@@ -33,17 +33,15 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Defines a function that the model can generate JSON inputs for.
- *
- * <p>The inputs are based on `OpenAPI 3.0 specifications <https://spec.openapis.org/oas/v3.0.3>`_.
+ * Structured representation of a function declaration as defined by the [OpenAPI 3.0
+ * specification](https://spec.openapis.org/oas/v3.0.3). Included in this declaration are the
+ * function name, description, parameters and response type. This FunctionDeclaration is a
+ * representation of a block of code that can be used as a `Tool` by the model and executed by the
+ * client.
  */
 @AutoValue
 @JsonDeserialize(builder = FunctionDeclaration.Builder.class)
 public abstract class FunctionDeclaration extends JsonSerializable {
-  /** Describes the output from the function in the OpenAPI JSON Schema Object format. */
-  @JsonProperty("response")
-  public abstract Optional<Schema> response();
-
   /**
    * Optional. Description and purpose of the function. Model uses it to decide how and whether to
    * call the function.
@@ -70,6 +68,13 @@ public abstract class FunctionDeclaration extends JsonSerializable {
   @JsonProperty("parameters")
   public abstract Optional<Schema> parameters();
 
+  /**
+   * Optional. Describes the output from this function in JSON Schema format. Reflects the Open API
+   * 3.03 Response Object. The Schema defines the type used for the response value of the function.
+   */
+  @JsonProperty("response")
+  public abstract Optional<Schema> response();
+
   /** Instantiates a builder for FunctionDeclaration. */
   public static Builder builder() {
     return new AutoValue_FunctionDeclaration.Builder();
@@ -87,9 +92,6 @@ public abstract class FunctionDeclaration extends JsonSerializable {
       return new AutoValue_FunctionDeclaration.Builder();
     }
 
-    @JsonProperty("response")
-    public abstract Builder response(Schema response);
-
     @JsonProperty("description")
     public abstract Builder description(String description);
 
@@ -98,6 +100,9 @@ public abstract class FunctionDeclaration extends JsonSerializable {
 
     @JsonProperty("parameters")
     public abstract Builder parameters(Schema parameters);
+
+    @JsonProperty("response")
+    public abstract Builder response(Schema response);
 
     public abstract FunctionDeclaration build();
   }
