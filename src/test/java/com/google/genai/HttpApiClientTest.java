@@ -428,4 +428,70 @@ public class HttpApiClientTest {
       wireMockServer.stop();
     }
   }
+
+  @Test
+  public void testClientInitializationWithBaseUrlFromHttpOptions() throws Exception {
+    HttpOptions httpOptions =
+        HttpOptions.builder().baseUrl("https://custom-base-url.googleapis.com/").build();
+    Client client = Client.builder().httpOptions(httpOptions).build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+  }
+
+  @Test
+  public void testClientInitializationWithBaseUrlFromHttpOptionsOverridesSetDefaultBaseUrls()
+      throws Exception {
+    HttpOptions httpOptions =
+        HttpOptions.builder().baseUrl("https://custom-base-url.googleapis.com/").build();
+    Client.setDefaultBaseUrls(
+        Optional.of("https://gemini-base-url.googleapis.com/"), Optional.empty());
+    Client client = Client.builder().httpOptions(httpOptions).build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+  }
+
+  @Test
+  public void testClientInitializationWithBaseUrlFromSetBaseUrls() throws Exception {
+    Client.setDefaultBaseUrls(
+        Optional.of("https://custom-base-url.googleapis.com/"), Optional.empty());
+    Client client = Client.builder().build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+
+    Client.setDefaultBaseUrls(Optional.empty(), Optional.empty());
+  }
+
+  @Test
+  public void testClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
+      throws Exception {
+    Client.setDefaultBaseUrls(
+        Optional.of("https://custom-base-url.googleapis.com/"), Optional.empty());
+    Client client =
+        Client.builder()
+            .environmentVariables(
+                ImmutableMap.of(
+                    "GOOGLE_GEMINI_BASE_URL", "https://gemini-base-url.googleapis.com/"))
+            .build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+
+    Client.setDefaultBaseUrls(Optional.empty(), Optional.empty());
+  }
+
+  @Test
+  public void testClientInitializationWithBaseUrlFromEnvironment() throws Exception {
+    Client client =
+        Client.builder()
+            .environmentVariables(
+                ImmutableMap.of(
+                    "GOOGLE_GEMINI_BASE_URL", "https://custom-base-url.googleapis.com/"))
+            .build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+  }
 }

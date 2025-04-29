@@ -22,10 +22,33 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /** Client class for GenAI. */
 public final class Client implements AutoCloseable {
+  private static Optional<String> geminiBaseUrl = Optional.empty();
+  private static Optional<String> vertexBaseUrl = Optional.empty();
+
+  public static Map<String, String> defaultEnvironmentVariables() {
+    Map<String, String> variables = new HashMap<>();
+    String value;
+    value = System.getenv("GOOGLE_GENAI_USE_VERTEXAI");
+    if (value != null) {
+      variables.put("GOOGLE_GENAI_USE_VERTEXAI", value);
+    }
+    value = System.getenv("GOOGLE_GEMINI_BASE_URL");
+    if (value != null) {
+      variables.put("GOOGLE_GEMINI_BASE_URL", value);
+    }
+    value = System.getenv("GOOGLE_VERTEX_BASE_URL");
+    if (value != null) {
+      variables.put("GOOGLE_VERTEX_BASE_URL", value);
+    }
+
+    return variables;
+  }
 
   /** Async class for GenAI. */
   public final class Async {
@@ -56,10 +79,19 @@ public final class Client implements AutoCloseable {
     private Optional<HttpOptions> httpOptions = Optional.empty();
     private Optional<Boolean> vertexAI = Optional.empty();
     private Optional<DebugConfig> debugConfig = Optional.empty();
+    private Optional<Map<String, String>> environmentVariables = Optional.empty();
 
     /** Builds the {@link Client} instance. */
     public Client build() {
-      return new Client(apiKey, project, location, credentials, httpOptions, vertexAI, debugConfig);
+      return new Client(
+          apiKey,
+          project,
+          location,
+          credentials,
+          httpOptions,
+          vertexAI,
+          debugConfig,
+          environmentVariables);
     }
 
     /** Sets the API key for Google AI APIs. */
@@ -112,6 +144,12 @@ public final class Client implements AutoCloseable {
       this.debugConfig = Optional.of(debugConfig);
       return this;
     }
+
+    /** Sets the environment variables for the API client. This is for internal use only. */
+    Builder environmentVariables(Map<String, String> environmentVariables) {
+      this.environmentVariables = Optional.of(environmentVariables);
+      return this;
+    }
   }
 
   /** Returns a {@link Builder} for {@link Client}. */
@@ -128,7 +166,8 @@ public final class Client implements AutoCloseable {
         /* credentials= */ Optional.empty(),
         /* httpOptions= */ Optional.empty(),
         /* vertexAI= */ Optional.empty(),
-        /* debugConfig= */ Optional.empty());
+        /* debugConfig= */ Optional.empty(),
+        /* environmentVariables= */ Optional.empty());
   }
 
   /**
@@ -145,6 +184,7 @@ public final class Client implements AutoCloseable {
    * @param vertexAI Optional Boolean for whether to use Vertex AI APIs. If not specified here nor
    *     in the environment variable, default to false.
    * @param debugConfig Optional {@link DebugConfig} for debugging or testing the Client.
+   * @param environmentVariables Optional Map of environment variables.
    * @throws IllegalArgumentException if the project/location and API key are set together.
    */
   private Client(
@@ -154,15 +194,19 @@ public final class Client implements AutoCloseable {
       Optional<GoogleCredentials> credentials,
       Optional<HttpOptions> httpOptions,
       Optional<Boolean> vertexAI,
-      Optional<DebugConfig> debugConfig) {
+      Optional<DebugConfig> debugConfig,
+      Optional<Map<String, String>> environmentVariables) {
     checkNotNull(vertexAI, "vertexAI cannot be null");
     checkNotNull(debugConfig, "debugConfig cannot be null");
+    if (!environmentVariables.isPresent()) {
+      environmentVariables = Optional.of(defaultEnvironmentVariables());
+    }
 
     boolean useVertexAI;
     if (vertexAI.isPresent()) {
       useVertexAI = vertexAI.get();
     } else {
-      String envVar = System.getenv("GOOGLE_GENAI_USE_VERTEXAI");
+      String envVar = environmentVariables.get().get("GOOGLE_GENAI_USE_VERTEXAI");
       useVertexAI = envVar != null && envVar.equalsIgnoreCase("true");
     }
 
@@ -179,6 +223,15 @@ public final class Client implements AutoCloseable {
     // TODO(jayceeli): Remove this check once we support EasyGCP.
     if (apiKey.isPresent() && useVertexAI) {
       throw new IllegalArgumentException("Vertex AI APIs do not support API key.");
+    }
+
+    Optional<String> baseUrl = Client.inferBaseUrl(useVertexAI, httpOptions, environmentVariables);
+    if (baseUrl.isPresent()) {
+      if (httpOptions.isPresent()) {
+        httpOptions = Optional.of(httpOptions.get().toBuilder().baseUrl(baseUrl.get()).build());
+      } else {
+        httpOptions = Optional.of(HttpOptions.builder().baseUrl(baseUrl.get()).build());
+      }
     }
 
     this.debugConfig = debugConfig.orElse(new DebugConfig());
@@ -256,6 +309,14 @@ public final class Client implements AutoCloseable {
     return debugConfig.clientMode();
   }
 
+  /** Returns the base URL for the API client. */
+  Optional<String> baseUrl() {
+    if (apiClient.httpOptions.baseUrl().isPresent()) {
+      return apiClient.httpOptions.baseUrl();
+    }
+    return Optional.empty();
+  }
+
   /** Closes the Client instance together with its instantiated http client. */
   @Override
   public void close() {
@@ -264,5 +325,51 @@ public final class Client implements AutoCloseable {
     } catch (IOException e) {
       throw new GenAiIOException("Failed to close the HTTP client.", e);
     }
+  }
+
+  /**
+   * Overrides the base URLs for the Gemini API and Vertex AI API.
+   *
+   * <p>Note: This function should be called before initializing the SDK. If the base URLs are set
+   * after initializing the SDK, the base URLs will not be updated.
+   */
+  public static void setDefaultBaseUrls(
+      Optional<String> geminiBaseUrl, Optional<String> vertexBaseUrl) {
+    Client.geminiBaseUrl = geminiBaseUrl;
+    Client.vertexBaseUrl = vertexBaseUrl;
+  }
+
+  /**
+   * Returns the base URL for the Gemini API or Vertex AI API based on the following priority.
+   *
+   * <p>1. Base URL set via HttpOptions.
+   *
+   * <p>2. Base URL set via the latest call to setDefaultBaseUrls.
+   *
+   * <p>3. Base URL set via environment variables.
+   */
+  static Optional<String> inferBaseUrl(
+      boolean vertexAI,
+      Optional<HttpOptions> httpOptions,
+      Optional<Map<String, String>> environmentVariables) {
+    if (httpOptions.isPresent() && httpOptions.get().baseUrl().isPresent()) {
+      return httpOptions.get().baseUrl();
+    }
+
+    if (vertexAI) {
+      if (Client.vertexBaseUrl.isPresent()) {
+        return Client.vertexBaseUrl;
+      } else if (environmentVariables.isPresent()) {
+        return Optional.ofNullable(environmentVariables.get().get("GOOGLE_VERTEX_BASE_URL"));
+      }
+    } else {
+      if (Client.geminiBaseUrl.isPresent()) {
+        return Client.geminiBaseUrl;
+      } else if (environmentVariables.isPresent()) {
+        return Optional.ofNullable(environmentVariables.get().get("GOOGLE_GEMINI_BASE_URL"));
+      }
+    }
+
+    return Optional.empty();
   }
 }
