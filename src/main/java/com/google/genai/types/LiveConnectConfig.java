@@ -107,6 +107,10 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   @JsonProperty("outputAudioTranscription")
   public abstract Optional<AudioTranscriptionConfig> outputAudioTranscription();
 
+  /** Configures the realtime input behavior in BidiGenerateContent. */
+  @JsonProperty("realtimeInputConfig")
+  public abstract Optional<RealtimeInputConfig> realtimeInputConfig();
+
   /**
    * Configures context window compression mechanism.
    *
@@ -169,6 +173,9 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("outputAudioTranscription")
     public abstract Builder outputAudioTranscription(
         AudioTranscriptionConfig outputAudioTranscription);
+
+    @JsonProperty("realtimeInputConfig")
+    public abstract Builder realtimeInputConfig(RealtimeInputConfig realtimeInputConfig);
 
     @JsonProperty("contextWindowCompression")
     public abstract Builder contextWindowCompression(

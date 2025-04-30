@@ -791,6 +791,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "realtimeInputConfig"},
+          RealtimeInputConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -917,6 +928,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "realtimeInputConfig"},
+          RealtimeInputConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1026,6 +1048,28 @@ final class LiveConverters {
               this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityStart"},
+          ActivityStartToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityEnd"},
+          ActivityEndToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -1039,6 +1083,28 @@ final class LiveConverters {
           new String[] {"mediaChunks"},
           Transformers.tBlobs(
               this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityStart"},
+          ActivityStartToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityEnd"},
+          ActivityEndToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
+              toObject));
     }
 
     return toObject;
@@ -1089,6 +1155,17 @@ final class LiveConverters {
                     toObject));
           });
       Common.setValueByPath(toObject, new String[] {"tools"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"realtimeInputConfig"},
+          RealtimeInputConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
@@ -1166,6 +1243,17 @@ final class LiveConverters {
                     toObject));
           });
       Common.setValueByPath(toObject, new String[] {"tools"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"realtimeInputConfig"},
+          RealtimeInputConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"}) != null) {
@@ -1267,6 +1355,28 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"mediaChunks"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityStart"},
+          ActivityStartToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityEnd"},
+          ActivityEndToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -1279,6 +1389,28 @@ final class LiveConverters {
           toObject,
           new String[] {"mediaChunks"},
           Common.getValueByPath(fromObject, new String[] {"mediaChunks"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityStart"},
+          ActivityStartToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityEnd"},
+          ActivityEndToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
+              toObject));
     }
 
     return toObject;

@@ -33,6 +33,14 @@ public abstract class LiveSendRealtimeInputParameters extends JsonSerializable {
   @JsonProperty("media")
   public abstract Optional<Blob> media();
 
+  /** Marks the start of user activity. */
+  @JsonProperty("activityStart")
+  public abstract Optional<ActivityStart> activityStart();
+
+  /** Marks the end of user activity. */
+  @JsonProperty("activityEnd")
+  public abstract Optional<ActivityEnd> activityEnd();
+
   /** Instantiates a builder for LiveSendRealtimeInputParameters. */
   public static Builder builder() {
     return new AutoValue_LiveSendRealtimeInputParameters.Builder();
@@ -54,6 +62,12 @@ public abstract class LiveSendRealtimeInputParameters extends JsonSerializable {
 
     @JsonProperty("media")
     public abstract Builder media(Blob media);
+
+    @JsonProperty("activityStart")
+    public abstract Builder activityStart(ActivityStart activityStart);
+
+    @JsonProperty("activityEnd")
+    public abstract Builder activityEnd(ActivityEnd activityEnd);
 
     public abstract LiveSendRealtimeInputParameters build();
   }
