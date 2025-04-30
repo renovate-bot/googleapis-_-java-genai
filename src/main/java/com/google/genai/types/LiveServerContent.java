@@ -54,6 +54,10 @@ public abstract class LiveServerContent extends JsonSerializable {
   @JsonProperty("interrupted")
   public abstract Optional<Boolean> interrupted();
 
+  /** Metadata returned to client when grounding is enabled. */
+  @JsonProperty("groundingMetadata")
+  public abstract Optional<GroundingMetadata> groundingMetadata();
+
   /**
    * If true, indicates that the model is done generating. When model is interrupted while
    * generating there will be no generation_complete message in interrupted turn, it will go through
@@ -104,6 +108,9 @@ public abstract class LiveServerContent extends JsonSerializable {
 
     @JsonProperty("interrupted")
     public abstract Builder interrupted(boolean interrupted);
+
+    @JsonProperty("groundingMetadata")
+    public abstract Builder groundingMetadata(GroundingMetadata groundingMetadata);
 
     @JsonProperty("generationComplete")
     public abstract Builder generationComplete(boolean generationComplete);

@@ -49,6 +49,10 @@ import com.google.genai.types.LiveServerMessage;
 import com.google.genai.types.Part;
 import com.google.genai.types.SlidingWindow;
 import java.util.concurrent.CompletableFuture;
+import com.google.genai.types.GroundingChunk;
+import com.google.genai.types.GroundingChunkWeb;
+import java.util.List;
+import java.util.Optional;
 
 /** Example of using the live module to set up context window compression. */
 public class LiveTextContextWindowCompressionAsync {

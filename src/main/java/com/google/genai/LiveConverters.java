@@ -1880,6 +1880,13 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"interrupted"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"groundingMetadata"},
+          Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"generationComplete"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1939,6 +1946,13 @@ final class LiveConverters {
           toObject,
           new String[] {"interrupted"},
           Common.getValueByPath(fromObject, new String[] {"interrupted"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"groundingMetadata"},
+          Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"generationComplete"}) != null) {

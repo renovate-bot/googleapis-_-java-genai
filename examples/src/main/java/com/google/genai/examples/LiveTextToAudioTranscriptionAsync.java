@@ -34,7 +34,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java
- * -Dexec.mainClass="com.google.genai.examples.LiveTextToTextGenerationAsync"
+ * -Dexec.mainClass="com.google.genai.examples.LiveTextToAudioTranscriptionAsync"
  */
 package com.google.genai.examples;
 
@@ -43,6 +43,7 @@ import com.google.genai.Client;
 import com.google.genai.types.AudioTranscriptionConfig;
 import com.google.genai.types.Content;
 import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.GroundingMetadata;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
@@ -52,6 +53,10 @@ import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.Tool;
 import com.google.genai.types.Transcription;
 import java.util.concurrent.CompletableFuture;
+import com.google.genai.types.GroundingChunk;
+import com.google.genai.types.GroundingChunkWeb;
+import java.util.List;
+import java.util.Optional;
 
 /** Example of using the live module to send and receive messages asynchronously. */
 public class LiveTextToAudioTranscriptionAsync {
@@ -135,6 +140,26 @@ public class LiveTextToAudioTranscriptionAsync {
           }
         }
       }
+      if (content.groundingMetadata().isPresent()) {
+        GroundingMetadata groundingMetadata = content.groundingMetadata().get();
+
+        Optional<List<GroundingChunk>> groundingChunksOptional =
+            groundingMetadata.groundingChunks();
+
+        if (groundingChunksOptional.isPresent()) {
+          List<GroundingChunk> groundingChunks = groundingChunksOptional.get();
+          for (GroundingChunk chunk : groundingChunks) {
+            if (chunk.web().isPresent()) {
+              GroundingChunkWeb web = chunk.web().get();
+              if (web.uri().isPresent()) {
+                String uri = web.uri().get();
+                System.out.println("\n\nGrounding URI: " + uri);
+              }
+            }
+          }
+        }
+      }
+
       // Print audio transcription.
       if (content.outputTranscription().isPresent()) {
         Transcription transcription = content.outputTranscription().get();
