@@ -152,9 +152,9 @@ public class AsyncLive {
 
     ObjectNode body;
     if (this.apiClient.vertexAI()) {
-      body = liveConverters.LiveConnectParametersToVertex(this.apiClient, parameterNode, null);
+      body = liveConverters.liveConnectParametersToVertex(this.apiClient, parameterNode, null);
     } else {
-      body = liveConverters.LiveConnectParametersToMldev(this.apiClient, parameterNode, null);
+      body = liveConverters.liveConnectParametersToMldev(this.apiClient, parameterNode, null);
     }
 
     // TODO: Remove the hack that removes config.

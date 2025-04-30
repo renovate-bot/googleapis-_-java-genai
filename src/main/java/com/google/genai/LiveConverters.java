@@ -31,10 +31,10 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode PartToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode partToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"videoMetadata"}))) {
-      throw new Error("videoMetadata parameter is not supported in Gemini API.");
+      throw new IllegalArgumentException("videoMetadata parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
@@ -97,7 +97,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode PartToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode partToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
       Common.setValueByPath(
@@ -166,7 +166,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContentToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode contentToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
       ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
@@ -175,7 +175,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(PartToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(partToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
@@ -191,7 +191,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContentToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode contentToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
       ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
@@ -200,7 +200,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(PartToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(partToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
@@ -216,7 +216,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode GoogleSearchToMldev(
+  ObjectNode googleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -224,7 +224,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode GoogleSearchToVertex(
+  ObjectNode googleSearchToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -232,7 +232,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode DynamicRetrievalConfigToMldev(
+  ObjectNode dynamicRetrievalConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"mode"}) != null) {
@@ -253,7 +253,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode DynamicRetrievalConfigToVertex(
+  ObjectNode dynamicRetrievalConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"mode"}) != null) {
@@ -274,14 +274,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode GoogleSearchRetrievalToMldev(
+  ObjectNode googleSearchRetrievalToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"dynamicRetrievalConfig"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"dynamicRetrievalConfig"},
-          DynamicRetrievalConfigToMldev(
+          dynamicRetrievalConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"dynamicRetrievalConfig"})),
@@ -292,14 +292,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode GoogleSearchRetrievalToVertex(
+  ObjectNode googleSearchRetrievalToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"dynamicRetrievalConfig"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"dynamicRetrievalConfig"},
-          DynamicRetrievalConfigToVertex(
+          dynamicRetrievalConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"dynamicRetrievalConfig"})),
@@ -310,17 +310,17 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ToolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode toolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"retrieval"}))) {
-      throw new Error("retrieval parameter is not supported in Gemini API.");
+      throw new IllegalArgumentException("retrieval parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"googleSearch"},
-          GoogleSearchToMldev(
+          googleSearchToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
@@ -331,7 +331,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"googleSearchRetrieval"},
-          GoogleSearchRetrievalToMldev(
+          googleSearchRetrievalToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleSearchRetrieval"})),
@@ -356,7 +356,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ToolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode toolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"retrieval"}) != null) {
       Common.setValueByPath(
@@ -369,7 +369,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"googleSearch"},
-          GoogleSearchToVertex(
+          googleSearchToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
@@ -380,7 +380,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"googleSearchRetrieval"},
-          GoogleSearchRetrievalToVertex(
+          googleSearchRetrievalToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleSearchRetrieval"})),
@@ -405,7 +405,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode SessionResumptionConfigToMldev(
+  ObjectNode sessionResumptionConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"handle"}) != null) {
@@ -416,14 +416,14 @@ final class LiveConverters {
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"transparent"}))) {
-      throw new Error("transparent parameter is not supported in Gemini API.");
+      throw new IllegalArgumentException("transparent parameter is not supported in Gemini API.");
     }
 
     return toObject;
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode SessionResumptionConfigToVertex(
+  ObjectNode sessionResumptionConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"handle"}) != null) {
@@ -444,7 +444,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode AudioTranscriptionConfigToMldev(
+  ObjectNode audioTranscriptionConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -452,7 +452,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode AudioTranscriptionConfigToVertex(
+  ObjectNode audioTranscriptionConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -460,49 +460,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode AutomaticActivityDetectionToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"disabled"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"disabled"},
-          Common.getValueByPath(fromObject, new String[] {"disabled"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"startOfSpeechSensitivity"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"startOfSpeechSensitivity"},
-          Common.getValueByPath(fromObject, new String[] {"startOfSpeechSensitivity"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"endOfSpeechSensitivity"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"endOfSpeechSensitivity"},
-          Common.getValueByPath(fromObject, new String[] {"endOfSpeechSensitivity"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"prefixPaddingMs"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"prefixPaddingMs"},
-          Common.getValueByPath(fromObject, new String[] {"prefixPaddingMs"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"silenceDurationMs"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"silenceDurationMs"},
-          Common.getValueByPath(fromObject, new String[] {"silenceDurationMs"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode AutomaticActivityDetectionToVertex(
+  ObjectNode automaticActivityDetectionToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"disabled"}) != null) {
@@ -544,14 +502,56 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode RealtimeInputConfigToMldev(
+  ObjectNode automaticActivityDetectionToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"disabled"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"disabled"},
+          Common.getValueByPath(fromObject, new String[] {"disabled"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"startOfSpeechSensitivity"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startOfSpeechSensitivity"},
+          Common.getValueByPath(fromObject, new String[] {"startOfSpeechSensitivity"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endOfSpeechSensitivity"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endOfSpeechSensitivity"},
+          Common.getValueByPath(fromObject, new String[] {"endOfSpeechSensitivity"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"prefixPaddingMs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"prefixPaddingMs"},
+          Common.getValueByPath(fromObject, new String[] {"prefixPaddingMs"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"silenceDurationMs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"silenceDurationMs"},
+          Common.getValueByPath(fromObject, new String[] {"silenceDurationMs"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode realtimeInputConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"automaticActivityDetection"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"automaticActivityDetection"},
-          AutomaticActivityDetectionToMldev(
+          automaticActivityDetectionToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"automaticActivityDetection"})),
@@ -576,14 +576,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode RealtimeInputConfigToVertex(
+  ObjectNode realtimeInputConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"automaticActivityDetection"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"automaticActivityDetection"},
-          AutomaticActivityDetectionToVertex(
+          automaticActivityDetectionToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"automaticActivityDetection"})),
@@ -608,7 +608,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode SlidingWindowToMldev(
+  ObjectNode slidingWindowToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"targetTokens"}) != null) {
@@ -622,7 +622,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode SlidingWindowToVertex(
+  ObjectNode slidingWindowToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"targetTokens"}) != null) {
@@ -636,7 +636,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContextWindowCompressionConfigToMldev(
+  ObjectNode contextWindowCompressionConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"triggerTokens"}) != null) {
@@ -650,7 +650,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"slidingWindow"},
-          SlidingWindowToMldev(
+          slidingWindowToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"slidingWindow"})),
@@ -661,7 +661,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContextWindowCompressionConfigToVertex(
+  ObjectNode contextWindowCompressionConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"triggerTokens"}) != null) {
@@ -675,7 +675,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"slidingWindow"},
-          SlidingWindowToVertex(
+          slidingWindowToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"slidingWindow"})),
@@ -686,7 +686,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveConnectConfigToMldev(
+  ObjectNode liveConnectConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -750,7 +750,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "systemInstruction"},
-          ContentToMldev(
+          contentToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Transformers.tContent(
@@ -767,7 +767,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ToolToMldev(
+                toolToMldev(
                     apiClient,
                     JsonSerializable.toJsonNode(Transformers.tTool(this.apiClient, item)),
                     toObject));
@@ -777,14 +777,15 @@ final class LiveConverters {
 
     if (!Common.isZero(
         Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}))) {
-      throw new Error("inputAudioTranscription parameter is not supported in Gemini API.");
+      throw new IllegalArgumentException(
+          "inputAudioTranscription parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "outputAudioTranscription"},
-          AudioTranscriptionConfigToMldev(
+          audioTranscriptionConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
@@ -795,7 +796,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "realtimeInputConfig"},
-          RealtimeInputConfigToMldev(
+          realtimeInputConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
@@ -806,7 +807,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "contextWindowCompression"},
-          ContextWindowCompressionConfigToMldev(
+          contextWindowCompressionConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
@@ -817,7 +818,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveConnectConfigToVertex(
+  ObjectNode liveConnectConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -881,7 +882,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "systemInstruction"},
-          ContentToVertex(
+          contentToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Transformers.tContent(
@@ -898,7 +899,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ToolToVertex(
+                toolToVertex(
                     apiClient,
                     JsonSerializable.toJsonNode(Transformers.tTool(this.apiClient, item)),
                     toObject));
@@ -910,7 +911,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "inputAudioTranscription"},
-          AudioTranscriptionConfigToVertex(
+          audioTranscriptionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
@@ -921,7 +922,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "outputAudioTranscription"},
-          AudioTranscriptionConfigToVertex(
+          audioTranscriptionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
@@ -932,7 +933,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "realtimeInputConfig"},
-          RealtimeInputConfigToVertex(
+          realtimeInputConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
@@ -943,7 +944,7 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "contextWindowCompression"},
-          ContextWindowCompressionConfigToVertex(
+          contextWindowCompressionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
@@ -954,7 +955,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveConnectParametersToMldev(
+  ObjectNode liveConnectParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
@@ -969,7 +970,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"config"},
-          LiveConnectConfigToMldev(
+          liveConnectConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
@@ -980,7 +981,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveConnectParametersToVertex(
+  ObjectNode liveConnectParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
@@ -995,7 +996,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"config"},
-          LiveConnectConfigToVertex(
+          liveConnectConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
@@ -1006,7 +1007,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ActivityStartToMldev(
+  ObjectNode activityStartToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1014,7 +1015,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ActivityStartToVertex(
+  ObjectNode activityStartToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1022,14 +1023,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ActivityEndToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode activityEndToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     return toObject;
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ActivityEndToVertex(
+  ObjectNode activityEndToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1037,44 +1038,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveSendRealtimeInputParametersToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"media"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"mediaChunks"},
-          Transformers.tBlobs(
-              this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"activityStart"},
-          ActivityStartToMldev(
-              apiClient,
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
-              toObject));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"activityEnd"},
-          ActivityEndToMldev(
-              apiClient,
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
-              toObject));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveSendRealtimeInputParametersToVertex(
+  ObjectNode liveSendRealtimeInputParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"media"}) != null) {
@@ -1089,7 +1053,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityStart"},
-          ActivityStartToVertex(
+          activityStartToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityStart"})),
@@ -1100,7 +1064,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityEnd"},
-          ActivityEndToVertex(
+          activityEndToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
@@ -1111,7 +1075,44 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientSetupToMldev(
+  ObjectNode liveSendRealtimeInputParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"media"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mediaChunks"},
+          Transformers.tBlobs(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityStart"},
+          activityStartToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityStart"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"activityEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"activityEnd"},
+          activityEndToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode liveClientSetupToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
@@ -1132,7 +1133,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"systemInstruction"},
-          ContentToMldev(
+          contentToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Transformers.tContent(
@@ -1149,7 +1150,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ToolToMldev(
+                toolToMldev(
                     apiClient,
                     JsonSerializable.toJsonNode(Transformers.tTool(this.apiClient, item)),
                     toObject));
@@ -1161,7 +1162,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"realtimeInputConfig"},
-          RealtimeInputConfigToMldev(
+          realtimeInputConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
@@ -1172,7 +1173,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"contextWindowCompression"},
-          ContextWindowCompressionConfigToMldev(
+          contextWindowCompressionConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
@@ -1181,14 +1182,15 @@ final class LiveConverters {
 
     if (!Common.isZero(
         Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}))) {
-      throw new Error("inputAudioTranscription parameter is not supported in Gemini API.");
+      throw new IllegalArgumentException(
+          "inputAudioTranscription parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"outputAudioTranscription"},
-          AudioTranscriptionConfigToMldev(
+          audioTranscriptionConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
@@ -1199,7 +1201,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientSetupToVertex(
+  ObjectNode liveClientSetupToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
@@ -1220,7 +1222,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"systemInstruction"},
-          ContentToVertex(
+          contentToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Transformers.tContent(
@@ -1237,7 +1239,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ToolToVertex(
+                toolToVertex(
                     apiClient,
                     JsonSerializable.toJsonNode(Transformers.tTool(this.apiClient, item)),
                     toObject));
@@ -1249,7 +1251,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"realtimeInputConfig"},
-          RealtimeInputConfigToVertex(
+          realtimeInputConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
@@ -1260,7 +1262,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"contextWindowCompression"},
-          ContextWindowCompressionConfigToVertex(
+          contextWindowCompressionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
@@ -1271,7 +1273,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"inputAudioTranscription"},
-          AudioTranscriptionConfigToVertex(
+          audioTranscriptionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
@@ -1282,7 +1284,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"outputAudioTranscription"},
-          AudioTranscriptionConfigToVertex(
+          audioTranscriptionConfigToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
@@ -1293,7 +1295,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientContentToMldev(
+  ObjectNode liveClientContentToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"turns"}) != null) {
@@ -1303,7 +1305,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(ContentToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(contentToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"turns"}, result);
     }
@@ -1319,7 +1321,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientContentToVertex(
+  ObjectNode liveClientContentToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"turns"}) != null) {
@@ -1329,7 +1331,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(ContentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(contentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"turns"}, result);
     }
@@ -1345,7 +1347,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientRealtimeInputToMldev(
+  ObjectNode liveClientRealtimeInputToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"mediaChunks"}) != null) {
@@ -1359,7 +1361,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityStart"},
-          ActivityStartToMldev(
+          activityStartToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityStart"})),
@@ -1370,7 +1372,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityEnd"},
-          ActivityEndToMldev(
+          activityEndToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
@@ -1381,7 +1383,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientRealtimeInputToVertex(
+  ObjectNode liveClientRealtimeInputToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"mediaChunks"}) != null) {
@@ -1395,7 +1397,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityStart"},
-          ActivityStartToVertex(
+          activityStartToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityStart"})),
@@ -1406,7 +1408,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"activityEnd"},
-          ActivityEndToVertex(
+          activityEndToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"activityEnd"})),
@@ -1417,7 +1419,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionResponseToMldev(
+  ObjectNode functionResponseToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
@@ -1443,11 +1445,11 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionResponseToVertex(
+  ObjectNode functionResponseToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"id"}))) {
-      throw new Error("id parameter is not supported in Vertex AI.");
+      throw new IllegalArgumentException("id parameter is not supported in Vertex AI.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
@@ -1468,7 +1470,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientToolResponseToMldev(
+  ObjectNode liveClientToolResponseToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionResponses"}) != null) {
@@ -1480,7 +1482,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                FunctionResponseToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+                functionResponseToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"functionResponses"}, result);
     }
@@ -1489,7 +1491,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientToolResponseToVertex(
+  ObjectNode liveClientToolResponseToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionResponses"}) != null) {
@@ -1501,7 +1503,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                FunctionResponseToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+                functionResponseToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"functionResponses"}, result);
     }
@@ -1510,14 +1512,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientMessageToMldev(
+  ObjectNode liveClientMessageToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"setup"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"setup"},
-          LiveClientSetupToMldev(
+          liveClientSetupToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"setup"})),
@@ -1528,7 +1530,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"clientContent"},
-          LiveClientContentToMldev(
+          liveClientContentToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"clientContent"})),
@@ -1539,7 +1541,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"realtimeInput"},
-          LiveClientRealtimeInputToMldev(
+          liveClientRealtimeInputToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInput"})),
@@ -1550,7 +1552,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolResponse"},
-          LiveClientToolResponseToMldev(
+          liveClientToolResponseToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolResponse"})),
@@ -1561,14 +1563,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveClientMessageToVertex(
+  ObjectNode liveClientMessageToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"setup"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"setup"},
-          LiveClientSetupToVertex(
+          liveClientSetupToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"setup"})),
@@ -1579,7 +1581,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"clientContent"},
-          LiveClientContentToVertex(
+          liveClientContentToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"clientContent"})),
@@ -1590,7 +1592,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"realtimeInput"},
-          LiveClientRealtimeInputToVertex(
+          liveClientRealtimeInputToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInput"})),
@@ -1601,7 +1603,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolResponse"},
-          LiveClientToolResponseToVertex(
+          liveClientToolResponseToVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolResponse"})),
@@ -1612,7 +1614,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerSetupCompleteFromMldev(
+  ObjectNode liveServerSetupCompleteFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1620,7 +1622,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerSetupCompleteFromVertex(
+  ObjectNode liveServerSetupCompleteFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1628,7 +1630,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode PartFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode partFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
@@ -1691,7 +1693,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode PartFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode partFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
       Common.setValueByPath(
@@ -1760,7 +1762,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContentFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode contentFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
       ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
@@ -1769,7 +1771,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(PartFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(partFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
@@ -1785,7 +1787,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ContentFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode contentFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
       ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
@@ -1794,7 +1796,7 @@ final class LiveConverters {
 
       keyArray.forEach(
           item -> {
-            result.add(PartFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+            result.add(partFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
@@ -1810,7 +1812,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode TranscriptionFromMldev(
+  ObjectNode transcriptionFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"text"}) != null) {
@@ -1831,7 +1833,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode TranscriptionFromVertex(
+  ObjectNode transcriptionFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"text"}) != null) {
@@ -1852,14 +1854,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerContentFromMldev(
+  ObjectNode liveServerContentFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"modelTurn"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"modelTurn"},
-          ContentFromMldev(
+          contentFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"modelTurn"})),
@@ -1898,7 +1900,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"inputTranscription"},
-          TranscriptionFromMldev(
+          transcriptionFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"inputTranscription"})),
@@ -1909,7 +1911,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"outputTranscription"},
-          TranscriptionFromMldev(
+          transcriptionFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputTranscription"})),
@@ -1920,14 +1922,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerContentFromVertex(
+  ObjectNode liveServerContentFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"modelTurn"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"modelTurn"},
-          ContentFromVertex(
+          contentFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"modelTurn"})),
@@ -1966,7 +1968,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"inputTranscription"},
-          TranscriptionFromVertex(
+          transcriptionFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"inputTranscription"})),
@@ -1977,7 +1979,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"outputTranscription"},
-          TranscriptionFromVertex(
+          transcriptionFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputTranscription"})),
@@ -1988,7 +1990,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionCallFromMldev(
+  ObjectNode functionCallFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
@@ -2014,7 +2016,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode FunctionCallFromVertex(
+  ObjectNode functionCallFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -2036,7 +2038,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerToolCallFromMldev(
+  ObjectNode liveServerToolCallFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionCalls"}) != null) {
@@ -2048,7 +2050,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                FunctionCallFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+                functionCallFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"functionCalls"}, result);
     }
@@ -2057,7 +2059,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerToolCallFromVertex(
+  ObjectNode liveServerToolCallFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionCalls"}) != null) {
@@ -2069,7 +2071,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                FunctionCallFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+                functionCallFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"functionCalls"}, result);
     }
@@ -2078,7 +2080,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerToolCallCancellationFromMldev(
+  ObjectNode liveServerToolCallCancellationFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"ids"}) != null) {
@@ -2090,7 +2092,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerToolCallCancellationFromVertex(
+  ObjectNode liveServerToolCallCancellationFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"ids"}) != null) {
@@ -2102,7 +2104,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ModalityTokenCountFromMldev(
+  ObjectNode modalityTokenCountFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"modality"}) != null) {
@@ -2123,7 +2125,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode ModalityTokenCountFromVertex(
+  ObjectNode modalityTokenCountFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"modality"}) != null) {
@@ -2144,7 +2146,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode UsageMetadataFromMldev(
+  ObjectNode usageMetadataFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"promptTokenCount"}) != null) {
@@ -2198,7 +2200,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromMldev(
+                modalityTokenCountFromMldev(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"promptTokensDetails"}, result);
@@ -2213,7 +2215,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromMldev(
+                modalityTokenCountFromMldev(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"cacheTokensDetails"}, result);
@@ -2228,7 +2230,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromMldev(
+                modalityTokenCountFromMldev(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"responseTokensDetails"}, result);
@@ -2244,7 +2246,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromMldev(
+                modalityTokenCountFromMldev(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"toolUsePromptTokensDetails"}, result);
@@ -2254,7 +2256,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode UsageMetadataFromVertex(
+  ObjectNode usageMetadataFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"promptTokenCount"}) != null) {
@@ -2308,7 +2310,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromVertex(
+                modalityTokenCountFromVertex(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"promptTokensDetails"}, result);
@@ -2323,7 +2325,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromVertex(
+                modalityTokenCountFromVertex(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"cacheTokensDetails"}, result);
@@ -2338,7 +2340,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromVertex(
+                modalityTokenCountFromVertex(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"responseTokensDetails"}, result);
@@ -2354,7 +2356,7 @@ final class LiveConverters {
       keyArray.forEach(
           item -> {
             result.add(
-                ModalityTokenCountFromVertex(
+                modalityTokenCountFromVertex(
                     apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"toolUsePromptTokensDetails"}, result);
@@ -2371,7 +2373,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerGoAwayFromMldev(
+  ObjectNode liveServerGoAwayFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"timeLeft"}) != null) {
@@ -2385,7 +2387,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerGoAwayFromVertex(
+  ObjectNode liveServerGoAwayFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"timeLeft"}) != null) {
@@ -2399,7 +2401,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerSessionResumptionUpdateFromMldev(
+  ObjectNode liveServerSessionResumptionUpdateFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"newHandle"}) != null) {
@@ -2428,7 +2430,7 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerSessionResumptionUpdateFromVertex(
+  ObjectNode liveServerSessionResumptionUpdateFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"newHandle"}) != null) {
@@ -2457,14 +2459,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerMessageFromMldev(
+  ObjectNode liveServerMessageFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"setupComplete"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"setupComplete"},
-          LiveServerSetupCompleteFromMldev(
+          liveServerSetupCompleteFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"setupComplete"})),
@@ -2475,7 +2477,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"serverContent"},
-          LiveServerContentFromMldev(
+          liveServerContentFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"serverContent"})),
@@ -2486,7 +2488,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolCall"},
-          LiveServerToolCallFromMldev(
+          liveServerToolCallFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolCall"})),
@@ -2497,7 +2499,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolCallCancellation"},
-          LiveServerToolCallCancellationFromMldev(
+          liveServerToolCallCancellationFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolCallCancellation"})),
@@ -2508,7 +2510,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"usageMetadata"},
-          UsageMetadataFromMldev(
+          usageMetadataFromMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"usageMetadata"})),
@@ -2519,14 +2521,14 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode LiveServerMessageFromVertex(
+  ObjectNode liveServerMessageFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"setupComplete"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"setupComplete"},
-          LiveServerSetupCompleteFromVertex(
+          liveServerSetupCompleteFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"setupComplete"})),
@@ -2537,7 +2539,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"serverContent"},
-          LiveServerContentFromVertex(
+          liveServerContentFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"serverContent"})),
@@ -2548,7 +2550,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolCall"},
-          LiveServerToolCallFromVertex(
+          liveServerToolCallFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolCall"})),
@@ -2559,7 +2561,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"toolCallCancellation"},
-          LiveServerToolCallCancellationFromVertex(
+          liveServerToolCallCancellationFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolCallCancellation"})),
@@ -2570,7 +2572,7 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"usageMetadata"},
-          UsageMetadataFromVertex(
+          usageMetadataFromVertex(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"usageMetadata"})),
