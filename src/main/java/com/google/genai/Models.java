@@ -3664,9 +3664,9 @@ public final class Models {
         this.apiClient.request("post", path, JsonSerializable.toJsonString(body));
     String converterName;
     if (this.apiClient.vertexAI()) {
-      converterName = "GenerateContentResponseFromVertex";
+      converterName = "generateContentResponseFromVertex";
     } else {
-      converterName = "GenerateContentResponseFromMldev";
+      converterName = "generateContentResponseFromMldev";
     }
     return new ResponseStream<GenerateContentResponse>(
         GenerateContentResponse.class, response, this, converterName);
