@@ -56,6 +56,11 @@ import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * Provides methods for interacting with the available GenAI models. Instantiating this class is not
+ * required. After instantiating a {@link Client}, access methods through
+ * `client.models.methodName(...)` directly.
+ */
 public final class Models {
   private final ApiClient apiClient;
 
@@ -3919,6 +3924,17 @@ public final class Models {
     }
   }
 
+  /**
+   * Generates videos given a GenAI model, and a prompt or an image.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param prompt the text prompt for generating the videos. Optional for image to video use cases.
+   * @param image the input image for generating the videos. Optional if prompt is provided.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
   public GenerateVideosOperation generateVideos(
       String model, String prompt, Image image, GenerateVideosConfig config) {
 

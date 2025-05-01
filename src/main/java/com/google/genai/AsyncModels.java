@@ -36,6 +36,7 @@ import com.google.genai.types.UpscaleImageResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/** Async module of {@link Models} */
 public final class AsyncModels {
   Models models;
 
@@ -43,6 +44,17 @@ public final class AsyncModels {
     this.models = new Models(apiClient);
   }
 
+  /**
+   * Asynchronously generates videos given a GenAI model, and a prompt or an image.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param prompt the text prompt for generating the videos. Optional for image to video use cases.
+   * @param image the input image for generating the videos. Optional if prompt is provided.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
   public CompletableFuture<GenerateVideosOperation> generateVideos(
       String model, String prompt, Image image, GenerateVideosConfig config) {
     return CompletableFuture.supplyAsync(() -> models.generateVideos(model, prompt, image, config));

@@ -22,6 +22,7 @@ import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GetOperationConfig;
 import java.util.concurrent.CompletableFuture;
 
+/** Async module of {@link Operations} */
 public final class AsyncOperations {
   Operations operations;
 
