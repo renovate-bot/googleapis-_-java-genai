@@ -3927,6 +3927,8 @@ public final class Models {
   /**
    * Generates videos given a GenAI model, and a prompt or an image.
    *
+   * <p>This method is experimental.
+   *
    * @param model the name of the GenAI model to use for generating videos
    * @param prompt the text prompt for generating the videos. Optional for image to video use cases.
    * @param image the input image for generating the videos. Optional if prompt is provided.

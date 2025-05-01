@@ -36,6 +36,8 @@ import org.apache.http.util.EntityUtils;
  * Provides methods for managing the long-running operations. Instantiating this class is not
  * required. After instantiating a {@link Client}, access methods through
  * `client.operations.methodName(...)` directly.
+ *
+ * <p>This module is experimental.
  */
 public final class Operations {
   private final ApiClient apiClient;
