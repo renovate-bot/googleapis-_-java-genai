@@ -25,6 +25,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.Content;
+import com.google.genai.types.CountTokensConfig;
+import com.google.genai.types.CountTokensParameters;
+import com.google.genai.types.CountTokensResponse;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageParameters;
 import com.google.genai.types.EditImageResponse;
@@ -873,6 +876,66 @@ public final class Models {
           toObject,
           new String[] {"config"},
           generateImagesConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"systemInstruction"}))) {
+      throw new IllegalArgumentException(
+          "systemInstruction parameter is not supported in Gemini API.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"tools"}))) {
+      throw new IllegalArgumentException("tools parameter is not supported in Gemini API.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"generationConfig"}))) {
+      throw new IllegalArgumentException(
+          "generationConfig parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensParametersToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "model"},
+          Transformers.tModel(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(contentToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(toObject, new String[] {"contents"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          countTokensConfigToMldev(
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
@@ -2314,6 +2377,84 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"systemInstruction"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"systemInstruction"},
+          contentToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Transformers.tContent(
+                      this.apiClient,
+                      Common.getValueByPath(fromObject, new String[] {"systemInstruction"}))),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(toolToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(parentObject, new String[] {"tools"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"generationConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"generationConfig"},
+          Common.getValueByPath(fromObject, new String[] {"generationConfig"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "model"},
+          Transformers.tModel(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(contentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(toObject, new String[] {"contents"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          countTokensConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode generateVideosConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2841,6 +2982,27 @@ public final class Models {
                   Common.getValueByPath(
                       fromObject, new String[] {"positivePromptSafetyAttributes"})),
               toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensResponseFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"totalTokens"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"totalTokens"},
+          Common.getValueByPath(fromObject, new String[] {"totalTokens"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"cachedContentTokenCount"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"cachedContentTokenCount"},
+          Common.getValueByPath(fromObject, new String[] {"cachedContentTokenCount"}));
     }
 
     return toObject;
@@ -3488,6 +3650,20 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode countTokensResponseFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"totalTokens"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"totalTokens"},
+          Common.getValueByPath(fromObject, new String[] {"totalTokens"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode videoFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -3924,6 +4100,57 @@ public final class Models {
     }
   }
 
+  public CountTokensResponse countTokens(
+      String model, List<Content> contents, CountTokensConfig config) {
+
+    CountTokensParameters.Builder parameterBuilder = CountTokensParameters.builder();
+
+    if (!Common.isZero(model)) {
+      parameterBuilder.model(model);
+    }
+    if (!Common.isZero(contents)) {
+      parameterBuilder.contents(contents);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      body = countTokensParametersToVertex(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{model}:countTokens", body.get("_url"));
+    } else {
+      body = countTokensParametersToMldev(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{model}:countTokens", body.get("_url"));
+    }
+    body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
+
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
+      HttpEntity entity = response.getEntity();
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      if (this.apiClient.vertexAI()) {
+        responseNode = countTokensResponseFromVertex(this.apiClient, responseNode, null);
+      } else {
+        responseNode = countTokensResponseFromMldev(this.apiClient, responseNode, null);
+      }
+      return JsonSerializable.fromJsonNode(responseNode, CountTokensResponse.class);
+    }
+  }
+
   /**
    * Generates videos given a GenAI model, and a prompt or an image.
    *
@@ -4083,6 +4310,20 @@ public final class Models {
       String model, String text, GenerateContentConfig config) {
     return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Counts tokens given a GenAI model and a text string.
+   *
+   * @param model the name of the GenAI model to use.
+   * @param text the text string to send to count tokens for.
+   * @param config a {@link com.google.genai.types.CountTokensConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.CountTokensResponse} instance that contains tokens
+   *     count.
+   */
+  public CountTokensResponse countTokens(String model, String text, CountTokensConfig config) {
+    return countTokens(model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
 
   /**
