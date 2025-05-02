@@ -49,7 +49,7 @@ final class HttpApiClient extends ApiClient {
 
   /** Sends a Http request given the http method, path, and request json string. */
   @Override
-  public ApiResponse request(String httpMethod, String path, String requestJson) {
+  public HttpApiResponse request(String httpMethod, String path, String requestJson) {
     boolean queryBaseModel =
         httpMethod.equalsIgnoreCase("GET") && path.startsWith("publishers/google/models/");
     if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
@@ -119,7 +119,7 @@ final class HttpApiClient extends ApiClient {
   }
 
   /** Executes the given HTTP request. */
-  private ApiResponse executeRequest(HttpRequestBase request) {
+  private HttpApiResponse executeRequest(HttpRequestBase request) {
     try {
       return new HttpApiResponse(httpClient.execute(request));
     } catch (IOException e) {
