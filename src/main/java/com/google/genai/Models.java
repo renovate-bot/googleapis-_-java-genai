@@ -24,6 +24,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.ComputeTokensConfig;
+import com.google.genai.types.ComputeTokensParameters;
+import com.google.genai.types.ComputeTokensResponse;
 import com.google.genai.types.Content;
 import com.google.genai.types.CountTokensConfig;
 import com.google.genai.types.CountTokensParameters;
@@ -2455,6 +2458,40 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode computeTokensParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "model"},
+          Transformers.tModel(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(contentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(toObject, new String[] {"contents"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          Common.getValueByPath(fromObject, new String[] {"config"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode generateVideosConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3664,6 +3701,20 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode computeTokensResponseFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"tokensInfo"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"tokensInfo"},
+          Common.getValueByPath(fromObject, new String[] {"tokensInfo"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode videoFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -4151,6 +4202,58 @@ public final class Models {
     }
   }
 
+  public ComputeTokensResponse computeTokens(
+      String model, List<Content> contents, ComputeTokensConfig config) {
+
+    ComputeTokensParameters.Builder parameterBuilder = ComputeTokensParameters.builder();
+
+    if (!Common.isZero(model)) {
+      parameterBuilder.model(model);
+    }
+    if (!Common.isZero(contents)) {
+      parameterBuilder.contents(contents);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      body = computeTokensParametersToVertex(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{model}:computeTokens", body.get("_url"));
+    } else {
+      throw new UnsupportedOperationException(
+          "This method is not supported by the Gemini Developer API.");
+    }
+    body.remove("_url");
+
+    // TODO: Handle "_query" in the body (for list support).
+
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
+
+    try (ApiResponse response =
+        this.apiClient.request("post", path, JsonSerializable.toJsonString(body))) {
+      HttpEntity entity = response.getEntity();
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      if (this.apiClient.vertexAI()) {
+        responseNode = computeTokensResponseFromVertex(this.apiClient, responseNode, null);
+      } else {
+        throw new UnsupportedOperationException(
+            "This method is not supported by the Gemini Developer API.");
+      }
+      return JsonSerializable.fromJsonNode(responseNode, ComputeTokensResponse.class);
+    }
+  }
+
   /**
    * Generates videos given a GenAI model, and a prompt or an image.
    *
@@ -4324,6 +4427,21 @@ public final class Models {
    */
   public CountTokensResponse countTokens(String model, String text, CountTokensConfig config) {
     return countTokens(model, Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Computes tokens given a GenAI model and a text string.
+   *
+   * @param model the name of the GenAI model to use.
+   * @param text the text string to send to compute tokens for.
+   * @param config a {@link com.google.genai.types.ComputeTokensConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.ComputeTokensResponse} instance that contains tokens
+   *     results.
+   */
+  public ComputeTokensResponse computeTokens(
+      String model, String text, ComputeTokensConfig config) {
+    return computeTokens(model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
 
   /**

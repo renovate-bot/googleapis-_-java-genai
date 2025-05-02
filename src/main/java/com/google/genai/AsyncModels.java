@@ -18,6 +18,8 @@
 
 package com.google.genai;
 
+import com.google.genai.types.ComputeTokensConfig;
+import com.google.genai.types.ComputeTokensResponse;
 import com.google.genai.types.Content;
 import com.google.genai.types.CountTokensConfig;
 import com.google.genai.types.CountTokensResponse;
@@ -49,6 +51,11 @@ public final class AsyncModels {
   public CompletableFuture<CountTokensResponse> countTokens(
       String model, List<Content> contents, CountTokensConfig config) {
     return CompletableFuture.supplyAsync(() -> models.countTokens(model, contents, config));
+  }
+
+  public CompletableFuture<ComputeTokensResponse> computeTokens(
+      String model, List<Content> contents, ComputeTokensConfig config) {
+    return CompletableFuture.supplyAsync(() -> models.computeTokens(model, contents, config));
   }
 
   /**
