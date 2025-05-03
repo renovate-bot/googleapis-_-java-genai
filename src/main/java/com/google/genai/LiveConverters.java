@@ -807,10 +807,15 @@ final class LiveConverters {
       Common.setValueByPath(parentObject, new String[] {"setup", "tools"}, result);
     }
 
-    if (!Common.isZero(
-        Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}))) {
-      throw new IllegalArgumentException(
-          "inputAudioTranscription parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "inputAudioTranscription"},
+          audioTranscriptionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
@@ -1212,10 +1217,15 @@ final class LiveConverters {
               toObject));
     }
 
-    if (!Common.isZero(
-        Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}))) {
-      throw new IllegalArgumentException(
-          "inputAudioTranscription parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"inputAudioTranscription"},
+          audioTranscriptionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
