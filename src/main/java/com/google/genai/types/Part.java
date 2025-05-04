@@ -43,6 +43,10 @@ public abstract class Part extends JsonSerializable {
   @JsonProperty("thought")
   public abstract Optional<Boolean> thought();
 
+  /** An opaque signature for the thought so it can be reused in subsequent requests. */
+  @JsonProperty("thoughtSignature")
+  public abstract Optional<byte[]> thoughtSignature();
+
   /** Optional. Result of executing the [ExecutableCode]. */
   @JsonProperty("codeExecutionResult")
   public abstract Optional<CodeExecutionResult> codeExecutionResult();
@@ -100,6 +104,9 @@ public abstract class Part extends JsonSerializable {
 
     @JsonProperty("thought")
     public abstract Builder thought(boolean thought);
+
+    @JsonProperty("thoughtSignature")
+    public abstract Builder thoughtSignature(byte[] thoughtSignature);
 
     @JsonProperty("codeExecutionResult")
     public abstract Builder codeExecutionResult(CodeExecutionResult codeExecutionResult);
