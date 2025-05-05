@@ -109,11 +109,8 @@ public abstract class GenerateContentResponse extends JsonSerializable {
 
   private static final Logger logger = Logger.getLogger(GenerateContentResponse.class.getName());
 
-  private static final ImmutableList<FinishReason.Known> EXPECTED_FINISH_REASONS =
-      ImmutableList.of(
-          FinishReason.Known.FINISH_REASON_UNSPECIFIED,
-          FinishReason.Known.STOP,
-          FinishReason.Known.MAX_TOKENS);
+  private static final ImmutableList<String> EXPECTED_FINISH_REASONS =
+      ImmutableList.of("FINISH_REASON_UNSPECIFIED", "STOP", "MAX_TOKENS", "");
 
   /**
    * Returns the list of parts in the first candidate of the response.
@@ -251,7 +248,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   }
 
   /** Gets the finish reason in a GenerateContentResponse. */
-  public FinishReason finishReason() {
+  public String finishReason() {
     List<Candidate> candidates = candidates().orElse(Arrays.asList(Candidate.builder().build()));
     if (candidates.size() > 1) {
       logger.warning(
@@ -259,18 +256,14 @@ public abstract class GenerateContentResponse extends JsonSerializable {
               "This response has %d candidates, will only use the first candidate",
               candidates.size()));
     }
-    Optional<FinishReason> finishReason = candidates.get(0).finishReason();
-    if (!finishReason.isPresent()) {
-      return new FinishReason(FinishReason.Known.FINISH_REASON_UNSPECIFIED);
-    }
-    return finishReason.get();
+    return candidates.get(0).finishReason().orElse("");
   }
 
   /** Throws an exception if the response finishes unexpectedly. */
   @InternalApi
   public void checkFinishReason() {
-    FinishReason finishReason = this.finishReason();
-    if (!EXPECTED_FINISH_REASONS.contains(finishReason.knownEnum())) {
+    String finishReason = this.finishReason();
+    if (!EXPECTED_FINISH_REASONS.contains(finishReason)) {
       throw new IllegalArgumentException(
           String.format("The response finished unexpectedly with reason %s.", finishReason));
     }

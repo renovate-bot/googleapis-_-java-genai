@@ -163,7 +163,7 @@ public abstract class GenerateContentConfig extends JsonSerializable {
 
   /** If specified, the media resolution specified will be used. */
   @JsonProperty("mediaResolution")
-  public abstract Optional<MediaResolution> mediaResolution();
+  public abstract Optional<String> mediaResolution();
 
   /** The speech generation configuration. */
   @JsonProperty("speechConfig")
@@ -261,15 +261,7 @@ public abstract class GenerateContentConfig extends JsonSerializable {
     public abstract Builder responseModalities(List<String> responseModalities);
 
     @JsonProperty("mediaResolution")
-    public abstract Builder mediaResolution(MediaResolution mediaResolution);
-
-    public Builder mediaResolution(MediaResolution.Known knownType) {
-      return mediaResolution(new MediaResolution(knownType));
-    }
-
-    public Builder mediaResolution(String mediaResolution) {
-      return mediaResolution(new MediaResolution(mediaResolution));
-    }
+    public abstract Builder mediaResolution(String mediaResolution);
 
     @JsonProperty("speechConfig")
     public abstract Builder speechConfig(SpeechConfig speechConfig);

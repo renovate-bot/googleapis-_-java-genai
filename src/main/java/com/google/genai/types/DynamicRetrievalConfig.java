@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class DynamicRetrievalConfig extends JsonSerializable {
   /** The mode of the predictor to be used in dynamic retrieval. */
   @JsonProperty("mode")
-  public abstract Optional<DynamicRetrievalConfigMode> mode();
+  public abstract Optional<String> mode();
 
   /**
    * Optional. The threshold to be used in dynamic retrieval. If not set, a system default value is
@@ -58,15 +58,7 @@ public abstract class DynamicRetrievalConfig extends JsonSerializable {
     }
 
     @JsonProperty("mode")
-    public abstract Builder mode(DynamicRetrievalConfigMode mode);
-
-    public Builder mode(DynamicRetrievalConfigMode.Known knownType) {
-      return mode(new DynamicRetrievalConfigMode(knownType));
-    }
-
-    public Builder mode(String mode) {
-      return mode(new DynamicRetrievalConfigMode(mode));
-    }
+    public abstract Builder mode(String mode);
 
     @JsonProperty("dynamicThreshold")
     public abstract Builder dynamicThreshold(Float dynamicThreshold);

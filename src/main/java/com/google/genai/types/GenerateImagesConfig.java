@@ -60,11 +60,11 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
 
   /** Filter level for safety filtering. */
   @JsonProperty("safetyFilterLevel")
-  public abstract Optional<SafetyFilterLevel> safetyFilterLevel();
+  public abstract Optional<String> safetyFilterLevel();
 
   /** Allows generation of people by the model. */
   @JsonProperty("personGeneration")
-  public abstract Optional<PersonGeneration> personGeneration();
+  public abstract Optional<String> personGeneration();
 
   /**
    * Whether to report the safety scores of each generated image and the positive prompt in the
@@ -82,7 +82,7 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
 
   /** Language of the text in the prompt. */
   @JsonProperty("language")
-  public abstract Optional<ImagePromptLanguage> language();
+  public abstract Optional<String> language();
 
   /** MIME type of the generated image. */
   @JsonProperty("outputMimeType")
@@ -136,26 +136,10 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     public abstract Builder seed(Integer seed);
 
     @JsonProperty("safetyFilterLevel")
-    public abstract Builder safetyFilterLevel(SafetyFilterLevel safetyFilterLevel);
-
-    public Builder safetyFilterLevel(SafetyFilterLevel.Known knownType) {
-      return safetyFilterLevel(new SafetyFilterLevel(knownType));
-    }
-
-    public Builder safetyFilterLevel(String safetyFilterLevel) {
-      return safetyFilterLevel(new SafetyFilterLevel(safetyFilterLevel));
-    }
+    public abstract Builder safetyFilterLevel(String safetyFilterLevel);
 
     @JsonProperty("personGeneration")
-    public abstract Builder personGeneration(PersonGeneration personGeneration);
-
-    public Builder personGeneration(PersonGeneration.Known knownType) {
-      return personGeneration(new PersonGeneration(knownType));
-    }
-
-    public Builder personGeneration(String personGeneration) {
-      return personGeneration(new PersonGeneration(personGeneration));
-    }
+    public abstract Builder personGeneration(String personGeneration);
 
     @JsonProperty("includeSafetyAttributes")
     public abstract Builder includeSafetyAttributes(boolean includeSafetyAttributes);
@@ -164,15 +148,7 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     public abstract Builder includeRaiReason(boolean includeRaiReason);
 
     @JsonProperty("language")
-    public abstract Builder language(ImagePromptLanguage language);
-
-    public Builder language(ImagePromptLanguage.Known knownType) {
-      return language(new ImagePromptLanguage(knownType));
-    }
-
-    public Builder language(String language) {
-      return language(new ImagePromptLanguage(language));
-    }
+    public abstract Builder language(String language);
 
     @JsonProperty("outputMimeType")
     public abstract Builder outputMimeType(String outputMimeType);

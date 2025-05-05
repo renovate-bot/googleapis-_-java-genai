@@ -32,7 +32,7 @@ import java.util.Optional;
 public abstract class GenerateContentResponsePromptFeedback extends JsonSerializable {
   /** Output only. Blocked reason. */
   @JsonProperty("blockReason")
-  public abstract Optional<BlockedReason> blockReason();
+  public abstract Optional<String> blockReason();
 
   /** Output only. A readable block reason message. */
   @JsonProperty("blockReasonMessage")
@@ -63,15 +63,7 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     }
 
     @JsonProperty("blockReason")
-    public abstract Builder blockReason(BlockedReason blockReason);
-
-    public Builder blockReason(BlockedReason.Known knownType) {
-      return blockReason(new BlockedReason(knownType));
-    }
-
-    public Builder blockReason(String blockReason) {
-      return blockReason(new BlockedReason(blockReason));
-    }
+    public abstract Builder blockReason(String blockReason);
 
     @JsonProperty("blockReasonMessage")
     public abstract Builder blockReasonMessage(String blockReasonMessage);

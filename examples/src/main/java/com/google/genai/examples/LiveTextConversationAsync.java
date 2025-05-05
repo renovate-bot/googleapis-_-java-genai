@@ -47,7 +47,6 @@ import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
-import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
 import java.io.Console;
 import java.util.concurrent.CompletableFuture;
@@ -63,7 +62,7 @@ public class LiveTextConversationAsync {
 
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.TEXT))
+            .responseModalities(ImmutableList.of("TEXT"))
             .topP(0.8f)
             .maxOutputTokens(30)
             .seed(1234)

@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class ModalityTokenCount extends JsonSerializable {
   /** The modality associated with this token count. */
   @JsonProperty("modality")
-  public abstract Optional<MediaModality> modality();
+  public abstract Optional<String> modality();
 
   /** Number of tokens. */
   @JsonProperty("tokenCount")
@@ -55,15 +55,7 @@ public abstract class ModalityTokenCount extends JsonSerializable {
     }
 
     @JsonProperty("modality")
-    public abstract Builder modality(MediaModality modality);
-
-    public Builder modality(MediaModality.Known knownType) {
-      return modality(new MediaModality(knownType));
-    }
-
-    public Builder modality(String modality) {
-      return modality(new MediaModality(modality));
-    }
+    public abstract Builder modality(String modality);
 
     @JsonProperty("tokenCount")
     public abstract Builder tokenCount(Integer tokenCount);

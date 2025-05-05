@@ -78,7 +78,7 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
    * Throughput quota.
    */
   @JsonProperty("trafficType")
-  public abstract Optional<TrafficType> trafficType();
+  public abstract Optional<String> trafficType();
 
   /** Instantiates a builder for GenerateContentResponseUsageMetadata. */
   public static Builder builder() {
@@ -133,15 +133,7 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
     public abstract Builder totalTokenCount(Integer totalTokenCount);
 
     @JsonProperty("trafficType")
-    public abstract Builder trafficType(TrafficType trafficType);
-
-    public Builder trafficType(TrafficType.Known knownType) {
-      return trafficType(new TrafficType(knownType));
-    }
-
-    public Builder trafficType(String trafficType) {
-      return trafficType(new TrafficType(trafficType));
-    }
+    public abstract Builder trafficType(String trafficType);
 
     public abstract GenerateContentResponseUsageMetadata build();
   }

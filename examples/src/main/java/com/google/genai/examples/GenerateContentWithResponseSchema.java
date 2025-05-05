@@ -39,13 +39,12 @@
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
-import com.google.genai.types.Type;
 
 /**
  * GenerateContentWithResponseSchema generates a content and returns a json object by passing a
@@ -55,21 +54,21 @@ public class GenerateContentWithResponseSchema {
   public static void main(String[] args) {
     Client client = new Client();
 
-    Schema schema =
-        Schema.builder()
-            .type(Type.Known.ARRAY)
+    Schema schema = Schema.builder()
+            .type("ARRAY")
             .items(
                 Schema.builder()
-                    .type(Type.Known.OBJECT)
+                    .type("OBJECT")
                     .properties(
                         ImmutableMap.of(
                             "recipe_name",
-                            Schema.builder().type(Type.Known.STRING).build(),
+                            Schema.builder().type("STRING").build(),
                             "ingredients",
                             Schema.builder()
-                                .type(Type.Known.ARRAY)
-                                .items(Schema.builder().type(Type.Known.STRING).build())
-                                .build()))
+                                .type("ARRAY")
+                                .items(Schema.builder().type("STRING").build())
+                                .build()
+                            ))
                     .required(ImmutableList.of("recipe_name", "ingredients"))
                     .build())
             .build();
@@ -81,8 +80,7 @@ public class GenerateContentWithResponseSchema {
             .build();
 
     GenerateContentResponse response =
-        client.models.generateContent(
-            "gemini-2.0-flash-001", "List a few popular cookie recipes.", config);
+        client.models.generateContent("gemini-2.0-flash-001", "List a few popular cookie recipes.", config);
 
     System.out.println("Response: " + response.text());
   }

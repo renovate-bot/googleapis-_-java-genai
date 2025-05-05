@@ -41,7 +41,6 @@ package com.google.genai.examples;
 import com.google.genai.Client;
 import com.google.genai.types.ControlReferenceConfig;
 import com.google.genai.types.ControlReferenceImage;
-import com.google.genai.types.ControlReferenceType;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
 import com.google.genai.types.GenerateImagesConfig;
@@ -84,7 +83,7 @@ public class EditImageControlReference {
             .referenceImage(generatedImage)
             .config(
                 ControlReferenceConfig.builder()
-                    .controlType(ControlReferenceType.Known.CONTROL_TYPE_SCRIBBLE)
+                    .controlType("CONTROL_TYPE_SCRIBBLE")
                     .enableControlImageComputation(true)
                     .build())
             .build();

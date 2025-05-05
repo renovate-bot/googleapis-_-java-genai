@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.HttpOptions;
-import com.google.genai.types.Type;
 import com.google.genai.types.Schema;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -68,48 +67,45 @@ public class TransformerTest {
   public void testTSchema_AnyOf_success() {
     Schema schema =
         Schema.builder()
-            .type(Type.Known.OBJECT)
+            .type("OBJECT")
             .anyOf(
                 ImmutableList.of(
-                    Schema.builder().type(Type.Known.STRING).build(),
-                    Schema.builder().type(Type.Known.NUMBER).build()))
+                    Schema.builder().type("STRING").build(),
+                    Schema.builder().type("NUMBER").build()))
             .build();
     Schema transformedSchema = Transformers.tSchema(VERTEX_AI_CLIENT, schema);
     assertEquals(2, transformedSchema.anyOf().get().size());
-    assertEquals("STRING", transformedSchema.anyOf().get().get(0).type().get().toString());
-    assertEquals("NUMBER", transformedSchema.anyOf().get().get(1).type().get().toString());
-    assertEquals("OBJECT", transformedSchema.type().get().toString());
+    assertEquals("STRING", transformedSchema.anyOf().get().get(0).type().get());
+    assertEquals("NUMBER", transformedSchema.anyOf().get().get(1).type().get());
+    assertEquals("OBJECT", transformedSchema.type().get());
   }
 
   @Test
   public void testTSchema_Items_success() {
     Schema schema =
-        Schema.builder()
-            .type(new Type("ARRAY"))
-            .items(Schema.builder().type(Type.Known.STRING).build())
-            .build();
+        Schema.builder().type("ARRAY").items(Schema.builder().type("STRING").build()).build();
     Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
-    assertEquals("STRING", transformedSchema.items().get().type().get().toString());
-    assertEquals("ARRAY", transformedSchema.type().get().toString());
+    assertEquals("STRING", transformedSchema.items().get().type().get());
+    assertEquals("ARRAY", transformedSchema.type().get());
   }
 
   @Test
   public void testTSchema_Required_sucess() {
-    Schema schema =
-        Schema.builder()
-            .type(Type.Known.ARRAY)
+    Schema schema = Schema.builder()
+            .type("ARRAY")
             .items(
                 Schema.builder()
-                    .type(Type.Known.OBJECT)
+                    .type("OBJECT")
                     .properties(
                         ImmutableMap.of(
                             "recipe_name",
-                            Schema.builder().type(Type.Known.STRING).build(),
+                            Schema.builder().type("STRING").build(),
                             "ingredients",
                             Schema.builder()
-                                .type(Type.Known.ARRAY)
-                                .items(Schema.builder().type(Type.Known.STRING).build())
-                                .build()))
+                                .type("ARRAY")
+                                .items(Schema.builder().type("STRING").build())
+                                .build()
+                            ))
                     .required(ImmutableList.of("recipe_name", "ingredients"))
                     .build())
             .build();

@@ -32,7 +32,7 @@ import java.util.Optional;
 public abstract class FunctionCallingConfig extends JsonSerializable {
   /** Optional. Function calling mode. */
   @JsonProperty("mode")
-  public abstract Optional<FunctionCallingConfigMode> mode();
+  public abstract Optional<String> mode();
 
   /**
    * Optional. Function names to call. Only set when the Mode is ANY. Function names should match
@@ -60,15 +60,7 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
     }
 
     @JsonProperty("mode")
-    public abstract Builder mode(FunctionCallingConfigMode mode);
-
-    public Builder mode(FunctionCallingConfigMode.Known knownType) {
-      return mode(new FunctionCallingConfigMode(knownType));
-    }
-
-    public Builder mode(String mode) {
-      return mode(new FunctionCallingConfigMode(mode));
-    }
+    public abstract Builder mode(String mode);
 
     @JsonProperty("allowedFunctionNames")
     public abstract Builder allowedFunctionNames(List<String> allowedFunctionNames);

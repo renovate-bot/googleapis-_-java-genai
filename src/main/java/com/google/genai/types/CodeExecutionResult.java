@@ -34,7 +34,7 @@ import java.util.Optional;
 public abstract class CodeExecutionResult extends JsonSerializable {
   /** Required. Outcome of the code execution. */
   @JsonProperty("outcome")
-  public abstract Optional<Outcome> outcome();
+  public abstract Optional<String> outcome();
 
   /**
    * Optional. Contains stdout when code execution is successful, stderr or other description
@@ -61,15 +61,7 @@ public abstract class CodeExecutionResult extends JsonSerializable {
     }
 
     @JsonProperty("outcome")
-    public abstract Builder outcome(Outcome outcome);
-
-    public Builder outcome(Outcome.Known knownType) {
-      return outcome(new Outcome(knownType));
-    }
-
-    public Builder outcome(String outcome) {
-      return outcome(new Outcome(outcome));
-    }
+    public abstract Builder outcome(String outcome);
 
     @JsonProperty("output")
     public abstract Builder output(String output);

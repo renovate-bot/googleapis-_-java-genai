@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class ModelSelectionConfig extends JsonSerializable {
   /** Options for feature selection preference. */
   @JsonProperty("featureSelectionPreference")
-  public abstract Optional<FeatureSelectionPreference> featureSelectionPreference();
+  public abstract Optional<String> featureSelectionPreference();
 
   /** Instantiates a builder for ModelSelectionConfig. */
   public static Builder builder() {
@@ -51,16 +51,7 @@ public abstract class ModelSelectionConfig extends JsonSerializable {
     }
 
     @JsonProperty("featureSelectionPreference")
-    public abstract Builder featureSelectionPreference(
-        FeatureSelectionPreference featureSelectionPreference);
-
-    public Builder featureSelectionPreference(FeatureSelectionPreference.Known knownType) {
-      return featureSelectionPreference(new FeatureSelectionPreference(knownType));
-    }
-
-    public Builder featureSelectionPreference(String featureSelectionPreference) {
-      return featureSelectionPreference(new FeatureSelectionPreference(featureSelectionPreference));
-    }
+    public abstract Builder featureSelectionPreference(String featureSelectionPreference);
 
     public abstract ModelSelectionConfig build();
   }

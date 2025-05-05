@@ -57,7 +57,6 @@ import com.google.genai.types.GroundingChunk;
 import com.google.genai.types.GroundingChunkWeb;
 import java.util.List;
 import java.util.Optional;
-import com.google.genai.types.Modality;
 
 /** Example of using the live module to send and receive messages asynchronously. */
 public class LiveTextToAudioTranscriptionAsync {
@@ -78,7 +77,7 @@ public class LiveTextToAudioTranscriptionAsync {
 
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.AUDIO))
+            .responseModalities(ImmutableList.of("AUDIO"))
             .outputAudioTranscription(AudioTranscriptionConfig.builder().build())
             .systemInstruction(systemInstruction)
             .speechConfig(SpeechConfig.builder().languageCode("ja-JP").build())

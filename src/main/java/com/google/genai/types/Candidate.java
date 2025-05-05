@@ -51,7 +51,7 @@ public abstract class Candidate extends JsonSerializable {
    * generating the tokens.
    */
   @JsonProperty("finishReason")
-  public abstract Optional<FinishReason> finishReason();
+  public abstract Optional<String> finishReason();
 
   /** Output only. Average log probability score of the candidate. */
   @JsonProperty("avgLogprobs")
@@ -106,15 +106,7 @@ public abstract class Candidate extends JsonSerializable {
     public abstract Builder tokenCount(Integer tokenCount);
 
     @JsonProperty("finishReason")
-    public abstract Builder finishReason(FinishReason finishReason);
-
-    public Builder finishReason(FinishReason.Known knownType) {
-      return finishReason(new FinishReason(knownType));
-    }
-
-    public Builder finishReason(String finishReason) {
-      return finishReason(new FinishReason(finishReason));
-    }
+    public abstract Builder finishReason(String finishReason);
 
     @JsonProperty("avgLogprobs")
     public abstract Builder avgLogprobs(Double avgLogprobs);

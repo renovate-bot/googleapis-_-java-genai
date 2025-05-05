@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class ControlReferenceConfig extends JsonSerializable {
   /** The type of control reference image to use. */
   @JsonProperty("controlType")
-  public abstract Optional<ControlReferenceType> controlType();
+  public abstract Optional<String> controlType();
 
   /**
    * Defaults to False. When set to True, the control image will be computed by the model based on
@@ -58,15 +58,7 @@ public abstract class ControlReferenceConfig extends JsonSerializable {
     }
 
     @JsonProperty("controlType")
-    public abstract Builder controlType(ControlReferenceType controlType);
-
-    public Builder controlType(ControlReferenceType.Known knownType) {
-      return controlType(new ControlReferenceType(knownType));
-    }
-
-    public Builder controlType(String controlType) {
-      return controlType(new ControlReferenceType(controlType));
-    }
+    public abstract Builder controlType(String controlType);
 
     @JsonProperty("enableControlImageComputation")
     public abstract Builder enableControlImageComputation(boolean enableControlImageComputation);

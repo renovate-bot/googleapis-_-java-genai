@@ -34,7 +34,7 @@ import java.util.Optional;
 public abstract class GenerationConfigRoutingConfigAutoRoutingMode extends JsonSerializable {
   /** The model routing preference. */
   @JsonProperty("modelRoutingPreference")
-  public abstract Optional<ModelRoutingPreference> modelRoutingPreference();
+  public abstract Optional<String> modelRoutingPreference();
 
   /** Instantiates a builder for GenerationConfigRoutingConfigAutoRoutingMode. */
   public static Builder builder() {
@@ -57,15 +57,7 @@ public abstract class GenerationConfigRoutingConfigAutoRoutingMode extends JsonS
     }
 
     @JsonProperty("modelRoutingPreference")
-    public abstract Builder modelRoutingPreference(ModelRoutingPreference modelRoutingPreference);
-
-    public Builder modelRoutingPreference(ModelRoutingPreference.Known knownType) {
-      return modelRoutingPreference(new ModelRoutingPreference(knownType));
-    }
-
-    public Builder modelRoutingPreference(String modelRoutingPreference) {
-      return modelRoutingPreference(new ModelRoutingPreference(modelRoutingPreference));
-    }
+    public abstract Builder modelRoutingPreference(String modelRoutingPreference);
 
     public abstract GenerationConfigRoutingConfigAutoRoutingMode build();
   }

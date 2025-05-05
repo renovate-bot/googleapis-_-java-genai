@@ -35,11 +35,11 @@ public abstract class SafetyRating extends JsonSerializable {
 
   /** Output only. Harm category. */
   @JsonProperty("category")
-  public abstract Optional<HarmCategory> category();
+  public abstract Optional<String> category();
 
   /** Output only. Harm probability levels in the content. */
   @JsonProperty("probability")
-  public abstract Optional<HarmProbability> probability();
+  public abstract Optional<String> probability();
 
   /** Output only. Harm probability score. */
   @JsonProperty("probabilityScore")
@@ -47,7 +47,7 @@ public abstract class SafetyRating extends JsonSerializable {
 
   /** Output only. Harm severity levels in the content. */
   @JsonProperty("severity")
-  public abstract Optional<HarmSeverity> severity();
+  public abstract Optional<String> severity();
 
   /** Output only. Harm severity score. */
   @JsonProperty("severityScore")
@@ -74,40 +74,16 @@ public abstract class SafetyRating extends JsonSerializable {
     public abstract Builder blocked(boolean blocked);
 
     @JsonProperty("category")
-    public abstract Builder category(HarmCategory category);
-
-    public Builder category(HarmCategory.Known knownType) {
-      return category(new HarmCategory(knownType));
-    }
-
-    public Builder category(String category) {
-      return category(new HarmCategory(category));
-    }
+    public abstract Builder category(String category);
 
     @JsonProperty("probability")
-    public abstract Builder probability(HarmProbability probability);
-
-    public Builder probability(HarmProbability.Known knownType) {
-      return probability(new HarmProbability(knownType));
-    }
-
-    public Builder probability(String probability) {
-      return probability(new HarmProbability(probability));
-    }
+    public abstract Builder probability(String probability);
 
     @JsonProperty("probabilityScore")
     public abstract Builder probabilityScore(Float probabilityScore);
 
     @JsonProperty("severity")
-    public abstract Builder severity(HarmSeverity severity);
-
-    public Builder severity(HarmSeverity.Known knownType) {
-      return severity(new HarmSeverity(knownType));
-    }
-
-    public Builder severity(String severity) {
-      return severity(new HarmSeverity(severity));
-    }
+    public abstract Builder severity(String severity);
 
     @JsonProperty("severityScore")
     public abstract Builder severityScore(Float severityScore);

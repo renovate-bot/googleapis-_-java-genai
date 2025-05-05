@@ -137,7 +137,7 @@ public abstract class Schema extends JsonSerializable {
 
   /** Optional. The type of the data. */
   @JsonProperty("type")
-  public abstract Optional<Type> type();
+  public abstract Optional<String> type();
 
   /** Instantiates a builder for Schema. */
   public static Builder builder() {
@@ -220,15 +220,7 @@ public abstract class Schema extends JsonSerializable {
     public abstract Builder title(String title);
 
     @JsonProperty("type")
-    public abstract Builder type(Type type);
-
-    public Builder type(Type.Known knownType) {
-      return type(new Type(knownType));
-    }
-
-    public Builder type(String type) {
-      return type(new Type(type));
-    }
+    public abstract Builder type(String type);
 
     public abstract Schema build();
   }
