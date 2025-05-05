@@ -340,6 +340,155 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode apiKeyConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"apiKeyString"}))) {
+      throw new IllegalArgumentException("apiKeyString parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode apiKeyConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"apiKeyString"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"apiKeyString"},
+          Common.getValueByPath(fromObject, new String[] {"apiKeyString"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode authConfigToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"apiKeyConfig"}))) {
+      throw new IllegalArgumentException("apiKeyConfig parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"authType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"authType"},
+          Common.getValueByPath(fromObject, new String[] {"authType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleServiceAccountConfig"},
+          Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"httpBasicAuthConfig"},
+          Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"oauthConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"oauthConfig"},
+          Common.getValueByPath(fromObject, new String[] {"oauthConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"oidcConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"oidcConfig"},
+          Common.getValueByPath(fromObject, new String[] {"oidcConfig"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode authConfigToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"apiKeyConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"apiKeyConfig"},
+          apiKeyConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"apiKeyConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"authType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"authType"},
+          Common.getValueByPath(fromObject, new String[] {"authType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleServiceAccountConfig"},
+          Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"httpBasicAuthConfig"},
+          Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"oauthConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"oauthConfig"},
+          Common.getValueByPath(fromObject, new String[] {"oauthConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"oidcConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"oidcConfig"},
+          Common.getValueByPath(fromObject, new String[] {"oidcConfig"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode googleMapsToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"authConfig"}))) {
+      throw new IllegalArgumentException("authConfig parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode googleMapsToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"authConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"authConfig"},
+          authConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"authConfig"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"retrieval"}))) {
@@ -371,6 +520,10 @@ final class LiveConverters {
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"enterpriseWebSearch"}))) {
       throw new IllegalArgumentException(
           "enterpriseWebSearch parameter is not supported in Gemini API.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"googleMaps"}))) {
+      throw new IllegalArgumentException("googleMaps parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
@@ -430,6 +583,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"enterpriseWebSearch"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"googleMaps"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleMaps"},
+          googleMapsToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"googleMaps"})),
               toObject));
     }
 

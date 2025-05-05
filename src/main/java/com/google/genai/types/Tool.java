@@ -58,6 +58,10 @@ public abstract class Tool extends JsonSerializable {
   @JsonProperty("enterpriseWebSearch")
   public abstract Optional<EnterpriseWebSearch> enterpriseWebSearch();
 
+  /** Optional. Google Maps tool type. Specialized retrieval tool that is powered by Google Maps. */
+  @JsonProperty("googleMaps")
+  public abstract Optional<GoogleMaps> googleMaps();
+
   /**
    * Optional. CodeExecution tool type. Enables the model to execute code as part of generation.
    * This field is only used by the Gemini Developer API services.
@@ -103,6 +107,9 @@ public abstract class Tool extends JsonSerializable {
 
     @JsonProperty("enterpriseWebSearch")
     public abstract Builder enterpriseWebSearch(EnterpriseWebSearch enterpriseWebSearch);
+
+    @JsonProperty("googleMaps")
+    public abstract Builder googleMaps(GoogleMaps googleMaps);
 
     @JsonProperty("codeExecution")
     public abstract Builder codeExecution(ToolCodeExecution codeExecution);
