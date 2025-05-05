@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class SubjectReferenceConfig extends JsonSerializable {
   /** The subject type of a subject reference image. */
   @JsonProperty("subjectType")
-  public abstract Optional<String> subjectType();
+  public abstract Optional<SubjectReferenceType> subjectType();
 
   /** Subject description for the image. */
   @JsonProperty("subjectDescription")
@@ -55,7 +55,15 @@ public abstract class SubjectReferenceConfig extends JsonSerializable {
     }
 
     @JsonProperty("subjectType")
-    public abstract Builder subjectType(String subjectType);
+    public abstract Builder subjectType(SubjectReferenceType subjectType);
+
+    public Builder subjectType(SubjectReferenceType.Known knownType) {
+      return subjectType(new SubjectReferenceType(knownType));
+    }
+
+    public Builder subjectType(String subjectType) {
+      return subjectType(new SubjectReferenceType(subjectType));
+    }
 
     @JsonProperty("subjectDescription")
     public abstract Builder subjectDescription(String subjectDescription);

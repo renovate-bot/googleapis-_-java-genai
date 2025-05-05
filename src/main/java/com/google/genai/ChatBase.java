@@ -59,12 +59,10 @@ class ChatBase {
       response.checkFinishReason();
       this.curatedHistory.addAll(validatedHistory);
     } catch (IllegalArgumentException e) {
-      if (!response.finishReason().isEmpty()) {
-        logger.warning(
-            "Response finished unexpectedly with reason: "
-                + response.finishReason()
-                + ". Adding the response to comprehenisive history, but not to curated history.");
-      }
+      logger.warning(
+          "Response finished unexpectedly with reason: "
+              + response.finishReason().toString()
+              + ". Adding the response to comprehenisive history, but not to curated history.");
     }
   }
 

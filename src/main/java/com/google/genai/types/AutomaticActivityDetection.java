@@ -38,11 +38,11 @@ public abstract class AutomaticActivityDetection extends JsonSerializable {
 
   /** Determines how likely speech is to be detected. */
   @JsonProperty("startOfSpeechSensitivity")
-  public abstract Optional<String> startOfSpeechSensitivity();
+  public abstract Optional<StartSensitivity> startOfSpeechSensitivity();
 
   /** Determines how likely detected speech is ended. */
   @JsonProperty("endOfSpeechSensitivity")
-  public abstract Optional<String> endOfSpeechSensitivity();
+  public abstract Optional<EndSensitivity> endOfSpeechSensitivity();
 
   /**
    * The required duration of detected speech before start-of-speech is committed. The lower this
@@ -81,10 +81,26 @@ public abstract class AutomaticActivityDetection extends JsonSerializable {
     public abstract Builder disabled(boolean disabled);
 
     @JsonProperty("startOfSpeechSensitivity")
-    public abstract Builder startOfSpeechSensitivity(String startOfSpeechSensitivity);
+    public abstract Builder startOfSpeechSensitivity(StartSensitivity startOfSpeechSensitivity);
+
+    public Builder startOfSpeechSensitivity(StartSensitivity.Known knownType) {
+      return startOfSpeechSensitivity(new StartSensitivity(knownType));
+    }
+
+    public Builder startOfSpeechSensitivity(String startOfSpeechSensitivity) {
+      return startOfSpeechSensitivity(new StartSensitivity(startOfSpeechSensitivity));
+    }
 
     @JsonProperty("endOfSpeechSensitivity")
-    public abstract Builder endOfSpeechSensitivity(String endOfSpeechSensitivity);
+    public abstract Builder endOfSpeechSensitivity(EndSensitivity endOfSpeechSensitivity);
+
+    public Builder endOfSpeechSensitivity(EndSensitivity.Known knownType) {
+      return endOfSpeechSensitivity(new EndSensitivity(knownType));
+    }
+
+    public Builder endOfSpeechSensitivity(String endOfSpeechSensitivity) {
+      return endOfSpeechSensitivity(new EndSensitivity(endOfSpeechSensitivity));
+    }
 
     @JsonProperty("prefixPaddingMs")
     public abstract Builder prefixPaddingMs(Integer prefixPaddingMs);

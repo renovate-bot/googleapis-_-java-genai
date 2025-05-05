@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 import com.google.genai.types.Candidate;
 import com.google.genai.types.Content;
+import com.google.genai.types.FinishReason;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateContentResponseUsageMetadata;
@@ -103,7 +104,7 @@ public class ChatTest {
                                       Part.builder().text(STREAMING_RESPONSE_CHUNK_3).build()))
                               .role("model")
                               .build())
-                      .finishReason("STOP")
+                      .finishReason(FinishReason.Known.STOP)
                       .build()))
           .usageMetadata(
               GenerateContentResponseUsageMetadata.builder()

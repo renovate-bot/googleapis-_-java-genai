@@ -1,0 +1,64 @@
+/*
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Auto-generated code. Do not edit.
+
+package com.google.genai.types;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+/** The mode of the predictor to be used in dynamic retrieval. */
+public class Mode {
+
+  /** Enum representing the known values for Mode. */
+  public enum Known {
+    MODE_UNSPECIFIED,
+    MODE_DYNAMIC
+  }
+
+  private Known modeEnum;
+  private final String value;
+
+  @JsonCreator
+  public Mode(String value) {
+    this.value = value;
+    for (Known modeEnum : Known.values()) {
+      if (modeEnum.toString().equalsIgnoreCase(value)) {
+        this.modeEnum = modeEnum;
+        break;
+      }
+    }
+    if (this.modeEnum == null) {
+      this.modeEnum = Known.MODE_UNSPECIFIED;
+    }
+  }
+
+  public Mode(Known knownValue) {
+    this.modeEnum = knownValue;
+    this.value = knownValue.toString();
+  }
+
+  @Override
+  @JsonValue
+  public String toString() {
+    return this.value;
+  }
+
+  public Known knownEnum() {
+    return this.modeEnum;
+  }
+}

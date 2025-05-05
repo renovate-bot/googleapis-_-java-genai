@@ -39,7 +39,7 @@ public abstract class ExecutableCode extends JsonSerializable {
 
   /** Required. Programming language of the `code`. */
   @JsonProperty("language")
-  public abstract Optional<String> language();
+  public abstract Optional<Language> language();
 
   /** Instantiates a builder for ExecutableCode. */
   public static Builder builder() {
@@ -62,7 +62,15 @@ public abstract class ExecutableCode extends JsonSerializable {
     public abstract Builder code(String code);
 
     @JsonProperty("language")
-    public abstract Builder language(String language);
+    public abstract Builder language(Language language);
+
+    public Builder language(Language.Known knownType) {
+      return language(new Language(knownType));
+    }
+
+    public Builder language(String language) {
+      return language(new Language(language));
+    }
 
     public abstract ExecutableCode build();
   }

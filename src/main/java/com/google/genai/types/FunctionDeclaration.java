@@ -189,19 +189,20 @@ public abstract class FunctionDeclaration extends JsonSerializable {
    */
   private static Schema buildTypeSchema(String parameterName, Class<?> parameterType) {
     Schema.Builder parameterSchemaBuilder = Schema.builder().title(parameterName);
+
     switch (parameterType.getName()) {
       case "java.lang.String":
-        parameterSchemaBuilder.type("STRING");
+        parameterSchemaBuilder = parameterSchemaBuilder.type("STRING");
         break;
       case "boolean":
-        parameterSchemaBuilder.type("BOOLEAN");
+        parameterSchemaBuilder = parameterSchemaBuilder.type("BOOLEAN");
         break;
       case "int":
-        parameterSchemaBuilder.type("INTEGER");
+        parameterSchemaBuilder = parameterSchemaBuilder.type("INTEGER");
         break;
       case "double":
       case "float":
-        parameterSchemaBuilder.type("NUMBER");
+        parameterSchemaBuilder = parameterSchemaBuilder.type("NUMBER");
         break;
       default:
         throw new IllegalArgumentException(

@@ -51,6 +51,7 @@ import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendRealtimeInputParameters;
 import com.google.genai.types.LiveServerMessage;
+import com.google.genai.types.Modality;
 import com.google.genai.types.PrebuiltVoiceConfig;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.VoiceConfig;
@@ -146,7 +147,7 @@ public class LiveAudioConversationAsync {
     String voiceName = "Aoede";
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalities(ImmutableList.of("AUDIO"))
+            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.AUDIO))
             .speechConfig(
                 SpeechConfig.builder()
                     .voiceConfig(

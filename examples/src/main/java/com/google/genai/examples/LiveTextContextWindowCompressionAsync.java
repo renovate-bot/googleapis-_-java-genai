@@ -51,6 +51,7 @@ import com.google.genai.types.SlidingWindow;
 import java.util.concurrent.CompletableFuture;
 import com.google.genai.types.GroundingChunk;
 import com.google.genai.types.GroundingChunkWeb;
+import com.google.genai.types.Modality;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,7 @@ public class LiveTextContextWindowCompressionAsync {
 
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalities(ImmutableList.of("TEXT"))
+            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.TEXT))
             .contextWindowCompression(
                 ContextWindowCompressionConfig.builder()
                     .triggerTokens(1000L)

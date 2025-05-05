@@ -78,7 +78,7 @@ public abstract class UsageMetadata extends JsonSerializable {
    * quota.
    */
   @JsonProperty("trafficType")
-  public abstract Optional<String> trafficType();
+  public abstract Optional<TrafficType> trafficType();
 
   /** Instantiates a builder for UsageMetadata. */
   public static Builder builder() {
@@ -129,7 +129,15 @@ public abstract class UsageMetadata extends JsonSerializable {
         List<ModalityTokenCount> toolUsePromptTokensDetails);
 
     @JsonProperty("trafficType")
-    public abstract Builder trafficType(String trafficType);
+    public abstract Builder trafficType(TrafficType trafficType);
+
+    public Builder trafficType(TrafficType.Known knownType) {
+      return trafficType(new TrafficType(knownType));
+    }
+
+    public Builder trafficType(String trafficType) {
+      return trafficType(new TrafficType(trafficType));
+    }
 
     public abstract UsageMetadata build();
   }

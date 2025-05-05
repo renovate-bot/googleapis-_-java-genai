@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public abstract class LiveConnectConfig extends JsonSerializable {
    * return. Defaults to AUDIO if not specified.
    */
   @JsonProperty("responseModalities")
-  public abstract Optional<List<String>> responseModalities();
+  public abstract Optional<List<Modality>> responseModalities();
 
   /**
    * Value that controls the degree of randomness in token selection. Lower temperatures are good
@@ -68,7 +69,7 @@ public abstract class LiveConnectConfig extends JsonSerializable {
 
   /** If specified, the media resolution specified will be used. */
   @JsonProperty("mediaResolution")
-  public abstract Optional<String> mediaResolution();
+  public abstract Optional<MediaResolution> mediaResolution();
 
   /**
    * When ``seed`` is fixed to a specific number, the model makes a best effort to provide the same
@@ -137,7 +138,19 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     }
 
     @JsonProperty("responseModalities")
-    public abstract Builder responseModalities(List<String> responseModalities);
+    public abstract Builder responseModalities(List<Modality> responseModalities);
+
+    public Builder responseModalitiesFromKnown(List<Modality.Known> knownTypes) {
+      List<Modality> listItems =
+          knownTypes.stream().map(Modality::new).collect(ImmutableList.toImmutableList());
+      return responseModalities(listItems);
+    }
+
+    public Builder responseModalitiesFromString(List<String> responseModalities) {
+      List<Modality> listItems =
+          responseModalities.stream().map(Modality::new).collect(ImmutableList.toImmutableList());
+      return responseModalities(listItems);
+    }
 
     @JsonProperty("temperature")
     public abstract Builder temperature(Float temperature);
@@ -152,7 +165,15 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     public abstract Builder maxOutputTokens(Integer maxOutputTokens);
 
     @JsonProperty("mediaResolution")
-    public abstract Builder mediaResolution(String mediaResolution);
+    public abstract Builder mediaResolution(MediaResolution mediaResolution);
+
+    public Builder mediaResolution(MediaResolution.Known knownType) {
+      return mediaResolution(new MediaResolution(knownType));
+    }
+
+    public Builder mediaResolution(String mediaResolution) {
+      return mediaResolution(new MediaResolution(mediaResolution));
+    }
 
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);

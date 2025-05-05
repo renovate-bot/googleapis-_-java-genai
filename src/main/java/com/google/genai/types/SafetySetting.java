@@ -31,15 +31,15 @@ import java.util.Optional;
 public abstract class SafetySetting extends JsonSerializable {
   /** Determines if the harm block method uses probability or probability and severity scores. */
   @JsonProperty("method")
-  public abstract Optional<String> method();
+  public abstract Optional<HarmBlockMethod> method();
 
   /** Required. Harm category. */
   @JsonProperty("category")
-  public abstract Optional<String> category();
+  public abstract Optional<HarmCategory> category();
 
   /** Required. The harm block threshold. */
   @JsonProperty("threshold")
-  public abstract Optional<String> threshold();
+  public abstract Optional<HarmBlockThreshold> threshold();
 
   /** Instantiates a builder for SafetySetting. */
   public static Builder builder() {
@@ -59,13 +59,37 @@ public abstract class SafetySetting extends JsonSerializable {
     }
 
     @JsonProperty("method")
-    public abstract Builder method(String method);
+    public abstract Builder method(HarmBlockMethod method);
+
+    public Builder method(HarmBlockMethod.Known knownType) {
+      return method(new HarmBlockMethod(knownType));
+    }
+
+    public Builder method(String method) {
+      return method(new HarmBlockMethod(method));
+    }
 
     @JsonProperty("category")
-    public abstract Builder category(String category);
+    public abstract Builder category(HarmCategory category);
+
+    public Builder category(HarmCategory.Known knownType) {
+      return category(new HarmCategory(knownType));
+    }
+
+    public Builder category(String category) {
+      return category(new HarmCategory(category));
+    }
 
     @JsonProperty("threshold")
-    public abstract Builder threshold(String threshold);
+    public abstract Builder threshold(HarmBlockThreshold threshold);
+
+    public Builder threshold(HarmBlockThreshold.Known knownType) {
+      return threshold(new HarmBlockThreshold(knownType));
+    }
+
+    public Builder threshold(String threshold) {
+      return threshold(new HarmBlockThreshold(threshold));
+    }
 
     public abstract SafetySetting build();
   }
