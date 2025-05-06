@@ -481,7 +481,7 @@ public final class Operations {
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
    */
-  public GenerateVideosOperation getVideoOperation(
+  public GenerateVideosOperation getVideosOperation(
       GenerateVideosOperation operation, GetOperationConfig config) {
 
     if (!operation.name().isPresent()) {

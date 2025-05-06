@@ -83,7 +83,7 @@ public class GenerateVideosAsync {
                 try {
                   Thread.sleep(10000); // Sleep for 10 seconds.
                   try {
-                    operation = client.async.operations.getVideoOperation(operation, null).get();
+                    operation = client.async.operations.getVideosOperation(operation, null).get();
                   } catch (ExecutionException e) {
                     throw new RuntimeException(e);
                   }

@@ -77,7 +77,7 @@ public class GenerateVideos {
       try {
         Thread.sleep(10000); // Sleep for 10 seconds.
         generateVideosOperation =
-            client.operations.getVideoOperation(generateVideosOperation, null);
+            client.operations.getVideosOperation(generateVideosOperation, null);
         System.out.println("Waiting for operation to complete...");
       } catch (InterruptedException e) {
         System.out.println("Thread was interrupted while sleeping.");

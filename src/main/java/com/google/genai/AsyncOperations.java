@@ -37,8 +37,8 @@ public final class AsyncOperations {
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
    */
-  public CompletableFuture<GenerateVideosOperation> getVideoOperation(
+  public CompletableFuture<GenerateVideosOperation> getVideosOperation(
       GenerateVideosOperation operation, GetOperationConfig config) {
-    return CompletableFuture.supplyAsync(() -> operations.getVideoOperation(operation, config));
+    return CompletableFuture.supplyAsync(() -> operations.getVideosOperation(operation, config));
   }
 }
