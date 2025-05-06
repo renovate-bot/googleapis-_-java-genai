@@ -44,13 +44,6 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"thought"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"thoughtSignature"},
-          Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -118,13 +111,6 @@ final class LiveConverters {
           toObject,
           new String[] {"thought"},
           Common.getValueByPath(fromObject, new String[] {"thought"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"thoughtSignature"},
-          Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
@@ -1860,13 +1846,6 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"thought"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"thoughtSignature"},
-          Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1934,13 +1913,6 @@ final class LiveConverters {
           toObject,
           new String[] {"thought"},
           Common.getValueByPath(fromObject, new String[] {"thought"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"thoughtSignature"},
-          Common.getValueByPath(fromObject, new String[] {"thoughtSignature"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
