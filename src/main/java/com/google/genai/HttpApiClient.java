@@ -16,6 +16,7 @@
 
 package com.google.genai;
 
+import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
@@ -30,8 +31,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 
-/** Base client for the HTTP APIs. */
-final class HttpApiClient extends ApiClient {
+/** Base client for the HTTP APIs. This is for internal use only. */
+@InternalApi
+public class HttpApiClient extends ApiClient {
 
   /** Constructs an ApiClient for Google AI APIs. */
   HttpApiClient(Optional<String> apiKey, Optional<HttpOptions> httpOptions) {
