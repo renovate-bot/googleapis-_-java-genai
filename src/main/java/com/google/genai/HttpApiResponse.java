@@ -19,6 +19,7 @@ package com.google.genai;
 import com.google.genai.errors.ApiException;
 import com.google.genai.errors.GenAiIOException;
 import java.io.IOException;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
@@ -37,6 +38,12 @@ final class HttpApiResponse extends ApiResponse {
   public HttpEntity getEntity() {
     ApiException.throwFromResponse(response);
     return response.getEntity();
+  }
+
+  /** Returns all of the headers from the response. */
+  @Override
+  public Header[] getHeaders() {
+    return response.getAllHeaders();
   }
 
   /** Closes the Http response. */
