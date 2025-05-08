@@ -16,11 +16,10 @@
 
 package com.google.genai;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.genai.types.Blob;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveClientMessage;
@@ -28,7 +27,7 @@ import com.google.genai.types.LiveSendRealtimeInputParameters;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-public class TransformerTest {
+public class LiveConvertersTest {
   private static final ApiClient GEMINI_API_CLIENT =
       new HttpApiClient(Optional.of("api_key"), Optional.of(HttpOptions.builder().build()));
   private static final ApiClient VERTEX_AI_CLIENT =
