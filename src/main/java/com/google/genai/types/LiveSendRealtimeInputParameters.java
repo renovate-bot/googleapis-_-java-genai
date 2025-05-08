@@ -33,6 +33,29 @@ public abstract class LiveSendRealtimeInputParameters extends JsonSerializable {
   @JsonProperty("media")
   public abstract Optional<Blob> media();
 
+  /** The realtime audio input stream. */
+  @JsonProperty("audio")
+  public abstract Optional<Blob> audio();
+
+  /**
+   * Indicates that the audio stream has ended, e.g. because the microphone was turned off.
+   *
+   * <p>This should only be sent when automatic activity detection is enabled (which is the
+   * default).
+   *
+   * <p>The client can reopen the stream by sending an audio message.
+   */
+  @JsonProperty("audioStreamEnd")
+  public abstract Optional<Boolean> audioStreamEnd();
+
+  /** The realtime video input stream. */
+  @JsonProperty("video")
+  public abstract Optional<Blob> video();
+
+  /** The realtime text input stream. */
+  @JsonProperty("text")
+  public abstract Optional<String> text();
+
   /** Marks the start of user activity. */
   @JsonProperty("activityStart")
   public abstract Optional<ActivityStart> activityStart();
@@ -62,6 +85,18 @@ public abstract class LiveSendRealtimeInputParameters extends JsonSerializable {
 
     @JsonProperty("media")
     public abstract Builder media(Blob media);
+
+    @JsonProperty("audio")
+    public abstract Builder audio(Blob audio);
+
+    @JsonProperty("audioStreamEnd")
+    public abstract Builder audioStreamEnd(boolean audioStreamEnd);
+
+    @JsonProperty("video")
+    public abstract Builder video(Blob video);
+
+    @JsonProperty("text")
+    public abstract Builder text(String text);
 
     @JsonProperty("activityStart")
     public abstract Builder activityStart(ActivityStart activityStart);

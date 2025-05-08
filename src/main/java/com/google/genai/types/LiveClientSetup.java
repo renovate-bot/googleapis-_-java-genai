@@ -59,6 +59,14 @@ public abstract class LiveClientSetup extends JsonSerializable {
   public abstract Optional<RealtimeInputConfig> realtimeInputConfig();
 
   /**
+   * Configures session resumption mechanism.
+   *
+   * <p>If included server will send SessionResumptionUpdate messages.
+   */
+  @JsonProperty("sessionResumption")
+  public abstract Optional<SessionResumptionConfig> sessionResumption();
+
+  /**
    * Configures context window compression mechanism.
    *
    * <p>If included, server will compress context window to fit into given length.
@@ -107,6 +115,9 @@ public abstract class LiveClientSetup extends JsonSerializable {
 
     @JsonProperty("realtimeInputConfig")
     public abstract Builder realtimeInputConfig(RealtimeInputConfig realtimeInputConfig);
+
+    @JsonProperty("sessionResumption")
+    public abstract Builder sessionResumption(SessionResumptionConfig sessionResumption);
 
     @JsonProperty("contextWindowCompression")
     public abstract Builder contextWindowCompression(

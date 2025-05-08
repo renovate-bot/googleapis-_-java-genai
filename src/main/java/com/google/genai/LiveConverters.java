@@ -971,6 +971,17 @@ final class LiveConverters {
       Common.setValueByPath(parentObject, new String[] {"setup", "tools"}, result);
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumption"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "sessionResumption"},
+          sessionResumptionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumption"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1106,6 +1117,17 @@ final class LiveConverters {
                     toObject));
           });
       Common.setValueByPath(parentObject, new String[] {"setup", "tools"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumption"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "sessionResumption"},
+          sessionResumptionConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumption"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}) != null) {
@@ -1250,6 +1272,36 @@ final class LiveConverters {
               this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"audio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audio"},
+          Transformers.tAudioBlob(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"audio"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audioStreamEnd"},
+          Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"video"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"video"},
+          Transformers.tImageBlob(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"video"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"text"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"text"},
+          Common.getValueByPath(fromObject, new String[] {"text"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1285,6 +1337,25 @@ final class LiveConverters {
           new String[] {"mediaChunks"},
           Transformers.tBlobs(
               this.apiClient, Common.getValueByPath(fromObject, new String[] {"media"})));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"audio"}))) {
+      throw new IllegalArgumentException("audio parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audioStreamEnd"},
+          Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"video"}))) {
+      throw new IllegalArgumentException("video parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"text"}))) {
+      throw new IllegalArgumentException("text parameter is not supported in Vertex AI.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
@@ -1367,6 +1438,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumption"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sessionResumption"},
+          sessionResumptionConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumption"})),
               toObject));
     }
 
@@ -1461,6 +1543,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumption"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sessionResumption"},
+          sessionResumptionConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumption"})),
               toObject));
     }
 
@@ -1563,6 +1656,34 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"mediaChunks"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"audio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audio"},
+          Common.getValueByPath(fromObject, new String[] {"audio"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audioStreamEnd"},
+          Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"video"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"video"},
+          Common.getValueByPath(fromObject, new String[] {"video"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"text"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"text"},
+          Common.getValueByPath(fromObject, new String[] {"text"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1597,6 +1718,22 @@ final class LiveConverters {
           toObject,
           new String[] {"mediaChunks"},
           Common.getValueByPath(fromObject, new String[] {"mediaChunks"}));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"audio"}))) {
+      throw new IllegalArgumentException("audio parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"audioStreamEnd"}))) {
+      throw new IllegalArgumentException("audioStreamEnd parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"video"}))) {
+      throw new IllegalArgumentException("video parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"text"}))) {
+      throw new IllegalArgumentException("text parameter is not supported in Vertex AI.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"activityStart"}) != null) {
@@ -1754,6 +1891,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputParameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"realtime_input"},
+          liveSendRealtimeInputParametersToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputParameters"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"toolResponse"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1802,6 +1950,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"realtimeInput"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"realtimeInputParameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"realtime_input"},
+          liveSendRealtimeInputParametersToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"realtimeInputParameters"})),
               toObject));
     }
 
@@ -2723,6 +2882,28 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"goAway"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"goAway"},
+          liveServerGoAwayFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"goAway"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumptionUpdate"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sessionResumptionUpdate"},
+          liveServerSessionResumptionUpdateFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumptionUpdate"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -2782,6 +2963,28 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"usageMetadata"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"goAway"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"goAway"},
+          liveServerGoAwayFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"goAway"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"sessionResumptionUpdate"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sessionResumptionUpdate"},
+          liveServerSessionResumptionUpdateFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"sessionResumptionUpdate"})),
               toObject));
     }
 

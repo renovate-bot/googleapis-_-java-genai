@@ -100,6 +100,14 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   @JsonProperty("tools")
   public abstract Optional<List<Tool>> tools();
 
+  /**
+   * Configures session resumption mechanism.
+   *
+   * <p>If included the server will send SessionResumptionUpdate messages.
+   */
+  @JsonProperty("sessionResumption")
+  public abstract Optional<SessionResumptionConfig> sessionResumption();
+
   /** The transcription of the input aligns with the input audio language. */
   @JsonProperty("inputAudioTranscription")
   public abstract Optional<AudioTranscriptionConfig> inputAudioTranscription();
@@ -188,6 +196,9 @@ public abstract class LiveConnectConfig extends JsonSerializable {
 
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
+
+    @JsonProperty("sessionResumption")
+    public abstract Builder sessionResumption(SessionResumptionConfig sessionResumption);
 
     @JsonProperty("inputAudioTranscription")
     public abstract Builder inputAudioTranscription(

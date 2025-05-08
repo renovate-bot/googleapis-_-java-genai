@@ -18,7 +18,10 @@ package com.google.genai;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableList;
+import com.google.genai.types.Blob;
 import com.google.genai.types.Content;
 import com.google.genai.types.Part;
 import com.google.genai.types.PrebuiltVoiceConfig;
@@ -192,9 +195,73 @@ final class Transformers {
   }
 
   /** Dummy Blobs transformer. */
-  public static Object tBlobs(ApiClient apiClient, Object origin) {
-    // TODO(b/413689280): Remove dummy blobs converter.
-    return origin;
+  public static ArrayNode tBlobs(ApiClient apiClient, Object origin) {
+    // 1. Check if the origin is a JsonNode
+    if (!(origin instanceof JsonNode)) {
+      // If origin is not a JsonNode, we create one from the object.
+      origin = JsonSerializable.toJsonNode(origin);
+    }
+
+    JsonNode inputNode = (JsonNode) origin;
+    // 2. Check if the input is already an array
+    if (inputNode.isArray()) {
+      // If it's already an array, return it as is.
+      return (ArrayNode) inputNode;
+    }
+
+    // 2. If it's not an array, create a new array and add the input to it.
+    ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+    arrayNode.add(JsonSerializable.toJsonNode(tBlob(apiClient, origin)));
+    return arrayNode;
+  }
+
+  public static Blob tBlob(ApiClient apiClient, Object blob) {
+    if (blob instanceof JsonNode) {
+      blob =
+          JsonSerializable.objectMapper.convertValue((JsonNode) blob, new TypeReference<Blob>() {});
+    }
+
+    if (blob instanceof Blob) {
+      return (Blob) blob;
+    } else {
+      throw new IllegalArgumentException("Unsupported blob type: " + blob.getClass());
+    }
+  }
+
+  /**
+   * Transforms a blob to an image blob, validating its mime type.
+   *
+   * @param apiClient the API client to use for transformation
+   * @param blob the object to transform, can be a Blob or a dictionary.
+   * @return the transformed Blob if it is an image.
+   * @throws IllegalArgumentException if the blob is not an image.
+   */
+  public static Blob tImageBlob(ApiClient apiClient, Object blob) {
+    Blob transformedBlob = tBlob(apiClient, blob);
+    if (transformedBlob.mimeType().isPresent()
+        && transformedBlob.mimeType().get().startsWith("image/")) {
+      return transformedBlob;
+    }
+    throw new IllegalArgumentException(
+        "Unsupported mime type for image blob: " + transformedBlob.mimeType().orElse("null"));
+  }
+
+  /**
+   * Transforms a blob to an audio blob, validating its mime type.
+   *
+   * @param apiClient the API client to use for transformation
+   * @param blob the object to transform, can be a Blob or a dictionary.
+   * @return the transformed Blob if it is an audio.
+   * @throws IllegalArgumentException if the blob is not an audio.
+   */
+  public static Blob tAudioBlob(ApiClient apiClient, Object blob) {
+    Blob transformedBlob = tBlob(apiClient, blob);
+    if (transformedBlob.mimeType().isPresent()
+        && transformedBlob.mimeType().get().startsWith("audio/")) {
+      return transformedBlob;
+    }
+    throw new IllegalArgumentException(
+        "Unsupported mime type for audio blob: " + transformedBlob.mimeType().orElse("null"));
   }
 
   /** Dummy bytes transformer. */

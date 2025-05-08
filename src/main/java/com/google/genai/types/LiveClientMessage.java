@@ -44,6 +44,14 @@ public abstract class LiveClientMessage extends JsonSerializable {
   @JsonProperty("realtimeInput")
   public abstract Optional<LiveClientRealtimeInput> realtimeInput();
 
+  /**
+   * This is an alias for `realtime_input` field. Allows the inputs to sendRealtimeInput to be
+   * transformed into `realtime_input` before being sent. Note: This will overwrite any
+   * `realtime_input` field.
+   */
+  @JsonProperty("realtimeInputParameters")
+  public abstract Optional<LiveSendRealtimeInputParameters> realtimeInputParameters();
+
   /** Response to a `ToolCallMessage` received from the server. */
   @JsonProperty("toolResponse")
   public abstract Optional<LiveClientToolResponse> toolResponse();
@@ -73,6 +81,10 @@ public abstract class LiveClientMessage extends JsonSerializable {
 
     @JsonProperty("realtimeInput")
     public abstract Builder realtimeInput(LiveClientRealtimeInput realtimeInput);
+
+    @JsonProperty("realtimeInputParameters")
+    public abstract Builder realtimeInputParameters(
+        LiveSendRealtimeInputParameters realtimeInputParameters);
 
     @JsonProperty("toolResponse")
     public abstract Builder toolResponse(LiveClientToolResponse toolResponse);

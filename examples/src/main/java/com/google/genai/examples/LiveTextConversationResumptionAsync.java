@@ -35,6 +35,13 @@
  *
  * <p>mvn clean compile exec:java
  * -Dexec.mainClass="com.google.genai.examples.LiveTextConversationAsync"
+ *
+ * <p>to resume a session, you can use the --session_handle argument to provide the session handle
+ * returned in the session resumption update from the server.
+ *
+ * <p>mvn clean compile exec:java
+ * -Dexec.mainClass="com.google.genai.examples.LiveTextConversationResumptionAsync"
+ * -Dexec.args="--session_handle=..."
  */
 package com.google.genai.examples;
 
@@ -44,26 +51,52 @@ import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveConnectConfig;
-import com.google.genai.types.LiveSendClientContentParameters;
+import com.google.genai.types.LiveSendRealtimeInputParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
+import com.google.genai.types.LiveServerSessionResumptionUpdate;
 import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
+import com.google.genai.types.SessionResumptionConfig;
 import java.io.Console;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /** Example of using the live module to send and receive messages asynchronously. */
-public class LiveTextConversationAsync {
+public class LiveTextConversationResumptionAsync {
 
   public static void main(String[] args) {
+    // Get the session handle from the command line, if provided
+    String sessionHandle = null;
+    if (args.length > 0) {
+      if (args[0].startsWith("--session_handle")) {
+        String[] parts = args[0].split("=", 2);
+        if (parts.length == 2) {
+          sessionHandle = parts[1];
+        } else if (parts.length == 1) {
+          System.err.println("Error: --session_handle requires a value.");
+          System.err.println("Usage: mvn ... --session_handle=<your_handle_value>");
+          System.exit(1);
+        }
+      }
+    }
+
     // Instantiates the client.
     Client client =
         Client.builder().httpOptions(HttpOptions.builder().apiVersion("v1beta").build()).build();
 
+    SessionResumptionConfig.Builder sessionResumptionConfigBuilder =
+        SessionResumptionConfig.builder();
+    if (sessionHandle != null) {
+      System.out.println("Resuming session handle: " + sessionHandle);
+      sessionResumptionConfigBuilder.handle(sessionHandle);
+    }
+    SessionResumptionConfig sessionResumptionConfig = sessionResumptionConfigBuilder.build();
+
     LiveConnectConfig config =
         LiveConnectConfig.builder()
             .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.TEXT))
+            .sessionResumption(sessionResumptionConfig)
             .topP(0.8f)
             .seed(1234)
             .build();
@@ -74,8 +107,10 @@ public class LiveTextConversationAsync {
 
     try {
       if (client.vertexAI()) {
+        System.out.println("vertex");
         session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
       } else {
+        System.out.println("mldev");
         session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
       }
       // Start receiving messages.
@@ -100,6 +135,15 @@ public class LiveTextConversationAsync {
     }
   }
 
+  public static void printLiveServerMessage(
+      LiveServerMessage message, CompletableFuture<Void> allDone) {
+    if (message.serverContent().isPresent()) {
+      printServerContent(message.serverContent().get(), allDone);
+    } else if (message.sessionResumptionUpdate().isPresent()) {
+      printSessionResumptionUpdate(message.sessionResumptionUpdate().get());
+    }
+  }
+
   public static LiveSendClientContentParameters clientContentFromText(String text) {
     return LiveSendClientContentParameters.builder()
         .turnComplete(true)
@@ -111,25 +155,36 @@ public class LiveTextConversationAsync {
         .build();
   }
 
-  public static void printLiveServerMessage(
-      LiveServerMessage message, CompletableFuture<Void> allDone) {
-    if (message.serverContent().isPresent()) {
-      LiveServerContent content = message.serverContent().get();
-      content
-          .modelTurn()
-          .ifPresent(
-              modelTurn ->
-                  modelTurn
-                      .parts()
-                      .ifPresent(
-                          parts ->
-                              parts.forEach(part -> part.text().ifPresent(System.out::print))));
+  private static void printServerContent(
+      LiveServerContent content, CompletableFuture<Void> allDone) {
+    content
+        .modelTurn()
+        .ifPresent(
+            modelTurn ->
+                modelTurn
+                    .parts()
+                    .ifPresent(
+                        parts -> parts.forEach(part -> part.text().ifPresent(System.out::print))));
 
-      if (content.turnComplete().orElse(false)) {
-        System.out.print("\nYour Turn >> ");
-        allDone.complete(null);
-      }
+    if (content.turnComplete().orElse(false)) {
+      System.out.println("Your Turn >> ");
+      allDone.complete(null);
     }
+  }
+
+  private static void printSessionResumptionUpdate(LiveServerSessionResumptionUpdate update) {
+    System.out.println("\n\n<< Session Resumption Update: ");
+    if (update.newHandle().isPresent()) {
+      System.out.println("<<    New Handle: " + update.newHandle().get() + ", ");
+    }
+    if (update.resumable().isPresent()) {
+      System.out.println("<<    Resumable: " + update.resumable().get() + ", ");
+    }
+    if (update.lastConsumedClientMessageIndex().isPresent()) {
+      System.out.println(
+          "<<    Last Consumed Index: " + update.lastConsumedClientMessageIndex().get());
+    }
+    System.out.println();
   }
 
   private static CompletableFuture<Boolean> send(AsyncSession session) {

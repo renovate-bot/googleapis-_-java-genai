@@ -55,6 +55,14 @@ public abstract class LiveServerMessage extends JsonSerializable {
   @JsonProperty("usageMetadata")
   public abstract Optional<UsageMetadata> usageMetadata();
 
+  /** Server will disconnect soon. */
+  @JsonProperty("goAway")
+  public abstract Optional<LiveServerGoAway> goAway();
+
+  /** Update of the session resumption state. */
+  @JsonProperty("sessionResumptionUpdate")
+  public abstract Optional<LiveServerSessionResumptionUpdate> sessionResumptionUpdate();
+
   /** Instantiates a builder for LiveServerMessage. */
   public static Builder builder() {
     return new AutoValue_LiveServerMessage.Builder();
@@ -87,6 +95,13 @@ public abstract class LiveServerMessage extends JsonSerializable {
 
     @JsonProperty("usageMetadata")
     public abstract Builder usageMetadata(UsageMetadata usageMetadata);
+
+    @JsonProperty("goAway")
+    public abstract Builder goAway(LiveServerGoAway goAway);
+
+    @JsonProperty("sessionResumptionUpdate")
+    public abstract Builder sessionResumptionUpdate(
+        LiveServerSessionResumptionUpdate sessionResumptionUpdate);
 
     public abstract LiveServerMessage build();
   }

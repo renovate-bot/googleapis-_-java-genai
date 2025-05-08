@@ -18,11 +18,8 @@ package com.google.genai;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.ImmutableList;
-import com.google.genai.types.Blob;
 import com.google.genai.types.LiveClientContent;
 import com.google.genai.types.LiveClientMessage;
-import com.google.genai.types.LiveClientRealtimeInput;
 import com.google.genai.types.LiveClientToolResponse;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveSendRealtimeInputParameters;
@@ -70,14 +67,9 @@ public final class AsyncSession {
    *     future will fail if the realtime input cannot be sent.
    */
   public CompletableFuture<Void> sendRealtimeInput(LiveSendRealtimeInputParameters realtimeInput) {
-    return send(
-        LiveClientMessage.builder()
-            .realtimeInput(
-                LiveClientRealtimeInput.builder()
-                    .mediaChunks(
-                        ImmutableList.of(realtimeInput.media().orElse(Blob.builder().build())))
-                    .build())
-            .build());
+    LiveClientMessage msg =
+        LiveClientMessage.builder().realtimeInputParameters(realtimeInput).build();
+    return send(msg);
   }
 
   /**
