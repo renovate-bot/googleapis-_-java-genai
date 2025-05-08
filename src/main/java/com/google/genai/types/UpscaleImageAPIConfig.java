@@ -27,7 +27,7 @@ import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
 /**
- * API config for UpscaleImage with fields not exposed to users.
+ * Internal API config for UpscaleImage.
  *
  * <p>These fields require default values sent to the API which are not intended to be modifiable or
  * exposed to users in the SDK method.
