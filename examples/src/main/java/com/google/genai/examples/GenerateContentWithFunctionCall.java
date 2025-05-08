@@ -46,6 +46,7 @@ import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
+import com.google.genai.types.Type;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
 public class GenerateContentWithFunctionCall {
@@ -58,17 +59,17 @@ public class GenerateContentWithFunctionCall {
             .name("get_current_weather")
             .parameters(
                 Schema.builder()
-                    .type("object")
+                    .type(Type.Known.OBJECT)
                     .properties(
                         ImmutableMap.of(
                             "location",
                             Schema.builder()
-                                .type("string")
+                                .type(Type.Known.STRING)
                                 .description("The location to get the weather for.")
                                 .build(),
                             "unit",
                             Schema.builder()
-                                .type("string")
+                                .type(Type.Known.STRING)
                                 .description("The unit to return the weather in, e.g. 'celsius'.")
                                 .build()))
                     .required(ImmutableList.of("location", "unit"))

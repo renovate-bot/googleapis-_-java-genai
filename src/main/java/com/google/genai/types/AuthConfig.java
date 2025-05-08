@@ -35,7 +35,7 @@ public abstract class AuthConfig extends JsonSerializable {
 
   /** Type of auth scheme. */
   @JsonProperty("authType")
-  public abstract Optional<String> authType();
+  public abstract Optional<AuthType> authType();
 
   /** Config for Google Service Account auth. */
   @JsonProperty("googleServiceAccountConfig")
@@ -74,7 +74,15 @@ public abstract class AuthConfig extends JsonSerializable {
     public abstract Builder apiKeyConfig(ApiKeyConfig apiKeyConfig);
 
     @JsonProperty("authType")
-    public abstract Builder authType(String authType);
+    public abstract Builder authType(AuthType authType);
+
+    public Builder authType(AuthType.Known knownType) {
+      return authType(new AuthType(knownType));
+    }
+
+    public Builder authType(String authType) {
+      return authType(new AuthType(authType));
+    }
 
     @JsonProperty("googleServiceAccountConfig")
     public abstract Builder googleServiceAccountConfig(

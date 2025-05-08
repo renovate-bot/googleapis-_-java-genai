@@ -47,7 +47,7 @@ public class FunctionDeclarationTest {
           .description(FUNCTION_DESCRIPTION)
           .parameters(
               Schema.builder()
-                  .type("OBJECT")
+                  .type(Type.Known.OBJECT)
                   .properties(buildPropertiesMap())
                   .required(REQUIRED_PARAM_NAMES)
                   .build())
@@ -57,15 +57,19 @@ public class FunctionDeclarationTest {
   private static Map<String, Schema> buildPropertiesMap() {
     Map<String, Schema> properties = new HashMap<>();
     properties.put(
-        STRING_PARAM_NAME, Schema.builder().type("STRING").title(STRING_PARAM_NAME).build());
+        STRING_PARAM_NAME,
+        Schema.builder().type(Type.Known.STRING).title(STRING_PARAM_NAME).build());
     properties.put(
-        INTEGER_PARAM_NAME, Schema.builder().type("INTEGER").title(INTEGER_PARAM_NAME).build());
+        INTEGER_PARAM_NAME,
+        Schema.builder().type(Type.Known.INTEGER).title(INTEGER_PARAM_NAME).build());
     properties.put(
-        DOUBLE_PARAM_NAME, Schema.builder().type("NUMBER").title(DOUBLE_PARAM_NAME).build());
+        DOUBLE_PARAM_NAME,
+        Schema.builder().type(Type.Known.NUMBER).title(DOUBLE_PARAM_NAME).build());
     properties.put(
-        FLOAT_PARAM_NAME, Schema.builder().type("NUMBER").title(FLOAT_PARAM_NAME).build());
+        FLOAT_PARAM_NAME, Schema.builder().type(Type.Known.NUMBER).title(FLOAT_PARAM_NAME).build());
     properties.put(
-        BOOLEAN_PARAM_NAME, Schema.builder().type("BOOLEAN").title(BOOLEAN_PARAM_NAME).build());
+        BOOLEAN_PARAM_NAME,
+        Schema.builder().type(Type.Known.BOOLEAN).title(BOOLEAN_PARAM_NAME).build());
     return properties;
   }
 
@@ -123,7 +127,7 @@ public class FunctionDeclarationTest {
             FLOAT_PARAM_NAME,
             BOOLEAN_PARAM_NAME);
 
-    assertEquals(EXPECTED_FUNCTION_DECLARATION, functionDeclaration);
+    assertEquals(EXPECTED_FUNCTION_DECLARATION.toString(), functionDeclaration.toString());
   }
 
   @Test

@@ -45,6 +45,8 @@ import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.HarmBlockThreshold;
+import com.google.genai.types.HarmCategory;
 import com.google.genai.types.Part;
 import com.google.genai.types.SafetySetting;
 import com.google.genai.types.Tool;
@@ -59,12 +61,12 @@ public class GenerateContentWithConfigs {
     ImmutableList<SafetySetting> safetySettings =
         ImmutableList.of(
             SafetySetting.builder()
-                .category("HARM_CATEGORY_HATE_SPEECH")
-                .threshold("BLOCK_ONLY_HIGH")
+                .category(HarmCategory.Known.HARM_CATEGORY_HATE_SPEECH)
+                .threshold(HarmBlockThreshold.Known.BLOCK_ONLY_HIGH)
                 .build(),
             SafetySetting.builder()
-                .category("HARM_CATEGORY_DANGEROUS_CONTENT")
-                .threshold("BLOCK_LOW_AND_ABOVE")
+                .category(HarmCategory.Known.HARM_CATEGORY_DANGEROUS_CONTENT)
+                .threshold(HarmBlockThreshold.Known.BLOCK_LOW_AND_ABOVE)
                 .build());
 
     // Sets the system instruction in the config.

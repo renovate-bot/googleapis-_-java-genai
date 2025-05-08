@@ -42,11 +42,11 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
 
   /** Defines what effect activity has. */
   @JsonProperty("activityHandling")
-  public abstract Optional<String> activityHandling();
+  public abstract Optional<ActivityHandling> activityHandling();
 
   /** Defines which input is included in the user's turn. */
   @JsonProperty("turnCoverage")
-  public abstract Optional<String> turnCoverage();
+  public abstract Optional<TurnCoverage> turnCoverage();
 
   /** Instantiates a builder for RealtimeInputConfig. */
   public static Builder builder() {
@@ -70,10 +70,26 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
         AutomaticActivityDetection automaticActivityDetection);
 
     @JsonProperty("activityHandling")
-    public abstract Builder activityHandling(String activityHandling);
+    public abstract Builder activityHandling(ActivityHandling activityHandling);
+
+    public Builder activityHandling(ActivityHandling.Known knownType) {
+      return activityHandling(new ActivityHandling(knownType));
+    }
+
+    public Builder activityHandling(String activityHandling) {
+      return activityHandling(new ActivityHandling(activityHandling));
+    }
 
     @JsonProperty("turnCoverage")
-    public abstract Builder turnCoverage(String turnCoverage);
+    public abstract Builder turnCoverage(TurnCoverage turnCoverage);
+
+    public Builder turnCoverage(TurnCoverage.Known knownType) {
+      return turnCoverage(new TurnCoverage(knownType));
+    }
+
+    public Builder turnCoverage(String turnCoverage) {
+      return turnCoverage(new TurnCoverage(turnCoverage));
+    }
 
     public abstract RealtimeInputConfig build();
   }

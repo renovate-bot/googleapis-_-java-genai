@@ -56,14 +56,17 @@ public class GenerateContentResponseTest {
   private static final Part PART_WITH_EXECUTABLE_CODE =
       Part.builder()
           .executableCode(
-              ExecutableCode.builder().code("executableCode").language("python").build())
+              ExecutableCode.builder()
+                  .code("executableCode")
+                  .language(Language.Known.PYTHON)
+                  .build())
           .build();
   private static final Part PART_WITH_CODE_EXECUTION_RESULT =
       Part.builder()
           .codeExecutionResult(
               CodeExecutionResult.builder()
                   .output("codeExecutionResult")
-                  .outcome("success")
+                  .outcome(Outcome.Known.OUTCOME_OK)
                   .build())
           .build();
 
@@ -91,21 +94,36 @@ public class GenerateContentResponseTest {
       Content.builder().parts(ImmutableList.of(PART_WITH_CODE_EXECUTION_RESULT, PART_1)).build();
 
   private static final Candidate CANDIDATE_1 =
-      Candidate.builder().content(CONTENT_1).finishReason("STOP").build();
+      Candidate.builder().content(CONTENT_1).finishReason(FinishReason.Known.STOP).build();
   private static final Candidate CANDIDATE_2 =
-      Candidate.builder().content(CONTENT_2).finishReason("STOP").build();
+      Candidate.builder().content(CONTENT_2).finishReason(FinishReason.Known.STOP).build();
   private static final Candidate CANDIDATE_WITH_EMPTY_PARTS =
-      Candidate.builder().content(CONTENT_WITH_EMPTY_PARTS).finishReason("STOP").build();
+      Candidate.builder()
+          .content(CONTENT_WITH_EMPTY_PARTS)
+          .finishReason(FinishReason.Known.STOP)
+          .build();
   private static final Candidate CANDIDATE_WITH_THOUGHT =
-      Candidate.builder().content(CONTENT_WITH_THOUGHT).finishReason("STOP").build();
+      Candidate.builder()
+          .content(CONTENT_WITH_THOUGHT)
+          .finishReason(FinishReason.Known.STOP)
+          .build();
   private static final Candidate CANDIDATE_WITH_MULTIPLE_PARTS =
-      Candidate.builder().content(CONTENT_WITH_MULTIPLE_PARTS).finishReason("STOP").build();
+      Candidate.builder()
+          .content(CONTENT_WITH_MULTIPLE_PARTS)
+          .finishReason(FinishReason.Known.STOP)
+          .build();
   private static final Candidate CANDIDATE_WITH_FUNCTION_CALLS =
-      Candidate.builder().content(CONTENT_WITH_FUNCTION_CALLS).finishReason("STOP").build();
+      Candidate.builder()
+          .content(CONTENT_WITH_FUNCTION_CALLS)
+          .finishReason(FinishReason.Known.STOP)
+          .build();
   private static final Candidate CANDIDATE_WITH_MIXED_PARTS =
-      Candidate.builder().content(CONTENT_WITH_MIXED_PARTS).finishReason("STOP").build();
+      Candidate.builder()
+          .content(CONTENT_WITH_MIXED_PARTS)
+          .finishReason(FinishReason.Known.STOP)
+          .build();
   private static final Candidate CANDIDATE_WITH_UNEXPECTED_FINISH_REASON =
-      Candidate.builder().content(CONTENT_1).finishReason("SAFETY").build();
+      Candidate.builder().content(CONTENT_1).finishReason(FinishReason.Known.SAFETY).build();
 
   @Test
   public void testParts_EmptyCandidates() {
@@ -330,9 +348,9 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_EXECUTABLE_CODE)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build(),
-                CANDIDATE_1))
+                    CANDIDATE_1))
             .build();
 
     String result = response.executableCode();
@@ -348,7 +366,7 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_EXECUTABLE_CODE)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build()))
             .build();
 
@@ -376,7 +394,7 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_EXECUTABLE_CODE_AND_TEXT)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build()))
             .build();
 
@@ -426,7 +444,7 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_CODE_EXECUTION_RESULT)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build(),
                     CANDIDATE_1))
             .build();
@@ -444,7 +462,7 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_CODE_EXECUTION_RESULT)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build()))
             .build();
 
@@ -471,7 +489,7 @@ public class GenerateContentResponseTest {
                 ImmutableList.of(
                     Candidate.builder()
                         .content(CONTENT_WITH_CODE_EXECUTION_RESULT_AND_TEXT)
-                        .finishReason("STOP")
+                        .finishReason(FinishReason.Known.STOP)
                         .build()))
             .build();
 

@@ -65,6 +65,7 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
+import com.google.genai.types.Modality;
 
 /**
  * Example of using the live module for a streaming audio conversation with configurable speech
@@ -149,7 +150,7 @@ public class LiveAudioConfigurableSpeechDetectionAsync {
     // --- Live API Config for Audio ---
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalities(ImmutableList.of("AUDIO"))
+            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.AUDIO))
             .realtimeInputConfig(
                 RealtimeInputConfig.builder()
                     .activityHandling("NO_INTERRUPTION")

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.api.core.InternalApi;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.genai.JsonSerializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,8 +110,11 @@ public abstract class GenerateContentResponse extends JsonSerializable {
 
   private static final Logger logger = Logger.getLogger(GenerateContentResponse.class.getName());
 
-  private static final ImmutableList<String> EXPECTED_FINISH_REASONS =
-      ImmutableList.of("FINISH_REASON_UNSPECIFIED", "STOP", "MAX_TOKENS", "");
+  private static final ImmutableSet<FinishReason.Known> EXPECTED_FINISH_REASONS =
+      ImmutableSet.of(
+          FinishReason.Known.FINISH_REASON_UNSPECIFIED,
+          FinishReason.Known.STOP,
+          FinishReason.Known.MAX_TOKENS);
 
   /**
    * Returns the list of parts in the first candidate of the response.
@@ -248,7 +252,8 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   }
 
   /** Gets the finish reason in a GenerateContentResponse. */
-  public String finishReason() {
+  @SuppressWarnings("NotPresentToEmptyOptional")
+  public FinishReason finishReason() {
     List<Candidate> candidates = candidates().orElse(Arrays.asList(Candidate.builder().build()));
     if (candidates.size() > 1) {
       logger.warning(
@@ -256,14 +261,18 @@ public abstract class GenerateContentResponse extends JsonSerializable {
               "This response has %d candidates, will only use the first candidate",
               candidates.size()));
     }
-    return candidates.get(0).finishReason().orElse("");
+    Optional<FinishReason> finishReason = candidates.get(0).finishReason();
+    if (!finishReason.isPresent()) {
+      return new FinishReason(FinishReason.Known.FINISH_REASON_UNSPECIFIED);
+    }
+    return finishReason.get();
   }
 
   /** Throws an exception if the response finishes unexpectedly. */
   @InternalApi
   public void checkFinishReason() {
-    String finishReason = this.finishReason();
-    if (!EXPECTED_FINISH_REASONS.contains(finishReason)) {
+    FinishReason finishReason = this.finishReason();
+    if (!EXPECTED_FINISH_REASONS.contains(finishReason.knownEnum())) {
       throw new IllegalArgumentException(
           String.format("The response finished unexpectedly with reason %s.", finishReason));
     }

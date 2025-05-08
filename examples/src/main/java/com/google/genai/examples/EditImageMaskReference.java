@@ -40,11 +40,13 @@ package com.google.genai.examples;
 import com.google.genai.Client;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
+import com.google.genai.types.EditMode;
 import com.google.genai.types.GenerateImagesConfig;
 import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.MaskReferenceConfig;
 import com.google.genai.types.MaskReferenceImage;
+import com.google.genai.types.MaskReferenceMode;
 import com.google.genai.types.RawReferenceImage;
 import com.google.genai.types.ReferenceImage;
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ public class EditImageMaskReference {
     // Edit image with a mask.
     EditImageConfig editImageConfig =
         EditImageConfig.builder()
-            .editMode("EDIT_MODE_INPAINT_INSERTION")
+            .editMode(EditMode.Known.EDIT_MODE_INPAINT_INSERTION)
             .numberOfImages(1)
             .outputMimeType("image/jpeg")
             .build();
@@ -89,7 +91,7 @@ public class EditImageMaskReference {
             .referenceId(2)
             .config(
                 MaskReferenceConfig.builder()
-                    .maskMode("MASK_MODE_BACKGROUND")
+                    .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
                     .maskDilation(0.0f)
                     .build())
             .build();

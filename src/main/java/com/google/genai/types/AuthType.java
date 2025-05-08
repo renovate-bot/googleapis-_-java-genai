@@ -20,6 +20,8 @@ package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.common.base.Ascii;
+import java.util.Objects;
 
 /** Type of auth scheme. */
 public class AuthType {
@@ -42,7 +44,7 @@ public class AuthType {
   public AuthType(String value) {
     this.value = value;
     for (Known authTypeEnum : Known.values()) {
-      if (authTypeEnum.toString().equalsIgnoreCase(value)) {
+      if (Ascii.equalsIgnoreCase(authTypeEnum.toString(), value)) {
         this.authTypeEnum = authTypeEnum;
         break;
       }
@@ -61,6 +63,41 @@ public class AuthType {
   @JsonValue
   public String toString() {
     return this.value;
+  }
+
+  @SuppressWarnings("PatternMatchingInstanceof")
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+
+    if (!(o instanceof AuthType)) {
+      return false;
+    }
+
+    AuthType other = (AuthType) o;
+
+    if (this.authTypeEnum != Known.AUTH_TYPE_UNSPECIFIED
+        && other.authTypeEnum != Known.AUTH_TYPE_UNSPECIFIED) {
+      return this.authTypeEnum == other.authTypeEnum;
+    } else if (this.authTypeEnum == Known.AUTH_TYPE_UNSPECIFIED
+        && other.authTypeEnum == Known.AUTH_TYPE_UNSPECIFIED) {
+      return this.value.equals(other.value);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    if (this.authTypeEnum != Known.AUTH_TYPE_UNSPECIFIED) {
+      return this.authTypeEnum.hashCode();
+    } else {
+      return Objects.hashCode(this.value);
+    }
   }
 
   public Known knownEnum() {

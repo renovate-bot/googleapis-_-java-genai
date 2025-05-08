@@ -47,6 +47,7 @@ import com.google.genai.types.Image;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.SubjectReferenceConfig;
 import com.google.genai.types.SubjectReferenceImage;
+import com.google.genai.types.SubjectReferenceType;
 import java.util.ArrayList;
 
 /** An example of using the Unified Gen AI Java SDK to edit an image (Subject reference). */
@@ -82,7 +83,7 @@ public class EditImageSubjectReference {
             .referenceId(1)
             .config(
                 SubjectReferenceConfig.builder()
-                    .subjectType("SUBJECT_TYPE_PRODUCT")
+                    .subjectType(SubjectReferenceType.Known.SUBJECT_TYPE_PRODUCT)
                     .subjectDescription("Product logo")
                     .build())
             .build();

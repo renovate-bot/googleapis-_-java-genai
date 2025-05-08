@@ -46,6 +46,7 @@ import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
+import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
 import java.util.concurrent.CompletableFuture;
 
@@ -58,7 +59,9 @@ public class LiveTextToTextGenerationAsync {
         Client.builder().httpOptions(HttpOptions.builder().apiVersion("v1beta").build()).build();
 
     LiveConnectConfig config =
-        LiveConnectConfig.builder().responseModalities(ImmutableList.of("TEXT")).build();
+        LiveConnectConfig.builder()
+            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.TEXT))
+            .build();
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 
