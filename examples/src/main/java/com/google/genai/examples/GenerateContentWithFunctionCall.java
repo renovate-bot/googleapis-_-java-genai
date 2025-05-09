@@ -40,52 +40,38 @@
 package com.google.genai.examples;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
-import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
-import com.google.genai.types.Schema;
-import com.google.genai.types.Type;
+import com.google.genai.types.Tool;
+import java.lang.reflect.Method;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
 public class GenerateContentWithFunctionCall {
-  public static void main(String[] args) {
+  public static String getCurrentWeather(String location, String unit) {
+    return "The weather in " + location + " is " + "very nice.";
+  }
+  public static void main(String[] args) throws NoSuchMethodException {
     // Instantiate the client using Gemini Developer API.
     Client client = new Client();
 
-    FunctionDeclaration functionDeclaration =
-        FunctionDeclaration.builder()
-            .name("get_current_weather")
-            .parameters(
-                Schema.builder()
-                    .type(Type.Known.OBJECT)
-                    .properties(
-                        ImmutableMap.of(
-                            "location",
-                            Schema.builder()
-                                .type(Type.Known.STRING)
-                                .description("The location to get the weather for.")
-                                .build(),
-                            "unit",
-                            Schema.builder()
-                                .type(Type.Known.STRING)
-                                .description("The unit to return the weather in, e.g. 'celsius'.")
-                                .build()))
-                    .required(ImmutableList.of("location", "unit"))
-                    .build())
-            .build();
+    Method method = GenerateContentWithFunctionCall.class.getMethod(
+        "getCurrentWeather", String.class, String.class);
 
     GenerateContentConfig config =
-        GenerateContentConfig.fromJson(
-            String.format(
-                "{\"tools\":[{\"functionDeclarations\":[%s]}]}", functionDeclaration.toJson()));
+        GenerateContentConfig.builder()
+            .tools(ImmutableList.of(
+                Tool.builder()
+                .functions(ImmutableList.of(method))
+                .build()
+            ))
+            .build();
 
     GenerateContentResponse response =
         client.models.generateContent(
             "gemini-2.0-flash-001", "What is the weather in Vancouver?", config);
 
-    // Gets the function calls from the response by the quick accessor method `functionCalls()`.
-    System.out.println("Response: " + response.functionCalls());
+    // to look into what arguments were passed to call the getCurrentWeather function.
+    System.out.println("Function call arguments: " + response.functionCalls());
   }
 }

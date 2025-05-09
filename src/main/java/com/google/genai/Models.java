@@ -4576,7 +4576,9 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, List<Content> contents, GenerateContentConfig config) {
-    return privateGenerateContent(model, contents, config);
+    GenerateContentConfig transformedConfig =
+        AfcUtil.transformGenerateContentConfig(apiClient, config);
+    return privateGenerateContent(model, contents, transformedConfig);
   }
 
   /**
@@ -4591,8 +4593,7 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, Content content, GenerateContentConfig config) {
-    return privateGenerateContent(
-        model, Transformers.tContents(this.apiClient, (Object) content), config);
+    return generateContent(model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
 
   /**
@@ -4607,8 +4608,7 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, String text, GenerateContentConfig config) {
-    return privateGenerateContent(
-        model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return generateContent(model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
 
   /**
@@ -4623,7 +4623,9 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, List<Content> contents, GenerateContentConfig config) {
-    return privateGenerateContentStream(model, contents, config);
+    GenerateContentConfig transformedConfig =
+        AfcUtil.transformGenerateContentConfig(apiClient, config);
+    return privateGenerateContentStream(model, contents, transformedConfig);
   }
 
   /**
@@ -4638,7 +4640,7 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, Content content, GenerateContentConfig config) {
-    return privateGenerateContentStream(
+    return generateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
 
@@ -4654,7 +4656,7 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, String text, GenerateContentConfig config) {
-    return privateGenerateContentStream(
+    return generateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
 

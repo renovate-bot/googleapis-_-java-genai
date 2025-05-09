@@ -19,10 +19,12 @@
 package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +63,13 @@ public abstract class Tool extends JsonSerializable {
   /** Optional. Google Maps tool type. Specialized retrieval tool that is powered by Google Maps. */
   @JsonProperty("googleMaps")
   public abstract Optional<GoogleMaps> googleMaps();
+
+  /**
+   * The java.lang.reflect.Method instance. If provided, it will to be parsed into a list of
+   * FunctionDeclaration instances, and be assigned to the functionDeclarations field.
+   */
+  @JsonIgnore
+  public abstract Optional<List<Method>> functions();
 
   /**
    * Optional. CodeExecution tool type. Enables the model to execute code as part of generation.
@@ -110,6 +119,9 @@ public abstract class Tool extends JsonSerializable {
 
     @JsonProperty("googleMaps")
     public abstract Builder googleMaps(GoogleMaps googleMaps);
+
+    @JsonIgnore
+    public abstract Builder functions(List<Method> functions);
 
     @JsonProperty("codeExecution")
     public abstract Builder codeExecution(ToolCodeExecution codeExecution);
