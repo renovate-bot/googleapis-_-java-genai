@@ -115,11 +115,21 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   @JsonProperty("seed")
   public abstract Optional<Integer> seed();
 
-  /** Output response media type of the generated candidate text. */
+  /**
+   * Output response mimetype of the generated candidate text. Supported mimetype: - `text/plain`:
+   * (default) Text output. - `application/json`: JSON response in the candidates. The model needs
+   * to be prompted to output the appropriate response type, otherwise the behavior is undefined.
+   * This is a preview feature.
+   */
   @JsonProperty("responseMimeType")
   public abstract Optional<String> responseMimeType();
 
-  /** Schema that the generated candidate text must adhere to. */
+  /**
+   * The `Schema` object allows the definition of input and output data types. These types can be
+   * objects, but also primitives and arrays. Represents a select subset of an [OpenAPI 3.0 schema
+   * object](https://spec.openapis.org/oas/v3.0.3#schema). If set, a compatible response_mime_type
+   * must also be set. Compatible mimetypes: `application/json`: Schema for JSON response.
+   */
   @JsonProperty("responseSchema")
   public abstract Optional<Schema> responseSchema();
 
