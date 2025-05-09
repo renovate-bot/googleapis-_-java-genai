@@ -51,7 +51,7 @@ import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveConnectConfig;
-import com.google.genai.types.LiveSendRealtimeInputParameters;
+import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
 import com.google.genai.types.LiveServerSessionResumptionUpdate;
