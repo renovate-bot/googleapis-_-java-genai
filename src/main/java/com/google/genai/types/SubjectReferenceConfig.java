@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -57,10 +58,12 @@ public abstract class SubjectReferenceConfig extends JsonSerializable {
     @JsonProperty("subjectType")
     public abstract Builder subjectType(SubjectReferenceType subjectType);
 
+    @CanIgnoreReturnValue
     public Builder subjectType(SubjectReferenceType.Known knownType) {
       return subjectType(new SubjectReferenceType(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder subjectType(String subjectType) {
       return subjectType(new SubjectReferenceType(subjectType));
     }

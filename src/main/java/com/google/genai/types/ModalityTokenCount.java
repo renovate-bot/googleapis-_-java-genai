@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -57,10 +58,12 @@ public abstract class ModalityTokenCount extends JsonSerializable {
     @JsonProperty("modality")
     public abstract Builder modality(MediaModality modality);
 
+    @CanIgnoreReturnValue
     public Builder modality(MediaModality.Known knownType) {
       return modality(new MediaModality(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder modality(String modality) {
       return modality(new MediaModality(modality));
     }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -83,10 +84,12 @@ public abstract class AutomaticActivityDetection extends JsonSerializable {
     @JsonProperty("startOfSpeechSensitivity")
     public abstract Builder startOfSpeechSensitivity(StartSensitivity startOfSpeechSensitivity);
 
+    @CanIgnoreReturnValue
     public Builder startOfSpeechSensitivity(StartSensitivity.Known knownType) {
       return startOfSpeechSensitivity(new StartSensitivity(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder startOfSpeechSensitivity(String startOfSpeechSensitivity) {
       return startOfSpeechSensitivity(new StartSensitivity(startOfSpeechSensitivity));
     }
@@ -94,10 +97,12 @@ public abstract class AutomaticActivityDetection extends JsonSerializable {
     @JsonProperty("endOfSpeechSensitivity")
     public abstract Builder endOfSpeechSensitivity(EndSensitivity endOfSpeechSensitivity);
 
+    @CanIgnoreReturnValue
     public Builder endOfSpeechSensitivity(EndSensitivity.Known knownType) {
       return endOfSpeechSensitivity(new EndSensitivity(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder endOfSpeechSensitivity(String endOfSpeechSensitivity) {
       return endOfSpeechSensitivity(new EndSensitivity(endOfSpeechSensitivity));
     }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -72,10 +73,12 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
     @JsonProperty("activityHandling")
     public abstract Builder activityHandling(ActivityHandling activityHandling);
 
+    @CanIgnoreReturnValue
     public Builder activityHandling(ActivityHandling.Known knownType) {
       return activityHandling(new ActivityHandling(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder activityHandling(String activityHandling) {
       return activityHandling(new ActivityHandling(activityHandling));
     }
@@ -83,10 +86,12 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
     @JsonProperty("turnCoverage")
     public abstract Builder turnCoverage(TurnCoverage turnCoverage);
 
+    @CanIgnoreReturnValue
     public Builder turnCoverage(TurnCoverage.Known knownType) {
       return turnCoverage(new TurnCoverage(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder turnCoverage(String turnCoverage) {
       return turnCoverage(new TurnCoverage(turnCoverage));
     }

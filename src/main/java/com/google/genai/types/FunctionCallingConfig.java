@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -62,10 +63,12 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
     @JsonProperty("mode")
     public abstract Builder mode(FunctionCallingConfigMode mode);
 
+    @CanIgnoreReturnValue
     public Builder mode(FunctionCallingConfigMode.Known knownType) {
       return mode(new FunctionCallingConfigMode(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder mode(String mode) {
       return mode(new FunctionCallingConfigMode(mode));
     }

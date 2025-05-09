@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -54,10 +55,12 @@ public abstract class ModelSelectionConfig extends JsonSerializable {
     public abstract Builder featureSelectionPreference(
         FeatureSelectionPreference featureSelectionPreference);
 
+    @CanIgnoreReturnValue
     public Builder featureSelectionPreference(FeatureSelectionPreference.Known knownType) {
       return featureSelectionPreference(new FeatureSelectionPreference(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder featureSelectionPreference(String featureSelectionPreference) {
       return featureSelectionPreference(new FeatureSelectionPreference(featureSelectionPreference));
     }

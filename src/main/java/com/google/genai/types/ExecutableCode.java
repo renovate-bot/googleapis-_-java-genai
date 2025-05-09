@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -64,10 +65,12 @@ public abstract class ExecutableCode extends JsonSerializable {
     @JsonProperty("language")
     public abstract Builder language(Language language);
 
+    @CanIgnoreReturnValue
     public Builder language(Language.Known knownType) {
       return language(new Language(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder language(String language) {
       return language(new Language(language));
     }

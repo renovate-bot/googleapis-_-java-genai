@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -150,12 +151,14 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("responseModalities")
     public abstract Builder responseModalities(List<Modality> responseModalities);
 
+    @CanIgnoreReturnValue
     public Builder responseModalitiesFromKnown(List<Modality.Known> knownTypes) {
       ImmutableList<Modality> listItems =
           knownTypes.stream().map(Modality::new).collect(toImmutableList());
       return responseModalities(listItems);
     }
 
+    @CanIgnoreReturnValue
     public Builder responseModalitiesFromString(List<String> responseModalities) {
       ImmutableList<Modality> listItems =
           responseModalities.stream().map(Modality::new).collect(toImmutableList());
@@ -177,10 +180,12 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
 
+    @CanIgnoreReturnValue
     public Builder mediaResolution(MediaResolution.Known knownType) {
       return mediaResolution(new MediaResolution(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder mediaResolution(String mediaResolution) {
       return mediaResolution(new MediaResolution(mediaResolution));
     }

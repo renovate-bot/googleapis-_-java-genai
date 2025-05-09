@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -60,10 +61,12 @@ public abstract class ControlReferenceConfig extends JsonSerializable {
     @JsonProperty("controlType")
     public abstract Builder controlType(ControlReferenceType controlType);
 
+    @CanIgnoreReturnValue
     public Builder controlType(ControlReferenceType.Known knownType) {
       return controlType(new ControlReferenceType(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder controlType(String controlType) {
       return controlType(new ControlReferenceType(controlType));
     }

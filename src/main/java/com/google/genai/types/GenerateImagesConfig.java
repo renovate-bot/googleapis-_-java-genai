@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -138,10 +139,12 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     @JsonProperty("safetyFilterLevel")
     public abstract Builder safetyFilterLevel(SafetyFilterLevel safetyFilterLevel);
 
+    @CanIgnoreReturnValue
     public Builder safetyFilterLevel(SafetyFilterLevel.Known knownType) {
       return safetyFilterLevel(new SafetyFilterLevel(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder safetyFilterLevel(String safetyFilterLevel) {
       return safetyFilterLevel(new SafetyFilterLevel(safetyFilterLevel));
     }
@@ -149,10 +152,12 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     @JsonProperty("personGeneration")
     public abstract Builder personGeneration(PersonGeneration personGeneration);
 
+    @CanIgnoreReturnValue
     public Builder personGeneration(PersonGeneration.Known knownType) {
       return personGeneration(new PersonGeneration(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder personGeneration(String personGeneration) {
       return personGeneration(new PersonGeneration(personGeneration));
     }
@@ -166,10 +171,12 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     @JsonProperty("language")
     public abstract Builder language(ImagePromptLanguage language);
 
+    @CanIgnoreReturnValue
     public Builder language(ImagePromptLanguage.Known knownType) {
       return language(new ImagePromptLanguage(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder language(String language) {
       return language(new ImagePromptLanguage(language));
     }

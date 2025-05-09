@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -131,10 +132,12 @@ public abstract class UsageMetadata extends JsonSerializable {
     @JsonProperty("trafficType")
     public abstract Builder trafficType(TrafficType trafficType);
 
+    @CanIgnoreReturnValue
     public Builder trafficType(TrafficType.Known knownType) {
       return trafficType(new TrafficType(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder trafficType(String trafficType) {
       return trafficType(new TrafficType(trafficType));
     }

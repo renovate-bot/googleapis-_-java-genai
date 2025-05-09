@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Map;
@@ -222,10 +223,12 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("type")
     public abstract Builder type(Type type);
 
+    @CanIgnoreReturnValue
     public Builder type(Type.Known knownType) {
       return type(new Type(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder type(String type) {
       return type(new Type(type));
     }

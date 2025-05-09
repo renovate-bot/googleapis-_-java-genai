@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -108,10 +109,12 @@ public abstract class Candidate extends JsonSerializable {
     @JsonProperty("finishReason")
     public abstract Builder finishReason(FinishReason finishReason);
 
+    @CanIgnoreReturnValue
     public Builder finishReason(FinishReason.Known knownType) {
       return finishReason(new FinishReason(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder finishReason(String finishReason) {
       return finishReason(new FinishReason(finishReason));
     }

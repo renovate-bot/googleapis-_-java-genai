@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -76,10 +77,12 @@ public abstract class AuthConfig extends JsonSerializable {
     @JsonProperty("authType")
     public abstract Builder authType(AuthType authType);
 
+    @CanIgnoreReturnValue
     public Builder authType(AuthType.Known knownType) {
       return authType(new AuthType(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder authType(String authType) {
       return authType(new AuthType(authType));
     }

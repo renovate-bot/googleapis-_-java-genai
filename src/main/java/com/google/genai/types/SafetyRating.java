@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -76,10 +77,12 @@ public abstract class SafetyRating extends JsonSerializable {
     @JsonProperty("category")
     public abstract Builder category(HarmCategory category);
 
+    @CanIgnoreReturnValue
     public Builder category(HarmCategory.Known knownType) {
       return category(new HarmCategory(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder category(String category) {
       return category(new HarmCategory(category));
     }
@@ -87,10 +90,12 @@ public abstract class SafetyRating extends JsonSerializable {
     @JsonProperty("probability")
     public abstract Builder probability(HarmProbability probability);
 
+    @CanIgnoreReturnValue
     public Builder probability(HarmProbability.Known knownType) {
       return probability(new HarmProbability(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder probability(String probability) {
       return probability(new HarmProbability(probability));
     }
@@ -101,10 +106,12 @@ public abstract class SafetyRating extends JsonSerializable {
     @JsonProperty("severity")
     public abstract Builder severity(HarmSeverity severity);
 
+    @CanIgnoreReturnValue
     public Builder severity(HarmSeverity.Known knownType) {
       return severity(new HarmSeverity(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder severity(String severity) {
       return severity(new HarmSeverity(severity));
     }

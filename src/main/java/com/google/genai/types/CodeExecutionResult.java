@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -63,10 +64,12 @@ public abstract class CodeExecutionResult extends JsonSerializable {
     @JsonProperty("outcome")
     public abstract Builder outcome(Outcome outcome);
 
+    @CanIgnoreReturnValue
     public Builder outcome(Outcome.Known knownType) {
       return outcome(new Outcome(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder outcome(String outcome) {
       return outcome(new Outcome(outcome));
     }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -59,10 +60,12 @@ public abstract class GenerationConfigRoutingConfigAutoRoutingMode extends JsonS
     @JsonProperty("modelRoutingPreference")
     public abstract Builder modelRoutingPreference(ModelRoutingPreference modelRoutingPreference);
 
+    @CanIgnoreReturnValue
     public Builder modelRoutingPreference(ModelRoutingPreference.Known knownType) {
       return modelRoutingPreference(new ModelRoutingPreference(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder modelRoutingPreference(String modelRoutingPreference) {
       return modelRoutingPreference(new ModelRoutingPreference(modelRoutingPreference));
     }

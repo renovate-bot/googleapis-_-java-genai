@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -61,10 +62,12 @@ public abstract class SafetySetting extends JsonSerializable {
     @JsonProperty("method")
     public abstract Builder method(HarmBlockMethod method);
 
+    @CanIgnoreReturnValue
     public Builder method(HarmBlockMethod.Known knownType) {
       return method(new HarmBlockMethod(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder method(String method) {
       return method(new HarmBlockMethod(method));
     }
@@ -72,10 +75,12 @@ public abstract class SafetySetting extends JsonSerializable {
     @JsonProperty("category")
     public abstract Builder category(HarmCategory category);
 
+    @CanIgnoreReturnValue
     public Builder category(HarmCategory.Known knownType) {
       return category(new HarmCategory(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder category(String category) {
       return category(new HarmCategory(category));
     }
@@ -83,10 +88,12 @@ public abstract class SafetySetting extends JsonSerializable {
     @JsonProperty("threshold")
     public abstract Builder threshold(HarmBlockThreshold threshold);
 
+    @CanIgnoreReturnValue
     public Builder threshold(HarmBlockThreshold.Known knownType) {
       return threshold(new HarmBlockThreshold(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder threshold(String threshold) {
       return threshold(new HarmBlockThreshold(threshold));
     }

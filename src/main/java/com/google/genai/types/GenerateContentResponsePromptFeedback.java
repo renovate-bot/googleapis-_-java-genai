@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
 import java.util.Optional;
@@ -65,10 +66,12 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     @JsonProperty("blockReason")
     public abstract Builder blockReason(BlockedReason blockReason);
 
+    @CanIgnoreReturnValue
     public Builder blockReason(BlockedReason.Known knownType) {
       return blockReason(new BlockedReason(knownType));
     }
 
+    @CanIgnoreReturnValue
     public Builder blockReason(String blockReason) {
       return blockReason(new BlockedReason(blockReason));
     }
