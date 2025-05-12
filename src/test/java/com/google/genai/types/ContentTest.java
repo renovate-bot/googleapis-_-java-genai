@@ -24,24 +24,71 @@ import org.junit.jupiter.api.Test;
 
 public class ContentTest {
 
+  private static final String TEXT_1 = "test-text-1";
+  private static final String TEXT_2 = "test-text-2";
+  private static final Part TEXT_PART_1 = Part.fromText(TEXT_1);
+  private static final Part TEXT_PART_2 = Part.fromText(TEXT_2);
+  private static final Part FILE_PART = Part.fromUri("test-uri", "test-mime-type");
+  private static final Part INLINE_DATA_PART =
+      Part.fromBytes(new byte[] {1, 2, 3}, "test-mime-type");
+  private static final Part FUNCTION_CALL_PART =
+      Part.fromFunctionCall("test-function-name", ImmutableMap.of("test-key", "test-value"));
+  private static final Part FUNCTION_RESPONSE_PART =
+      Part.fromFunctionResponse("test-function-name", ImmutableMap.of("test-key", "test-value"));
+
   @Test
   public void testContentFromParts() {
-    Part textPart = Part.fromText("test-text");
-    Part filePart = Part.fromUri("test-uri", "test-mime-type");
-    Part inlineDataPart = Part.fromBytes(new byte[] {1, 2, 3}, "test-mime-type");
-    Part functionCallPart =
-        Part.fromFunctionCall("test-function-name", ImmutableMap.of("test-key", "test-value"));
-    Part functionResponsePart =
-        Part.fromFunctionResponse("test-function-name", ImmutableMap.of("test-key", "test-value"));
-
     Content content =
         Content.fromParts(
-            textPart, filePart, inlineDataPart, functionCallPart, functionResponsePart);
+            TEXT_PART_1, FILE_PART, INLINE_DATA_PART, FUNCTION_CALL_PART, FUNCTION_RESPONSE_PART);
 
     assertEquals(
         ImmutableList.of(
-            textPart, filePart, inlineDataPart, functionCallPart, functionResponsePart),
+            TEXT_PART_1, FILE_PART, INLINE_DATA_PART, FUNCTION_CALL_PART, FUNCTION_RESPONSE_PART),
         content.parts().get());
     assertEquals("user", content.role().get());
+  }
+
+  @Test
+  public void testText_ConcatenatesTextParts() {
+    Content content = Content.fromParts(TEXT_PART_1, TEXT_PART_2);
+    String text = content.text();
+
+    assertEquals(TEXT_1 + TEXT_2, text);
+  }
+
+  @Test
+  public void testText_NullParts() {
+    Content content = Content.builder().build();
+    String text = content.text();
+
+    assertEquals(null, text);
+  }
+
+  @Test
+  public void testText_EmptyParts() {
+    Content content = Content.builder().parts(ImmutableList.of()).build();
+    String text = content.text();
+
+    assertEquals(null, text);
+  }
+
+  @Test
+  public void testText_NonTextParts() {
+    Content content =
+        Content.fromParts(
+            TEXT_PART_1, FILE_PART, INLINE_DATA_PART, FUNCTION_CALL_PART, FUNCTION_RESPONSE_PART);
+    String text = content.text();
+
+    assertEquals(TEXT_1, text);
+  }
+
+  @Test
+  public void testText_NoTextParts() {
+    Content content =
+        Content.fromParts(FILE_PART, INLINE_DATA_PART, FUNCTION_CALL_PART, FUNCTION_RESPONSE_PART);
+    String text = content.text();
+
+    assertEquals("", text);
   }
 }

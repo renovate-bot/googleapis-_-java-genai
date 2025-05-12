@@ -144,50 +144,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    * content.
    */
   public @Nullable String text() {
-    ImmutableList<Part> parts = parts();
-    if (parts == null || parts.isEmpty()) {
-      return null;
-    }
-
-    String text = "";
-    ArrayList<String> nonTextParts = new ArrayList<>();
-    for (Part part : parts) {
-      if (part.inlineData().isPresent()) {
-        nonTextParts.add("inlineData");
-      }
-      if (part.codeExecutionResult().isPresent()) {
-        nonTextParts.add("codeExecutionResult");
-      }
-      if (part.executableCode().isPresent()) {
-        nonTextParts.add("executableCode");
-      }
-      if (part.fileData().isPresent()) {
-        nonTextParts.add("fileData");
-      }
-      if (part.functionCall().isPresent()) {
-        nonTextParts.add("functionCall");
-      }
-      if (part.functionResponse().isPresent()) {
-        nonTextParts.add("functionResponse");
-      }
-      if (part.videoMetadata().isPresent()) {
-        nonTextParts.add("videoMetadata");
-      }
-      if (part.thought().orElse(false)) {
-        continue;
-      }
-      text += part.text().orElse("");
-    }
-
-    if (!nonTextParts.isEmpty()) {
-      logger.warning(
-          String.format(
-              "There are non-text parts %s in the response, returning concatenation of all text"
-                  + " parts. Please refer to the non text parts for a full response from model.",
-              String.join(", ", nonTextParts)));
-    }
-
-    return text;
+    return Content.aggregateTextFromParts(parts());
   }
 
   /**
