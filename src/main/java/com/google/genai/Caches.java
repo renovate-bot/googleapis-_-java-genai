@@ -145,10 +145,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(partToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(partToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
 
@@ -437,10 +436,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(contentToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(contentToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(parentObject, new String[] {"contents"}, result);
     }
 
@@ -462,10 +460,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(toolToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(toolToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(parentObject, new String[] {"tools"}, result);
     }
 
@@ -661,10 +658,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(partToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(partToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
 
@@ -1005,10 +1001,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(contentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(contentToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(parentObject, new String[] {"contents"}, result);
     }
 
@@ -1030,10 +1025,9 @@ public final class Caches {
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
-      keyArray.forEach(
-          item -> {
-            result.add(toolToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
-          });
+      for (JsonNode item : keyArray) {
+        result.add(toolToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
       Common.setValueByPath(parentObject, new String[] {"tools"}, result);
     }
 
