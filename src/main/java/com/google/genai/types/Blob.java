@@ -29,6 +29,13 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = Blob.Builder.class)
 public abstract class Blob extends JsonSerializable {
+  /**
+   * Optional. Display name of the blob. Used to provide a label or filename to distinguish blobs.
+   * This field is not currently used in the Gemini GenerateContent calls.
+   */
+  @JsonProperty("displayName")
+  public abstract Optional<String> displayName();
+
   /** Required. Raw bytes. */
   @JsonProperty("data")
   public abstract Optional<byte[]> data();
@@ -53,6 +60,9 @@ public abstract class Blob extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_Blob.Builder();
     }
+
+    @JsonProperty("displayName")
+    public abstract Builder displayName(String displayName);
 
     @JsonProperty("data")
     public abstract Builder data(byte[] data);
