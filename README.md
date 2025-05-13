@@ -96,8 +96,8 @@ import com.google.genai.types.GenerateContentResponse;
 
 public class GenerateContentWithTextInput {
   public static void main(String[] args) {
-    // Instantiate the client. The client by default uses the Gemini API. It gets
-    // the API key from the environment variable `GOOGLE_API_KEY`.
+    // Instantiate the client. The client by default uses the Gemini API. It
+    //  gets the API key from the environment variable `GOOGLE_API_KEY`.
     Client client = new Client();
 
     GenerateContentResponse response =
@@ -122,8 +122,9 @@ import com.google.genai.types.Part;
 
 public class GenerateContentWithImageInput {
   public static void main(String[] args) {
-    // Instantiate the client using Vertex API. The client gets the project and location from the
-    // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
+    // Instantiate the client using Vertex API. The client gets the project and
+    // location from the environment variables `GOOGLE_CLOUD_PROJECT` and
+    // `GOOGLE_CLOUD_LOCATION`.
     Client client = Client.builder().vertexAI(true).build();
 
     // Construct a multimodal content with quick constructors

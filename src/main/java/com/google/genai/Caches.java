@@ -1292,6 +1292,7 @@ public final class Caches {
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
+
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = cachedContentFromVertex(this.apiClient, responseNode, null);
@@ -1344,6 +1345,7 @@ public final class Caches {
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
+
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = cachedContentFromVertex(this.apiClient, responseNode, null);
@@ -1397,6 +1399,7 @@ public final class Caches {
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
+
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = deleteCachedContentResponseFromVertex(this.apiClient, responseNode, null);
