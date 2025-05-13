@@ -4540,6 +4540,16 @@ public final class Models {
     }
   }
 
+  /**
+   * Counts tokens given a GenAI model and a list of content.
+   *
+   * @param model the name of the GenAI model to use.
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to count tokens for.
+   * @param config a {@link com.google.genai.types.CountTokensConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.CountTokensResponse} instance that contains tokens
+   *     count.
+   */
   public CountTokensResponse countTokens(
       String model, List<Content> contents, CountTokensConfig config) {
 
@@ -4596,6 +4606,16 @@ public final class Models {
     }
   }
 
+  /**
+   * Computes tokens given a GenAI model and a list of content.
+   *
+   * @param model the name of the GenAI model to use.
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to compute tokens for.
+   * @param config a {@link com.google.genai.types.ComputeTokensConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.ComputeTokensResponse} instance that contains tokens
+   *     results.
+   */
   public ComputeTokensResponse computeTokens(
       String model, List<Content> contents, ComputeTokensConfig config) {
 
@@ -4726,7 +4746,7 @@ public final class Models {
   }
 
   /**
-   * Generates content given a GenAI model and a content object.
+   * Generates content given a GenAI model and a list of content.
    *
    * @param model the name of the GenAI model to use for generation
    * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
@@ -4773,7 +4793,7 @@ public final class Models {
   }
 
   /**
-   * Generates content with streaming support given a GenAI model and a content object.
+   * Generates content with streaming support given a GenAI model and a list of content.
    *
    * @param model the name of the GenAI model to use for generation
    * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
