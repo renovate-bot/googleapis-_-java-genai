@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ComputeTokensConfig;
 import com.google.genai.types.ComputeTokensParameters;
@@ -69,8 +70,10 @@ import com.google.genai.types.UpscaleImageAPIParameters;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
@@ -5611,6 +5614,8 @@ public final class Models {
     }
   }
 
+  private static final Logger logger = Logger.getLogger(Models.class.getName());
+
   /**
    * Generates content given a GenAI model and a list of content.
    *
@@ -5625,7 +5630,56 @@ public final class Models {
       String model, List<Content> contents, GenerateContentConfig config) {
     GenerateContentConfig transformedConfig =
         AfcUtil.transformGenerateContentConfig(apiClient, config);
-    return privateGenerateContent(model, contents, transformedConfig);
+    if (AfcUtil.shouldDisableAfc(transformedConfig)) {
+      return privateGenerateContent(model, contents, transformedConfig);
+    }
+    ImmutableMap<String, Method> functionMap = AfcUtil.getFunctionMap(config);
+    if (functionMap.isEmpty()) {
+      return privateGenerateContent(model, contents, transformedConfig);
+    }
+    int remainingRemoteCalls = AfcUtil.getMaxRemoteCallsAfc(transformedConfig);
+    int i = 0;
+    logger.info(
+        String.format(
+            "Automatic function calling is enabled with max remote calls: %d",
+            remainingRemoteCalls));
+    GenerateContentResponse response = null;
+    List<Content> automaticFunctionCallingHistory = new ArrayList<>(contents);
+    while (remainingRemoteCalls > 0) {
+      i++;
+      response = privateGenerateContent(model, contents, transformedConfig);
+      logger.info(String.format("Automatic function calling remote call %d is done", i));
+      remainingRemoteCalls--;
+      if (remainingRemoteCalls == 0) {
+        logger.info("Reached max remote calls for automatic function calling.");
+      }
+      if (!response.candidates().isPresent()
+          || response.candidates().get().isEmpty()
+          || !response.candidates().get().get(0).content().isPresent()
+          || !response.candidates().get().get(0).content().get().parts().isPresent()
+          || response.candidates().get().get(0).content().get().parts().get().isEmpty()) {
+        break;
+      }
+      ImmutableList<Part> functionResponseParts =
+          AfcUtil.getFunctionResponseParts(response, functionMap);
+      if (functionResponseParts.isEmpty()) {
+        break;
+      }
+      Content functionCallContent = response.candidates().get().get(0).content().get();
+      Content functionResponseContent =
+          Content.builder().role("user").parts(functionResponseParts).build();
+      automaticFunctionCallingHistory.add(functionCallContent);
+      automaticFunctionCallingHistory.add(functionResponseContent);
+      contents = automaticFunctionCallingHistory;
+    }
+    if (AfcUtil.shouldAppendAfcHistory(transformedConfig)) {
+      ObjectNode responseNode = JsonSerializable.objectMapper.valueToTree(response);
+      responseNode.set(
+          "automaticFunctionCallingHistory",
+          JsonSerializable.objectMapper.valueToTree(automaticFunctionCallingHistory));
+      response = JsonSerializable.fromJsonNode(responseNode, GenerateContentResponse.class);
+    }
+    return response;
   }
 
   /**

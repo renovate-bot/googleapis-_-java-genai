@@ -94,8 +94,9 @@ public class FunctionDeclarationTest {
     return 2;
   }
 
-  @Disabled("Skipping because configured compiler args to include parameters for the purpose of"
-      + " automatically parsing a Java method into a FunctionDeclaration.")
+  @Disabled(
+      "Skipping because configured compiler args to include parameters for the purpose of"
+          + " automatically parsing a Java method into a FunctionDeclaration.")
   @Test
   public void fromMethodWithoutParameterNamesWithoutReflection_throwsIllegalStateException()
       throws NoSuchMethodException {
@@ -159,8 +160,8 @@ public class FunctionDeclarationTest {
     assertEquals(
         "Unsupported parameter type "
             + Object.class.getName()
-            + " for parameter objectParam."
-            + " Currently, supported types are String, boolean, int, double, float.",
+            + " for parameter objectParam. Currently, supported types are String, boolean, Boolean,"
+            + " int, Integer, Long, double, Double, float, Float.",
         thrown.getMessage());
   }
 

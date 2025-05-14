@@ -50,6 +50,10 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   @JsonProperty("responseId")
   public abstract Optional<String> responseId();
 
+  /** The history of automatic function calling. */
+  @JsonProperty("automaticFunctionCallingHistory")
+  public abstract Optional<List<Content>> automaticFunctionCallingHistory();
+
   /** Output only. The model version used to generate the response. */
   @JsonProperty("modelVersion")
   public abstract Optional<String> modelVersion();
@@ -90,6 +94,10 @@ public abstract class GenerateContentResponse extends JsonSerializable {
 
     @JsonProperty("responseId")
     public abstract Builder responseId(String responseId);
+
+    @JsonProperty("automaticFunctionCallingHistory")
+    public abstract Builder automaticFunctionCallingHistory(
+        List<Content> automaticFunctionCallingHistory);
 
     @JsonProperty("modelVersion")
     public abstract Builder modelVersion(String modelVersion);

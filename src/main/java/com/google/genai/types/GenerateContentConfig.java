@@ -188,6 +188,10 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   @JsonProperty("audioTimestamp")
   public abstract Optional<Boolean> audioTimestamp();
 
+  /** The configuration for automatic function calling. */
+  @JsonProperty("automaticFunctionCalling")
+  public abstract Optional<AutomaticFunctionCallingConfig> automaticFunctionCalling();
+
   /** The thinking features configuration. */
   @JsonProperty("thinkingConfig")
   public abstract Optional<ThinkingConfig> thinkingConfig();
@@ -296,6 +300,10 @@ public abstract class GenerateContentConfig extends JsonSerializable {
 
     @JsonProperty("audioTimestamp")
     public abstract Builder audioTimestamp(boolean audioTimestamp);
+
+    @JsonProperty("automaticFunctionCalling")
+    public abstract Builder automaticFunctionCalling(
+        AutomaticFunctionCallingConfig automaticFunctionCalling);
 
     @JsonProperty("thinkingConfig")
     public abstract Builder thinkingConfig(ThinkingConfig thinkingConfig);

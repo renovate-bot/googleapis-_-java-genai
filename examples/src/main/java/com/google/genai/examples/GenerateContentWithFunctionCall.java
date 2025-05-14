@@ -51,27 +51,38 @@ public class GenerateContentWithFunctionCall {
   public static String getCurrentWeather(String location, String unit) {
     return "The weather in " + location + " is " + "very nice.";
   }
+
+  public static Integer divideTwoIntegers(Integer numerator, Integer denominator) {
+    return numerator / denominator;
+  }
+
   public static void main(String[] args) throws NoSuchMethodException {
     // Instantiate the client using Gemini Developer API.
     Client client = new Client();
 
-    Method method = GenerateContentWithFunctionCall.class.getMethod(
-        "getCurrentWeather", String.class, String.class);
+    Method method1 =
+        GenerateContentWithFunctionCall.class.getMethod(
+            "getCurrentWeather", String.class, String.class);
+    Method method2 =
+        GenerateContentWithFunctionCall.class.getMethod(
+            "divideTwoIntegers", Integer.class, Integer.class);
 
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .tools(ImmutableList.of(
-                Tool.builder()
-                .functions(ImmutableList.of(method))
-                .build()
-            ))
+            .tools(
+                ImmutableList.of(
+                    Tool.builder().functions(ImmutableList.of(method1, method2)).build()))
             .build();
 
     GenerateContentResponse response =
         client.models.generateContent(
-            "gemini-2.0-flash-001", "What is the weather in Vancouver?", config);
+            "gemini-2.0-flash-001",
+            "What is the weather in Vancouver? And can you divide 10 by 0?",
+            config);
 
-    // to look into what arguments were passed to call the getCurrentWeather function.
-    System.out.println("Function call arguments: " + response.functionCalls());
+    System.out.println("The response is: " + response.text());
+    System.out.println(
+        "The automatic function calling history is: "
+            + response.automaticFunctionCallingHistory().get());
   }
 }

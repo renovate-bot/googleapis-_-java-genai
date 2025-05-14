@@ -195,13 +195,18 @@ public abstract class FunctionDeclaration extends JsonSerializable {
         parameterSchemaBuilder = parameterSchemaBuilder.type("STRING");
         break;
       case "boolean":
+      case "java.lang.Boolean":
         parameterSchemaBuilder = parameterSchemaBuilder.type("BOOLEAN");
         break;
       case "int":
+      case "java.lang.Integer":
+      case "java.lang.Long":
         parameterSchemaBuilder = parameterSchemaBuilder.type("INTEGER");
         break;
       case "double":
+      case "java.lang.Double":
       case "float":
+      case "java.lang.Float":
         parameterSchemaBuilder = parameterSchemaBuilder.type("NUMBER");
         break;
       default:
@@ -210,7 +215,8 @@ public abstract class FunctionDeclaration extends JsonSerializable {
                 + parameterType.getName()
                 + " for parameter "
                 + parameterName
-                + ". Currently, supported types are String, boolean, int, double, float.");
+                + ". Currently, supported types are String, boolean, Boolean, int, Integer, Long,"
+                + " double, Double, float, Float.");
     }
     return parameterSchemaBuilder.build();
   }
