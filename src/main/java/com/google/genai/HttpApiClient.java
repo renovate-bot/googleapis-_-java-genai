@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 
@@ -54,7 +55,7 @@ public class HttpApiClient extends ApiClient {
   @Override
   public HttpApiResponse request(
       String httpMethod, String path, String requestJson, HttpOptions httpOptions) {
-    HttpOptions requestHttpOptions = applyHttpOptions(httpOptions);
+    HttpOptions requestHttpOptions = mergeHttpOptions(httpOptions);
     boolean queryBaseModel =
         httpMethod.equalsIgnoreCase("GET") && path.startsWith("publishers/google/models/");
     if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
@@ -87,6 +88,25 @@ public class HttpApiClient extends ApiClient {
       return executeRequest(httpPatch);
     } else {
       throw new IllegalArgumentException("Unsupported HTTP method: " + httpMethod);
+    }
+  }
+
+  @Override
+  public ApiResponse request(
+      String httpMethod,
+      String url,
+      byte[] requestBytes,
+      Optional<HttpOptions> requestHttpOptions) {
+    HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
+    if (httpMethod.equalsIgnoreCase("POST")) {
+      HttpPost httpPost = new HttpPost(url);
+      setHeaders(httpPost, mergedHttpOptions);
+      httpPost.setEntity(new ByteArrayEntity(requestBytes));
+      return executeRequest(httpPost);
+    } else {
+      throw new IllegalArgumentException(
+          "The request method with bytes is only supported for POST. Unsupported HTTP method: "
+              + httpMethod);
     }
   }
 
