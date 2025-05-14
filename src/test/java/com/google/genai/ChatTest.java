@@ -156,8 +156,6 @@ public class ChatTest {
     mockedEntity2 = Mockito.mock(HttpEntity.class);
     mockedEntity3 = Mockito.mock(HttpEntity.class);
 
-    client = Client.builder().build();
-
     mockStreamIterator = Mockito.mock(ResponseStream.ResponseStreamIterator.class);
   }
 

@@ -33,18 +33,19 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithHistory"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithHistoryAsync"
  */
 package com.google.genai.examples;
 
-import com.google.genai.Chat;
+import com.google.genai.AsyncChat;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentResponse;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-/** An example of using the Unified Gen AI Java SDK to create a chat session with history. */
-public class ChatWithHistory {
+/** An example of using the Unified Gen AI Java SDK to create an async chat session with history. */
+public class ChatWithHistoryAsync {
   public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
@@ -58,23 +59,32 @@ public class ChatWithHistory {
       System.out.println("Using Gemini Developer API");
     }
 
-    // Create a chat session.
-    Chat chatSession = client.chats.create("gemini-2.0-flash-001");
+    // Create an async chat session.
+    AsyncChat chatSession = client.async.chats.create("gemini-2.0-flash-001");
 
-    GenerateContentResponse response =
+    CompletableFuture<GenerateContentResponse> chatResponseFuture =
         chatSession.sendMessage("Can you tell me a story about cheese in 100 words?");
 
-    // Gets the text string from the response by the quick accessor method `text()`.
-    System.out.println("Unary response: " + response.text());
+    chatResponseFuture
+        .thenAccept(
+            response -> {
+              // Gets the text string from the response by the quick accessor method `text()`.
+              System.out.println("Async chat response: " + response.text());
+            })
+        .whenComplete(
+            (response, throwable) -> {
+              if (throwable != null) {
+                System.out.println("Chat response future failed: " + throwable.getMessage());
+              }
+            })
+        .join();
 
-    GenerateContentResponse response2 =
-        chatSession.sendMessage("Can you modify the story to be written for a 5 year old?");
-
-    // Get the history of the chat session.
+    // Get the history of the async chat session.
     // Passing 'true' to getHistory() returns the curated history, which excludes empty or invalid
     // parts.
     // Passing 'false' here would return the comprehensive history, including empty or invalid
     // parts.
+    // In this example chatSession.getHistory(true).size() == 2
     List<Content> history = chatSession.getHistory(true);
     System.out.println("History: " + history);
   }

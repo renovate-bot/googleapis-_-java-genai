@@ -16,7 +16,6 @@
 
 package com.google.genai;
 
-import com.google.genai.types.Candidate;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
@@ -136,16 +135,7 @@ public class Chat extends ChatBase {
   private GenerateContentResponse privateSendMessage(
       List<Content> contents, GenerateContentConfig config) {
 
-    throwIfStreamNotConsumed();
-
-    // Validate user input before sending to the model.
-    if (!validateContents(contents)) {
-      throw new IllegalArgumentException("The content of the message is invalid.");
-    }
-
-    List<Content> requestContents = new ArrayList<>();
-    requestContents.addAll(this.curatedHistory);
-    requestContents.addAll(contents);
+    List<Content> requestContents = prepareSendMessageRequest(contents);
 
     if (this.config != null && config == null) {
       config = this.config;
@@ -154,14 +144,7 @@ public class Chat extends ChatBase {
     GenerateContentResponse response =
         this.models.generateContent(this.model, requestContents, config);
 
-    List<Content> responseContents = new ArrayList<>();
-    for (Candidate candidate : response.candidates().get()) {
-      responseContents.add(candidate.content().get());
-    }
-    List<Content> currentHistory = new ArrayList<>();
-    currentHistory.addAll(contents);
-    currentHistory.addAll(responseContents);
-    recordHistory(currentHistory, response);
+    updateHistoryNonStreaming(response, contents);
     return response;
   }
 
@@ -263,16 +246,7 @@ public class Chat extends ChatBase {
   private ResponseStream<GenerateContentResponse> privateSendMessageStream(
       List<Content> contents, GenerateContentConfig config) {
 
-    throwIfStreamNotConsumed();
-
-    // Validate user input before sending to the model.
-    if (!validateContents(contents)) {
-      throw new IllegalArgumentException("The content of the message is invalid.");
-    }
-
-    List<Content> requestContents = new ArrayList<>();
-    requestContents.addAll(this.curatedHistory);
-    requestContents.addAll(contents);
+    List<Content> requestContents = prepareSendMessageRequest(contents);
 
     if (this.config != null && config == null) {
       config = this.config;

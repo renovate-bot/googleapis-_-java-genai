@@ -235,4 +235,31 @@ class ChatBase {
       }
     }
   }
+
+  protected List<Content> prepareSendMessageRequest(List<Content> newContents) {
+
+    throwIfStreamNotConsumed();
+
+    // Validate user input before sending to the model.
+    if (!validateContents(newContents)) {
+      throw new IllegalArgumentException("The content of the message is invalid.");
+    }
+
+    List<Content> requestContents = new ArrayList<>();
+    requestContents.addAll(this.curatedHistory);
+    requestContents.addAll(newContents);
+    return requestContents;
+  }
+
+  protected void updateHistoryNonStreaming(
+      GenerateContentResponse response, List<Content> contents) {
+    List<Content> responseContents = new ArrayList<>();
+    for (Candidate candidate : response.candidates().get()) {
+      responseContents.add(candidate.content().get());
+    }
+    List<Content> currentHistory = new ArrayList<>();
+    currentHistory.addAll(contents);
+    currentHistory.addAll(responseContents);
+    recordHistory(currentHistory, response);
+  }
 }
