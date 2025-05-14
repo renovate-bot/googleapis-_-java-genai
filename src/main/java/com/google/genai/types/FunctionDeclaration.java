@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -33,15 +34,17 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Structured representation of a function declaration as defined by the [OpenAPI 3.0
- * specification](https://spec.openapis.org/oas/v3.0.3). Included in this declaration are the
- * function name, description, parameters and response type. This FunctionDeclaration is a
- * representation of a block of code that can be used as a `Tool` by the model and executed by the
- * client.
+ * Defines a function that the model can generate JSON inputs for.
+ *
+ * <p>The inputs are based on `OpenAPI 3.0 specifications <https://spec.openapis.org/oas/v3.0.3>`_.
  */
 @AutoValue
 @JsonDeserialize(builder = FunctionDeclaration.Builder.class)
 public abstract class FunctionDeclaration extends JsonSerializable {
+  /** Defines the function behavior. */
+  @JsonProperty("behavior")
+  public abstract Optional<Behavior> behavior();
+
   /**
    * Optional. Description and purpose of the function. Model uses it to decide how and whether to
    * call the function.
@@ -90,6 +93,19 @@ public abstract class FunctionDeclaration extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_FunctionDeclaration.Builder();
+    }
+
+    @JsonProperty("behavior")
+    public abstract Builder behavior(Behavior behavior);
+
+    @CanIgnoreReturnValue
+    public Builder behavior(Behavior.Known knownType) {
+      return behavior(new Behavior(knownType));
+    }
+
+    @CanIgnoreReturnValue
+    public Builder behavior(String behavior) {
+      return behavior(new Behavior(behavior));
     }
 
     @JsonProperty("description")

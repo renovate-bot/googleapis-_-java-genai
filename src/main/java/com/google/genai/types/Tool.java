@@ -32,6 +32,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = Tool.Builder.class)
 public abstract class Tool extends JsonSerializable {
+  /** List of function declarations that the tool supports. */
+  @JsonProperty("functionDeclarations")
+  public abstract Optional<List<FunctionDeclaration>> functionDeclarations();
+
   /**
    * Optional. Retrieval tool type. System will always execute the provided retrieval tool(s) to get
    * external knowledge to answer the prompt. Retrieval results are presented to the model for
@@ -78,16 +82,6 @@ public abstract class Tool extends JsonSerializable {
   @JsonProperty("codeExecution")
   public abstract Optional<ToolCodeExecution> codeExecution();
 
-  /**
-   * Optional. Function tool type. One or more function declarations to be passed to the model along
-   * with the current user query. Model may decide to call a subset of these functions by populating
-   * FunctionCall in the response. User should provide a FunctionResponse for each function call in
-   * the next turn. Based on the function responses, Model will generate the final response back to
-   * the user. Maximum 128 function declarations can be provided.
-   */
-  @JsonProperty("functionDeclarations")
-  public abstract Optional<List<FunctionDeclaration>> functionDeclarations();
-
   /** Instantiates a builder for Tool. */
   public static Builder builder() {
     return new AutoValue_Tool.Builder();
@@ -104,6 +98,9 @@ public abstract class Tool extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_Tool.Builder();
     }
+
+    @JsonProperty("functionDeclarations")
+    public abstract Builder functionDeclarations(List<FunctionDeclaration> functionDeclarations);
 
     @JsonProperty("retrieval")
     public abstract Builder retrieval(Retrieval retrieval);
@@ -125,9 +122,6 @@ public abstract class Tool extends JsonSerializable {
 
     @JsonProperty("codeExecution")
     public abstract Builder codeExecution(ToolCodeExecution codeExecution);
-
-    @JsonProperty("functionDeclarations")
-    public abstract Builder functionDeclarations(List<FunctionDeclaration> functionDeclarations);
 
     public abstract Tool build();
   }

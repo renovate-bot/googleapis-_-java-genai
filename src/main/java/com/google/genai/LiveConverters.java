@@ -273,6 +273,87 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionDeclarationToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"behavior"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"behavior"},
+          Common.getValueByPath(fromObject, new String[] {"behavior"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"name"},
+          Common.getValueByPath(fromObject, new String[] {"name"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parameters"},
+          Common.getValueByPath(fromObject, new String[] {"parameters"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"response"},
+          Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionDeclarationToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"behavior"}))) {
+      throw new IllegalArgumentException("behavior parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"name"},
+          Common.getValueByPath(fromObject, new String[] {"name"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parameters"},
+          Common.getValueByPath(fromObject, new String[] {"parameters"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"response"},
+          Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -534,6 +615,19 @@ final class LiveConverters {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(
+            functionDeclarationToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"retrieval"}))) {
       throw new IllegalArgumentException("retrieval parameter is not supported in Gemini API.");
     }
@@ -576,19 +670,25 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"functionDeclarations"},
-          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
-    }
-
     return toObject;
   }
 
   @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(
+            functionDeclarationToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"retrieval"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -645,13 +745,6 @@ final class LiveConverters {
           toObject,
           new String[] {"codeExecution"},
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"functionDeclarations"},
-          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
     }
 
     return toObject;
@@ -1816,6 +1909,20 @@ final class LiveConverters {
   ObjectNode functionResponseToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"willContinue"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"willContinue"},
+          Common.getValueByPath(fromObject, new String[] {"willContinue"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"scheduling"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"scheduling"},
+          Common.getValueByPath(fromObject, new String[] {"scheduling"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
       Common.setValueByPath(
           toObject, new String[] {"id"}, Common.getValueByPath(fromObject, new String[] {"id"}));
@@ -1842,8 +1949,17 @@ final class LiveConverters {
   ObjectNode functionResponseToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"id"}))) {
-      throw new IllegalArgumentException("id parameter is not supported in Vertex AI.");
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"willContinue"}))) {
+      throw new IllegalArgumentException("willContinue parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"scheduling"}))) {
+      throw new IllegalArgumentException("scheduling parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"id"}, Common.getValueByPath(fromObject, new String[] {"id"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {

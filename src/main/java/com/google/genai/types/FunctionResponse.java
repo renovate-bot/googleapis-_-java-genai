@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Map;
 import java.util.Optional;
@@ -31,8 +32,26 @@ import java.util.Optional;
 @JsonDeserialize(builder = FunctionResponse.Builder.class)
 public abstract class FunctionResponse extends JsonSerializable {
   /**
-   * The id of the function call this response is for. Populated by the client to match the
-   * corresponding function call `id`.
+   * Signals that function call continues, and more responses will be returned, turning the function
+   * call into a generator. Is only applicable to NON_BLOCKING function calls (see
+   * FunctionDeclaration.behavior for details), ignored otherwise. If false, the default, future
+   * responses will not be considered. Is only applicable to NON_BLOCKING function calls, is ignored
+   * otherwise. If set to false, future responses will not be considered. It is allowed to return
+   * empty `response` with `will_continue=False` to signal that the function call is finished.
+   */
+  @JsonProperty("willContinue")
+  public abstract Optional<Boolean> willContinue();
+
+  /**
+   * Specifies how the response should be scheduled in the conversation. Only applicable to
+   * NON_BLOCKING function calls, is ignored otherwise. Defaults to WHEN_IDLE.
+   */
+  @JsonProperty("scheduling")
+  public abstract Optional<FunctionResponseScheduling> scheduling();
+
+  /**
+   * Optional. The id of the function call this response is for. Populated by the client to match
+   * the corresponding function call `id`.
    */
   @JsonProperty("id")
   public abstract Optional<String> id();
@@ -67,6 +86,22 @@ public abstract class FunctionResponse extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_FunctionResponse.Builder();
+    }
+
+    @JsonProperty("willContinue")
+    public abstract Builder willContinue(boolean willContinue);
+
+    @JsonProperty("scheduling")
+    public abstract Builder scheduling(FunctionResponseScheduling scheduling);
+
+    @CanIgnoreReturnValue
+    public Builder scheduling(FunctionResponseScheduling.Known knownType) {
+      return scheduling(new FunctionResponseScheduling(knownType));
+    }
+
+    @CanIgnoreReturnValue
+    public Builder scheduling(String scheduling) {
+      return scheduling(new FunctionResponseScheduling(scheduling));
     }
 
     @JsonProperty("id")

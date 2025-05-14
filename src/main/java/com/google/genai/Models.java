@@ -246,6 +246,48 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionDeclarationToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"behavior"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"behavior"},
+          Common.getValueByPath(fromObject, new String[] {"behavior"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"name"},
+          Common.getValueByPath(fromObject, new String[] {"name"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parameters"},
+          Common.getValueByPath(fromObject, new String[] {"parameters"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"response"},
+          Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -369,6 +411,19 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(
+            functionDeclarationToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"retrieval"}))) {
       throw new IllegalArgumentException("retrieval parameter is not supported in Gemini API.");
     }
@@ -409,13 +464,6 @@ public final class Models {
           toObject,
           new String[] {"codeExecution"},
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"functionDeclarations"},
-          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
     }
 
     return toObject;
@@ -1542,6 +1590,45 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionDeclarationToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"behavior"}))) {
+      throw new IllegalArgumentException("behavior parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"name"},
+          Common.getValueByPath(fromObject, new String[] {"name"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parameters"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parameters"},
+          Common.getValueByPath(fromObject, new String[] {"parameters"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"response"},
+          Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1682,6 +1769,19 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"functionDeclarations"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(
+            functionDeclarationToVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"functionDeclarations"}, result);
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"retrieval"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1738,13 +1838,6 @@ public final class Models {
           toObject,
           new String[] {"codeExecution"},
           Common.getValueByPath(fromObject, new String[] {"codeExecution"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"functionDeclarations"},
-          Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}));
     }
 
     return toObject;
