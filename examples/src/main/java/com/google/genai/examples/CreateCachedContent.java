@@ -56,11 +56,12 @@ public class CreateCachedContent {
     // key from the environment variable `GOOGLE_API_KEY`.
     Client client = new Client();
 
-    Content content = Content.fromParts(
-        fetchPdfPart(
-            "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2403.05530.pdf"),
-        fetchPdfPart(
-            "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2312.11805v3.pdf"));
+    Content content =
+        Content.fromParts(
+            fetchPdfPart(
+                "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2403.05530.pdf"),
+            fetchPdfPart(
+                "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2312.11805v3.pdf"));
 
     CreateCachedContentConfig config =
         CreateCachedContentConfig.builder()
@@ -70,8 +71,7 @@ public class CreateCachedContent {
 
     CachedContent response =
         client.caches.create("gemini-2.0-flash-001", config);
-    // Gets the text string from the response by the quick accessor method `text()`.
-    System.out.println("Unary response: " + response.text());
+    System.out.println("Create cached content response: " + response);
   }
 
   private static Part fetchPdfPart(String pdfUrl) {
