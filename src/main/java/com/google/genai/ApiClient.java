@@ -44,7 +44,7 @@ abstract class ApiClient {
   final boolean vertexAI;
 
   /** Constructs an ApiClient for Google AI APIs. */
-  ApiClient(Optional<String> apiKey, Optional<HttpOptions> customHttpOptions) {
+  protected ApiClient(Optional<String> apiKey, Optional<HttpOptions> customHttpOptions) {
     checkNotNull(apiKey, "API Key cannot be null");
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
 
