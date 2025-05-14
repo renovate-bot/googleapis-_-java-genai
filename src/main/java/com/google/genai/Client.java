@@ -31,7 +31,8 @@ public final class Client implements AutoCloseable {
   private static Optional<String> geminiBaseUrl = Optional.empty();
   private static Optional<String> vertexBaseUrl = Optional.empty();
 
-  public static Map<String, String> defaultEnvironmentVariables() {
+  /** Returns the default environment variables for the client. */
+  static Map<String, String> defaultEnvironmentVariables() {
     Map<String, String> variables = new HashMap<>();
     String value;
     value = System.getenv("GOOGLE_GENAI_USE_VERTEXAI");
@@ -306,6 +307,11 @@ public final class Client implements AutoCloseable {
     if (this.apiClient instanceof ReplayApiClient) {
       ((ReplayApiClient) this.apiClient).initializeReplaySession(replayId);
     }
+  }
+
+  /** Returns the debug config for the client. */
+  DebugConfig debugConfig() {
+    return debugConfig;
   }
 
   /** Returns the client mode. If it's "replay" or "auto", then the client is in testing mode. */
