@@ -43,7 +43,7 @@ public final class FakeUploadApiClient extends ApiClient {
 
   @Override
   public ApiResponse request(
-      String httpMethod, String path, String requestJson, HttpOptions httpOptions) {
+      String httpMethod, String path, String requestJson, Optional<HttpOptions> httpOptions) {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 

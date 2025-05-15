@@ -73,6 +73,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -5139,13 +5140,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5200,13 +5202,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions);
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions);
     String converterName;
 
     if (this.apiClient.vertexAI()) {
@@ -5254,13 +5257,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5315,13 +5319,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5378,13 +5383,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5439,13 +5445,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5502,13 +5509,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("get", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5556,13 +5564,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("get", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5624,13 +5633,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("patch", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "patch", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5686,13 +5696,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("delete", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "delete", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5757,13 +5768,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5824,13 +5836,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -5902,13 +5915,14 @@ public final class Models {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {

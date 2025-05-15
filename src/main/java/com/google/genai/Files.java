@@ -40,6 +40,7 @@ import com.google.genai.types.ListFilesResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -509,13 +510,14 @@ public final class Files {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("get", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -565,13 +567,14 @@ public final class Files {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("post", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -638,13 +641,14 @@ public final class Files {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("get", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {
@@ -701,13 +705,14 @@ public final class Files {
     // TODO: Remove the hack that removes config.
     body.remove("config");
 
-    HttpOptions httpOptions = null;
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
-      httpOptions = config.httpOptions().orElse(null);
+      requestHttpOptions = config.httpOptions();
     }
 
     try (ApiResponse response =
-        this.apiClient.request("delete", path, JsonSerializable.toJsonString(body), httpOptions)) {
+        this.apiClient.request(
+            "delete", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
       HttpEntity entity = response.getEntity();
       String responseString;
       try {

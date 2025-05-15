@@ -17,6 +17,7 @@
 package com.google.genai;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
@@ -25,6 +26,7 @@ import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -129,7 +131,7 @@ abstract class ApiClient {
 
   /** Sends a Http request given the http method, path, and request json string. */
   public abstract ApiResponse request(
-      String httpMethod, String path, String requestJson, HttpOptions httpOptions);
+      String httpMethod, String path, String requestJson, Optional<HttpOptions> httpOptions);
 
   /** Sends a Http request given the http method, path, and request bytes. */
   public abstract ApiResponse request(
@@ -198,12 +200,18 @@ abstract class ApiClient {
       mergedHttpOptionsBuilder.timeout(httpOptionsToApply.timeout().get());
     }
     if (httpOptionsToApply.headers().isPresent()) {
+      Stream<Map.Entry<String, String>> headersStream =
+          Stream.concat(
+              Stream.concat(
+                  this.httpOptions.headers().orElse(ImmutableMap.of()).entrySet().stream(),
+                  getTimeoutHeader(httpOptionsToApply)
+                      .orElse(ImmutableMap.of())
+                      .entrySet()
+                      .stream()),
+              httpOptionsToApply.headers().orElse(ImmutableMap.of()).entrySet().stream());
       Map<String, String> mergedHeaders =
-          ImmutableMap.<String, String>builder()
-              .putAll(httpOptionsToApply.headers().orElse(ImmutableMap.of()))
-              .putAll(this.httpOptions.headers().orElse(ImmutableMap.of()))
-              .putAll(getTimeoutHeader(httpOptionsToApply).orElse(ImmutableMap.of()))
-              .build();
+          headersStream.collect(
+              toImmutableMap(Map.Entry::getKey, Map.Entry::getValue, (val1, val2) -> val2));
       mergedHttpOptionsBuilder.headers(mergedHeaders);
     }
     return mergedHttpOptionsBuilder.build();
