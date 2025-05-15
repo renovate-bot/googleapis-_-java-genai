@@ -68,6 +68,10 @@ public abstract class Tool extends JsonSerializable {
   @JsonProperty("googleMaps")
   public abstract Optional<GoogleMaps> googleMaps();
 
+  /** Optional. Tool to support URL context retrieval. */
+  @JsonProperty("urlContext")
+  public abstract Optional<UrlContext> urlContext();
+
   /**
    * The java.lang.reflect.Method instance. If provided, it will to be parsed into a list of
    * FunctionDeclaration instances, and be assigned to the functionDeclarations field.
@@ -116,6 +120,9 @@ public abstract class Tool extends JsonSerializable {
 
     @JsonProperty("googleMaps")
     public abstract Builder googleMaps(GoogleMaps googleMaps);
+
+    @JsonProperty("urlContext")
+    public abstract Builder urlContext(UrlContext urlContext);
 
     @JsonIgnore
     public abstract Builder functions(List<Method> functions);

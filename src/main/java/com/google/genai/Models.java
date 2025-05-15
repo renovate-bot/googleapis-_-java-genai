@@ -409,6 +409,13 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlContextToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
@@ -457,6 +464,17 @@ public final class Models {
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"googleMaps"}))) {
       throw new IllegalArgumentException("googleMaps parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlContext"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlContext"},
+          urlContextToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"urlContext"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
@@ -1767,6 +1785,13 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlContextToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
@@ -1831,6 +1856,10 @@ public final class Models {
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleMaps"})),
               toObject));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"urlContext"}))) {
+      throw new IllegalArgumentException("urlContext parameter is not supported in Vertex AI.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
@@ -3450,6 +3479,46 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlMetadataFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"retrievedUrl"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"retrievedUrl"},
+          Common.getValueByPath(fromObject, new String[] {"retrievedUrl"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlRetrievalStatus"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlRetrievalStatus"},
+          Common.getValueByPath(fromObject, new String[] {"urlRetrievalStatus"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlContextMetadataFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"urlMetadata"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"urlMetadata"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(urlMetadataFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"urlMetadata"}, result);
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode candidateFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"content"}) != null) {
@@ -3486,6 +3555,17 @@ public final class Models {
           toObject,
           new String[] {"finishReason"},
           Common.getValueByPath(fromObject, new String[] {"finishReason"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlContextMetadata"},
+          urlContextMetadataFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}) != null) {
@@ -4171,6 +4251,46 @@ public final class Models {
           toObject,
           new String[] {"citations"},
           Common.getValueByPath(fromObject, new String[] {"citations"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlMetadataFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"retrievedUrl"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"retrievedUrl"},
+          Common.getValueByPath(fromObject, new String[] {"retrievedUrl"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlRetrievalStatus"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlRetrievalStatus"},
+          Common.getValueByPath(fromObject, new String[] {"urlRetrievalStatus"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode urlContextMetadataFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"urlMetadata"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"urlMetadata"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(urlMetadataFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"urlMetadata"}, result);
     }
 
     return toObject;

@@ -54,6 +54,10 @@ public abstract class Candidate extends JsonSerializable {
   @JsonProperty("finishReason")
   public abstract Optional<FinishReason> finishReason();
 
+  /** Metadata related to url context retrieval tool. */
+  @JsonProperty("urlContextMetadata")
+  public abstract Optional<UrlContextMetadata> urlContextMetadata();
+
   /** Output only. Average log probability score of the candidate. */
   @JsonProperty("avgLogprobs")
   public abstract Optional<Double> avgLogprobs();
@@ -118,6 +122,9 @@ public abstract class Candidate extends JsonSerializable {
     public Builder finishReason(String finishReason) {
       return finishReason(new FinishReason(finishReason));
     }
+
+    @JsonProperty("urlContextMetadata")
+    public abstract Builder urlContextMetadata(UrlContextMetadata urlContextMetadata);
 
     @JsonProperty("avgLogprobs")
     public abstract Builder avgLogprobs(Double avgLogprobs);

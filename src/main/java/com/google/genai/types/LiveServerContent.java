@@ -83,6 +83,10 @@ public abstract class LiveServerContent extends JsonSerializable {
   @JsonProperty("outputTranscription")
   public abstract Optional<Transcription> outputTranscription();
 
+  /** Metadata related to url context retrieval tool. */
+  @JsonProperty("urlContextMetadata")
+  public abstract Optional<UrlContextMetadata> urlContextMetadata();
+
   /** Instantiates a builder for LiveServerContent. */
   public static Builder builder() {
     return new AutoValue_LiveServerContent.Builder();
@@ -120,6 +124,9 @@ public abstract class LiveServerContent extends JsonSerializable {
 
     @JsonProperty("outputTranscription")
     public abstract Builder outputTranscription(Transcription outputTranscription);
+
+    @JsonProperty("urlContextMetadata")
+    public abstract Builder urlContextMetadata(UrlContextMetadata urlContextMetadata);
 
     public abstract LiveServerContent build();
   }
