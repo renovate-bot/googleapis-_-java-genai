@@ -1445,7 +1445,11 @@ public final class Caches {
       path = Common.formatMap("cachedContents", body.get("_url"));
     } else {
       body = createCachedContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("cachedContents", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("cachedContents", body.get("_url"));
+      } else {
+        path = "cachedContents";
+      }
     }
     body.remove("_url");
 
@@ -1498,7 +1502,11 @@ public final class Caches {
       path = Common.formatMap("{name}", body.get("_url"));
     } else {
       body = getCachedContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{name}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
     }
     body.remove("_url");
 
@@ -1552,7 +1560,11 @@ public final class Caches {
       path = Common.formatMap("{name}", body.get("_url"));
     } else {
       body = deleteCachedContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{name}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
     }
     body.remove("_url");
 

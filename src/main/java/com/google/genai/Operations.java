@@ -391,7 +391,11 @@ public final class Operations {
       path = Common.formatMap("{operationName}", body.get("_url"));
     } else {
       body = getOperationParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{operationName}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{operationName}", body.get("_url"));
+      } else {
+        path = "{operationName}";
+      }
     }
     body.remove("_url");
 

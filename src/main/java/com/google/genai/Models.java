@@ -5126,7 +5126,11 @@ public final class Models {
       path = Common.formatMap("{model}:generateContent", body.get("_url"));
     } else {
       body = generateContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:generateContent", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:generateContent", body.get("_url"));
+      } else {
+        path = "{model}:generateContent";
+      }
     }
     body.remove("_url");
 
@@ -5183,7 +5187,11 @@ public final class Models {
       path = Common.formatMap("{model}:streamGenerateContent?alt=sse", body.get("_url"));
     } else {
       body = generateContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:streamGenerateContent?alt=sse", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:streamGenerateContent?alt=sse", body.get("_url"));
+      } else {
+        path = "{model}:streamGenerateContent?alt=sse";
+      }
     }
     body.remove("_url");
 
@@ -5233,7 +5241,11 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       body = embedContentParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:batchEmbedContents", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:batchEmbedContents", body.get("_url"));
+      } else {
+        path = "{model}:batchEmbedContents";
+      }
     }
     body.remove("_url");
 
@@ -5290,7 +5302,11 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       body = generateImagesParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:predict", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:predict", body.get("_url"));
+      } else {
+        path = "{model}:predict";
+      }
     }
     body.remove("_url");
 
@@ -5473,7 +5489,11 @@ public final class Models {
       path = Common.formatMap("{name}", body.get("_url"));
     } else {
       body = getModelParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{name}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
     }
     body.remove("_url");
 
@@ -5523,7 +5543,11 @@ public final class Models {
       path = Common.formatMap("{models_url}", body.get("_url"));
     } else {
       body = listModelsParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{models_url}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{models_url}", body.get("_url"));
+      } else {
+        path = "{models_url}";
+      }
     }
     body.remove("_url");
 
@@ -5587,7 +5611,11 @@ public final class Models {
       path = Common.formatMap("{model}", body.get("_url"));
     } else {
       body = updateModelParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{name}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
     }
     body.remove("_url");
 
@@ -5645,7 +5673,11 @@ public final class Models {
       path = Common.formatMap("{name}", body.get("_url"));
     } else {
       body = deleteModelParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{name}", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
     }
     body.remove("_url");
 
@@ -5712,7 +5744,11 @@ public final class Models {
       path = Common.formatMap("{model}:countTokens", body.get("_url"));
     } else {
       body = countTokensParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:countTokens", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:countTokens", body.get("_url"));
+      } else {
+        path = "{model}:countTokens";
+      }
     }
     body.remove("_url");
 
@@ -5853,7 +5889,11 @@ public final class Models {
       path = Common.formatMap("{model}:predictLongRunning", body.get("_url"));
     } else {
       body = generateVideosParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("{model}:predictLongRunning", body.get("_url"));
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{model}:predictLongRunning", body.get("_url"));
+      } else {
+        path = "{model}:predictLongRunning";
+      }
     }
     body.remove("_url");
 

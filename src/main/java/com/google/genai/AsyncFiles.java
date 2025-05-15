@@ -18,6 +18,11 @@
 
 package com.google.genai;
 
+import com.google.genai.types.DeleteFileConfig;
+import com.google.genai.types.DeleteFileResponse;
+import com.google.genai.types.File;
+import com.google.genai.types.GetFileConfig;
+import java.util.concurrent.CompletableFuture;
 
 /** Async module of {@link Files} */
 public final class AsyncFiles {
@@ -25,5 +30,27 @@ public final class AsyncFiles {
 
   public AsyncFiles(ApiClient apiClient) {
     this.files = new Files(apiClient);
+  }
+
+  /**
+   * Asynchronously retrieves the file information from the service.
+   *
+   * @param name - The name identifier for the file to retrieve.
+   * @param config - Optional, configuration for the get method.
+   * @return A File object representing the file.
+   */
+  public CompletableFuture<File> get(String name, GetFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.get(name, config));
+  }
+
+  /**
+   * Asynchronously deletes a remotely stored file.
+   *
+   * @param name - The name identifier for the file to delete.
+   * @param config - Optional, configuration for the delete method.
+   * @return The DeleteFileResponse, the response for the delete method.
+   */
+  public CompletableFuture<DeleteFileResponse> delete(String name, DeleteFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.delete(name, config));
   }
 }
