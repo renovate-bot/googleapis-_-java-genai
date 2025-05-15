@@ -354,9 +354,59 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode intervalToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"startTime"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startTime"},
+          Common.getValueByPath(fromObject, new String[] {"startTime"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endTime"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endTime"},
+          Common.getValueByPath(fromObject, new String[] {"endTime"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode intervalToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"startTime"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startTime"},
+          Common.getValueByPath(fromObject, new String[] {"startTime"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endTime"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endTime"},
+          Common.getValueByPath(fromObject, new String[] {"endTime"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"timeRangeFilter"},
+          intervalToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"})),
+              toObject));
+    }
 
     return toObject;
   }
@@ -365,6 +415,16 @@ final class LiveConverters {
   ObjectNode googleSearchToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"timeRangeFilter"},
+          intervalToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"})),
+              toObject));
+    }
 
     return toObject;
   }

@@ -19,14 +19,23 @@
 package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.util.Optional;
 
 /** Tool to support Google Search in Model. Powered by Google. */
 @AutoValue
 @JsonDeserialize(builder = GoogleSearch.Builder.class)
 public abstract class GoogleSearch extends JsonSerializable {
+  /**
+   * Optional. Filter search results to a specific time range. If customers set a start time, they
+   * must set an end time (and vice versa).
+   */
+  @JsonProperty("timeRangeFilter")
+  public abstract Optional<Interval> timeRangeFilter();
+
   /** Instantiates a builder for GoogleSearch. */
   public static Builder builder() {
     return new AutoValue_GoogleSearch.Builder();
@@ -43,6 +52,9 @@ public abstract class GoogleSearch extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GoogleSearch.Builder();
     }
+
+    @JsonProperty("timeRangeFilter")
+    public abstract Builder timeRangeFilter(Interval timeRangeFilter);
 
     public abstract GoogleSearch build();
   }
