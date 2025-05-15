@@ -46,7 +46,8 @@ class ChatBase {
    *
    * @param currentHistory The current history of messages.
    */
-  protected void recordHistory(List<Content> currentHistory, GenerateContentResponse response) {
+  protected synchronized void recordHistory(
+      List<Content> currentHistory, GenerateContentResponse response) {
 
     this.comprehensiveHistory.addAll(currentHistory);
 
