@@ -99,6 +99,27 @@ final class ReplayApiClient extends ApiClient {
     }
   }
 
+  static Map<String, Object> loadReplayData(String replayId) {
+    String replaysPath = System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY");
+    if (replaysPath == null) {
+      throw new RuntimeException("GOOGLE_GENAI_REPLAYS_DIRECTORY is not set");
+    }
+    String testsReplaysPath = replaysPath + "/tests";
+    String replayPath = testsReplaysPath + "/" + replayId;
+    // Open the replay file if it exists.
+    try {
+      String replayData = readString(Paths.get(replayPath));
+      // TODO(b/369384123): Parsing to a ReplaySession object is not working because snake_case
+      // fields like body_segments are not being populated. For now, we will just use basic JSON
+      // parsing and switch to the generated JSON classes once we have the replays working.
+      // convert JSON string to Map
+     return JsonSerializable.objectMapper.readValue(
+              replayData, new TypeReference<Map<String, Object>>() {});
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read replay file: " + e, e);
+    }
+  }
+
   void initializeReplaySession(String replayId) {
     this.replayId = replayId;
     String replayPath = this.replaysDirectory + "/" + this.replayId;
