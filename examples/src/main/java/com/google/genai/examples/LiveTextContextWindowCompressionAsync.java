@@ -39,6 +39,7 @@
 package com.google.genai.examples;
 
 import com.google.common.collect.ImmutableList;
+import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.ContextWindowCompressionConfig;
@@ -46,14 +47,10 @@ import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
+import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
 import com.google.genai.types.SlidingWindow;
 import java.util.concurrent.CompletableFuture;
-import com.google.genai.types.GroundingChunk;
-import com.google.genai.types.GroundingChunkWeb;
-import com.google.genai.types.Modality;
-import java.util.List;
-import java.util.Optional;
 
 /** Example of using the live module to set up context window compression. */
 public class LiveTextContextWindowCompressionAsync {
@@ -86,10 +83,9 @@ public class LiveTextContextWindowCompressionAsync {
       modelName = "gemini-2.0-flash-live-001";
     }
 
-    client
-        .async
-        .live
-        .connect(modelName, config)
+    CompletableFuture<AsyncSession> futureSession = client.async.live.connect(modelName, config);
+
+    futureSession
         .thenCompose(
             session -> {
               String inputText = "Why is the sky blue?";
@@ -106,7 +102,8 @@ public class LiveTextContextWindowCompressionAsync {
                       })
                   .thenCompose(unused -> allDone)
                   .thenCompose(unused -> session.close());
-            });
+            })
+        .join();
   }
 
   public static LiveSendClientContentParameters clientContentFromText(String text) {

@@ -43,6 +43,7 @@ import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 /** An example of using the Unified Gen AI Java SDK to upscale an image asynchronously. */
@@ -74,11 +75,18 @@ public class UpscaleImageAsync {
 
     upscaleImageResponseFuture
         .thenAccept(
-            response -> {
-              System.out.println(
-                  "Image:\n"
-                      + response.generatedImages().get().get(0).image().get().imageBytes().get());
-            })
+            response ->
+                System.out.println(
+                    "Image:\n"
+                        + Arrays.toString(
+                            response
+                                .generatedImages()
+                                .get()
+                                .get(0)
+                                .image()
+                                .get()
+                                .imageBytes()
+                                .get())))
         .join();
   }
 }

@@ -39,6 +39,7 @@
 package com.google.genai.examples;
 
 import com.google.common.collect.ImmutableList;
+import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.HttpOptions;
@@ -72,10 +73,9 @@ public class LiveTextToTextGenerationAsync {
       modelName = "gemini-2.0-flash-live-001";
     }
 
-    client
-        .async
-        .live
-        .connect(modelName, config)
+    CompletableFuture<AsyncSession> futureSession = client.async.live.connect(modelName, config);
+
+    futureSession
         .thenCompose(
             session -> {
               String inputText = "Write a short poem about a cat.";
@@ -92,7 +92,8 @@ public class LiveTextToTextGenerationAsync {
                       })
                   .thenCompose(unused -> allDone)
                   .thenCompose(unused -> session.close());
-            });
+            })
+        .join();
   }
 
   public static LiveSendClientContentParameters clientContentFromText(String text) {

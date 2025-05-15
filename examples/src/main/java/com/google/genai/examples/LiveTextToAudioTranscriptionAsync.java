@@ -39,25 +39,26 @@
 package com.google.genai.examples;
 
 import com.google.common.collect.ImmutableList;
+import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.AudioTranscriptionConfig;
 import com.google.genai.types.Content;
 import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.GroundingChunk;
+import com.google.genai.types.GroundingChunkWeb;
 import com.google.genai.types.GroundingMetadata;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
+import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.Tool;
 import com.google.genai.types.Transcription;
-import java.util.concurrent.CompletableFuture;
-import com.google.genai.types.GroundingChunk;
-import com.google.genai.types.GroundingChunkWeb;
 import java.util.List;
 import java.util.Optional;
-import com.google.genai.types.Modality;
+import java.util.concurrent.CompletableFuture;
 
 /** Example of using the live module to send and receive messages asynchronously. */
 public class LiveTextToAudioTranscriptionAsync {
@@ -94,10 +95,9 @@ public class LiveTextToAudioTranscriptionAsync {
       modelName = "gemini-2.0-flash-live-001";
     }
 
-    client
-        .async
-        .live
-        .connect(modelName, config)
+    CompletableFuture<AsyncSession> futureSession = client.async.live.connect(modelName, config);
+
+    futureSession
         .thenCompose(
             session -> {
               String inputText = "What is the weather like in Tokyo now?";
@@ -114,7 +114,8 @@ public class LiveTextToAudioTranscriptionAsync {
                       })
                   .thenCompose(unused -> allDone)
                   .thenCompose(unused -> session.close());
-            });
+            })
+        .join();
   }
 
   public static LiveSendClientContentParameters clientContentFromText(String text) {

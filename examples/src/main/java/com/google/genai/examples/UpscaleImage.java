@@ -43,6 +43,7 @@ import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
+import java.util.Arrays;
 
 /** An example of using the Unified Gen AI Java SDK to upscale an image. */
 public class UpscaleImage {
@@ -73,6 +74,14 @@ public class UpscaleImage {
 
     System.out.println(
         "Image:\n"
-            + upscaleImageResponse.generatedImages().get().get(0).image().get().imageBytes().get());
+            + Arrays.toString(
+                upscaleImageResponse
+                    .generatedImages()
+                    .get()
+                    .get(0)
+                    .image()
+                    .get()
+                    .imageBytes()
+                    .get()));
   }
 }
