@@ -16,6 +16,7 @@
 
 package com.google.genai;
 
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
@@ -163,7 +164,132 @@ public class AsyncChat extends ChatBase {
         .exceptionally(
             exception -> {
               logger.warning("Async chat response failed with exception: " + exception);
-              return null;
+              throw new GenAiIOException(exception);
+            });
+  }
+
+  /**
+   * Asynchronously sends a message to the model in the current multi-turn chat session and returns
+   * a stream of responses.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessageStream.
+   *
+   * @param text the text to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations *
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
+      String text, GenerateContentConfig config) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Asynchronously sends a message to the model in the current multi-turn chat session and returns
+   * a stream of responses.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessageStream.
+   *
+   * @param text the text to send to the generative model
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(String text) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), null);
+  }
+
+  /**
+   * Asynchronously sends a message to the model in the current multi-turn chat session and returns
+   * a stream of responses.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessageStream.
+   *
+   * @param content a {@link com.google.genai.types.Content} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations *
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
+      Content content, GenerateContentConfig config) {
+    return privateSendMessageStream(
+        Transformers.tContents(this.apiClient, (Object) content), config);
+  }
+
+  /**
+   * Asynchronously sends a message to the model in the current multi-turn chat session and returns
+   * a stream of responses.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessageStream.
+   *
+   * @param content a {@link com.google.genai.types.Content} to send to the generative model
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
+      Content content) {
+    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) content), null);
+  }
+
+  /**
+   * Asynchronously sends a message to the model in the current multi-turn chat session and returns
+   * a stream of responses.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessageStream.
+   *
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
+      List<Content> contents, GenerateContentConfig config) {
+    return privateSendMessageStream(contents, config);
+  }
+
+  /**
+   * Sends a message to the model in the current multi-turn chat session and returns the model's
+   * response.
+   *
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using client.async.chats.create() before calling
+   * sendMessage.
+   *
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   *     the optional configurations
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
+      List<Content> contents) {
+    return privateSendMessageStream(contents, null);
+  }
+
+  private CompletableFuture<ResponseStream<GenerateContentResponse>> privateSendMessageStream(
+      List<Content> contents, GenerateContentConfig config) {
+
+    List<Content> requestContents = prepareSendMessageRequest(contents);
+
+    if (this.config != null && config == null) {
+      config = this.config;
+    }
+
+    CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
+        this.models.generateContentStream(this.model, requestContents, config);
+
+    return responseStreamFuture
+        .thenApply(
+            resolvedResponseStream -> {
+              resolvedResponseStream.recordingHistory = true;
+              resolvedResponseStream.asyncChatSession = this;
+              this.currentUserMessage = contents;
+              this.currentResponseStream = resolvedResponseStream;
+              return resolvedResponseStream;
+            })
+        .exceptionally(
+            exception -> {
+              logger.warning("Async streaming chat response failed with exception: " + exception);
+              throw new GenAiIOException(exception);
             });
   }
 }

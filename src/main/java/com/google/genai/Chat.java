@@ -152,9 +152,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns a stream of
    * responses.
    *
-   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
-   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
-   * before calling sendMessageStream.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.
    *
    * @param text the text to send to the generative model
    * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
@@ -169,9 +169,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns a stream of
    * responses.
    *
-   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
-   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
-   * before calling sendMessageStream.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.
    *
    * @param text the text to send to the generative model
    */
@@ -183,9 +183,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns a stream of
    * responses.
    *
-   * <p>This appends the message and the model's response to the chat history in *subsequent* calls
-   * to sendMessage or sendMessageStream. Be sure to initialize a chat session using chats.create()
-   * before calling sendMessageStream.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.
    *
    * @param content a {@link com.google.genai.types.Content} to send to the generative model
    * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
@@ -201,9 +201,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns a stream of
    * responses.
    *
-   * <p>This appends the message and the model's response to the chat history, which is sent back to
-   * the model in subsequent calls to sendMessage or sendMessageStream. Be sure to initialize a chat
-   * session using chats.create() before calling sendMessageStream.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.
    *
    * @param content a {@link com.google.genai.types.Content} to send to the generative model
    */
@@ -215,9 +215,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns a stream of
    * responses.
    *
-   * <p>This appends the message and the model's response to the chat history, which is sent back to
-   * the model in subsequent calls to sendMessage or sendMessageStream. Be sure to initialize a chat
-   * session using chats.create() before calling sendMessageStream.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.
    *
    * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
    * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
@@ -232,9 +232,9 @@ public class Chat extends ChatBase {
    * Sends a message to the model in the current multi-turn chat session and returns the model's
    * response.
    *
-   * <p>This appends the message and the model's response to the chat history, which is sent back to
-   * the model in subsequent calls to sendMessage. Be sure to initialize a chat session using
-   * chats.create() before calling sendMessage.
+   * <p>This appends the message and the model's response to the chat history after the stream is
+   * consumed. Be sure to initialize a chat session using chats.create() before calling
+   * sendMessageStream.m
    *
    * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
    *     the optional configurations

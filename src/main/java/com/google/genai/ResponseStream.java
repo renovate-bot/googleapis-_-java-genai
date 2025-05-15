@@ -39,6 +39,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
   boolean recordingHistory = false;
   List<T> history = new ArrayList<>();
   Chat chatSession = null;
+  AsyncChat asyncChatSession = null;
 
   private static final Logger logger = Logger.getLogger(ChatBase.class.getName());
 
@@ -73,8 +74,14 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
         consumed = true;
         if (recordingHistory) {
           try {
-            chatSession.checkStreamResponseAndUpdateHistory();
-            recordingHistory = false;
+            if (chatSession != null) {
+              chatSession.checkStreamResponseAndUpdateHistory();
+              recordingHistory = false;
+            }
+            if (asyncChatSession != null) {
+              asyncChatSession.checkStreamResponseAndUpdateHistory();
+              recordingHistory = false;
+            }
           } catch (IllegalStateException e) {
             logger.info(
                 "Error while updating history: " + e.getMessage() + ". Continuing execution...");
