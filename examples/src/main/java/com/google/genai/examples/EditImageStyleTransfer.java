@@ -41,8 +41,6 @@ package com.google.genai.examples;
 import com.google.genai.Client;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.StyleReferenceConfig;
@@ -60,16 +58,9 @@ public class EditImageStyleTransfer {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001",
-            "A starry night sky painted with watercolors",
-            generateImagesConfig);
-
-    Image generatedImage = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "A starry night sky painted with watercolors"
+    Image image = Image.fromFile("./data/watercolor_night_sky.jpg");
 
     // Style transfer.
     EditImageConfig editImageConfig =
@@ -78,7 +69,7 @@ public class EditImageStyleTransfer {
     ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
     StyleReferenceImage styleReferenceImage =
         StyleReferenceImage.builder()
-            .referenceImage(generatedImage)
+            .referenceImage(image)
             .referenceId(1)
             .config(StyleReferenceConfig.builder().styleDescription("Watercolor").build())
             .build();

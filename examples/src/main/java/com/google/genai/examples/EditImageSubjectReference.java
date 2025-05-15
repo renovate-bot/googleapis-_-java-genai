@@ -41,8 +41,6 @@ package com.google.genai.examples;
 import com.google.genai.Client;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.SubjectReferenceConfig;
@@ -61,16 +59,9 @@ public class EditImageSubjectReference {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001",
-            "A logo with the letters 'SERN' in a futuristic font with a white background",
-            generateImagesConfig);
-
-    Image generatedImage = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "A logo with the letters 'SERN' in a futuristic font with a white background"
+    Image image = Image.fromFile("./data/logo.jpg");
 
     // Subject reference.
     EditImageConfig editImageConfig =
@@ -79,7 +70,7 @@ public class EditImageSubjectReference {
     ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
     SubjectReferenceImage subjectReferenceImage =
         SubjectReferenceImage.builder()
-            .referenceImage(generatedImage)
+            .referenceImage(image)
             .referenceId(1)
             .config(
                 SubjectReferenceConfig.builder()

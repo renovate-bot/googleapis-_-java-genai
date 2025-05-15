@@ -38,12 +38,9 @@
 package com.google.genai.examples;
 
 import com.google.genai.Client;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
-import java.util.Arrays;
 
 /** An example of using the Unified Gen AI Java SDK to upscale an image. */
 public class UpscaleImage {
@@ -56,14 +53,9 @@ public class UpscaleImage {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001", "Robot holding a red skateboard", generateImagesConfig);
-
-    Image image = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "A starry night sky painted with watercolors"
+    Image image = Image.fromFile("./data/watercolor_night_sky.jpg");
 
     UpscaleImageResponse upscaleImageResponse =
         client.models.upscaleImage(
@@ -72,16 +64,7 @@ public class UpscaleImage {
             "x2",
             UpscaleImageConfig.builder().outputMimeType("image/jpeg").build());
 
-    System.out.println(
-        "Image:\n"
-            + Arrays.toString(
-                upscaleImageResponse
-                    .generatedImages()
-                    .get()
-                    .get(0)
-                    .image()
-                    .get()
-                    .imageBytes()
-                    .get()));
+    Image upscaledImage = upscaleImageResponse.generatedImages().get().get(0).image().get();
+    // Do something with upscaledImage.
   }
 }

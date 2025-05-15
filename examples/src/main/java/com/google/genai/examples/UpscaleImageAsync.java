@@ -38,12 +38,9 @@
 package com.google.genai.examples;
 
 import com.google.genai.Client;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 /** An example of using the Unified Gen AI Java SDK to upscale an image asynchronously. */
@@ -57,14 +54,9 @@ public class UpscaleImageAsync {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001", "Robot holding a red skateboard", generateImagesConfig);
-
-    Image image = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "A starry night sky painted with watercolors"
+    Image image = Image.fromFile("./data/watercolor_night_sky.jpg");
 
     CompletableFuture<UpscaleImageResponse> upscaleImageResponseFuture =
         client.async.models.upscaleImage(
@@ -75,18 +67,10 @@ public class UpscaleImageAsync {
 
     upscaleImageResponseFuture
         .thenAccept(
-            response ->
-                System.out.println(
-                    "Image:\n"
-                        + Arrays.toString(
-                            response
-                                .generatedImages()
-                                .get()
-                                .get(0)
-                                .image()
-                                .get()
-                                .imageBytes()
-                                .get())))
+            response -> {
+              Image upscaledImage = response.generatedImages().get().get(0).image().get();
+              // Do something with upscaledImage.
+            })
         .join();
   }
 }

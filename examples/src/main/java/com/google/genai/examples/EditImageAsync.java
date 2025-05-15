@@ -41,8 +41,6 @@ import com.google.genai.Client;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
 import com.google.genai.types.EditMode;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.MaskReferenceConfig;
 import com.google.genai.types.MaskReferenceImage;
@@ -65,60 +63,46 @@ public class EditImageAsync {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+    // Base image created using generateImages with prompt:
+    // "An umbrella in the foreground, and a rainy night sky in the background"
+    Image image = Image.fromFile("./data/umbrella.jpg");
 
-    CompletableFuture<GenerateImagesResponse> generateImagesResponseFuture =
-        client.async.models.generateImages(
-            "imagen-3.0-generate-001",
-            "An umbrella in the foreground, and a rainy night sky in the background",
-            generateImagesConfig);
+    // Edit image with a mask.
+    EditImageConfig editImageConfig =
+        EditImageConfig.builder()
+            .editMode(EditMode.Known.EDIT_MODE_INPAINT_INSERTION)
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .build();
 
-    generateImagesResponseFuture
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+    RawReferenceImage rawReferenceImage =
+        RawReferenceImage.builder().referenceImage(image).referenceId(1).build();
+    referenceImages.add(rawReferenceImage);
+
+    MaskReferenceImage maskReferenceImage =
+        MaskReferenceImage.builder()
+            .referenceId(2)
+            .config(
+                MaskReferenceConfig.builder()
+                    .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
+                    .maskDilation(0.0f)
+                    .build())
+            .build();
+    referenceImages.add(maskReferenceImage);
+
+    CompletableFuture<EditImageResponse> editImageResponseFuture =
+        client.async.models.editImage(
+            "imagen-3.0-capability-001",
+            "Sunlight and clear sky",
+            referenceImages,
+            editImageConfig);
+
+    editImageResponseFuture
         .thenAccept(
-            generatedImagesResponse -> {
-              Image generatedImage =
-                  generatedImagesResponse.generatedImages().get().get(0).image().get();
-
-              // Edit image with a mask.
-              EditImageConfig editImageConfig =
-                  EditImageConfig.builder()
-                      .editMode(EditMode.Known.EDIT_MODE_INPAINT_INSERTION)
-                      .numberOfImages(1)
-                      .outputMimeType("image/jpeg")
-                      .build();
-
-              ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
-              RawReferenceImage rawReferenceImage =
-                  RawReferenceImage.builder().referenceImage(generatedImage).referenceId(1).build();
-              referenceImages.add(rawReferenceImage);
-
-              MaskReferenceImage maskReferenceImage =
-                  MaskReferenceImage.builder()
-                      .referenceId(2)
-                      .config(
-                          MaskReferenceConfig.builder()
-                              .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
-                              .maskDilation(0.0f)
-                              .build())
-                      .build();
-              referenceImages.add(maskReferenceImage);
-
-              CompletableFuture<EditImageResponse> editImageResponseFuture =
-                  client.async.models.editImage(
-                      "imagen-3.0-capability-001",
-                      "Sunlight and clear sky",
-                      referenceImages,
-                      editImageConfig);
-
-              editImageResponseFuture
-                  .thenAccept(
-                      editImageResponse -> {
-                        Image editedImage =
-                            editImageResponse.generatedImages().get().get(0).image().get();
-                        // Do something with editedImage.
-                      })
-                  .join();
+            editImageResponse -> {
+              Image editedImage = editImageResponse.generatedImages().get().get(0).image().get();
+              // Do something with editedImage.
             })
         .join();
   }

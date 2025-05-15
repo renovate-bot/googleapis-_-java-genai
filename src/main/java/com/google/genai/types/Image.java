@@ -23,6 +23,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import com.google.genai.errors.GenAiIOException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 /** An image. */
@@ -79,5 +84,34 @@ public abstract class Image extends JsonSerializable {
   /** Deserializes a JSON string to a Image object. */
   public static Image fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Image.class);
+  }
+
+  /**
+   * Creates an Image object from a local file.
+   *
+   * <p>If mimeType is not specified, it will be inferred from the file extension.
+   */
+  public static Image fromFile(String location) {
+    try {
+      String mimeType = Files.probeContentType(Paths.get(location));
+      return Image.fromFile(location, mimeType);
+    } catch (IOException e) {
+      return Image.fromFile(location, null);
+    }
+  }
+
+  /** Creates an Image object from a local file and mime type. */
+  public static Image fromFile(String location, String mimeType) {
+    try {
+      File imagefile = new File(location);
+      byte[] imageBytes = Files.readAllBytes(imagefile.toPath());
+      Image.Builder builder = builder().imageBytes(imageBytes);
+      if (mimeType != null) {
+        builder = builder.mimeType(mimeType);
+      }
+      return builder.build();
+    } catch (IOException e) {
+      throw new GenAiIOException(String.format("Failed to read image file: %s", location), e);
+    }
   }
 }

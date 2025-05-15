@@ -44,8 +44,6 @@ import com.google.genai.types.ControlReferenceImage;
 import com.google.genai.types.ControlReferenceType;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.ReferenceImage;
 import java.util.ArrayList;
@@ -61,16 +59,9 @@ public class EditImageControlReference {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001",
-            "A square, circle, and triangle with a white background",
-            generateImagesConfig);
-
-    Image generatedImage = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "A square, circle, and triangle with a white background"
+    Image image = Image.fromFile("./data/shapes.jpg");
 
     // Control reference.
     EditImageConfig editImageConfig =
@@ -81,7 +72,7 @@ public class EditImageControlReference {
     ControlReferenceImage controlReferenceImage =
         ControlReferenceImage.builder()
             .referenceId(1)
-            .referenceImage(generatedImage)
+            .referenceImage(image)
             .config(
                 ControlReferenceConfig.builder()
                     .controlType(ControlReferenceType.Known.CONTROL_TYPE_SCRIBBLE)

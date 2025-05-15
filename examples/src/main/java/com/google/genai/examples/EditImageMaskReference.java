@@ -41,8 +41,6 @@ import com.google.genai.Client;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
 import com.google.genai.types.EditMode;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.MaskReferenceConfig;
 import com.google.genai.types.MaskReferenceImage;
@@ -62,16 +60,9 @@ public class EditImageMaskReference {
             .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
 
-    GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
-
-    GenerateImagesResponse generatedImagesResponse =
-        client.models.generateImages(
-            "imagen-3.0-generate-001",
-            "An umbrella in the foreground, and a rainy night sky in the background",
-            generateImagesConfig);
-
-    Image generatedImage = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    // Base image created using generateImages with prompt:
+    // "An umbrella in the foreground, and a rainy night sky in the background"
+    Image image = Image.fromFile("./data/umbrella.jpg");
 
     // Edit image with a mask.
     EditImageConfig editImageConfig =
@@ -83,7 +74,7 @@ public class EditImageMaskReference {
 
     ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
     RawReferenceImage rawReferenceImage =
-        RawReferenceImage.builder().referenceImage(generatedImage).referenceId(1).build();
+        RawReferenceImage.builder().referenceImage(image).referenceId(1).build();
     referenceImages.add(rawReferenceImage);
 
     MaskReferenceImage maskReferenceImage =
