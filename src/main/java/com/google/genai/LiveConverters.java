@@ -31,6 +31,208 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode prebuiltVoiceConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"voiceName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"voiceName"},
+          Common.getValueByPath(fromObject, new String[] {"voiceName"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode prebuiltVoiceConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"voiceName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"voiceName"},
+          Common.getValueByPath(fromObject, new String[] {"voiceName"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode voiceConfigToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"prebuiltVoiceConfig"},
+          prebuiltVoiceConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode voiceConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"prebuiltVoiceConfig"},
+          prebuiltVoiceConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode speakerVoiceConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"speaker"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"speaker"},
+          Common.getValueByPath(fromObject, new String[] {"speaker"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"voiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"voiceConfig"},
+          voiceConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"voiceConfig"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode speakerVoiceConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"speaker"}))) {
+      throw new IllegalArgumentException("speaker parameter is not supported in Vertex AI.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"voiceConfig"}))) {
+      throw new IllegalArgumentException("voiceConfig parameter is not supported in Vertex AI.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode multiSpeakerVoiceConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"speakerVoiceConfigs"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"speakerVoiceConfigs"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(
+            speakerVoiceConfigToMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"speakerVoiceConfigs"}, result);
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode multiSpeakerVoiceConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"speakerVoiceConfigs"}))) {
+      throw new IllegalArgumentException(
+          "speakerVoiceConfigs parameter is not supported in Vertex AI.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode speechConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"voiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"voiceConfig"},
+          voiceConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"voiceConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"multiSpeakerVoiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"multiSpeakerVoiceConfig"},
+          multiSpeakerVoiceConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"multiSpeakerVoiceConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"languageCode"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"languageCode"},
+          Common.getValueByPath(fromObject, new String[] {"languageCode"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode speechConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"voiceConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"voiceConfig"},
+          voiceConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"voiceConfig"})),
+              toObject));
+    }
+
+    if (!Common.isZero(
+        Common.getValueByPath(fromObject, new String[] {"multiSpeakerVoiceConfig"}))) {
+      throw new IllegalArgumentException(
+          "multiSpeakerVoiceConfig parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"languageCode"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"languageCode"},
+          Common.getValueByPath(fromObject, new String[] {"languageCode"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode blobToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"displayName"}))) {
@@ -1178,7 +1380,13 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "generationConfig", "speechConfig"},
-          Common.getValueByPath(fromObject, new String[] {"speechConfig"}));
+          speechConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Transformers.tLiveSpeechConfig(
+                      this.apiClient,
+                      Common.getValueByPath(fromObject, new String[] {"speechConfig"}))),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"systemInstruction"}) != null) {
@@ -1325,7 +1533,13 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "generationConfig", "speechConfig"},
-          Common.getValueByPath(fromObject, new String[] {"speechConfig"}));
+          speechConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Transformers.tLiveSpeechConfig(
+                      this.apiClient,
+                      Common.getValueByPath(fromObject, new String[] {"speechConfig"}))),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"systemInstruction"}) != null) {

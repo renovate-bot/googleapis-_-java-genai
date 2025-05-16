@@ -198,6 +198,35 @@ final class Transformers {
     throw new IllegalArgumentException("Unsupported speechConfig type:" + speechConfig.getClass());
   }
 
+  /**
+   * Transforms a SpeechConfig object for the live API, validating it.
+   *
+   * @param apiClient the API client to use for transformation
+   * @param origin the object to transform, can be a SpeechConfig or a JsonNode
+   * @return the transformed SpeechConfig
+   * @throws IllegalArgumentException if the object is not a supported type or if
+   *     multiSpeakerVoiceConfig is present.
+   */
+  public static @Nullable SpeechConfig tLiveSpeechConfig(ApiClient apiClient, Object origin) {
+    SpeechConfig speechConfig;
+    if (origin == null) {
+      return null;
+    } else if (origin instanceof SpeechConfig) {
+      speechConfig = (SpeechConfig) origin;
+    } else if (origin instanceof JsonNode) {
+      speechConfig = JsonSerializable.fromJsonNode((JsonNode) origin, SpeechConfig.class);
+    } else {
+      throw new IllegalArgumentException("Unsupported speechConfig type:" + origin.getClass());
+    }
+
+    if (speechConfig.multiSpeakerVoiceConfig().isPresent()) {
+      throw new IllegalArgumentException(
+          "multiSpeakerVoiceConfig is not supported in the live API.");
+    }
+
+    return speechConfig;
+  }
+
   /** Transforms an object to a list of Tools for the API. */
   @SuppressWarnings("unchecked")
   public static List<Tool> tTools(ApiClient apiClient, Object origin) {

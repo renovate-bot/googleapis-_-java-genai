@@ -25,59 +25,46 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** The speech generation configuration. */
+/** The configuration for the speaker to use. */
 @AutoValue
-@JsonDeserialize(builder = SpeechConfig.Builder.class)
-public abstract class SpeechConfig extends JsonSerializable {
-  /** The configuration for the speaker to use. */
+@JsonDeserialize(builder = SpeakerVoiceConfig.Builder.class)
+public abstract class SpeakerVoiceConfig extends JsonSerializable {
+  /** The name of the speaker to use. Should be the same as in the prompt. */
+  @JsonProperty("speaker")
+  public abstract Optional<String> speaker();
+
+  /** The configuration for the voice to use. */
   @JsonProperty("voiceConfig")
   public abstract Optional<VoiceConfig> voiceConfig();
 
-  /**
-   * The configuration for the multi-speaker setup. It is mutually exclusive with the voice_config
-   * field.
-   */
-  @JsonProperty("multiSpeakerVoiceConfig")
-  public abstract Optional<MultiSpeakerVoiceConfig> multiSpeakerVoiceConfig();
-
-  /**
-   * Language code (ISO 639. e.g. en-US) for the speech synthesization. Only available for Live API.
-   */
-  @JsonProperty("languageCode")
-  public abstract Optional<String> languageCode();
-
-  /** Instantiates a builder for SpeechConfig. */
+  /** Instantiates a builder for SpeakerVoiceConfig. */
   public static Builder builder() {
-    return new AutoValue_SpeechConfig.Builder();
+    return new AutoValue_SpeakerVoiceConfig.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for SpeechConfig. */
+  /** Builder for SpeakerVoiceConfig. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `SpeechConfig.builder()` for instantiation. */
+    /** For internal usage. Please use `SpeakerVoiceConfig.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_SpeechConfig.Builder();
+      return new AutoValue_SpeakerVoiceConfig.Builder();
     }
+
+    @JsonProperty("speaker")
+    public abstract Builder speaker(String speaker);
 
     @JsonProperty("voiceConfig")
     public abstract Builder voiceConfig(VoiceConfig voiceConfig);
 
-    @JsonProperty("multiSpeakerVoiceConfig")
-    public abstract Builder multiSpeakerVoiceConfig(
-        MultiSpeakerVoiceConfig multiSpeakerVoiceConfig);
-
-    @JsonProperty("languageCode")
-    public abstract Builder languageCode(String languageCode);
-
-    public abstract SpeechConfig build();
+    public abstract SpeakerVoiceConfig build();
   }
 
-  /** Deserializes a JSON string to a SpeechConfig object. */
-  public static SpeechConfig fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, SpeechConfig.class);
+  /** Deserializes a JSON string to a SpeakerVoiceConfig object. */
+  public static SpeakerVoiceConfig fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, SpeakerVoiceConfig.class);
   }
 }

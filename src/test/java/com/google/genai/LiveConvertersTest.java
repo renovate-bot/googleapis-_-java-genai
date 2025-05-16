@@ -23,7 +23,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.genai.types.Blob;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveClientMessage;
+import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendRealtimeInputParameters;
+import com.google.genai.types.MultiSpeakerVoiceConfig;
+import com.google.genai.types.PrebuiltVoiceConfig;
+import com.google.genai.types.SpeakerVoiceConfig;
+import com.google.genai.types.SpeechConfig;
+import com.google.genai.types.VoiceConfig;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -165,6 +173,52 @@ public class LiveConvertersTest {
         IllegalArgumentException.class, // Expected exception type
         () ->
             mldevLiveConverters.liveClientMessageToMldev(
+                GEMINI_API_CLIENT,
+                JsonSerializable.toJsonNode(message),
+                JsonSerializable.objectMapper
+                    .createObjectNode()) // Code that should throw the exception
+        );
+  }
+
+  @Test
+  public void testMultiSpeakerVoiceConfig_throws() {
+    List<SpeakerVoiceConfig> speakerVoiceConfigs = new ArrayList<>();
+    speakerVoiceConfigs.add(
+        SpeakerVoiceConfig
+            .builder()
+            .speaker("Alice")
+            .voiceConfig(
+                VoiceConfig.builder()
+                    .prebuiltVoiceConfig(PrebuiltVoiceConfig.builder().voiceName("kore").build())
+                    .build())
+            .build());
+    speakerVoiceConfigs.add(
+        SpeakerVoiceConfig
+            .builder()
+            .speaker("Bob")
+            .voiceConfig(
+                VoiceConfig.builder()
+                    .prebuiltVoiceConfig(PrebuiltVoiceConfig.builder().voiceName("puck").build())
+                    .build())
+            .build());
+
+    final LiveConnectConfig message =
+        LiveConnectConfig.builder()
+            .speechConfig(
+                SpeechConfig.builder()
+                    .multiSpeakerVoiceConfig(
+                        MultiSpeakerVoiceConfig.builder()
+                            .speakerVoiceConfigs(speakerVoiceConfigs)
+                            .build())
+                    .build())
+        .build();
+
+    final LiveConverters mldevLiveConverters = new LiveConverters(GEMINI_API_CLIENT);
+
+    assertThrows(
+        IllegalArgumentException.class, // Expected exception type
+        () ->
+            mldevLiveConverters.liveConnectConfigToMldev(
                 GEMINI_API_CLIENT,
                 JsonSerializable.toJsonNode(message),
                 JsonSerializable.objectMapper
