@@ -626,6 +626,10 @@ public final class Caches {
               toObject));
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"kmsKeyName"}))) {
+      throw new IllegalArgumentException("kmsKeyName parameter is not supported in Gemini API.");
+    }
+
     return toObject;
   }
 
@@ -1305,6 +1309,13 @@ public final class Caches {
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"toolConfig"})),
               toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"kmsKeyName"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"encryption_spec", "kmsKeyName"},
+          Common.getValueByPath(fromObject, new String[] {"kmsKeyName"}));
     }
 
     return toObject;

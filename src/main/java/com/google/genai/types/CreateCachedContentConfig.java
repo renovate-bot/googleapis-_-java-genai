@@ -68,6 +68,16 @@ public abstract class CreateCachedContentConfig extends JsonSerializable {
   @JsonProperty("toolConfig")
   public abstract Optional<ToolConfig> toolConfig();
 
+  /**
+   * The Cloud KMS resource identifier of the customer managed encryption key used to protect a
+   * resource. The key needs to be in the same region as where the compute resource is created. See
+   * https://cloud.google.com/vertex-ai/docs/general/cmek for more details. If this is set, then all
+   * created CachedContent objects will be encrypted with the provided encryption key. Allowed
+   * formats: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}
+   */
+  @JsonProperty("kmsKeyName")
+  public abstract Optional<String> kmsKeyName();
+
   /** Instantiates a builder for CreateCachedContentConfig. */
   public static Builder builder() {
     return new AutoValue_CreateCachedContentConfig.Builder();
@@ -108,6 +118,9 @@ public abstract class CreateCachedContentConfig extends JsonSerializable {
 
     @JsonProperty("toolConfig")
     public abstract Builder toolConfig(ToolConfig toolConfig);
+
+    @JsonProperty("kmsKeyName")
+    public abstract Builder kmsKeyName(String kmsKeyName);
 
     public abstract CreateCachedContentConfig build();
   }
