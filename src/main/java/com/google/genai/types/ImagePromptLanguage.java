@@ -29,10 +29,15 @@ public class ImagePromptLanguage {
   /** Enum representing the known values for ImagePromptLanguage. */
   public enum Known {
     AUTO,
+
     EN,
+
     JA,
+
     KO,
+
     HI,
+
     IMAGE_PROMPT_LANGUAGE_UNSPECIFIED
   }
 

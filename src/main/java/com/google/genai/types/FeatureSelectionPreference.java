@@ -29,8 +29,11 @@ public class FeatureSelectionPreference {
   /** Enum representing the known values for FeatureSelectionPreference. */
   public enum Known {
     FEATURE_SELECTION_PREFERENCE_UNSPECIFIED,
+
     PRIORITIZE_QUALITY,
+
     BALANCED,
+
     PRIORITIZE_COST
   }
 

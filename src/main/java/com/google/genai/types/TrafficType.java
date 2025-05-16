@@ -31,8 +31,13 @@ public class TrafficType {
 
   /** Enum representing the known values for TrafficType. */
   public enum Known {
+    /** Unspecified request traffic type. */
     TRAFFIC_TYPE_UNSPECIFIED,
+
+    /** Type for Pay-As-You-Go traffic. */
     ON_DEMAND,
+
+    /** Type for Provisioned Throughput traffic. */
     PROVISIONED_THROUGHPUT
   }
 

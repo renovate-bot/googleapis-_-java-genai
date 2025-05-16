@@ -28,8 +28,19 @@ public class TurnCoverage {
 
   /** Enum representing the known values for TurnCoverage. */
   public enum Known {
+    /** If unspecified, the default behavior is `TURN_INCLUDES_ONLY_ACTIVITY`. */
     TURN_COVERAGE_UNSPECIFIED,
+
+    /**
+     * The users turn only includes activity since the last turn, excluding inactivity (e.g. silence
+     * on the audio stream). This is the default behavior.
+     */
     TURN_INCLUDES_ONLY_ACTIVITY,
+
+    /**
+     * The users turn includes all realtime input since the last turn, including inactivity (e.g.
+     * silence on the audio stream).
+     */
     TURN_INCLUDES_ALL_INPUT
   }
 

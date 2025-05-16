@@ -28,9 +28,22 @@ public class Behavior {
 
   /** Enum representing the known values for Behavior. */
   public enum Known {
+    /** This value is unused. */
     UNSPECIFIED,
+
+    /**
+     * If set, the system will wait to receive the function response before continuing the
+     * conversation.
+     */
     BLOCKING,
+
+    /**
+     * If set, the system will not wait to receive the function response. Instead, it will attempt
+     * to handle function responses as they become available while maintaining the conversation
+     * between the user and the model.
+     */
     NON_BLOCKING,
+
     BEHAVIOR_UNSPECIFIED
   }
 

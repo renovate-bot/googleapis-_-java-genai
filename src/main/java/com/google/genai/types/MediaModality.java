@@ -28,12 +28,24 @@ public class MediaModality {
 
   /** Enum representing the known values for MediaModality. */
   public enum Known {
+    /** The modality is unspecified. */
     MODALITY_UNSPECIFIED,
+
+    /** Plain text. */
     TEXT,
+
+    /** Images. */
     IMAGE,
+
+    /** Video. */
     VIDEO,
+
+    /** Audio. */
     AUDIO,
+
+    /** Document, e.g. PDF. */
     DOCUMENT,
+
     MEDIA_MODALITY_UNSPECIFIED
   }
 

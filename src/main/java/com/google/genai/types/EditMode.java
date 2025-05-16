@@ -29,13 +29,21 @@ public class EditMode {
   /** Enum representing the known values for EditMode. */
   public enum Known {
     EDIT_MODE_DEFAULT,
+
     EDIT_MODE_INPAINT_REMOVAL,
+
     EDIT_MODE_INPAINT_INSERTION,
+
     EDIT_MODE_OUTPAINT,
+
     EDIT_MODE_CONTROLLED_EDITING,
+
     EDIT_MODE_STYLE,
+
     EDIT_MODE_BGSWAP,
+
     EDIT_MODE_PRODUCT_IMAGE,
+
     EDIT_MODE_UNSPECIFIED
   }
 

@@ -29,10 +29,15 @@ public class MaskReferenceMode {
   /** Enum representing the known values for MaskReferenceMode. */
   public enum Known {
     MASK_MODE_DEFAULT,
+
     MASK_MODE_USER_PROVIDED,
+
     MASK_MODE_BACKGROUND,
+
     MASK_MODE_FOREGROUND,
+
     MASK_MODE_SEMANTIC,
+
     MASK_REFERENCE_MODE_UNSPECIFIED
   }
 

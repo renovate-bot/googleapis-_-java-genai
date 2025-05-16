@@ -28,8 +28,13 @@ public class EndSensitivity {
 
   /** Enum representing the known values for EndSensitivity. */
   public enum Known {
+    /** The default is END_SENSITIVITY_LOW. */
     END_SENSITIVITY_UNSPECIFIED,
+
+    /** Automatic detection ends speech more often. */
     END_SENSITIVITY_HIGH,
+
+    /** Automatic detection ends speech less often. */
     END_SENSITIVITY_LOW
   }
 

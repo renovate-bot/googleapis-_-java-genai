@@ -28,12 +28,25 @@ public class Type {
 
   /** Enum representing the known values for Type. */
   public enum Known {
+    /** Not specified, should not be used. */
     TYPE_UNSPECIFIED,
+
+    /** OpenAPI string type */
     STRING,
+
+    /** OpenAPI number type */
     NUMBER,
+
+    /** OpenAPI integer type */
     INTEGER,
+
+    /** OpenAPI boolean type */
     BOOLEAN,
+
+    /** OpenAPI array type */
     ARRAY,
+
+    /** OpenAPI object type */
     OBJECT
   }
 

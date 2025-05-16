@@ -28,9 +28,16 @@ public class Modality {
 
   /** Enum representing the known values for Modality. */
   public enum Known {
+    /** The modality is unspecified. */
     MODALITY_UNSPECIFIED,
+
+    /** Indicates the model should return text */
     TEXT,
+
+    /** Indicates the model should return images. */
     IMAGE,
+
+    /** Indicates the model should return images. */
     AUDIO
   }
 

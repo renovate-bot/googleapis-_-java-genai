@@ -28,11 +28,22 @@ public class HarmBlockThreshold {
 
   /** Enum representing the known values for HarmBlockThreshold. */
   public enum Known {
+    /** Unspecified harm block threshold. */
     HARM_BLOCK_THRESHOLD_UNSPECIFIED,
+
+    /** Block low threshold and above (i.e. block more). */
     BLOCK_LOW_AND_ABOVE,
+
+    /** Block medium threshold and above. */
     BLOCK_MEDIUM_AND_ABOVE,
+
+    /** Block only high threshold (i.e. block less). */
     BLOCK_ONLY_HIGH,
+
+    /** Block none. */
     BLOCK_NONE,
+
+    /** Turn off the safety filter. */
     OFF
   }
 

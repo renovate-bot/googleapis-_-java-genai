@@ -28,7 +28,10 @@ public class Mode {
 
   /** Enum representing the known values for Mode. */
   public enum Known {
+    /** Always trigger retrieval. */
     MODE_UNSPECIFIED,
+
+    /** Run retrieval only when system decides it is necessary. */
     MODE_DYNAMIC
   }
 

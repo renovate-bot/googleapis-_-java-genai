@@ -29,9 +29,13 @@ public class SubjectReferenceType {
   /** Enum representing the known values for SubjectReferenceType. */
   public enum Known {
     SUBJECT_TYPE_DEFAULT,
+
     SUBJECT_TYPE_PERSON,
+
     SUBJECT_TYPE_ANIMAL,
+
     SUBJECT_TYPE_PRODUCT,
+
     SUBJECT_REFERENCE_TYPE_UNSPECIFIED
   }
 

@@ -28,8 +28,17 @@ public class ActivityHandling {
 
   /** Enum representing the known values for ActivityHandling. */
   public enum Known {
+    /** If unspecified, the default behavior is `START_OF_ACTIVITY_INTERRUPTS`. */
     ACTIVITY_HANDLING_UNSPECIFIED,
+
+    /**
+     * If true, start of activity will interrupt the model's response (also called "barge in"). The
+     * model's current response will be cut-off in the moment of the interruption. This is the
+     * default behavior.
+     */
     START_OF_ACTIVITY_INTERRUPTS,
+
+    /** The model's response will not be interrupted. */
     NO_INTERRUPTION
   }
 

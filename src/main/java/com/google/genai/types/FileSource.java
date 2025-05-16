@@ -29,8 +29,11 @@ public class FileSource {
   /** Enum representing the known values for FileSource. */
   public enum Known {
     SOURCE_UNSPECIFIED,
+
     UPLOADED,
+
     GENERATED,
+
     FILE_SOURCE_UNSPECIFIED
   }
 

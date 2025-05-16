@@ -29,9 +29,13 @@ public class SafetyFilterLevel {
   /** Enum representing the known values for SafetyFilterLevel. */
   public enum Known {
     BLOCK_LOW_AND_ABOVE,
+
     BLOCK_MEDIUM_AND_ABOVE,
+
     BLOCK_ONLY_HIGH,
+
     BLOCK_NONE,
+
     SAFETY_FILTER_LEVEL_UNSPECIFIED
   }
 

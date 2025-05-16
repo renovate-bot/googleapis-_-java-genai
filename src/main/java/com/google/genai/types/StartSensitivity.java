@@ -28,8 +28,13 @@ public class StartSensitivity {
 
   /** Enum representing the known values for StartSensitivity. */
   public enum Known {
+    /** The default is START_SENSITIVITY_LOW. */
     START_SENSITIVITY_UNSPECIFIED,
+
+    /** Automatic detection will detect the start of speech more often. */
     START_SENSITIVITY_HIGH,
+
+    /** Automatic detection will detect the start of speech less often. */
     START_SENSITIVITY_LOW
   }
 

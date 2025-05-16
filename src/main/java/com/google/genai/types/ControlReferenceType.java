@@ -29,9 +29,13 @@ public class ControlReferenceType {
   /** Enum representing the known values for ControlReferenceType. */
   public enum Known {
     CONTROL_TYPE_DEFAULT,
+
     CONTROL_TYPE_CANNY,
+
     CONTROL_TYPE_SCRIBBLE,
+
     CONTROL_TYPE_FACE_MESH,
+
     CONTROL_REFERENCE_TYPE_UNSPECIFIED
   }
 

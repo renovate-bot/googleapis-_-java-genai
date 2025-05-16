@@ -28,10 +28,24 @@ public class FunctionResponseScheduling {
 
   /** Enum representing the known values for FunctionResponseScheduling. */
   public enum Known {
+    /** This value is unused. */
     SCHEDULING_UNSPECIFIED,
+
+    /** Only add the result to the conversation context, do not interrupt or trigger generation. */
     SILENT,
+
+    /**
+     * Add the result to the conversation context, and prompt to generate output without
+     * interrupting ongoing generation.
+     */
     WHEN_IDLE,
+
+    /**
+     * Add the result to the conversation context, interrupt ongoing generation and prompt to
+     * generate output.
+     */
     INTERRUPT,
+
     FUNCTION_RESPONSE_SCHEDULING_UNSPECIFIED
   }
 

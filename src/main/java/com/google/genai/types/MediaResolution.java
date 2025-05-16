@@ -28,9 +28,16 @@ public class MediaResolution {
 
   /** Enum representing the known values for MediaResolution. */
   public enum Known {
+    /** Media resolution has not been set */
     MEDIA_RESOLUTION_UNSPECIFIED,
+
+    /** Media resolution set to low (64 tokens). */
     MEDIA_RESOLUTION_LOW,
+
+    /** Media resolution set to medium (256 tokens). */
     MEDIA_RESOLUTION_MEDIUM,
+
+    /** Media resolution set to high (zoomed reframing with 256 tokens). */
     MEDIA_RESOLUTION_HIGH
   }
 

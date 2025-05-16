@@ -28,8 +28,13 @@ public class UrlRetrievalStatus {
 
   /** Enum representing the known values for UrlRetrievalStatus. */
   public enum Known {
+    /** Default value. This value is unused */
     URL_RETRIEVAL_STATUS_UNSPECIFIED,
+
+    /** Url retrieval is successful. */
     URL_RETRIEVAL_STATUS_SUCCESS,
+
+    /** Url retrieval is failed due to error. */
     URL_RETRIEVAL_STATUS_ERROR
   }
 

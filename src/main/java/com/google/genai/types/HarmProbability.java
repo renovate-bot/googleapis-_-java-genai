@@ -28,10 +28,19 @@ public class HarmProbability {
 
   /** Enum representing the known values for HarmProbability. */
   public enum Known {
+    /** Harm probability unspecified. */
     HARM_PROBABILITY_UNSPECIFIED,
+
+    /** Negligible level of harm. */
     NEGLIGIBLE,
+
+    /** Low level of harm. */
     LOW,
+
+    /** Medium level of harm. */
     MEDIUM,
+
+    /** High level of harm. */
     HIGH
   }
 

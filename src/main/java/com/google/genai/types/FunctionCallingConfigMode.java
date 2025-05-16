@@ -28,10 +28,28 @@ public class FunctionCallingConfigMode {
 
   /** Enum representing the known values for FunctionCallingConfigMode. */
   public enum Known {
+    /** The function calling config mode is unspecified. Should not be used. */
     MODE_UNSPECIFIED,
+
+    /**
+     * Default model behavior, model decides to predict either function calls or natural language
+     * response.
+     */
     AUTO,
+
+    /**
+     * Model is constrained to always predicting function calls only. If "allowed_function_names"
+     * are set, the predicted function calls will be limited to any one of "allowed_function_names",
+     * else the predicted function calls will be any one of the provided "function_declarations".
+     */
     ANY,
+
+    /**
+     * Model will not predict any function calls. Model behavior is same as when not passing any
+     * function declarations.
+     */
     NONE,
+
     FUNCTION_CALLING_CONFIG_MODE_UNSPECIFIED
   }
 

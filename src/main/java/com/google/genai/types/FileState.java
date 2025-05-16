@@ -29,9 +29,13 @@ public class FileState {
   /** Enum representing the known values for FileState. */
   public enum Known {
     STATE_UNSPECIFIED,
+
     PROCESSING,
+
     ACTIVE,
+
     FAILED,
+
     FILE_STATE_UNSPECIFIED
   }
 

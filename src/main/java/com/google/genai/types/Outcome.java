@@ -28,9 +28,19 @@ public class Outcome {
 
   /** Enum representing the known values for Outcome. */
   public enum Known {
+    /** Unspecified status. This value should not be used. */
     OUTCOME_UNSPECIFIED,
+
+    /** Code execution completed successfully. */
     OUTCOME_OK,
+
+    /** Code execution finished but with a failure. `stderr` should contain the reason. */
     OUTCOME_FAILED,
+
+    /**
+     * Code execution ran for too long, and was cancelled. There may or may not be a partial output
+     * present.
+     */
     OUTCOME_DEADLINE_EXCEEDED
   }
 

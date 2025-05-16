@@ -29,11 +29,23 @@ public class AuthType {
   /** Enum representing the known values for AuthType. */
   public enum Known {
     AUTH_TYPE_UNSPECIFIED,
+
+    /** No Auth. */
     NO_AUTH,
+
+    /** API Key Auth. */
     API_KEY_AUTH,
+
+    /** HTTP Basic Auth. */
     HTTP_BASIC_AUTH,
+
+    /** Google Service Account Auth. */
     GOOGLE_SERVICE_ACCOUNT_AUTH,
+
+    /** OAuth auth. */
     OAUTH,
+
+    /** OpenID Connect (OIDC) Auth. */
     OIDC_AUTH
   }
 

@@ -28,10 +28,19 @@ public class HarmSeverity {
 
   /** Enum representing the known values for HarmSeverity. */
   public enum Known {
+    /** Harm severity unspecified. */
     HARM_SEVERITY_UNSPECIFIED,
+
+    /** Negligible level of harm severity. */
     HARM_SEVERITY_NEGLIGIBLE,
+
+    /** Low level of harm severity. */
     HARM_SEVERITY_LOW,
+
+    /** Medium level of harm severity. */
     HARM_SEVERITY_MEDIUM,
+
+    /** High level of harm severity. */
     HARM_SEVERITY_HIGH
   }
 

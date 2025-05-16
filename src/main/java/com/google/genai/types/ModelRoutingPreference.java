@@ -29,9 +29,13 @@ public class ModelRoutingPreference {
   /** Enum representing the known values for ModelRoutingPreference. */
   public enum Known {
     UNKNOWN,
+
     PRIORITIZE_QUALITY,
+
     BALANCED,
+
     PRIORITIZE_COST,
+
     MODEL_ROUTING_PREFERENCE_UNSPECIFIED
   }
 

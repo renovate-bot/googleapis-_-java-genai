@@ -28,10 +28,19 @@ public class BlockedReason {
 
   /** Enum representing the known values for BlockedReason. */
   public enum Known {
+    /** Unspecified blocked reason. */
     BLOCKED_REASON_UNSPECIFIED,
+
+    /** Candidates blocked due to safety. */
     SAFETY,
+
+    /** Candidates blocked due to other reason. */
     OTHER,
+
+    /** Candidates blocked due to the terms which are included from the terminology blocklist. */
     BLOCKLIST,
+
+    /** Candidates blocked due to prohibited content. */
     PROHIBITED_CONTENT
   }
 

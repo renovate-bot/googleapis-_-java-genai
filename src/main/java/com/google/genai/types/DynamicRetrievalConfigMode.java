@@ -28,8 +28,12 @@ public class DynamicRetrievalConfigMode {
 
   /** Enum representing the known values for DynamicRetrievalConfigMode. */
   public enum Known {
+    /** Always trigger retrieval. */
     MODE_UNSPECIFIED,
+
+    /** Run retrieval only when system decides it is necessary. */
     MODE_DYNAMIC,
+
     DYNAMIC_RETRIEVAL_CONFIG_MODE_UNSPECIFIED
   }
 

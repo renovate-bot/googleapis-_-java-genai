@@ -28,7 +28,10 @@ public class Language {
 
   /** Enum representing the known values for Language. */
   public enum Known {
+    /** Unspecified language. This value should not be used. */
     LANGUAGE_UNSPECIFIED,
+
+    /** Python >= 3.10, with numpy and simpy available. */
     PYTHON
   }
 

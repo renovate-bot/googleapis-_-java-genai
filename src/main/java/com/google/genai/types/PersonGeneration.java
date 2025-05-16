@@ -29,8 +29,11 @@ public class PersonGeneration {
   /** Enum representing the known values for PersonGeneration. */
   public enum Known {
     DONT_ALLOW,
+
     ALLOW_ADULT,
+
     ALLOW_ALL,
+
     PERSON_GENERATION_UNSPECIFIED
   }
 

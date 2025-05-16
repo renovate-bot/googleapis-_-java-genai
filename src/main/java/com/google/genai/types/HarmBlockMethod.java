@@ -31,8 +31,13 @@ public class HarmBlockMethod {
 
   /** Enum representing the known values for HarmBlockMethod. */
   public enum Known {
+    /** The harm block method is unspecified. */
     HARM_BLOCK_METHOD_UNSPECIFIED,
+
+    /** The harm block method uses both probability and severity scores. */
     SEVERITY,
+
+    /** The harm block method uses the probability score. */
     PROBABILITY
   }
 
