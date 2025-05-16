@@ -581,7 +581,10 @@ public final class Caches {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -1266,7 +1269,10 @@ public final class Caches {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 

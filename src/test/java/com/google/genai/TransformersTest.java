@@ -18,8 +18,12 @@ package com.google.genai;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -391,5 +395,61 @@ public class TransformersTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> Transformers.tFileName(GEMINI_API_CLIENT, new UnsupportedType()));
+  }
+
+  @Test
+  public void tExtractModels_nullResponse_returnNull() {
+    assertTrue(Transformers.tExtractModels(GEMINI_API_CLIENT, null) == null);
+  }
+
+  @Test
+  public void tExtractModels_unsupportedType_throwsException() {
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Transformers.tExtractModels(GEMINI_API_CLIENT, new UnsupportedType()));
+
+    assertTrue(exception.getMessage().contains("Unsupported response type"));
+  }
+
+  @Test
+  public void tExtractModels_noModels_returnNull() {
+    ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
+
+    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    assertTrue(models == null);
+  }
+
+  @Test
+  public void tExtractModels_responseWithModels() {
+    ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
+    origin.put(
+        "models", JsonSerializable.objectMapper.createArrayNode().add("model-1").add("model-2"));
+
+    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    assertTrue(models instanceof ArrayNode);
+    assertEquals(2, models.size());
+  }
+
+  @Test
+  public void tExtractModels_responseWithTunedModels() {
+    ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
+    origin.put("tunedModels", JsonSerializable.objectMapper.createArrayNode().add("tuned-model-1"));
+
+    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    assertTrue(models instanceof ArrayNode);
+    assertEquals(1, models.size());
+  }
+
+  @Test
+  public void tExtractModels_responseWithPublisherModels() {
+    ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
+    origin.put(
+        "publisherModels",
+        JsonSerializable.objectMapper.createArrayNode().add("publisher-model-1"));
+
+    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    assertTrue(models instanceof ArrayNode);
+    assertEquals(1, models.size());
   }
 }

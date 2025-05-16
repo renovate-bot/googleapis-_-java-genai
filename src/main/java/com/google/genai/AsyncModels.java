@@ -191,7 +191,7 @@ public final class AsyncModels {
    */
   public CompletableFuture<GenerateContentResponse> generateContent(
       String model, Content content, GenerateContentConfig config) {
-    return generateContent(model, Transformers.tContents(null, (Object) content), config);
+    return generateContent(model, Transformers.tContents(content), config);
   }
 
   /**
@@ -206,7 +206,7 @@ public final class AsyncModels {
    */
   public CompletableFuture<GenerateContentResponse> generateContent(
       String model, String text, GenerateContentConfig config) {
-    return generateContent(model, Transformers.tContents(null, (Object) text), config);
+    return generateContent(model, Transformers.tContents(text), config);
   }
 
   /**
@@ -239,7 +239,7 @@ public final class AsyncModels {
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> generateContentStream(
       String model, Content content, GenerateContentConfig config) {
-    return generateContentStream(model, Transformers.tContents(null, (Object) content), config);
+    return generateContentStream(model, Transformers.tContents(content), config);
   }
 
   /**
@@ -254,7 +254,7 @@ public final class AsyncModels {
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> generateContentStream(
       String model, String text, GenerateContentConfig config) {
-    return generateContentStream(model, Transformers.tContents(null, (Object) text), config);
+    return generateContentStream(model, Transformers.tContents(text), config);
   }
 
   /**

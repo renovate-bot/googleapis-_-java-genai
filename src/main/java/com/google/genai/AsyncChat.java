@@ -62,7 +62,7 @@ public class AsyncChat extends ChatBase {
    */
   public CompletableFuture<GenerateContentResponse> sendMessage(
       String text, GenerateContentConfig config) {
-    return privateSendMessage(Transformers.tContents(this.apiClient, (Object) text), config);
+    return privateSendMessage(Transformers.tContents(text), config);
   }
 
   /**
@@ -76,7 +76,7 @@ public class AsyncChat extends ChatBase {
    * @param text the text to send to the generative model
    */
   public CompletableFuture<GenerateContentResponse> sendMessage(String text) {
-    return privateSendMessage(Transformers.tContents(this.apiClient, (Object) text), null);
+    return privateSendMessage(Transformers.tContents(text), null);
   }
 
   /**
@@ -93,7 +93,7 @@ public class AsyncChat extends ChatBase {
    */
   public CompletableFuture<GenerateContentResponse> sendMessage(
       Content content, GenerateContentConfig config) {
-    return privateSendMessage(Transformers.tContents(this.apiClient, (Object) content), config);
+    return privateSendMessage(Transformers.tContents(content), config);
   }
 
   /**
@@ -107,7 +107,7 @@ public class AsyncChat extends ChatBase {
    * @param content a {@link com.google.genai.types.Content} to send to the generative model
    */
   public CompletableFuture<GenerateContentResponse> sendMessage(Content content) {
-    return privateSendMessage(Transformers.tContents(this.apiClient, (Object) content), null);
+    return privateSendMessage(Transformers.tContents(content), null);
   }
 
   /**
@@ -182,7 +182,7 @@ public class AsyncChat extends ChatBase {
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
       String text, GenerateContentConfig config) {
-    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), config);
+    return privateSendMessageStream(Transformers.tContents(text), config);
   }
 
   /**
@@ -196,7 +196,7 @@ public class AsyncChat extends ChatBase {
    * @param text the text to send to the generative model
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(String text) {
-    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) text), null);
+    return privateSendMessageStream(Transformers.tContents(text), null);
   }
 
   /**
@@ -213,8 +213,7 @@ public class AsyncChat extends ChatBase {
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
       Content content, GenerateContentConfig config) {
-    return privateSendMessageStream(
-        Transformers.tContents(this.apiClient, (Object) content), config);
+    return privateSendMessageStream(Transformers.tContents(content), config);
   }
 
   /**
@@ -229,7 +228,7 @@ public class AsyncChat extends ChatBase {
    */
   public CompletableFuture<ResponseStream<GenerateContentResponse>> sendMessageStream(
       Content content) {
-    return privateSendMessageStream(Transformers.tContents(this.apiClient, (Object) content), null);
+    return privateSendMessageStream(Transformers.tContents(content), null);
   }
 
   /**

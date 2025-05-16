@@ -1466,7 +1466,10 @@ final class LiveConverters {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -1619,7 +1622,10 @@ final class LiveConverters {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -1929,7 +1935,10 @@ final class LiveConverters {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -2033,7 +2042,10 @@ final class LiveConverters {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 

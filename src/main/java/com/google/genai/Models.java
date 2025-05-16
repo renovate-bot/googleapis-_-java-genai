@@ -903,7 +903,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -999,7 +1002,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -1420,7 +1426,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -2410,7 +2419,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"tools"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"tools"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tTools(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"tools"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -2511,7 +2523,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -3398,7 +3413,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -3435,7 +3453,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"contents"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tContents(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -4216,7 +4237,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"_self"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tExtractModels(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"_self"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -5166,7 +5190,10 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
-      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"_self"});
+      ArrayNode keyArray =
+          (ArrayNode)
+              Transformers.tExtractModels(
+                  this.apiClient, Common.getValueByPath(fromObject, new String[] {"_self"}));
       ObjectMapper objectMapper = new ObjectMapper();
       ArrayNode result = objectMapper.createArrayNode();
 
@@ -6258,7 +6285,7 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, Content content, GenerateContentConfig config) {
-    return generateContent(model, Transformers.tContents(this.apiClient, (Object) content), config);
+    return generateContent(model, Transformers.tContents(content), config);
   }
 
   /**
@@ -6273,7 +6300,7 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, String text, GenerateContentConfig config) {
-    return generateContent(model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return generateContent(model, Transformers.tContents(text), config);
   }
 
   /**
@@ -6314,8 +6341,7 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, Content content, GenerateContentConfig config) {
-    return generateContentStream(
-        model, Transformers.tContents(this.apiClient, (Object) content), config);
+    return generateContentStream(model, Transformers.tContents(content), config);
   }
 
   /**
@@ -6330,8 +6356,7 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, String text, GenerateContentConfig config) {
-    return generateContentStream(
-        model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return generateContentStream(model, Transformers.tContents(text), config);
   }
 
   /**
@@ -6345,7 +6370,7 @@ public final class Models {
    *     count.
    */
   public CountTokensResponse countTokens(String model, String text, CountTokensConfig config) {
-    return countTokens(model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return countTokens(model, Transformers.tContents(text), config);
   }
 
   /**
@@ -6360,7 +6385,7 @@ public final class Models {
    */
   public ComputeTokensResponse computeTokens(
       String model, String text, ComputeTokensConfig config) {
-    return computeTokens(model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return computeTokens(model, Transformers.tContents(text), config);
   }
 
   /**

@@ -16,6 +16,8 @@
 
 package com.google.genai;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -38,12 +40,14 @@ import com.google.genai.types.VoiceConfig;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jspecify.annotations.Nullable;
 
 /** Transformers for GenAI SDK. */
 final class Transformers {
+  private static final Logger logger = Logger.getLogger(Transformers.class.getName());
 
   private Transformers() {}
 
@@ -111,34 +115,72 @@ final class Transformers {
   }
 
   /**
-   * Transforms an object to a list of Content for the API.
+   * Extracts the models from the models.list response.
    *
-   * @param apiClient the API client to use for transformation
-   * @param contents the object to transform, can be a string, Content, or List<Content>
-   * @return the transformed list of Content
-   * @throws IllegalArgumentException if the object is not a supported type
+   * <p>This is used in the converters.
    */
-  @SuppressWarnings("unchecked")
-  public static List<Content> tContents(ApiClient apiClient, Object contents) {
-    if (contents == null) {
+  @SuppressWarnings("PatternMatchingInstanceof")
+  public static @Nullable JsonNode tExtractModels(ApiClient apiClient, Object origin) {
+    if (origin == null) {
       return null;
     }
-    if (contents instanceof String) {
-      return ImmutableList.of(
-          Content.builder()
-              .role("user")
-              .parts(ImmutableList.of(Part.builder().text((String) contents).build()))
-              .build());
-    } else if (contents instanceof Content) {
-      return ImmutableList.of((Content) contents);
-    } else if (contents instanceof List) {
-      return (List<Content>) contents;
-    } else if (contents instanceof JsonNode) {
-      return JsonSerializable.objectMapper.convertValue(
-          (JsonNode) contents, new TypeReference<List<Content>>() {});
+    if (!(origin instanceof JsonNode)) {
+      throw new IllegalArgumentException("Unsupported response type: " + origin.getClass());
     }
 
-    throw new IllegalArgumentException("Unsupported contents type: " + contents.getClass());
+    JsonNode response = (JsonNode) origin;
+    JsonNode models = response.get("models");
+    if (models != null) {
+      return models;
+    }
+    models = response.get("tunedModels");
+    if (models != null) {
+      return models;
+    }
+    models = response.get("publisherModels");
+    if (models != null) {
+      return models;
+    }
+    if ((response.get("httpHeaders") == null) || (response.get("jsonPayload") != null)) {
+      logger.warning("Cannot determine the models type for response: " + response.toPrettyString());
+    }
+    return null;
+  }
+
+  /**
+   * In other languages, this transformer is used for supporting union types. Java doesn't have
+   * union types, so we define a dummy transformer here.
+   *
+   * <p>This is used in the converters.
+   */
+  public static Object tContents(ApiClient apiClient, Object origin) {
+    return origin;
+  }
+
+  /**
+   * Transforms a text string to a list of Content for the API.
+   *
+   * <p>Not intended to be used in converters.
+   *
+   * @param text the text string to transform
+   * @return the transformed list of Content
+   */
+  public static ImmutableList<Content> tContents(String text) {
+    checkNotNull(text, "text cannot be null");
+    return ImmutableList.of(Content.fromParts(Part.fromText(text)));
+  }
+
+  /**
+   * Transforms a Content to a list of Content for the API.
+   *
+   * <p>Not intended to be used in converters.
+   *
+   * @param content a {@link Content} to transform
+   * @return the transformed list of Content
+   */
+  public static ImmutableList<Content> tContents(Content content) {
+    checkNotNull(content, "text cannot be null");
+    return ImmutableList.of(content);
   }
 
   /**
@@ -153,10 +195,7 @@ final class Transformers {
     if (content == null) {
       return null;
     } else if (content instanceof String) {
-      return Content.builder()
-          .role("user")
-          .parts(ImmutableList.of(Part.builder().text((String) content).build()))
-          .build();
+      return Content.fromParts(Part.fromText((String) content));
     } else if (content instanceof Content) {
       return (Content) content;
     } else if (content instanceof JsonNode) {
@@ -227,24 +266,14 @@ final class Transformers {
     return speechConfig;
   }
 
-  /** Transforms an object to a list of Tools for the API. */
-  @SuppressWarnings("unchecked")
-  public static List<Tool> tTools(ApiClient apiClient, Object origin) {
-    if (origin == null) {
-      return null;
-    } else if (origin instanceof List) {
-      List<Tool> tools = (List<Tool>) origin;
-      List<Tool> transformedTools = new ArrayList<>();
-      for (Tool tool : tools) {
-        transformedTools.add(tTool(apiClient, tool));
-      }
-      return transformedTools;
-    } else if (origin instanceof JsonNode) {
-      return JsonSerializable.objectMapper.convertValue(
-          (JsonNode) origin, new TypeReference<List<Tool>>() {});
-    }
-
-    throw new IllegalArgumentException("Unsupported tools type: " + origin.getClass());
+  /**
+   * In other languages, this transformer is used for supporting union types. Java doesn't have
+   * union types, so we define a dummy transformer here. *
+   *
+   * <p>This is used in the converters.
+   */
+  public static Object tTools(ApiClient apiClient, Object origin) {
+    return origin;
   }
 
   /** Transforms an object to a Tool for the API. */

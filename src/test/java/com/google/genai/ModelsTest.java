@@ -404,4 +404,24 @@ public class ModelsTest {
     // Arrange
     assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
+
+  // /** Tested locally to verify that Models.privateList is working. */
+  // @ParameterizedTest
+  // @ValueSource(booleans = {false, true})
+  // public void testModelsPrivateList(boolean vertexAI) throws Exception {
+
+  //   // Arrange
+  //   String suffix = vertexAI ? "vertex" : "mldev";
+  //   Client client =
+  //       createClient(
+  //           vertexAI, "tests/models/generate_image/test_generate_image." + suffix + ".json");
+
+  //   // Act
+  //   ListModelsResponse response =
+  //       client.models.privateList(ListModelsConfig.builder().queryBase(true).build());
+
+  //   // Arrange
+  //   assertTrue(response.models().isPresent());
+  //   assertTrue(response.models().get().size() > 0);
+  // }
 }
