@@ -23,11 +23,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.types.ComputeTokensResponse;
 import com.google.genai.types.Content;
+import com.google.genai.types.ControlReferenceConfig;
+import com.google.genai.types.ControlReferenceImage;
+import com.google.genai.types.ControlReferenceType;
 import com.google.genai.types.CountTokensResponse;
+import com.google.genai.types.EditImageConfig;
+import com.google.genai.types.EditImageResponse;
+import com.google.genai.types.EditMode;
 import com.google.genai.types.EmbedContentResponse;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Image;
+import com.google.genai.types.MaskReferenceConfig;
+import com.google.genai.types.MaskReferenceImage;
+import com.google.genai.types.MaskReferenceMode;
 import com.google.genai.types.Part;
+import com.google.genai.types.RawReferenceImage;
+import com.google.genai.types.ReferenceImage;
+import com.google.genai.types.StyleReferenceConfig;
+import com.google.genai.types.StyleReferenceImage;
+import com.google.genai.types.SubjectReferenceConfig;
+import com.google.genai.types.SubjectReferenceImage;
+import com.google.genai.types.SubjectReferenceType;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -188,5 +209,199 @@ public class ModelsTest {
 
     // Arrange
     assertTrue(response.tokensInfo().isPresent());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testEditImage_withMaskReference(boolean vertexAI) throws Exception {
+    if (!vertexAI) {
+      // EditImage is not supported in MLDev.
+      return;
+    }
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        createClient(
+            vertexAI, "tests/models/edit_image/test_edit_mask_inpaint_insert." + suffix + ".json");
+
+    // Act
+    // Base image created using generateImages with prompt:
+    // "An umbrella in the foreground, and a rainy night sky in the background"
+    URL resourceUrl = getClass().getClassLoader().getResource("umbrella.jpg");
+    Path filePath = Paths.get(resourceUrl.toURI());
+    Image image = Image.fromFile(filePath.toAbsolutePath().toString());
+
+    EditImageConfig editImageConfig =
+        EditImageConfig.builder()
+            .editMode(EditMode.Known.EDIT_MODE_INPAINT_INSERTION)
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .build();
+
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+    RawReferenceImage rawReferenceImage =
+        RawReferenceImage.builder().referenceImage(image).referenceId(1).build();
+    referenceImages.add(rawReferenceImage);
+
+    MaskReferenceImage maskReferenceImage =
+        MaskReferenceImage.builder()
+            .referenceId(2)
+            .config(
+                MaskReferenceConfig.builder()
+                    .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
+                    .maskDilation(0.0f)
+                    .build())
+            .build();
+    referenceImages.add(maskReferenceImage);
+    EditImageResponse response =
+        client.models.editImage(
+            "imagen-3.0-capability-001",
+            "Sunlight and clear sky",
+            referenceImages,
+            editImageConfig);
+
+    // Arrange
+    assertTrue(response.generatedImages().get().get(0).image().isPresent());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testEditImage_withControlReference(boolean vertexAI) throws Exception {
+    if (!vertexAI) {
+      // EditImage is not supported in MLDev.
+      return;
+    }
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        createClient(vertexAI, "tests/models/edit_image/test_edit_control." + suffix + ".json");
+
+    // Act
+    // Base image created using generateImages with prompt:
+    // "A square, circle, and triangle with a white background"
+    URL resourceUrl = getClass().getClassLoader().getResource("shapes.jpg");
+    Path filePath = Paths.get(resourceUrl.toURI());
+    Image image = Image.fromFile(filePath.toAbsolutePath().toString());
+
+    // Control reference.
+    EditImageConfig editImageConfig =
+        EditImageConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+
+    ControlReferenceImage controlReferenceImage =
+        ControlReferenceImage.builder()
+            .referenceId(1)
+            .referenceImage(image)
+            .config(
+                ControlReferenceConfig.builder()
+                    .controlType(ControlReferenceType.Known.CONTROL_TYPE_SCRIBBLE)
+                    .enableControlImageComputation(true)
+                    .build())
+            .build();
+    referenceImages.add(controlReferenceImage);
+
+    EditImageResponse response =
+        client.models.editImage(
+            "imagen-3.0-capability-001",
+            "Change the colors aligning with the scribble map [1].",
+            referenceImages,
+            editImageConfig);
+
+    // Arrange
+    assertTrue(response.generatedImages().get().get(0).image().isPresent());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testEditImage_withSubjectReference(boolean vertexAI) throws Exception {
+    if (!vertexAI) {
+      // EditImage is not supported in MLDev.
+      return;
+    }
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        createClient(vertexAI, "tests/models/edit_image/test_edit_subject." + suffix + ".json");
+
+    // Act
+    // Base image created using generateImages with prompt:
+    // "A logo with the letters 'SERN' in a futuristic font with a white background"
+    URL resourceUrl = getClass().getClassLoader().getResource("logo.jpg");
+    Path filePath = Paths.get(resourceUrl.toURI());
+    Image image = Image.fromFile(filePath.toAbsolutePath().toString());
+
+    // Subject reference.
+    EditImageConfig editImageConfig =
+        EditImageConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+    SubjectReferenceImage subjectReferenceImage =
+        SubjectReferenceImage.builder()
+            .referenceImage(image)
+            .referenceId(1)
+            .config(
+                SubjectReferenceConfig.builder()
+                    .subjectType(SubjectReferenceType.Known.SUBJECT_TYPE_PRODUCT)
+                    .subjectDescription("Product logo")
+                    .build())
+            .build();
+    referenceImages.add(subjectReferenceImage);
+
+    EditImageResponse response =
+        client.models.editImage(
+            "imagen-3.0-capability-001",
+            "Generate an image containing a mug with the product logo [1] visible on the side of"
+                + " the mug.",
+            referenceImages,
+            editImageConfig);
+
+    // Arrange
+    assertTrue(response.generatedImages().get().get(0).image().isPresent());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testEditImage_withStyleTransfer(boolean vertexAI) throws Exception {
+    if (!vertexAI) {
+      // EditImage is not supported in MLDev.
+      return;
+    }
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        createClient(
+            vertexAI, "tests/models/edit_image/test_edit_style_transfer." + suffix + ".json");
+
+    // Act
+    // Base image created using generateImages with prompt:
+    // "A starry night sky painted with watercolors"
+    URL resourceUrl = getClass().getClassLoader().getResource("watercolor_night_sky.jpg");
+    Path filePath = Paths.get(resourceUrl.toURI());
+    Image image = Image.fromFile(filePath.toAbsolutePath().toString());
+
+    // Style transfer.
+    EditImageConfig editImageConfig =
+        EditImageConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+    StyleReferenceImage styleReferenceImage =
+        StyleReferenceImage.builder()
+            .referenceImage(image)
+            .referenceId(1)
+            .config(StyleReferenceConfig.builder().styleDescription("Watercolor").build())
+            .build();
+    referenceImages.add(styleReferenceImage);
+
+    EditImageResponse response =
+        client.models.editImage(
+            "imagen-3.0-capability-001",
+            "Generate an image in the style of [1] based on the following caption: A church in the"
+                + " mountain.",
+            referenceImages,
+            editImageConfig);
+
+    // Arrange
+    assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
 }
