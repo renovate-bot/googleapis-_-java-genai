@@ -18,6 +18,8 @@
 
 package com.google.genai;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -29,7 +31,9 @@ import com.google.genai.types.CreateFileResponse;
 import com.google.genai.types.DeleteFileConfig;
 import com.google.genai.types.DeleteFileParameters;
 import com.google.genai.types.DeleteFileResponse;
+import com.google.genai.types.DownloadFileConfig;
 import com.google.genai.types.File;
+import com.google.genai.types.GeneratedVideo;
 import com.google.genai.types.GetFileConfig;
 import com.google.genai.types.GetFileParameters;
 import com.google.genai.types.HttpOptions;
@@ -38,7 +42,9 @@ import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.ListFilesParameters;
 import com.google.genai.types.ListFilesResponse;
 import com.google.genai.types.UploadFileConfig;
+import com.google.genai.types.Video;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -873,5 +879,104 @@ public final class Files {
     }
 
     return createFileResponse.sdkHttpResponse().get().headers().get().get("X-Goog-Upload-URL");
+  }
+
+  /**
+   * Downloads a file from the API.
+   *
+   * @param fileName The name of the file to download.
+   * @param downloadPath The path to download the file to.
+   * @param config The configuration for the download.
+   */
+  public void download(String fileName, String downloadPath, DownloadFileConfig config) {
+    checkNotNull(fileName);
+    checkNotNull(downloadPath);
+    String extractedFileName = Transformers.tFileName(apiClient, fileName);
+    downloadTo(extractedFileName, downloadPath, config);
+  }
+
+  /**
+   * Downloads a video from the API.
+   *
+   * @param video The video to download.
+   * @param downloadPath The path to download the video to.
+   * @param config The configuration for the download.
+   */
+  public void download(Video video, String downloadPath, DownloadFileConfig config) {
+    checkNotNull(video);
+    checkNotNull(downloadPath);
+    String extractedFileName = Transformers.tFileName(apiClient, video);
+    if (extractedFileName != null) {
+      downloadTo(extractedFileName, downloadPath, config);
+    } else {
+      saveTo(
+          video
+              .videoBytes()
+              .orElseThrow(() -> new IllegalArgumentException("Video bytes are required.")),
+          downloadPath);
+    }
+  }
+
+  /**
+   * Downloads a file from the API.
+   *
+   * @param file The file to download.
+   * @param downloadPath The path to download the file to.
+   * @param config The configuration for the download.
+   */
+  public void download(File file, String downloadPath, DownloadFileConfig config) {
+    checkNotNull(file);
+    checkNotNull(downloadPath);
+    String extractedFileName = Transformers.tFileName(apiClient, file);
+    downloadTo(extractedFileName, downloadPath, config);
+  }
+
+  /**
+   * Downloads a generated video from the API.
+   *
+   * @param generatedVideo The generated video to download.
+   * @param downloadPath The path to download the generated video to.
+   * @param config The configuration for the download.
+   */
+  public void download(
+      GeneratedVideo generatedVideo, String downloadPath, DownloadFileConfig config) {
+    checkNotNull(generatedVideo);
+    checkNotNull(downloadPath);
+    String extractedFileName = Transformers.tFileName(apiClient, generatedVideo);
+    if (extractedFileName != null) {
+      downloadTo(extractedFileName, downloadPath, config);
+    } else {
+      saveTo(
+          generatedVideo
+              .video()
+              .orElseThrow(() -> new IllegalArgumentException("Video is required."))
+              .videoBytes()
+              .orElseThrow(() -> new IllegalArgumentException("Video bytes are required.")),
+          downloadPath);
+    }
+  }
+
+  private void downloadTo(String fileName, String downloadPath, DownloadFileConfig config) {
+    Optional<HttpOptions> httpOptions = Optional.empty();
+    if (config != null) {
+      httpOptions = config.httpOptions();
+    }
+    ApiResponse response =
+        this.apiClient.request(
+            "get", String.format("files/%s:download?alt=media", fileName), "", httpOptions);
+    try (FileOutputStream outputStream = new FileOutputStream(downloadPath)) {
+      HttpEntity entity = response.getEntity();
+      entity.writeTo(outputStream);
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to download file.", e);
+    }
+  }
+
+  private void saveTo(byte[] bytes, String downloadPath) {
+    try (FileOutputStream outputStream = new FileOutputStream(downloadPath)) {
+      outputStream.write(bytes);
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to save file.", e);
+    }
   }
 }
