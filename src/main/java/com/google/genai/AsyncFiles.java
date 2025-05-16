@@ -20,8 +20,13 @@ package com.google.genai;
 
 import com.google.genai.types.DeleteFileConfig;
 import com.google.genai.types.DeleteFileResponse;
+import com.google.genai.types.DownloadFileConfig;
 import com.google.genai.types.File;
+import com.google.genai.types.GeneratedVideo;
 import com.google.genai.types.GetFileConfig;
+import com.google.genai.types.UploadFileConfig;
+import com.google.genai.types.Video;
+import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 
 /** Async module of {@link Files} */
@@ -52,5 +57,102 @@ public final class AsyncFiles {
    */
   public CompletableFuture<DeleteFileResponse> delete(String name, DeleteFileConfig config) {
     return CompletableFuture.supplyAsync(() -> files.delete(name, config));
+  }
+
+  /**
+   * Asynchronously uploads a file to the GenAI API.
+   *
+   * @param file The file to upload.
+   * @param config The configuration for the upload.
+   * @return A future that resolves to the uploaded file.
+   */
+  public CompletableFuture<File> upload(java.io.File file, UploadFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.upload(file, config));
+  }
+
+  /**
+   * Asynchronously uploads a bytes array as a file to the GenAI API.
+   *
+   * @param bytes The bytes of the file to upload.
+   * @param config The configuration for the upload.
+   * @return A future that resolves to the uploaded file.
+   */
+  public CompletableFuture<File> upload(byte[] bytes, UploadFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.upload(bytes, config));
+  }
+
+  /**
+   * Asynchronously uploads a stream as a file to the GenAI API.
+   *
+   * @param stream The stream of the file to upload.
+   * @param size The size of the file in bytes.
+   * @param config The configuration for the upload.
+   * @return A future that resolves to the uploaded file.
+   */
+  public CompletableFuture<File> upload(InputStream stream, long size, UploadFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.upload(stream, size, config));
+  }
+
+  /**
+   * Asynchronously uploads a file by its path to the GenAI API.
+   *
+   * @param filePath The path to the file to upload.
+   * @param config The configuration for the upload.
+   * @return A future that resolves to the uploaded file.
+   */
+  public CompletableFuture<File> upload(String filePath, UploadFileConfig config) {
+    return CompletableFuture.supplyAsync(() -> files.upload(filePath, config));
+  }
+
+  /**
+   * Asynchronously downloads a file from the GenAI API to the provided path.
+   *
+   * @param fileName The name of the file to download.
+   * @param downloadPath The path to download the file to.
+   * @param config The configuration for the download.
+   * @return A future that resolves to the downloaded file.
+   */
+  public CompletableFuture<Void> download(
+      String fileName, String downloadPath, DownloadFileConfig config) {
+    return CompletableFuture.runAsync(() -> files.download(fileName, downloadPath, config));
+  }
+
+  /**
+   * Asynchronously downloads a video from the GenAI API to the provided path.
+   *
+   * @param video The video to download.
+   * @param downloadPath The path to download the video to.
+   * @param config The configuration for the download.
+   * @return A future that resolves to the downloaded video.
+   */
+  public CompletableFuture<Void> download(
+      Video video, String downloadPath, DownloadFileConfig config) {
+    return CompletableFuture.runAsync(() -> files.download(video, downloadPath, config));
+  }
+
+  /**
+   * Asynchronously downloads a generated video from the GenAI API to the provided path.
+   *
+   * @param video The generated video to download.
+   * @param downloadPath The path to download the video to.
+   * @param config The configuration for the download.
+   * @return A future that resolves to the downloaded video.
+   */
+  public CompletableFuture<Void> download(
+      GeneratedVideo video, String downloadPath, DownloadFileConfig config) {
+    return CompletableFuture.runAsync(() -> files.download(video, downloadPath, config));
+  }
+
+  /**
+   * Asynchronously downloads a file from the GenAI API to the provided path.
+   *
+   * @param file The file to download.
+   * @param downloadPath The path to download the file to.
+   * @param config The configuration for the download.
+   * @return A future that resolves to the downloaded file.
+   */
+  public CompletableFuture<Void> download(
+      File file, String downloadPath, DownloadFileConfig config) {
+    return CompletableFuture.runAsync(() -> files.download(file, downloadPath, config));
   }
 }

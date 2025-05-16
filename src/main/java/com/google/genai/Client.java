@@ -58,12 +58,14 @@ public final class Client implements AutoCloseable {
     public final AsyncOperations operations;
     public final AsyncLive live;
     public final AsyncChats chats;
+    public final AsyncFiles files;
 
     public Async(ApiClient apiClient) {
       this.models = new AsyncModels(apiClient);
       this.caches = new AsyncCaches(apiClient);
       this.operations = new AsyncOperations(apiClient);
       this.live = new AsyncLive(apiClient);
+      this.files = new AsyncFiles(apiClient);
       this.chats = new AsyncChats(apiClient);
     }
   }
