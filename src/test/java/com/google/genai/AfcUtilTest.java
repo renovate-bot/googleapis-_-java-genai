@@ -363,4 +363,47 @@ public final class AfcUtilTest {
     assertEquals(1, functionResponseParts.size());
     assertEquals(expectedFunctionResponseParts.toString(), functionResponseParts.toString());
   }
+
+  @Test
+  public void hasCallableTool_nullConfig_returnsFalse() {
+    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, null);
+    assertEquals(false, hasCallableTool);
+  }
+
+  @Test
+  public void hasCallableTool_emptyTools_returnsFalse() {
+    GenerateContentConfig config = GenerateContentConfig.builder().build();
+    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    assertEquals(false, hasCallableTool);
+  }
+
+  @Test
+  public void hasCallableTool_noFunctions_returnsFalse() {
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .tools(
+                ImmutableList.of(
+                    Tool.builder()
+                        .functionDeclarations(ImmutableList.of(testFunctionDeclaration1))
+                        .build()))
+            .build();
+    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    assertEquals(false, hasCallableTool);
+  }
+
+  @Test
+  public void hasCallableTool_returnsTrue() throws NoSuchMethodException {
+    Method testMethod1 = AfcUtilTest.class.getMethod("testFunction1", String.class);
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .tools(
+                ImmutableList.of(
+                    Tool.builder()
+                        .functionDeclarations(ImmutableList.of(testFunctionDeclaration2))
+                        .functions(ImmutableList.of(testMethod1))
+                        .build()))
+            .build();
+    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    assertEquals(true, hasCallableTool);
+  }
 }

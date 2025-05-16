@@ -38,6 +38,21 @@ final class AfcUtil {
   private static final Logger logger = Logger.getLogger(AfcUtil.class.getName());
   private static final int DEFAULT_MAX_REMOTE_CALLS_AFC = 10;
 
+  static boolean hasCallableTool(ApiClient apiClient, GenerateContentConfig config) {
+    if (config == null) {
+      return false;
+    }
+    if (!config.tools().isPresent() || config.tools().get().isEmpty()) {
+      return false;
+    }
+    for (Tool tool : config.tools().get()) {
+      if (tool.functions().isPresent() && !tool.functions().get().isEmpty()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static GenerateContentConfig transformGenerateContentConfig(
       ApiClient apiClient, GenerateContentConfig config) {
     GenerateContentConfig transformedConfig;

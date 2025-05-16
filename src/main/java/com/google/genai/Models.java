@@ -6290,6 +6290,15 @@ public final class Models {
       String model, List<Content> contents, GenerateContentConfig config) {
     GenerateContentConfig transformedConfig =
         AfcUtil.transformGenerateContentConfig(apiClient, config);
+    if (AfcUtil.hasCallableTool(apiClient, config)
+        && !AfcUtil.shouldDisableAfc(transformedConfig)) {
+      logger.warning(
+          "In generateContentStream method, detected that automatic function calling is enabled in"
+              + " the config.AutomaticFunctionCalling(), and callable tool is present in the"
+              + " config.tools() list. Automatic function calling is not supported in streaming"
+              + " methods at the moment, will just return the function call parts from model if"
+              + " there is any.");
+    }
     return privateGenerateContentStream(model, contents, transformedConfig);
   }
 
