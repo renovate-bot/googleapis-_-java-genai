@@ -74,6 +74,7 @@ public final class Client implements AutoCloseable {
   public final Caches caches;
   public final Operations operations;
   public final Chats chats;
+  public final Files files;
   public final Async async;
 
   /** Builder for {@link Client}. */
@@ -283,6 +284,7 @@ public final class Client implements AutoCloseable {
     operations = new Operations(this.apiClient);
     chats = new Chats(this.apiClient);
     async = new Async(this.apiClient);
+    files = new Files(this.apiClient);
   }
 
   /** Returns whether the client is using Vertex AI APIs. */

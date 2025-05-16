@@ -37,7 +37,10 @@ import com.google.genai.types.HttpResponse;
 import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.ListFilesParameters;
 import com.google.genai.types.ListFilesResponse;
+import com.google.genai.types.UploadFileConfig;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -729,5 +732,146 @@ public final class Files {
       }
       return JsonSerializable.fromJsonNode(responseNode, DeleteFileResponse.class);
     }
+  }
+
+  /**
+   * Uploads a file to the API.
+   *
+   * @param file The file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public File upload(java.io.File file, UploadFileConfig config) {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      long size = file.length();
+      String probedMimeType = java.nio.file.Files.probeContentType(file.toPath());
+      Optional<String> mimeType;
+      if (probedMimeType != null) {
+        mimeType = Optional.of(probedMimeType);
+      } else {
+        mimeType = Optional.empty();
+      }
+      String uploadUrl = createFileInApi(config, mimeType, size);
+      HttpEntity entity = uploadClient.upload(uploadUrl, inputStream, size);
+      return fileFromUploadHttpEntity(entity);
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to upload file.", e);
+    }
+  }
+
+  /**
+   * Uploads a file to the API.
+   *
+   * @param bytes The bytes of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public File upload(byte[] bytes, UploadFileConfig config) {
+    String uploadUrl = createFileInApi(config, Optional.<String>empty(), bytes.length);
+    HttpEntity entity = uploadClient.upload(uploadUrl, bytes);
+    return fileFromUploadHttpEntity(entity);
+  }
+
+  /**
+   * Uploads a file to the API.
+   *
+   * @param inputStream The input stream of the file to upload.
+   * @param size The size of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public File upload(InputStream inputStream, long size, UploadFileConfig config) {
+    String uploadUrl = createFileInApi(config, Optional.<String>empty(), size);
+    HttpEntity entity = uploadClient.upload(uploadUrl, inputStream, size);
+    return fileFromUploadHttpEntity(entity);
+  }
+
+  /**
+   * Uploads a file to the API.
+   *
+   * @param filePath The path of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public File upload(String filePath, UploadFileConfig config) {
+    java.io.File file = new java.io.File(filePath);
+    return upload(file, config);
+  }
+
+  private File fileFromUploadHttpEntity(HttpEntity entity) {
+    String responseString;
+    try {
+      responseString = EntityUtils.toString(entity);
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read HTTP response.", e);
+    }
+    JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+    responseNode = responseNode.get("file");
+    responseNode = fileFromMldev(this.apiClient, responseNode, null);
+
+    return JsonSerializable.fromJsonNode(responseNode, File.class);
+  }
+
+  private String createFileInApi(UploadFileConfig config, Optional<String> mimeType, long size) {
+    File.Builder apiFileBuilder = File.builder();
+    if (config != null) {
+      if (config.name().isPresent()) {
+        apiFileBuilder.name(config.name().get());
+      }
+      if (config.mimeType().isPresent()) {
+        apiFileBuilder.mimeType(config.mimeType().get());
+      }
+      if (config.displayName().isPresent()) {
+        apiFileBuilder.displayName(config.displayName().get());
+      }
+    }
+
+    File apiFile = apiFileBuilder.build();
+
+    if (apiFile.name().isPresent() && !apiFile.name().get().startsWith("files/")) {
+      apiFile = apiFile.toBuilder().name("files/" + apiFile.name().get()).build();
+    }
+
+    String actualMimeType =
+        mimeType.orElse(
+            apiFile
+                .mimeType()
+                .orElseThrow(
+                    () ->
+                        new IllegalArgumentException(
+                            "Unknown mime type: Could not determine mime type for your file, please"
+                                + " set the mimeType config argument")));
+
+    Map<String, String> createFileHeaders = new HashMap<>();
+    createFileHeaders.put("Content-Type", "application/json");
+    createFileHeaders.put("X-Goog-Upload-Protocol", "resumable");
+    createFileHeaders.put("X-Goog-Upload-Command", "start");
+    createFileHeaders.put("X-Goog-Upload-Header-Content-Length", "" + size);
+    createFileHeaders.put("X-Goog-Upload-Header-Content-Type", actualMimeType);
+
+    HttpOptions createFileHttpOptions =
+        HttpOptions.builder().apiVersion("").headers(createFileHeaders).build();
+
+    CreateFileResponse createFileResponse =
+        privateCreate(
+            apiFile,
+            CreateFileConfig.builder()
+                .httpOptions(createFileHttpOptions)
+                .shouldReturnHttpResponse(true)
+                .build());
+
+    if (!createFileResponse.sdkHttpResponse().isPresent()
+        || !createFileResponse.sdkHttpResponse().get().headers().isPresent()
+        || !createFileResponse
+            .sdkHttpResponse()
+            .get()
+            .headers()
+            .get()
+            .containsKey("X-Goog-Upload-URL")) {
+      throw new IllegalStateException(
+          "Failed to create file. Upload URL was not returned in the create file response.");
+    }
+
+    return createFileResponse.sdkHttpResponse().get().headers().get().get("X-Goog-Upload-URL");
   }
 }
