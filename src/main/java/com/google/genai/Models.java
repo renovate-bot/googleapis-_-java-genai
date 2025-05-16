@@ -91,6 +91,32 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode videoMetadataToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fps"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"fps"}, Common.getValueByPath(fromObject, new String[] {"fps"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endOffset"},
+          Common.getValueByPath(fromObject, new String[] {"endOffset"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"startOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startOffset"},
+          Common.getValueByPath(fromObject, new String[] {"startOffset"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode blobToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"displayName"}))) {
@@ -117,8 +143,15 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode partToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"videoMetadata"}))) {
-      throw new IllegalArgumentException("videoMetadata parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"videoMetadata"},
+          videoMetadataToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"videoMetadata"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
@@ -1548,6 +1581,32 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode videoMetadataToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fps"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"fps"}, Common.getValueByPath(fromObject, new String[] {"fps"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endOffset"},
+          Common.getValueByPath(fromObject, new String[] {"endOffset"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"startOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startOffset"},
+          Common.getValueByPath(fromObject, new String[] {"startOffset"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode blobToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
@@ -1581,7 +1640,11 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"videoMetadata"},
-          Common.getValueByPath(fromObject, new String[] {"videoMetadata"}));
+          videoMetadataToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"videoMetadata"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
@@ -3522,6 +3585,32 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode videoMetadataFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fps"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"fps"}, Common.getValueByPath(fromObject, new String[] {"fps"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endOffset"},
+          Common.getValueByPath(fromObject, new String[] {"endOffset"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"startOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startOffset"},
+          Common.getValueByPath(fromObject, new String[] {"startOffset"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode blobFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -3545,6 +3634,16 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode partFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"videoMetadata"},
+          videoMetadataFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"videoMetadata"})),
+              toObject));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
       Common.setValueByPath(
@@ -4288,6 +4387,32 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode videoMetadataFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fps"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"fps"}, Common.getValueByPath(fromObject, new String[] {"fps"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"endOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"endOffset"},
+          Common.getValueByPath(fromObject, new String[] {"endOffset"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"startOffset"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"startOffset"},
+          Common.getValueByPath(fromObject, new String[] {"startOffset"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode blobFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
@@ -4321,7 +4446,11 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"videoMetadata"},
-          Common.getValueByPath(fromObject, new String[] {"videoMetadata"}));
+          videoMetadataFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"videoMetadata"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"thought"}) != null) {
