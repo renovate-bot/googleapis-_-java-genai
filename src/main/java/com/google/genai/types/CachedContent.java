@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Instant;
 import java.util.Optional;
 
 /** A resource used in LLM queries for users to explicitly specify what to cache. */
@@ -43,15 +44,15 @@ public abstract class CachedContent extends JsonSerializable {
 
   /** Creation time of the cache entry. */
   @JsonProperty("createTime")
-  public abstract Optional<String> createTime();
+  public abstract Optional<Instant> createTime();
 
   /** When the cache entry was last updated in UTC time. */
   @JsonProperty("updateTime")
-  public abstract Optional<String> updateTime();
+  public abstract Optional<Instant> updateTime();
 
   /** Expiration time of the cached content. */
   @JsonProperty("expireTime")
-  public abstract Optional<String> expireTime();
+  public abstract Optional<Instant> expireTime();
 
   /** Metadata on the usage of the cached content. */
   @JsonProperty("usageMetadata")
@@ -84,13 +85,13 @@ public abstract class CachedContent extends JsonSerializable {
     public abstract Builder model(String model);
 
     @JsonProperty("createTime")
-    public abstract Builder createTime(String createTime);
+    public abstract Builder createTime(Instant createTime);
 
     @JsonProperty("updateTime")
-    public abstract Builder updateTime(String updateTime);
+    public abstract Builder updateTime(Instant updateTime);
 
     @JsonProperty("expireTime")
-    public abstract Builder expireTime(String expireTime);
+    public abstract Builder expireTime(Instant expireTime);
 
     @JsonProperty("usageMetadata")
     public abstract Builder usageMetadata(CachedContentUsageMetadata usageMetadata);

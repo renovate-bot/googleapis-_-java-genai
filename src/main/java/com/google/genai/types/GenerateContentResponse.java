@@ -26,6 +26,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.genai.JsonSerializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +45,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
 
   /** Timestamp when the request is made to the server. */
   @JsonProperty("createTime")
-  public abstract Optional<String> createTime();
+  public abstract Optional<Instant> createTime();
 
   /** Identifier for each response. */
   @JsonProperty("responseId")
@@ -90,7 +91,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
     public abstract Builder candidates(List<Candidate> candidates);
 
     @JsonProperty("createTime")
-    public abstract Builder createTime(String createTime);
+    public abstract Builder createTime(Instant createTime);
 
     @JsonProperty("responseId")
     public abstract Builder responseId(String responseId);

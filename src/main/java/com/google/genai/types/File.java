@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
@@ -56,18 +57,18 @@ public abstract class File extends JsonSerializable {
 
   /** Output only. The timestamp of when the `File` was created. */
   @JsonProperty("createTime")
-  public abstract Optional<String> createTime();
+  public abstract Optional<Instant> createTime();
 
   /**
    * Output only. The timestamp of when the `File` will be deleted. Only set if the `File` is
    * scheduled to expire.
    */
   @JsonProperty("expirationTime")
-  public abstract Optional<String> expirationTime();
+  public abstract Optional<Instant> expirationTime();
 
   /** Output only. The timestamp of when the `File` was last updated. */
   @JsonProperty("updateTime")
-  public abstract Optional<String> updateTime();
+  public abstract Optional<Instant> updateTime();
 
   /**
    * Output only. SHA-256 hash of the uploaded bytes. The hash value is encoded in base64 format.
@@ -129,13 +130,13 @@ public abstract class File extends JsonSerializable {
     public abstract Builder sizeBytes(Long sizeBytes);
 
     @JsonProperty("createTime")
-    public abstract Builder createTime(String createTime);
+    public abstract Builder createTime(Instant createTime);
 
     @JsonProperty("expirationTime")
-    public abstract Builder expirationTime(String expirationTime);
+    public abstract Builder expirationTime(Instant expirationTime);
 
     @JsonProperty("updateTime")
-    public abstract Builder updateTime(String updateTime);
+    public abstract Builder updateTime(Instant updateTime);
 
     @JsonProperty("sha256Hash")
     public abstract Builder sha256Hash(String sha256Hash);

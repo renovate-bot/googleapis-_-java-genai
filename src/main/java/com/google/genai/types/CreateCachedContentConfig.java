@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,14 +41,14 @@ public abstract class CreateCachedContentConfig extends JsonSerializable {
    * with up to nine fractional digits, terminated by 's'. Example: "3.5s".
    */
   @JsonProperty("ttl")
-  public abstract Optional<String> ttl();
+  public abstract Optional<Duration> ttl();
 
   /**
    * Timestamp of when this resource is considered expired. Uses RFC 3339 format, Example:
    * 2014-10-02T15:01:23Z.
    */
   @JsonProperty("expireTime")
-  public abstract Optional<String> expireTime();
+  public abstract Optional<Instant> expireTime();
 
   /** The user-generated meaningful display name of the cached content. */
   @JsonProperty("displayName")
@@ -99,10 +101,10 @@ public abstract class CreateCachedContentConfig extends JsonSerializable {
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
     @JsonProperty("ttl")
-    public abstract Builder ttl(String ttl);
+    public abstract Builder ttl(Duration ttl);
 
     @JsonProperty("expireTime")
-    public abstract Builder expireTime(String expireTime);
+    public abstract Builder expireTime(Instant expireTime);
 
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);

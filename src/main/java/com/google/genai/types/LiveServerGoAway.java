@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Duration;
 import java.util.Optional;
 
 /** Server will not be able to service client soon. */
@@ -34,7 +35,7 @@ public abstract class LiveServerGoAway extends JsonSerializable {
    * returned here is specified differently together with the rate limits for a given model.
    */
   @JsonProperty("timeLeft")
-  public abstract Optional<String> timeLeft();
+  public abstract Optional<Duration> timeLeft();
 
   /** Instantiates a builder for LiveServerGoAway. */
   public static Builder builder() {
@@ -54,7 +55,7 @@ public abstract class LiveServerGoAway extends JsonSerializable {
     }
 
     @JsonProperty("timeLeft")
-    public abstract Builder timeLeft(String timeLeft);
+    public abstract Builder timeLeft(Duration timeLeft);
 
     public abstract LiveServerGoAway build();
   }

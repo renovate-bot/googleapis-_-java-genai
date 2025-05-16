@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -37,11 +38,11 @@ import java.util.Optional;
 public abstract class Interval extends JsonSerializable {
   /** The start time of the interval. */
   @JsonProperty("startTime")
-  public abstract Optional<String> startTime();
+  public abstract Optional<Instant> startTime();
 
   /** The end time of the interval. */
   @JsonProperty("endTime")
-  public abstract Optional<String> endTime();
+  public abstract Optional<Instant> endTime();
 
   /** Instantiates a builder for Interval. */
   public static Builder builder() {
@@ -61,10 +62,10 @@ public abstract class Interval extends JsonSerializable {
     }
 
     @JsonProperty("startTime")
-    public abstract Builder startTime(String startTime);
+    public abstract Builder startTime(Instant startTime);
 
     @JsonProperty("endTime")
-    public abstract Builder endTime(String endTime);
+    public abstract Builder endTime(Instant endTime);
 
     public abstract Interval build();
   }

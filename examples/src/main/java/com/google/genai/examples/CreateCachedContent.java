@@ -47,6 +47,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /** An example of using the Unified Gen AI Java SDK to compute tokens for simple text input. */
 public class CreateCachedContent {
@@ -66,6 +68,7 @@ public class CreateCachedContent {
     CreateCachedContentConfig config =
         CreateCachedContentConfig.builder()
             .systemInstruction(Content.fromParts(Part.fromText("summarize the two pdfs")))
+            .expireTime(Instant.now().plus(1, ChronoUnit.HOURS))
             .contents(ImmutableList.of(content))
             .build();
 

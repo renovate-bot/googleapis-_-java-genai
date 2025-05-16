@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Instant;
 import java.util.Optional;
 
 /** A tuned machine learning model. */
@@ -35,11 +36,11 @@ public abstract class TunedModelInfo extends JsonSerializable {
 
   /** Date and time when the base model was created. */
   @JsonProperty("createTime")
-  public abstract Optional<String> createTime();
+  public abstract Optional<Instant> createTime();
 
   /** Date and time when the base model was last updated. */
   @JsonProperty("updateTime")
-  public abstract Optional<String> updateTime();
+  public abstract Optional<Instant> updateTime();
 
   /** Instantiates a builder for TunedModelInfo. */
   public static Builder builder() {
@@ -62,10 +63,10 @@ public abstract class TunedModelInfo extends JsonSerializable {
     public abstract Builder baseModel(String baseModel);
 
     @JsonProperty("createTime")
-    public abstract Builder createTime(String createTime);
+    public abstract Builder createTime(Instant createTime);
 
     @JsonProperty("updateTime")
-    public abstract Builder updateTime(String updateTime);
+    public abstract Builder updateTime(Instant updateTime);
 
     public abstract TunedModelInfo build();
   }

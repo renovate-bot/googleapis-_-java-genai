@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.time.Duration;
 import java.util.Optional;
 
 /** Describes how the video in the Part should be used by the model. */
@@ -38,11 +39,11 @@ public abstract class VideoMetadata extends JsonSerializable {
 
   /** Optional. The end offset of the video. */
   @JsonProperty("endOffset")
-  public abstract Optional<String> endOffset();
+  public abstract Optional<Duration> endOffset();
 
   /** Optional. The start offset of the video. */
   @JsonProperty("startOffset")
-  public abstract Optional<String> startOffset();
+  public abstract Optional<Duration> startOffset();
 
   /** Instantiates a builder for VideoMetadata. */
   public static Builder builder() {
@@ -65,10 +66,10 @@ public abstract class VideoMetadata extends JsonSerializable {
     public abstract Builder fps(Double fps);
 
     @JsonProperty("endOffset")
-    public abstract Builder endOffset(String endOffset);
+    public abstract Builder endOffset(Duration endOffset);
 
     @JsonProperty("startOffset")
-    public abstract Builder startOffset(String startOffset);
+    public abstract Builder startOffset(Duration startOffset);
 
     public abstract VideoMetadata build();
   }
