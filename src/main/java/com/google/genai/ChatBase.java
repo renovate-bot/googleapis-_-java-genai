@@ -113,7 +113,8 @@ class ChatBase {
     List<Content> currentInput = new ArrayList<>();
     List<Content> currentOutput = new ArrayList<>();
     List<String> validRoles = Arrays.asList("user", "model");
-    for (int i = 0; i < history.size(); i++) {
+    int i = 0;
+    while (i < history.size()) {
       // The second condition handles the case where the history is empty and we are validating the
       // first message in a streaming call
       if ((i == 0
@@ -126,7 +127,7 @@ class ChatBase {
         throw new IllegalArgumentException(
             "The first message in the history must be from the user.");
       }
-      if (i < history.size() && !validRoles.contains(history.get(i).role().get())) {
+      if (!validRoles.contains(history.get(i).role().get())) {
         throw new IllegalArgumentException(
             "The role of the message must be either 'user' or 'model'.");
       }
@@ -134,6 +135,7 @@ class ChatBase {
         if (validateContent(history.get(i))) {
           currentInput.add(history.get(i));
         }
+        i++;
       } else {
         boolean isValid = true;
         while (i < history.size()
@@ -253,14 +255,26 @@ class ChatBase {
   }
 
   protected void updateHistoryNonStreaming(
-      GenerateContentResponse response, List<Content> contents) {
-    List<Content> responseContents = new ArrayList<>();
-    for (Candidate candidate : response.candidates().get()) {
-      responseContents.add(candidate.content().get());
+      GenerateContentResponse modelResponse, List<Content> userInputContents) {
+    List<Content> inputContents = new ArrayList<>();
+    if (modelResponse.automaticFunctionCallingHistory().isPresent()
+        && !modelResponse.automaticFunctionCallingHistory().get().isEmpty()) {
+      // the afc history contains the entire curated history in addition to the new user input.
+      // truncate the afc history to deduplicate the existing curated history.
+      inputContents.addAll(
+          modelResponse
+              .automaticFunctionCallingHistory()
+              .get()
+              .subList(
+                  this.curatedHistory.size(),
+                  modelResponse.automaticFunctionCallingHistory().get().size()));
+    } else {
+      inputContents.addAll(userInputContents);
     }
     List<Content> currentHistory = new ArrayList<>();
-    currentHistory.addAll(contents);
-    currentHistory.addAll(responseContents);
-    recordHistory(currentHistory, response);
+    Content modelResponseContent = modelResponse.candidates().get().get(0).content().get();
+    currentHistory.addAll(inputContents);
+    currentHistory.add(modelResponseContent);
+    recordHistory(currentHistory, modelResponse);
   }
 }

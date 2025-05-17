@@ -22,16 +22,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.Candidate;
 import com.google.genai.types.Content;
 import com.google.genai.types.FinishReason;
+import com.google.genai.types.FunctionCall;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateContentResponseUsageMetadata;
 import com.google.genai.types.Part;
+import com.google.genai.types.Tool;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +66,10 @@ public class ChatTest {
   private static final String STREAMING_RESPONSE_CHUNK_3 = " far, far away...";
   private static final String NON_STREAMING_RESPONSE = "This is a non-streaming response.";
   private Iterator<GenerateContentResponse> mockStreamIterator;
+
+  public static String findTheaters(String movie, String location, String time) {
+    return "AMC Metreon 16, AMC Kabuki 8, AMC Theater 11";
+  }
 
   GenerateContentResponse responseChunk1 =
       GenerateContentResponse.builder()
@@ -194,6 +202,89 @@ public class ChatTest {
         chatSession.sendMessage("Which Taylor Swift song should I listen to next?", null);
 
     assert chatSession.getHistory(false).size() == 2;
+  }
+
+  @Test
+  public void testGetHistoryWithAfc() throws Exception {
+    String userMessage = "Find theaters for Oppenheimer.";
+    Content userMessageContent =
+        Content.builder().role("user").parts(Arrays.asList(Part.fromText(userMessage))).build();
+    Content functionCallContent =
+        Content.builder()
+            .role("model")
+            .parts(
+                Arrays.asList(
+                    Part.builder()
+                        .functionCall(
+                            FunctionCall.builder()
+                                .name("findTheaters")
+                                .args(
+                                    ImmutableMap.of(
+                                        "movie",
+                                        "Oppenheimer",
+                                        "location",
+                                        "New York, NY",
+                                        "time",
+                                        "10:00 PM"))
+                                .build())
+                        .build()))
+            .build();
+
+    GenerateContentResponse functionResponse =
+        GenerateContentResponse.builder()
+            .candidates(
+                Arrays.asList(
+                    Candidate.builder()
+                        .content(functionCallContent)
+                        .finishReason(FinishReason.Known.STOP)
+                        .build()))
+            .build();
+
+    GenerateContentResponse finalResponse =
+        GenerateContentResponse.builder()
+            .candidates(
+                Arrays.asList(
+                    Candidate.builder()
+                        .content(
+                            Content.builder()
+                                .role("model")
+                                .parts(
+                                    Arrays.asList(
+                                        Part.fromText(
+                                            "I found AMC Metreon 16, AMC Kabuki 8, AMC Theater"
+                                                + " 11")))
+                                .build())
+                        .finishReason(FinishReason.Known.STOP)
+                        .build()))
+            .build();
+
+    when(mockedClient.request(anyString(), anyString(), anyString(), any()))
+        .thenReturn(mockedResponse1, mockedResponse2);
+    StringEntity functionResponseStringEntity = new StringEntity(functionResponse.toJson());
+    when(mockedResponse1.getEntity()).thenReturn(functionResponseStringEntity);
+    StringEntity finalResponseStringEntity = new StringEntity(finalResponse.toJson());
+    when(mockedResponse2.getEntity()).thenReturn(finalResponseStringEntity);
+
+    Field apiClientField = Chats.class.getDeclaredField("apiClient");
+    apiClientField.setAccessible(true);
+    apiClientField.set(client.chats, mockedClient);
+    Method method =
+        ChatTest.class.getDeclaredMethod("findTheaters", String.class, String.class, String.class);
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .tools(Arrays.asList(Tool.builder().functions(Arrays.asList(method)).build()))
+            .build();
+    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", config);
+    assert chatSession.getHistory(false).size() == 0;
+
+    GenerateContentResponse response = chatSession.sendMessage(userMessage, null);
+
+    assertNotNull(response.automaticFunctionCallingHistory().get());
+    // user input, function call, function response
+    assert response.automaticFunctionCallingHistory().get().size() == 3;
+    assert chatSession.getHistory(false).size()
+        == 4; // user input, function call, function response, model response
+    assert chatSession.getHistory(true).size() == 4;
   }
 
   @Test
