@@ -84,6 +84,13 @@ public abstract class LiveClientSetup extends JsonSerializable {
   @JsonProperty("outputAudioTranscription")
   public abstract Optional<AudioTranscriptionConfig> outputAudioTranscription();
 
+  /**
+   * Configures the proactivity of the model. This allows the model to respond proactively to the
+   * input and to ignore irrelevant input.
+   */
+  @JsonProperty("proactivity")
+  public abstract Optional<ProactivityConfig> proactivity();
+
   /** Instantiates a builder for LiveClientSetup. */
   public static Builder builder() {
     return new AutoValue_LiveClientSetup.Builder();
@@ -130,6 +137,9 @@ public abstract class LiveClientSetup extends JsonSerializable {
     @JsonProperty("outputAudioTranscription")
     public abstract Builder outputAudioTranscription(
         AudioTranscriptionConfig outputAudioTranscription);
+
+    @JsonProperty("proactivity")
+    public abstract Builder proactivity(ProactivityConfig proactivity);
 
     public abstract LiveClientSetup build();
   }

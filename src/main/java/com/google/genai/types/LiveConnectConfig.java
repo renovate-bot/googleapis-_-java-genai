@@ -85,6 +85,10 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   @JsonProperty("speechConfig")
   public abstract Optional<SpeechConfig> speechConfig();
 
+  /** If enabled, the model will detect emotions and adapt its responses accordingly. */
+  @JsonProperty("enableAffectiveDialog")
+  public abstract Optional<Boolean> enableAffectiveDialog();
+
   /**
    * The user provided system instructions for the model. Note: only text should be used in parts
    * and content in each part will be in a separate paragraph.
@@ -130,6 +134,13 @@ public abstract class LiveConnectConfig extends JsonSerializable {
    */
   @JsonProperty("contextWindowCompression")
   public abstract Optional<ContextWindowCompressionConfig> contextWindowCompression();
+
+  /**
+   * Configures the proactivity of the model. This allows the model to respond proactively to the
+   * input and to ignore irrelevant input.
+   */
+  @JsonProperty("proactivity")
+  public abstract Optional<ProactivityConfig> proactivity();
 
   /** Instantiates a builder for LiveConnectConfig. */
   public static Builder builder() {
@@ -196,6 +207,9 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("speechConfig")
     public abstract Builder speechConfig(SpeechConfig speechConfig);
 
+    @JsonProperty("enableAffectiveDialog")
+    public abstract Builder enableAffectiveDialog(boolean enableAffectiveDialog);
+
     @JsonProperty("systemInstruction")
     public abstract Builder systemInstruction(Content systemInstruction);
 
@@ -219,6 +233,9 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("contextWindowCompression")
     public abstract Builder contextWindowCompression(
         ContextWindowCompressionConfig contextWindowCompression);
+
+    @JsonProperty("proactivity")
+    public abstract Builder proactivity(ProactivityConfig proactivity);
 
     public abstract LiveConnectConfig build();
   }

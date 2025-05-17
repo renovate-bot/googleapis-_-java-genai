@@ -1386,6 +1386,34 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode proactivityConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"proactiveAudio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"proactiveAudio"},
+          Common.getValueByPath(fromObject, new String[] {"proactiveAudio"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode proactivityConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"proactiveAudio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"proactiveAudio"},
+          Common.getValueByPath(fromObject, new String[] {"proactiveAudio"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode liveConnectConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1450,6 +1478,13 @@ final class LiveConverters {
                       this.apiClient,
                       Common.getValueByPath(fromObject, new String[] {"speechConfig"}))),
               toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "generationConfig", "enableAffectiveDialog"},
+          Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"systemInstruction"}) != null) {
@@ -1538,6 +1573,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"proactivity"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "proactivity"},
+          proactivityConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"proactivity"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -1606,6 +1652,13 @@ final class LiveConverters {
                       this.apiClient,
                       Common.getValueByPath(fromObject, new String[] {"speechConfig"}))),
               toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "generationConfig", "enableAffectiveDialog"},
+          Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"systemInstruction"}) != null) {
@@ -1691,6 +1744,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"contextWindowCompression"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"proactivity"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "proactivity"},
+          proactivityConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"proactivity"})),
               toObject));
     }
 
@@ -2007,6 +2071,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"proactivity"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"proactivity"},
+          proactivityConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"proactivity"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -2111,6 +2186,17 @@ final class LiveConverters {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"proactivity"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"proactivity"},
+          proactivityConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"proactivity"})),
               toObject));
     }
 
