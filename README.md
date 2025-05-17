@@ -141,6 +141,73 @@ public class GenerateContentWithImageInput {
 }
 ```
 
+##### Automatic function calling with generate content
+
+The Models.generateContent methods supports automatic function calling (AFC). If
+the user passes in a list of public static method in the tool list of the
+GenerateContentConfig, by default AFC will be enabled with maximum remote calls
+to be 10 times. Follow the following steps to experience this feature.
+
+**Step 1**: enable the compiler to parse parameter name of your methods. In your
+`pom.xml`, include the following compiler configuration.
+
+```
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>3.14.0</version>
+  <configuration>
+    <compilerArgs>
+      <arg>-parameters</arg>
+    </compilerArgs>
+  </configuration>
+</plugin>
+```
+
+**Step 2**: see the following code example to use AFC, pay special attention to
+the code line where the `java.lang.reflect.Method` instance was extracted.
+
+```java
+import com.google.common.collect.ImmutableList;
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Tool;
+import java.lang.reflect.Method;
+
+public class GenerateContentWithFunctionCall {
+  public static String getCurrentWeather(String location, String unit) {
+    return "The weather in " + location + " is " + "very nice.";
+  }
+
+  public static void main(String[] args) throws NoSuchMethodException {
+    Client client = new Client();
+
+    Method method =
+        GenerateContentWithFunctionCall.class.getMethod(
+            "getCurrentWeather", String.class, String.class);
+
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .tools(
+                ImmutableList.of(
+                    Tool.builder().functions(ImmutableList.of(method)).build()))
+            .build();
+
+    GenerateContentResponse response =
+        client.models.generateContent(
+            "gemini-2.0-flash-001",
+            "What is the weather in Vancouver?",
+            config);
+
+    System.out.println("The response is: " + response.text());
+    System.out.println(
+        "The automatic function calling history is: "
+            + response.automaticFunctionCallingHistory().get());
+  }
+}
+```
+
 #### Stream Generated Content
 To get a streamed response, you can use the `generateContentStream` method:
 
