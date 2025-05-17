@@ -33,7 +33,7 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContent"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ModelManagement"
  */
 package com.google.genai.examples;
 
@@ -50,6 +50,11 @@ public class ModelManagement {
             .vertexAI(true)
             .build();
 
+    // Lists the models.
+    for (Model model : client.models.list(null)) {
+      System.out.println("Model: " + model.name().get());
+    }
+
     // Gets the model.
     Model modelResponse = client.models.get("models/YOUR_TUNED_MODEL_ID", null);
 
@@ -59,7 +64,7 @@ public class ModelManagement {
     // Update the model.
     Model updatedModel =
         client.models.update(
-            "models/7032086044627435520",
+            "models/YOUR_TUNED_MODEL_ID",
             UpdateModelConfig.builder()
                 .displayName("My updated model")
                 .description("My updated description")

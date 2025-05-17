@@ -5368,7 +5368,7 @@ public final class Models {
     return toObject;
   }
 
-  private GenerateContentResponse privateGenerateContent(
+  GenerateContentResponse privateGenerateContent(
       String model, List<Content> contents, GenerateContentConfig config) {
 
     GenerateContentParameters.Builder parameterBuilder = GenerateContentParameters.builder();
@@ -5430,7 +5430,7 @@ public final class Models {
     }
   }
 
-  private ResponseStream<GenerateContentResponse> privateGenerateContentStream(
+  ResponseStream<GenerateContentResponse> privateGenerateContentStream(
       String model, List<Content> contents, GenerateContentConfig config) {
 
     GenerateContentParameters.Builder parameterBuilder = GenerateContentParameters.builder();
@@ -5485,7 +5485,7 @@ public final class Models {
         GenerateContentResponse.class, response, this, converterName);
   }
 
-  private EmbedContentResponse privateEmbedContent(
+  EmbedContentResponse privateEmbedContent(
       String model, List<Content> contents, EmbedContentConfig config) {
 
     EmbedContentParameters.Builder parameterBuilder = EmbedContentParameters.builder();
@@ -5547,7 +5547,7 @@ public final class Models {
     }
   }
 
-  private GenerateImagesResponse privateGenerateImages(
+  GenerateImagesResponse privateGenerateImages(
       String model, String prompt, GenerateImagesConfig config) {
 
     GenerateImagesParameters.Builder parameterBuilder = GenerateImagesParameters.builder();
@@ -5609,7 +5609,7 @@ public final class Models {
     }
   }
 
-  private EditImageResponse privateEditImage(
+  EditImageResponse privateEditImage(
       String model,
       String prompt,
       List<ReferenceImageAPI> referenceImages,
@@ -5674,7 +5674,7 @@ public final class Models {
     }
   }
 
-  private UpscaleImageResponse privateUpscaleImage(
+  UpscaleImageResponse privateUpscaleImage(
       String model, Image image, String upscaleFactor, UpscaleImageAPIConfig config) {
 
     UpscaleImageAPIParameters.Builder parameterBuilder = UpscaleImageAPIParameters.builder();
@@ -5799,7 +5799,7 @@ public final class Models {
     }
   }
 
-  private ListModelsResponse privateList(ListModelsConfig config) {
+  ListModelsResponse privateList(ListModelsConfig config) {
 
     ListModelsParameters.Builder parameterBuilder = ListModelsParameters.builder();
 
@@ -6524,5 +6524,42 @@ public final class Models {
       contents.add(Content.fromParts(Part.fromText(text)));
     }
     return privateEmbedContent(model, contents, config);
+  }
+
+  /**
+   * Makes an API request to list the available models.
+   *
+   * <p>If `queryBase` is set to True in the {@link ListModelsConfig} or not set (default), the API
+   * will return all available base models. If set to False, it will return all tuned models.
+   *
+   * @param config A {@link ListModelsConfig} for configuring the list request.
+   * @return A {@link Pager} object that contains the list of models. The pager is an iterable and
+   *     automatically queries the next page once the current page is exhausted.
+   */
+  public Pager<Model> list(ListModelsConfig config) {
+    if (config == null) {
+      config = ListModelsConfig.builder().build();
+    }
+    if (config.filter().isPresent()) {
+      throw new IllegalArgumentException("Filter is currently not supported for list models.");
+    }
+    ListModelsConfig.Builder configBuilder = config.toBuilder();
+    if (!config.queryBase().isPresent()) {
+      configBuilder.queryBase(true);
+    } else if (!config.queryBase().get() && this.apiClient.vertexAI()) {
+      configBuilder.filter("labels.tune-type:*");
+    }
+    config = configBuilder.build();
+
+    try {
+      return new Pager<>(
+          this,
+          Pager.PagedItem.MODELS,
+          Models.class.getDeclaredMethod("privateList", ListModelsConfig.class),
+          (ObjectNode) JsonSerializable.toJsonNode(config),
+          JsonSerializable.toJsonNode(privateList(config)));
+    } catch (NoSuchMethodException e) {
+      throw new GenAiIOException("Failed to list models. " + e.getMessage());
+    }
   }
 }

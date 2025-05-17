@@ -372,7 +372,7 @@ public final class Operations {
     return toObject;
   }
 
-  private GenerateVideosOperation privateGetVideosOperation(
+  GenerateVideosOperation privateGetVideosOperation(
       String operationName, GetOperationConfig config) {
 
     GetOperationParameters.Builder parameterBuilder = GetOperationParameters.builder();
@@ -431,7 +431,7 @@ public final class Operations {
     }
   }
 
-  private GenerateVideosOperation privateFetchPredictVideosOperation(
+  GenerateVideosOperation privateFetchPredictVideosOperation(
       String operationName, String resourceName, FetchPredictOperationConfig config) {
 
     FetchPredictOperationParameters.Builder parameterBuilder =

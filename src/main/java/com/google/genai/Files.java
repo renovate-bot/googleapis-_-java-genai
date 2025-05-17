@@ -491,7 +491,7 @@ public final class Files {
    * @param config - Optional, configuration for the list method.
    * @return The ListFilesResponse, the response for the list method.
    */
-  private ListFilesResponse privateList(ListFilesConfig config) {
+  ListFilesResponse privateList(ListFilesConfig config) {
 
     ListFilesParameters.Builder parameterBuilder = ListFilesParameters.builder();
 
@@ -545,7 +545,7 @@ public final class Files {
     }
   }
 
-  private CreateFileResponse privateCreate(File file, CreateFileConfig config) {
+  CreateFileResponse privateCreate(File file, CreateFileConfig config) {
 
     CreateFileParameters.Builder parameterBuilder = CreateFileParameters.builder();
 

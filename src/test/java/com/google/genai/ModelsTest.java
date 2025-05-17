@@ -18,6 +18,7 @@ package com.google.genai;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableList;
@@ -34,9 +35,11 @@ import com.google.genai.types.EmbedContentResponse;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Image;
+import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.MaskReferenceConfig;
 import com.google.genai.types.MaskReferenceImage;
 import com.google.genai.types.MaskReferenceMode;
+import com.google.genai.types.Model;
 import com.google.genai.types.Part;
 import com.google.genai.types.RawReferenceImage;
 import com.google.genai.types.ReferenceImage;
@@ -84,7 +87,7 @@ public class ModelsTest {
         client.models.generateContent(
             GEMINI_MODEL_NAME, Content.fromParts(Part.fromText(PROMPT_TEXT)), null);
 
-    // Arrange
+    // Assert
     assertNotNull(response.text());
   }
 
@@ -101,7 +104,7 @@ public class ModelsTest {
     ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(GEMINI_MODEL_NAME, PROMPT_TEXT, null);
 
-    // Arrange
+    // Assert
     int chunks = 0;
     for (GenerateContentResponse response : responseStream) {
       chunks++;
@@ -127,7 +130,7 @@ public class ModelsTest {
             Content.fromParts(Part.fromText(PROMPT_TEXT)),
             GenerateContentConfig.builder().maxOutputTokens(300).build());
 
-    // Arrange
+    // Assert
     int chunks = 0;
     for (GenerateContentResponse response : responseStream) {
       chunks++;
@@ -149,7 +152,7 @@ public class ModelsTest {
     EmbedContentResponse response =
         client.models.embedContent(EMBEDDING_MODEL_NAME, PROMPT_TEXT_2, null);
 
-    // Arrange
+    // Assert
     assertTrue(response.embeddings().isPresent());
     assertEquals(1, response.embeddings().get().size());
   }
@@ -169,7 +172,7 @@ public class ModelsTest {
         client.models.embedContent(
             EMBEDDING_MODEL_NAME, ImmutableList.of(PROMPT_TEXT_2, PROMPT_TEXT_3), null);
 
-    // Arrange
+    // Assert
     assertTrue(response.embeddings().isPresent());
     assertEquals(2, response.embeddings().get().size());
   }
@@ -186,7 +189,7 @@ public class ModelsTest {
     CountTokensResponse response =
         client.models.countTokens(GEMINI_MODEL_NAME, PROMPT_TEXT, null);
 
-    // Arrange
+    // Assert
     assertTrue(response.totalTokens().isPresent());
   }
 
@@ -207,8 +210,49 @@ public class ModelsTest {
     ComputeTokensResponse response =
         client.models.computeTokens(GEMINI_MODEL_NAME, PROMPT_TEXT, null);
 
-    // Arrange
+    // Assert
     assertTrue(response.tokensInfo().isPresent());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testListModels(boolean vertexAI) throws Exception {
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        createClient(vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
+
+    // Act
+    Pager<Model> pager = client.models.list(ListModelsConfig.builder().pageSize(5).build());
+
+    // Assert
+    assertEquals(5, pager.pageSize());
+    // Currently config doesn't work, so the actual size of the page is greater than 5
+    assertTrue(pager.size() > 5);
+    for (Model model : pager) {
+      assertTrue(model.name().isPresent());
+      break;
+    }
+    // IndexOutOfBoundsException exception =
+    //     assertThrows(IndexOutOfBoundsException.class, () -> pager.nextPage());
+    // assertEquals("No more page in the pager.", exception.getMessage());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testListModel_filterThrowException(boolean vertexAI) throws Exception {
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client = createClient(vertexAI, "tests/models/get/test_list_model." + suffix + ".json");
+
+    // Act
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> client.models.list(ListModelsConfig.builder().filter("filter").build()));
+
+    // Assert
+    assertEquals("Filter is currently not supported for list models.", exception.getMessage());
   }
 
   @ParameterizedTest
@@ -260,7 +304,7 @@ public class ModelsTest {
             referenceImages,
             editImageConfig);
 
-    // Arrange
+    // Assert
     assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
 
@@ -308,7 +352,7 @@ public class ModelsTest {
             referenceImages,
             editImageConfig);
 
-    // Arrange
+    // Assert
     assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
 
@@ -356,7 +400,7 @@ public class ModelsTest {
             referenceImages,
             editImageConfig);
 
-    // Arrange
+    // Assert
     assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
 
@@ -401,27 +445,7 @@ public class ModelsTest {
             referenceImages,
             editImageConfig);
 
-    // Arrange
+    // Assert
     assertTrue(response.generatedImages().get().get(0).image().isPresent());
   }
-
-  // /** Tested locally to verify that Models.privateList is working. */
-  // @ParameterizedTest
-  // @ValueSource(booleans = {false, true})
-  // public void testModelsPrivateList(boolean vertexAI) throws Exception {
-
-  //   // Arrange
-  //   String suffix = vertexAI ? "vertex" : "mldev";
-  //   Client client =
-  //       createClient(
-  //           vertexAI, "tests/models/generate_image/test_generate_image." + suffix + ".json");
-
-  //   // Act
-  //   ListModelsResponse response =
-  //       client.models.privateList(ListModelsConfig.builder().queryBase(true).build());
-
-  //   // Arrange
-  //   assertTrue(response.models().isPresent());
-  //   assertTrue(response.models().get().size() > 0);
-  // }
 }
