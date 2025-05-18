@@ -32,6 +32,9 @@ import com.google.genai.types.DeleteCachedContentResponse;
 import com.google.genai.types.GetCachedContentConfig;
 import com.google.genai.types.GetCachedContentParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.ListCachedContentsConfig;
+import com.google.genai.types.ListCachedContentsParameters;
+import com.google.genai.types.ListCachedContentsResponse;
 import java.io.IOException;
 import java.util.Optional;
 import org.apache.http.HttpEntity;
@@ -701,6 +704,46 @@ public final class Caches {
           toObject,
           new String[] {"config"},
           Common.getValueByPath(fromObject, new String[] {"config"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"pageSize"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"_query", "pageSize"},
+          Common.getValueByPath(fromObject, new String[] {"pageSize"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"pageToken"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"_query", "pageToken"},
+          Common.getValueByPath(fromObject, new String[] {"pageToken"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsParametersToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          listCachedContentsConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
     }
 
     return toObject;
@@ -1398,6 +1441,46 @@ public final class Caches {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"pageSize"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"_query", "pageSize"},
+          Common.getValueByPath(fromObject, new String[] {"pageSize"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"pageToken"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"_query", "pageToken"},
+          Common.getValueByPath(fromObject, new String[] {"pageToken"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          listCachedContentsConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode cachedContentFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1462,6 +1545,32 @@ public final class Caches {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsResponseFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nextPageToken"},
+          Common.getValueByPath(fromObject, new String[] {"nextPageToken"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"cachedContents"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"cachedContents"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(cachedContentFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"cachedContents"}, result);
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode cachedContentFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1521,6 +1630,32 @@ public final class Caches {
   ObjectNode deleteCachedContentResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode listCachedContentsResponseFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nextPageToken"},
+          Common.getValueByPath(fromObject, new String[] {"nextPageToken"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"cachedContents"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"cachedContents"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(cachedContentFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"cachedContents"}, result);
+    }
 
     return toObject;
   }
@@ -1710,6 +1845,85 @@ public final class Caches {
         responseNode = deleteCachedContentResponseFromMldev(this.apiClient, responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, DeleteCachedContentResponse.class);
+    }
+  }
+
+  ListCachedContentsResponse privateList(ListCachedContentsConfig config) {
+
+    ListCachedContentsParameters.Builder parameterBuilder = ListCachedContentsParameters.builder();
+
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      body = listCachedContentsParametersToVertex(this.apiClient, parameterNode, null);
+      path = Common.formatMap("cachedContents", body.get("_url"));
+    } else {
+      body = listCachedContentsParametersToMldev(this.apiClient, parameterNode, null);
+      if (body.get("_url") != null) {
+        path = Common.formatMap("cachedContents", body.get("_url"));
+      } else {
+        path = "cachedContents";
+      }
+    }
+    body.remove("_url");
+
+    JsonNode queryParams = body.get("_query");
+    if (queryParams != null) {
+      body.remove("_query");
+      path = String.format("%s?%s", path, Common.urlEncode((ObjectNode) queryParams));
+    }
+
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
+
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
+    if (config != null) {
+      requestHttpOptions = config.httpOptions();
+    }
+
+    try (ApiResponse response =
+        this.apiClient.request(
+            "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
+      HttpEntity entity = response.getEntity();
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      if (this.apiClient.vertexAI()) {
+        responseNode = listCachedContentsResponseFromVertex(this.apiClient, responseNode, null);
+      } else {
+        responseNode = listCachedContentsResponseFromMldev(this.apiClient, responseNode, null);
+      }
+      return JsonSerializable.fromJsonNode(responseNode, ListCachedContentsResponse.class);
+    }
+  }
+
+  /**
+   * Makes an API request to list the available cached contents.
+   *
+   * @param config A {@link ListCachedContentsConfig} for configuring the list request.
+   * @return A {@link Pager} object that contains the list of cached contents. The pager is an
+   *     iterable and automatically queries the next page once the current page is exhausted.
+   */
+  public Pager<CachedContent> list(ListCachedContentsConfig config) {
+    try {
+      return new Pager<>(
+          this,
+          Pager.PagedItem.CACHED_CONTENTS,
+          Caches.class.getDeclaredMethod("privateList", ListCachedContentsConfig.class),
+          (ObjectNode) JsonSerializable.toJsonNode(config),
+          JsonSerializable.toJsonNode(privateList(config)));
+    } catch (NoSuchMethodException e) {
+      throw new GenAiIOException("Failed to list cached contents. " + e.getMessage());
     }
   }
 }

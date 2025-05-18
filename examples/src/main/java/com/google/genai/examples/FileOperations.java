@@ -39,12 +39,10 @@
 package com.google.genai.examples;
 
 import com.google.genai.Client;
-import com.google.genai.types.DeleteFileConfig;
-import com.google.genai.types.DeleteFileResponse;
-import com.google.genai.types.File;
-import com.google.genai.types.GetFileConfig;
-import com.google.genai.types.UploadFileConfig;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.File;
+import com.google.genai.types.ListFilesConfig;
+import com.google.genai.types.UploadFileConfig;
 
 /** An example of how to use the Files module to upload, retrieve, and delete files. */
 public class FileOperations {
@@ -71,9 +69,15 @@ public class FileOperations {
       File retrievedFile = client.files.get(file.name().get(), null);
       System.out.println("Retrieved file: " + retrievedFile);
 
+      // List all files.
+      System.out.println("List files: ");
+      for (File f : client.files.list(ListFilesConfig.builder().pageSize(10).build())) {
+        System.out.println("File name: " + f.name().get());
+      }
+
       // Delete the uploaded file.
-      DeleteFileResponse deleteFileResponse = client.files.delete(file.name().get(), null);
-      System.out.println("Deleted file");
+      var unused = client.files.delete(file.name().get(), null);
+      System.out.println("Deleted file: " + file.name().get());
 
     } catch (GenAiIOException e) {
       System.out.println("An error occurred while uploading the file: " + e.getMessage());

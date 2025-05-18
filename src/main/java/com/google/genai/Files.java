@@ -995,4 +995,24 @@ public final class Files {
       throw new GenAiIOException("Failed to save file.", e);
     }
   }
+
+  /**
+   * makes an API request to list the available files.
+   *
+   * @param config A {@link ListFilesConfig} for configuring the list request.
+   * @return A {@link Pager} object that contains the list of files. The pager is an iterable and
+   *     automatically queries the next page once the current page is exhausted.
+   */
+  public Pager<File> list(ListFilesConfig config) {
+    try {
+      return new Pager<>(
+          this,
+          Pager.PagedItem.FILES,
+          Files.class.getDeclaredMethod("privateList", ListFilesConfig.class),
+          (ObjectNode) JsonSerializable.toJsonNode(config),
+          JsonSerializable.toJsonNode(privateList(config)));
+    } catch (NoSuchMethodException e) {
+      throw new GenAiIOException("Failed to list files. " + e.getMessage());
+    }
+  }
 }

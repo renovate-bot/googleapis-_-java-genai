@@ -95,22 +95,22 @@ final class Transformers {
    * requested.
    *
    * @param apiClient the API client to use for transformation
-   * @param baseModels True if base models are requested, false otherwise.
+   * @param baseModels true or null if base models are requested, false otherwise.
    * @return The transformed model name
    */
+  @SuppressWarnings("PatternMatchingInstanceof")
   public static String tModelsUrl(ApiClient apiClient, @Nullable Object baseModels) {
-    if (apiClient.vertexAI()) { // Use the getter method
-      if (baseModels == null) {
-        return "publishers/google/models";
-      } else {
-        return "models";
-      }
+    if (baseModels == null) {
+      return apiClient.vertexAI() ? "publishers/google/models" : "models";
+    }
+    if (!(baseModels instanceof JsonNode)) {
+      throw new IllegalArgumentException("Unsupported response type: " + baseModels.getClass());
+    }
+
+    if (((JsonNode) baseModels).asBoolean()) {
+      return apiClient.vertexAI() ? "publishers/google/models" : "models";
     } else {
-      if (baseModels == null) {
-        return "models";
-      } else {
-        return "tunedModels";
-      }
+      return apiClient.vertexAI() ? "models" : "tunedModels";
     }
   }
 
@@ -144,7 +144,7 @@ final class Transformers {
     if ((response.get("httpHeaders") == null) || (response.get("jsonPayload") != null)) {
       logger.warning("Cannot determine the models type for response: " + response.toPrettyString());
     }
-    return null;
+    return JsonSerializable.objectMapper.createArrayNode();
   }
 
   /**

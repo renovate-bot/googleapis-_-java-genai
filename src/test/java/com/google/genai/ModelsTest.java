@@ -53,6 +53,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModelsTest {
@@ -215,8 +216,8 @@ public class ModelsTest {
   }
 
   @ParameterizedTest
-  @ValueSource(booleans = {false, true})
-  public void testListModels(boolean vertexAI) throws Exception {
+  @CsvSource({"false, false", "false, true", "true,  false", "true,  true"})
+  public void testListModels(boolean vertexAI, boolean queryBase) throws Exception {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
@@ -224,23 +225,17 @@ public class ModelsTest {
 
     // Act
     Pager<Model> pager =
-        client.models.list(ListModelsConfig.builder().pageSize(5).queryBase(true).build());
+        client.models.list(ListModelsConfig.builder().pageSize(5).queryBase(queryBase).build());
 
     // Assert
     assertEquals(5, pager.size());
     assertTrue(pager.size() <= 5);
-    int numPages = 0;
     for (Model model : pager) {
-      numPages++;
       assertTrue(model.name().isPresent());
-      // Only check the first 5 pages.
-      if (numPages == 5) {
-        break;
-      }
     }
-    // // IndexOutOfBoundsException exception =
-    // //     assertThrows(IndexOutOfBoundsException.class, () -> pager.nextPage());
-    // // assertEquals("No more page in the pager.", exception.getMessage());
+    IndexOutOfBoundsException exception =
+        assertThrows(IndexOutOfBoundsException.class, () -> pager.nextPage());
+    assertEquals("No more page in the pager.", exception.getMessage());
   }
 
   @ParameterizedTest

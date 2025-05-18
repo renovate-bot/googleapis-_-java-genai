@@ -59,7 +59,7 @@ public class HttpApiClient extends ApiClient {
       String requestJson,
       Optional<HttpOptions> requestHttpOptions) {
     boolean queryBaseModel =
-        httpMethod.equalsIgnoreCase("GET") && path.startsWith("publishers/google/models/");
+        httpMethod.equalsIgnoreCase("GET") && path.startsWith("publishers/google/models");
     if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())

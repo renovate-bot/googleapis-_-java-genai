@@ -43,8 +43,9 @@ import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.Model;
 import com.google.genai.types.UpdateModelConfig;
 
-/** An example of using the Unified Gen AI Java SDK to generate content. */
+/** An example of using the Unified Gen AI Java SDK to manage models. */
 public class ModelManagement {
+
   public static void main(String[] args) {
     if (args.length == 0) {
       System.out.println("Please provide a model ID on the -Dexec.args argument.");
@@ -72,8 +73,8 @@ public class ModelManagement {
     // Gets the text string from the response by the quick accessor method `text()`.
     System.out.println("Get Model response: " + modelResponse);
 
-    // Update the model if it's a Vertex tuned model.
-    if (client.vertexAI()) {
+    // Update the model if it's a tuned model.
+    if (modelResponse.name().get().startsWith("tunedModels")) {
       Model updatedModel =
           client.models.update(
               modelId,
@@ -81,10 +82,10 @@ public class ModelManagement {
                   .displayName("My updated model")
                   .description("My updated description")
                   .build());
-      System.out.println("Update Vertex Tuned Model response: " + updatedModel);
+      System.out.println("Update Tuned Model response: " + updatedModel);
     }
 
-    // Lists all models.
+    // Lists all base models.
     for (Model model : client.models.list(ListModelsConfig.builder().pageSize(10).build())) {
       System.out.println("Model: " + model.name().get());
     }

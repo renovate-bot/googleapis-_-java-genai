@@ -33,7 +33,7 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.CreateCachedContent"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.CachedContentOperations"
  */
 package com.google.genai.examples;
 
@@ -42,6 +42,7 @@ import com.google.genai.Client;
 import com.google.genai.types.CachedContent;
 import com.google.genai.types.Content;
 import com.google.genai.types.CreateCachedContentConfig;
+import com.google.genai.types.ListCachedContentsConfig;
 import com.google.genai.types.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,15 +50,26 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import org.jspecify.annotations.Nullable;
 
-/** An example of using the Unified Gen AI Java SDK to compute tokens for simple text input. */
-public class CreateCachedContent {
+/** An example of using the Unified Gen AI Java SDK to do operations on cached content. */
+public class CachedContentOperations {
 
   public static void main(String[] args) {
-    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
-    // key from the environment variable `GOOGLE_API_KEY`.
+    // Instantiate the client. The client by default uses the Gemini Developer AI API. It gets the
+    // API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
     Client client = new Client();
 
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
+
+    // Create a cached content.
     Content content =
         Content.fromParts(
             fetchPdfPart(
@@ -72,12 +84,27 @@ public class CreateCachedContent {
             .contents(ImmutableList.of(content))
             .build();
 
-    CachedContent response =
-        client.caches.create("gemini-2.0-flash-001", config);
-    System.out.println("Create cached content response: " + response);
+    CachedContent cachedContent1 = client.caches.create("gemini-2.0-flash-001", config);
+    System.out.println("Created cached content: " + cachedContent1);
+
+    // Get the cached content by name.
+    CachedContent cachedContent2 = client.caches.get(cachedContent1.name().get(), null);
+    System.out.println("get cached content: " + cachedContent2);
+
+    // List all cached contents.
+    System.out.println("List cached contents resrouce names: ");
+    for (CachedContent cachedContent :
+        client.caches.list(ListCachedContentsConfig.builder().pageSize(5).build())) {
+      System.out.println(cachedContent.name().get());
+    }
+
+    // Delete the cached content.
+    var unused = client.caches.delete(cachedContent1.name().get(), null);
+    System.out.println("Deleted cached content: " + cachedContent1.name().get());
   }
 
-  private static Part fetchPdfPart(String pdfUrl) {
+  /** Downloads a PDF file from the URL and returns a {@link Part} object. */
+  private static @Nullable Part fetchPdfPart(String pdfUrl) {
     String mimeType = "application/pdf";
     byte[] pdfData = null;
 

@@ -20,6 +20,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.CachedContent;
+import com.google.genai.types.File;
+import com.google.genai.types.ListCachedContentsConfig;
+import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.Model;
 import java.lang.reflect.Method;
@@ -31,7 +35,9 @@ import java.util.List;
 public class Pager<T extends JsonSerializable> implements Iterable<T> {
   /** A enum that represents a type of item for a pager. */
   enum PagedItem {
-    MODELS("models", Model.class, ListModelsConfig.class);
+    MODELS("models", Model.class, ListModelsConfig.class),
+    CACHED_CONTENTS("cachedContents", CachedContent.class, ListCachedContentsConfig.class),
+    FILES("files", File.class, ListFilesConfig.class);
 
     private final String fieldName;
     private final Class<? extends JsonSerializable> itemClass;
@@ -117,6 +123,8 @@ public class Pager<T extends JsonSerializable> implements Iterable<T> {
       // Update page_token in the request config.
       if (response.get("nextPageToken") != null) {
         requestConfig.put("pageToken", response.get("nextPageToken").asText());
+      } else {
+        requestConfig.remove("pageToken");
       }
     }
 
@@ -138,7 +146,7 @@ public class Pager<T extends JsonSerializable> implements Iterable<T> {
 
     @Override
     public boolean hasNext() {
-      return currentIndex < page.size() || requestConfig.get("pageToken") != null;
+      return (currentIndex < page.size()) || (requestConfig.get("pageToken") != null);
     }
 
     @Override
