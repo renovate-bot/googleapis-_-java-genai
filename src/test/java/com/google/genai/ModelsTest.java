@@ -223,19 +223,24 @@ public class ModelsTest {
         createClient(vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
 
     // Act
-    Pager<Model> pager = client.models.list(ListModelsConfig.builder().pageSize(5).build());
+    Pager<Model> pager =
+        client.models.list(ListModelsConfig.builder().pageSize(5).queryBase(true).build());
 
     // Assert
-    assertEquals(5, pager.pageSize());
-    // Currently config doesn't work, so the actual size of the page is greater than 5
-    assertTrue(pager.size() > 5);
+    assertEquals(5, pager.size());
+    assertTrue(pager.size() <= 5);
+    int numPages = 0;
     for (Model model : pager) {
+      numPages++;
       assertTrue(model.name().isPresent());
-      break;
+      // Only check the first 5 pages.
+      if (numPages == 5) {
+        break;
+      }
     }
-    // IndexOutOfBoundsException exception =
-    //     assertThrows(IndexOutOfBoundsException.class, () -> pager.nextPage());
-    // assertEquals("No more page in the pager.", exception.getMessage());
+    // // IndexOutOfBoundsException exception =
+    // //     assertThrows(IndexOutOfBoundsException.class, () -> pager.nextPage());
+    // // assertEquals("No more page in the pager.", exception.getMessage());
   }
 
   @ParameterizedTest

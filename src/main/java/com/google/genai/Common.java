@@ -19,11 +19,16 @@ package com.google.genai;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import org.jspecify.annotations.Nullable;
+import com.google.genai.errors.GenAiIOException;
 
 /** Common utility methods for the GenAI SDK. */
 final class Common {
@@ -199,5 +204,40 @@ final class Common {
     }
 
     return false;
+  }
+
+  /**
+   * Converts a Jackson ObjectNode into a URL-encoded query string. Assumes values are simple types
+   * (text, number, boolean, or null) that can be represented as a single string.
+   *
+   * @param paramsNode The ObjectNode containing the parameters to encode.
+   * @return A URL-encoded string (e.g., "key1=value1&key2=value2").
+   */
+  public static String urlEncode(ObjectNode paramsNode) {
+    if (paramsNode == null || paramsNode.size() == 0) {
+      return "";
+    }
+
+    StringJoiner queryBuilder = new StringJoiner("&");
+    String utf8 = StandardCharsets.UTF_8.name();
+
+    try {
+      Iterator<Map.Entry<String, JsonNode>> fields = paramsNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> entry = fields.next();
+        String encodedKey = URLEncoder.encode(entry.getKey(), utf8);
+        JsonNode valueNode = entry.getValue();
+
+        if (valueNode.isNull()) {
+          queryBuilder.add(encodedKey + "=");
+        } else {
+          String encodedValue = URLEncoder.encode(valueNode.asText(""), utf8);
+          queryBuilder.add(encodedKey + "=" + encodedValue);
+        }
+      }
+    } catch (UnsupportedEncodingException e) {
+      throw new GenAiIOException("UTF-8 encoding not supported", e);
+    }
+    return queryBuilder.toString();
   }
 }

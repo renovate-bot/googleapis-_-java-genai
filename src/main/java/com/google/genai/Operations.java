@@ -400,7 +400,11 @@ public final class Operations {
     }
     body.remove("_url");
 
-    // TODO: Handle "_query" in the body (for list support).
+    JsonNode queryParams = body.get("_query");
+    if (queryParams != null) {
+      body.remove("_query");
+      path = String.format("%s?%s", path, Common.urlEncode((ObjectNode) queryParams));
+    }
 
     // TODO: Remove the hack that removes config.
     body.remove("config");
@@ -459,7 +463,11 @@ public final class Operations {
     }
     body.remove("_url");
 
-    // TODO: Handle "_query" in the body (for list support).
+    JsonNode queryParams = body.get("_query");
+    if (queryParams != null) {
+      body.remove("_query");
+      path = String.format("%s?%s", path, Common.urlEncode((ObjectNode) queryParams));
+    }
 
     // TODO: Remove the hack that removes config.
     body.remove("config");

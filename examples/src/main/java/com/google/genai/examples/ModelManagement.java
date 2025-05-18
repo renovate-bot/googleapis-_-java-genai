@@ -34,42 +34,59 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ModelManagement"
+ * -Dexec.args="YOUR_TUNED_MODEL_ID"
  */
 package com.google.genai.examples;
 
 import com.google.genai.Client;
+import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.Model;
 import com.google.genai.types.UpdateModelConfig;
 
 /** An example of using the Unified Gen AI Java SDK to generate content. */
 public class ModelManagement {
   public static void main(String[] args) {
-    // Instantiates the client using Vertex AI, and sets the project and location in the builder.
-    Client client =
-        Client.builder()
-            .vertexAI(true)
-            .build();
+    if (args.length == 0) {
+      System.out.println("Please provide a model ID on the -Dexec.args argument.");
+      return;
+    }
 
-    // Lists the models.
-    for (Model model : client.models.list(null)) {
-      System.out.println("Model: " + model.name().get());
+    String modelId = args[0];
+
+    // Instantiate the client. The client by default uses the Gemini Developer AI API. It gets the
+    // API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
     }
 
     // Gets the model.
-    Model modelResponse = client.models.get("models/YOUR_TUNED_MODEL_ID", null);
+    Model modelResponse = client.models.get(modelId, null);
 
     // Gets the text string from the response by the quick accessor method `text()`.
     System.out.println("Get Model response: " + modelResponse);
 
-    // Update the model.
-    Model updatedModel =
-        client.models.update(
-            "models/YOUR_TUNED_MODEL_ID",
-            UpdateModelConfig.builder()
-                .displayName("My updated model")
-                .description("My updated description")
-                .build());
+    // Update the model if it's a Vertex tuned model.
+    if (client.vertexAI()) {
+      Model updatedModel =
+          client.models.update(
+              modelId,
+              UpdateModelConfig.builder()
+                  .displayName("My updated model")
+                  .description("My updated description")
+                  .build());
+      System.out.println("Update Vertex Tuned Model response: " + updatedModel);
+    }
 
-    System.out.println("Update Vertex Tuned Model response: " + updatedModel);
+    // Lists all models.
+    for (Model model : client.models.list(ListModelsConfig.builder().pageSize(10).build())) {
+      System.out.println("Model: " + model.name().get());
+    }
   }
 }
