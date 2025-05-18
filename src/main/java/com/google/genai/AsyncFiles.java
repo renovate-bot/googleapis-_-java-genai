@@ -18,16 +18,21 @@
 
 package com.google.genai;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.DeleteFileConfig;
 import com.google.genai.types.DeleteFileResponse;
 import com.google.genai.types.DownloadFileConfig;
 import com.google.genai.types.File;
 import com.google.genai.types.GeneratedVideo;
 import com.google.genai.types.GetFileConfig;
+import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.UploadFileConfig;
 import com.google.genai.types.Video;
 import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 /** Async module of {@link Files} */
 public final class AsyncFiles {
@@ -154,5 +159,35 @@ public final class AsyncFiles {
   public CompletableFuture<Void> download(
       File file, String downloadPath, DownloadFileConfig config) {
     return CompletableFuture.runAsync(() -> files.download(file, downloadPath, config));
+  }
+
+  /**
+   * Asynchronously makes an API request to list the available files.
+   *
+   * @param config A {@link ListFilesConfig} for configuring the list request.
+   * @return A CompletableFuture that resolves to a {@link AsyncPager}. The AsyncPager has a
+   *     `forEach` method that can be used to asynchronously process items in the page and
+   *     automatically query the next page once the current page is exhausted.
+   */
+  @SuppressWarnings("PatternMatchingInstanceof")
+  public CompletableFuture<AsyncPager<File>> list(ListFilesConfig config) {
+    Function<JsonSerializable, CompletableFuture<JsonNode>> request =
+        requestConfig -> {
+          if (!(requestConfig instanceof ListFilesConfig)) {
+            throw new GenAiIOException(
+                "Internal error: Pager expected ListFilesConfig but received "
+                    + requestConfig.getClass().getName());
+          }
+          return CompletableFuture.supplyAsync(
+              () ->
+                  JsonSerializable.toJsonNode(files.privateList((ListFilesConfig) requestConfig)));
+        };
+    return CompletableFuture.supplyAsync(
+        () ->
+            new AsyncPager<>(
+                Pager.PagedItem.FILES,
+                request,
+                (ObjectNode) JsonSerializable.toJsonNode(config),
+                request.apply(config)));
   }
 }

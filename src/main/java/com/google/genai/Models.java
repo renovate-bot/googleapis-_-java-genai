@@ -74,6 +74,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -84,7 +85,7 @@ import org.apache.http.util.EntityUtils;
  * `client.models.methodName(...)` directly.
  */
 public final class Models {
-  private final ApiClient apiClient;
+  final ApiClient apiClient;
 
   public Models(ApiClient apiClient) {
     this.apiClient = apiClient;
@@ -6588,6 +6589,7 @@ public final class Models {
    * @return A {@link Pager} object that contains the list of models. The pager is an iterable and
    *     automatically queries the next page once the current page is exhausted.
    */
+  @SuppressWarnings("PatternMatchingInstanceof")
   public Pager<Model> list(ListModelsConfig config) {
     if (config == null) {
       config = ListModelsConfig.builder().build();
@@ -6603,15 +6605,19 @@ public final class Models {
     }
     config = configBuilder.build();
 
-    try {
-      return new Pager<>(
-          this,
-          Pager.PagedItem.MODELS,
-          Models.class.getDeclaredMethod("privateList", ListModelsConfig.class),
-          (ObjectNode) JsonSerializable.toJsonNode(config),
-          JsonSerializable.toJsonNode(privateList(config)));
-    } catch (NoSuchMethodException e) {
-      throw new GenAiIOException("Failed to list models. " + e.getMessage());
-    }
+    Function<JsonSerializable, Object> request =
+        requestConfig -> {
+          if (!(requestConfig instanceof ListModelsConfig)) {
+            throw new GenAiIOException(
+                "Internal error: Pager expected ListModelsConfig but received "
+                    + requestConfig.getClass().getName());
+          }
+          return this.privateList((ListModelsConfig) requestConfig);
+        };
+    return new Pager<>(
+        Pager.PagedItem.MODELS,
+        request,
+        (ObjectNode) JsonSerializable.toJsonNode(config),
+        JsonSerializable.toJsonNode(privateList(config)));
   }
 }

@@ -42,14 +42,15 @@ import com.google.genai.Client;
 import com.google.genai.types.CachedContent;
 import com.google.genai.types.Content;
 import com.google.genai.types.CreateCachedContentConfig;
+import com.google.genai.types.DeleteCachedContentResponse;
 import com.google.genai.types.ListCachedContentsConfig;
 import com.google.genai.types.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import org.jspecify.annotations.Nullable;
 
 /** An example of using the Unified Gen AI Java SDK to do operations on cached content. */
@@ -73,14 +74,12 @@ public class CachedContentOperations {
     Content content =
         Content.fromParts(
             fetchPdfPart(
-                "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2403.05530.pdf"),
-            fetchPdfPart(
-                "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2312.11805v3.pdf"));
+                "https://storage.googleapis.com/cloud-samples-data/generative-ai/pdf/2403.05530.pdf"));
 
     CreateCachedContentConfig config =
         CreateCachedContentConfig.builder()
-            .systemInstruction(Content.fromParts(Part.fromText("summarize the two pdfs")))
-            .expireTime(Instant.now().plus(1, ChronoUnit.HOURS))
+            .systemInstruction(Content.fromParts(Part.fromText("summarize the pdf")))
+            .expireTime(Instant.now().plus(Duration.ofHours(1)))
             .contents(ImmutableList.of(content))
             .build();
 
@@ -99,7 +98,7 @@ public class CachedContentOperations {
     }
 
     // Delete the cached content.
-    var unused = client.caches.delete(cachedContent1.name().get(), null);
+    DeleteCachedContentResponse unused = client.caches.delete(cachedContent1.name().get(), null);
     System.out.println("Deleted cached content: " + cachedContent1.name().get());
   }
 

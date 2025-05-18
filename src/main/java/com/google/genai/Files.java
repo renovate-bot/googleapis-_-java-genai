@@ -50,6 +50,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -60,7 +61,7 @@ import org.apache.http.util.EntityUtils;
  * `client.files.methodName(...)` directly.
  */
 public final class Files {
-  private final ApiClient apiClient;
+  final ApiClient apiClient;
 
   private final UploadClient uploadClient;
 
@@ -1003,16 +1004,21 @@ public final class Files {
    * @return A {@link Pager} object that contains the list of files. The pager is an iterable and
    *     automatically queries the next page once the current page is exhausted.
    */
+  @SuppressWarnings("PatternMatchingInstanceof")
   public Pager<File> list(ListFilesConfig config) {
-    try {
-      return new Pager<>(
-          this,
-          Pager.PagedItem.FILES,
-          Files.class.getDeclaredMethod("privateList", ListFilesConfig.class),
-          (ObjectNode) JsonSerializable.toJsonNode(config),
-          JsonSerializable.toJsonNode(privateList(config)));
-    } catch (NoSuchMethodException e) {
-      throw new GenAiIOException("Failed to list files. " + e.getMessage());
-    }
+    Function<JsonSerializable, Object> request =
+        requestConfig -> {
+          if (!(requestConfig instanceof ListFilesConfig)) {
+            throw new GenAiIOException(
+                "Internal error: Pager expected ListFilesConfig but received "
+                    + requestConfig.getClass().getName());
+          }
+          return this.privateList((ListFilesConfig) requestConfig);
+        };
+    return new Pager<>(
+        Pager.PagedItem.FILES,
+        request,
+        (ObjectNode) JsonSerializable.toJsonNode(config),
+        JsonSerializable.toJsonNode(privateList(config)));
   }
 }

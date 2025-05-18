@@ -20,125 +20,77 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.genai.errors.GenAiIOException;
-import com.google.genai.types.CachedContent;
-import com.google.genai.types.File;
-import com.google.genai.types.ListCachedContentsConfig;
-import com.google.genai.types.ListFilesConfig;
-import com.google.genai.types.ListModelsConfig;
-import com.google.genai.types.Model;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.function.Function;
 
 /** Pager class for iterating through paginated results. */
-public class Pager<T extends JsonSerializable> implements Iterable<T> {
-  /** A enum that represents a type of item for a pager. */
-  enum PagedItem {
-    MODELS("models", Model.class, ListModelsConfig.class),
-    CACHED_CONTENTS("cachedContents", CachedContent.class, ListCachedContentsConfig.class),
-    FILES("files", File.class, ListFilesConfig.class);
+public class Pager<T extends JsonSerializable> extends BasePager<T> implements Iterable<T> {
 
-    private final String fieldName;
-    private final Class<? extends JsonSerializable> itemClass;
-    private final Class<? extends JsonSerializable> requestConfigClass;
+  private final PagerIterator iterator;
 
-    PagedItem(
-        String fieldName,
-        Class<? extends JsonSerializable> itemClass,
-        Class<? extends JsonSerializable> requestConfigClass) {
-      this.fieldName = fieldName;
-      this.itemClass = itemClass;
-      this.requestConfigClass = requestConfigClass;
-    }
+  /** Constructs a Pager. */
+  Pager(
+      PagedItem pagedItem,
+      Function<JsonSerializable, Object> request,
+      ObjectNode requestConfig,
+      JsonNode response) {
+    super(pagedItem, requestConfig);
+    initNewPage(response);
+    this.iterator = new PagerIterator(request);
+  }
 
-    /** Returns the name of the field in the response that contains the item. */
-    public String fieldName() {
-      return fieldName;
-    }
+  /** Fetches the next page of items. This makes a new API request. */
+  public ImmutableList<T> nextPage() {
+    iterator.fetchNextPage();
+    return page();
+  }
 
-    /** Returns the class of the item. */
-    public Class<? extends JsonSerializable> itemClass() {
-      return itemClass;
-    }
+  @Override
+  public Iterator<T> iterator() {
+    return iterator;
+  }
 
-    /** Returns the class of the request config. */
-    public Class<? extends JsonSerializable> requestConfigClass() {
-      return requestConfigClass;
-    }
+  /** Returns the name of the item for this pager. */
+  public String name() {
+    return pagedItem.fieldName();
+  }
+
+  /** Returns the page size for this pager. */
+  public int pageSize() {
+    return pageSize;
+  }
+
+  /** Returns the size of the current page. */
+  public int size() {
+    return page.size();
+  }
+
+  /** Returns the current page of items as a list. */
+  public ImmutableList<T> page() {
+    return page;
   }
 
   /** Iterator for the Pager. */
   private class PagerIterator implements Iterator<T> {
-    private final Object obj;
-    private final PagedItem pagedItem;
-    private final Method requestMethod;
-    private final ObjectNode requestConfig;
-    private List<T> page;
-    private int pageSize;
+    private final Function<JsonSerializable, Object> request;
     private int currentIndex;
 
-    /** Constructs a PagerIterator. */
-    PagerIterator(
-        Object obj,
-        PagedItem pagedItem,
-        Method requestMethod,
-        ObjectNode requestConfig,
-        JsonNode response) {
-      this.obj = obj;
-      this.pagedItem = pagedItem;
-      this.requestMethod = requestMethod;
-      this.requestConfig = requestConfig;
-      initPage(response);
-    }
-
-    /** Inits a new page from the response. */
-    @SuppressWarnings("unchecked")
-    private void initPage(JsonNode response) {
-      if (response == null) {
-        throw new GenAiIOException("Response cannot be null.");
-      }
-      JsonNode responseList = response.get(pagedItem.fieldName());
-      if (responseList == null) {
-        throw new GenAiIOException(
-            "Response does not contain the requested item. Raw response: "
-                + JsonSerializable.toJsonString(response));
-      }
-      // Sets the page.
-      this.page = new ArrayList<>();
-      for (JsonNode responseItem : responseList) {
-        this.page.add((T) JsonSerializable.fromJsonNode(responseItem, pagedItem.itemClass()));
-      }
-
-      // Sets the page size.
-      if (requestConfig.get("pageSize") != null) {
-        this.pageSize = requestConfig.get("pageSize").intValue();
-      } else {
-        this.pageSize = this.page.size();
-      }
-
-      // Sets the current index.
+    PagerIterator(Function<JsonSerializable, Object> request) {
+      this.request = request;
       this.currentIndex = 0;
-
-      // Update page_token in the request config.
-      if (response.get("nextPageToken") != null) {
-        requestConfig.put("pageToken", response.get("nextPageToken").asText());
-      } else {
-        requestConfig.remove("pageToken");
-      }
     }
 
-    /** Fetches the next page. */
     private void fetchNextPage() {
       if (requestConfig.get("pageToken") == null) {
         throw new IndexOutOfBoundsException("No more page in the pager.");
       }
+
       try {
-        initPage(
+        initNewPage(
             JsonSerializable.toJsonNode(
-                requestMethod.invoke(
-                    obj,
+                request.apply(
                     JsonSerializable.fromJsonNode(requestConfig, pagedItem.requestConfigClass()))));
+        this.currentIndex = 0;
       } catch (Exception e) {
         throw new GenAiIOException("Failed to fetch the next page. " + e.getMessage());
       }
@@ -163,48 +115,5 @@ public class Pager<T extends JsonSerializable> implements Iterable<T> {
         return next();
       }
     }
-  }
-
-  private final PagerIterator iterator;
-
-  /** Constructs a Pager. */
-  Pager(
-      Object obj,
-      PagedItem pagedItem,
-      Method requestMethod,
-      ObjectNode requestConfig,
-      JsonNode response) {
-    this.iterator = new PagerIterator(obj, pagedItem, requestMethod, requestConfig, response);
-  }
-
-  @Override
-  public Iterator<T> iterator() {
-    return iterator;
-  }
-
-  /** Fetches the next page of items. This makes a new API request. */
-  public ImmutableList<T> nextPage() {
-    iterator.fetchNextPage();
-    return page();
-  }
-
-  /** Returns the current page of items as a list. */
-  public ImmutableList<T> page() {
-    return ImmutableList.copyOf(iterator.page);
-  }
-
-  /** Returns the name of the item for this pager. */
-  public String name() {
-    return iterator.pagedItem.fieldName();
-  }
-
-  /** Returns the page size for this pager. */
-  public int pageSize() {
-    return iterator.pageSize;
-  }
-
-  /** Returns the size of the current page. */
-  public int size() {
-    return iterator.page.size();
   }
 }

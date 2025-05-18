@@ -42,7 +42,7 @@ import org.apache.http.util.EntityUtils;
  * <p>This module is experimental.
  */
 public final class Operations {
-  private final ApiClient apiClient;
+  final ApiClient apiClient;
 
   public Operations(ApiClient apiClient) {
     this.apiClient = apiClient;

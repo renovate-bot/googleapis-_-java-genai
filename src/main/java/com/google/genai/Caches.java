@@ -37,11 +37,12 @@ import com.google.genai.types.ListCachedContentsParameters;
 import com.google.genai.types.ListCachedContentsResponse;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Function;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
 public final class Caches {
-  private final ApiClient apiClient;
+  final ApiClient apiClient;
 
   public Caches(ApiClient apiClient) {
     this.apiClient = apiClient;
@@ -1914,16 +1915,21 @@ public final class Caches {
    * @return A {@link Pager} object that contains the list of cached contents. The pager is an
    *     iterable and automatically queries the next page once the current page is exhausted.
    */
+  @SuppressWarnings("PatternMatchingInstanceof")
   public Pager<CachedContent> list(ListCachedContentsConfig config) {
-    try {
-      return new Pager<>(
-          this,
-          Pager.PagedItem.CACHED_CONTENTS,
-          Caches.class.getDeclaredMethod("privateList", ListCachedContentsConfig.class),
-          (ObjectNode) JsonSerializable.toJsonNode(config),
-          JsonSerializable.toJsonNode(privateList(config)));
-    } catch (NoSuchMethodException e) {
-      throw new GenAiIOException("Failed to list cached contents. " + e.getMessage());
-    }
+    Function<JsonSerializable, Object> request =
+        requestConfig -> {
+          if (!(requestConfig instanceof ListCachedContentsConfig)) {
+            throw new GenAiIOException(
+                "Internal error: Pager expected ListCachedContentsConfig but received "
+                    + requestConfig.getClass().getName());
+          }
+          return this.privateList((ListCachedContentsConfig) requestConfig);
+        };
+    return new Pager<>(
+        Pager.PagedItem.CACHED_CONTENTS,
+        request,
+        (ObjectNode) JsonSerializable.toJsonNode(config),
+        JsonSerializable.toJsonNode(privateList(config)));
   }
 }

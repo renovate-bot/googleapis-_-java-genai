@@ -413,11 +413,11 @@ public class TransformersTest {
   }
 
   @Test
-  public void tExtractModels_noModels_returnNull() {
+  public void tExtractModels_noModels_returnEmptyArrayNode() {
     ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
 
     JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
-    assertTrue(models == null);
+    assertTrue(models.isEmpty());
   }
 
   @Test

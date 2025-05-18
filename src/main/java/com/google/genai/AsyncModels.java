@@ -18,6 +18,9 @@
 
 package com.google.genai;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ComputeTokensConfig;
 import com.google.genai.types.ComputeTokensResponse;
 import com.google.genai.types.Content;
@@ -37,6 +40,7 @@ import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GetModelConfig;
 import com.google.genai.types.Image;
+import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.Model;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.UpdateModelConfig;
@@ -44,6 +48,7 @@ import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 /** Async module of {@link Models} */
 public final class AsyncModels {
@@ -337,5 +342,50 @@ public final class AsyncModels {
   public CompletableFuture<EmbedContentResponse> embedContent(
       String model, List<String> texts, EmbedContentConfig config) {
     return CompletableFuture.supplyAsync(() -> models.embedContent(model, texts, config));
+  }
+
+  /**
+   * Asynchronously makes an API request to list the available models.
+   *
+   * @param config A {@link ListModelsConfig} for configuring the list request.
+   * @return A CompletableFuture that resolves to a {@link AsyncPager}. The AsyncPager has a
+   *     `forEach` method that can be used to asynchronously process items in the page and
+   *     automatically query the next page once the current page is exhausted.
+   */
+  @SuppressWarnings("PatternMatchingInstanceof")
+  public CompletableFuture<AsyncPager<Model>> list(ListModelsConfig config) {
+    if (config == null) {
+      config = ListModelsConfig.builder().build();
+    }
+    if (config.filter().isPresent()) {
+      throw new IllegalArgumentException("Filter is currently not supported for list models.");
+    }
+    ListModelsConfig.Builder configBuilder = config.toBuilder();
+    if (!config.queryBase().isPresent()) {
+      configBuilder.queryBase(true);
+    } else if (!config.queryBase().get() && models.apiClient.vertexAI()) {
+      configBuilder.filter("labels.tune-type:*");
+    }
+    final ListModelsConfig updatedConfig = configBuilder.build();
+
+    Function<JsonSerializable, CompletableFuture<JsonNode>> request =
+        requestConfig -> {
+          if (!(requestConfig instanceof ListModelsConfig)) {
+            throw new GenAiIOException(
+                "Internal error: Pager expected ListModelsConfig but received "
+                    + requestConfig.getClass().getName());
+          }
+          return CompletableFuture.supplyAsync(
+              () ->
+                  JsonSerializable.toJsonNode(
+                      models.privateList((ListModelsConfig) requestConfig)));
+        };
+    return CompletableFuture.supplyAsync(
+        () ->
+            new AsyncPager<>(
+                Pager.PagedItem.MODELS,
+                request,
+                (ObjectNode) JsonSerializable.toJsonNode(updatedConfig),
+                request.apply(updatedConfig)));
   }
 }

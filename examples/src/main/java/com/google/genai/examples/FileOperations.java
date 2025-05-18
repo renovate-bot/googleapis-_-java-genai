@@ -40,6 +40,7 @@ package com.google.genai.examples;
 
 import com.google.genai.Client;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.DeleteFileResponse;
 import com.google.genai.types.File;
 import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.UploadFileConfig;
@@ -76,7 +77,7 @@ public class FileOperations {
       }
 
       // Delete the uploaded file.
-      var unused = client.files.delete(file.name().get(), null);
+      DeleteFileResponse unused = client.files.delete(file.name().get(), null);
       System.out.println("Deleted file: " + file.name().get());
 
     } catch (GenAiIOException e) {

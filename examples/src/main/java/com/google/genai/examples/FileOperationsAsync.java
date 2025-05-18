@@ -33,19 +33,23 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.AsyncFileOperations"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.FileOperationsAsync"
  * -Dexec.args="your_file_path.txt"
  */
 package com.google.genai.examples;
 
+import com.google.genai.AsyncPager;
 import com.google.genai.Client;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.DeleteFileResponse;
 import com.google.genai.types.File;
+import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.UploadFileConfig;
 import java.util.concurrent.CompletableFuture;
 
-/** An example of how to use the Files module to upload, retrieve, and delete files. */
+/**
+ * An example of how to use the Files module to upload, retrieve, and delete files asynchronously.
+ */
 public class FileOperationsAsync {
   public static void main(String[] args) {
 
@@ -74,17 +78,30 @@ public class FileOperationsAsync {
                     client.async.files.get(file.name().get(), null);
                 fileGetFuture
                     .thenAccept(
-                        retrievedFile -> System.out.println("Retrieved file: " + retrievedFile))
+                        retrievedFile ->
+                            System.out.println("Retrieved file: " + retrievedFile.name().get()))
+                    .join();
+                // List all files.
+                CompletableFuture<AsyncPager<File>> asyncPagerFuture =
+                    client.async.files.list(ListFilesConfig.builder().pageSize(10).build());
+                asyncPagerFuture
+                    .thenCompose(
+                        asyncPager -> {
+                          System.out.println("List all file names: ");
+                          return asyncPager.forEach(
+                              item -> System.out.println("File name: " + item.name().get()));
+                        })
                     .join();
                 // Delete the uploaded file.
                 CompletableFuture<DeleteFileResponse> deleteFileFuture =
                     client.async.files.delete(file.name().get(), null);
                 deleteFileFuture
-                    .thenAccept(deleteFileResponse -> System.out.println("Deleted file"))
+                    .thenAccept(
+                        deleteFileResponse ->
+                            System.out.println("Deleted file: " + file.name().get()))
                     .join();
               })
           .join();
-      // Delete the uploaded file.
     } catch (GenAiIOException e) {
       System.out.println("An error occurred while uploading the file: " + e.getMessage());
     }
