@@ -6,9 +6,6 @@ Java idiomatic SDK for the
 [![Maven][maven-version-image]][maven-version-link]
 [![Javadoc][javadoc-image]][javadoc-link]
 
-This is an early release. API is subject to change. Please do not use this SDK
-in production environments at this stage.
-
 ## Add dependency
 
 If you're using Maven, add the following to your dependencies:
