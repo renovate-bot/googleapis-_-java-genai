@@ -72,7 +72,7 @@ public final class GenerateImages {
 
     GenerateImagesResponse generatedImagesResponse =
         client.models.generateImages(
-            "imagen-3.0-generate-001", "Robot holding a red skateboard", generateImagesConfig);
+            "imagen-3.0-generate-002", "Robot holding a red skateboard", generateImagesConfig);
 
     System.out.println(
         "Generated " + generatedImagesResponse.generatedImages().get().size() + " images.");

@@ -73,7 +73,7 @@ public final class GenerateImagesAsync {
 
     CompletableFuture<GenerateImagesResponse> generateImagesResponseFuture =
         client.async.models.generateImages(
-            "imagen-3.0-generate-001", "Robot holding a red skateboard", generateImagesConfig);
+            "imagen-3.0-generate-002", "Robot holding a red skateboard", generateImagesConfig);
 
     generateImagesResponseFuture
         .thenAccept(
