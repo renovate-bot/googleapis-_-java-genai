@@ -72,7 +72,7 @@ public final class EditImageSubjectReference {
 
     // Base image created using generateImages with prompt:
     // "A logo with the letters 'SERN' in a futuristic font with a white background"
-    Image image = Image.fromFile("./data/logo.jpg");
+    Image image = Image.fromFile("./resources/logo.jpg");
 
     // Subject reference.
     EditImageConfig editImageConfig =

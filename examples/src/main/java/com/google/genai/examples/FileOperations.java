@@ -38,7 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.FileOperations"
- * -Dexec.args="./data/test.txt"
+ * -Dexec.args="./resources/test.txt"
  */
 package com.google.genai.examples;
 

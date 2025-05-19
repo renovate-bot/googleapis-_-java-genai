@@ -72,7 +72,7 @@ public final class EditImageControlReference {
 
     // Base image created using generateImages with prompt:
     // "A square, circle, and triangle with a white background"
-    Image image = Image.fromFile("./data/shapes.jpg");
+    Image image = Image.fromFile("./resources/shapes.jpg");
 
     // Control reference.
     EditImageConfig editImageConfig =

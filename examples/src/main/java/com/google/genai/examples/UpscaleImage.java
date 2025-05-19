@@ -65,7 +65,7 @@ public final class UpscaleImage {
 
     // Base image created using generateImages with prompt:
     // "A starry night sky painted with watercolors"
-    Image image = Image.fromFile("./data/watercolor_night_sky.jpg");
+    Image image = Image.fromFile("./resources/watercolor_night_sky.jpg");
 
     UpscaleImageResponse upscaleImageResponse =
         client.models.upscaleImage(

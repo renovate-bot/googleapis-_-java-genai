@@ -75,7 +75,7 @@ public final class EditImageAsync {
 
     // Base image created using generateImages with prompt:
     // "An umbrella in the foreground, and a rainy night sky in the background"
-    Image image = Image.fromFile("./data/umbrella.jpg");
+    Image image = Image.fromFile("./resources/umbrella.jpg");
 
     // Edit image with a mask.
     EditImageConfig editImageConfig =
