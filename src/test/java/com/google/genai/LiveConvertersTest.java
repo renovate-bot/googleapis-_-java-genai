@@ -18,10 +18,10 @@ package com.google.genai;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.genai.types.Blob;
-import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveClientMessage;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendRealtimeInputParameters;
@@ -32,18 +32,12 @@ import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.VoiceConfig;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class LiveConvertersTest {
-  private static final ApiClient GEMINI_API_CLIENT =
-      new HttpApiClient(Optional.of("api_key"), Optional.of(HttpOptions.builder().build()));
-  private static final ApiClient VERTEX_AI_CLIENT =
-      new HttpApiClient(
-          Optional.of("project"),
-          Optional.of("location"),
-          Optional.empty(),
-          Optional.of(HttpOptions.builder().build()));
+
+  ApiClient GEMINI_API_CLIENT = mock(ApiClient.class);
+  ApiClient VERTEX_AI_CLIENT = mock(ApiClient.class);
 
   @Test
   public void testLiveSendRealtimeInputParameters_Media_wrapped() {

@@ -19,6 +19,7 @@ package com.google.genai;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -31,26 +32,19 @@ import com.google.genai.types.File;
 import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GeneratedVideo;
 import com.google.genai.types.GoogleSearch;
-import com.google.genai.types.HttpOptions;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Tool;
 import com.google.genai.types.Video;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class TransformersTest {
-  private static final ApiClient GEMINI_API_CLIENT =
-      new HttpApiClient(Optional.of("api_key"), Optional.of(HttpOptions.builder().build()));
-  private static final ApiClient VERTEX_AI_CLIENT =
-      new HttpApiClient(
-          Optional.of("project"),
-          Optional.of("location"),
-          Optional.empty(),
-          Optional.of(HttpOptions.builder().build()));
   private static final String FILE_NAME = "12tsygtx2";
+
+  ApiClient GEMINI_API_CLIENT = mock(ApiClient.class);
+  ApiClient VERTEX_AI_CLIENT = mock(ApiClient.class);
 
   private class UnsupportedType {}
 

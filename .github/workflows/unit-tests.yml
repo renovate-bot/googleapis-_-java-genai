@@ -16,7 +16,7 @@ jobs:
         java: [8, 11, 17, 21]
         testgroup: [
           # Includes everything in tests/ except the ones listed here
-          '**/*,!com.google.genai.TransformersTest,!com.google.genai.ClientTest,!com.google.genai.LiveConvertersTest,!com.google.genai.TableTest,!com.google.genai.HttpApiClientTest,!com.google.genai.ModelsTest,!com.google.genai.OperationsTest'
+          '**/*,!com.google.genai.ClientTest,!com.google.genai.TableTest,!com.google.genai.HttpApiClientTest,!com.google.genai.ModelsTest,!com.google.genai.OperationsTest'
         ]
 
     steps:
