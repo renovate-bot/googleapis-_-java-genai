@@ -17,7 +17,7 @@ If you're using Maven, add the following to your dependencies:
   <dependency>
     <groupId>com.google.genai</groupId>
     <artifactId>google-genai</artifactId>
-    <version>0.8.0</version>
+    <version>1.0.0</version>
   </dependency>
 </dependencies>
 ```
