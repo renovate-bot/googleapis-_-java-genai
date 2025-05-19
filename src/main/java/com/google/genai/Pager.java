@@ -45,6 +45,7 @@ public class Pager<T extends JsonSerializable> extends BasePager<T> implements I
     return page();
   }
 
+  /** Returns an iterator for the Pager. */
   @Override
   public Iterator<T> iterator() {
     return iterator;
