@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -33,8 +35,9 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java
- * -Dexec.mainClass="com.google.genai.examples.ChatWithHistoryStreaming"
+ * <p>mvn clean compile
+ *
+ * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithHistoryStreaming"
  */
 package com.google.genai.examples;
 
@@ -43,13 +46,19 @@ import com.google.genai.Client;
 import com.google.genai.ResponseStream;
 import com.google.genai.types.GenerateContentResponse;
 
-/** An example of using the Unified Gen AI Java SDK to generate content. */
-public class ChatWithHistoryStreaming {
+/**
+ * An example of using the Unified Gen AI Java SDK to create a chat session and stream the response.
+ */
+public final class ChatWithHistoryStreaming {
   public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
     // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
 
     if (client.vertexAI()) {
@@ -64,18 +73,20 @@ public class ChatWithHistoryStreaming {
     ResponseStream<GenerateContentResponse> responseStream =
         chatSession.sendMessageStream("Can you tell me a story about cheese in 100 words?", null);
 
-    while (responseStream.iterator().hasNext()) {
-      GenerateContentResponse response = responseStream.iterator().next();
-      System.out.println("Streaming response 1: " + response.text());
+    System.out.println("Streaming response:");
+    for (GenerateContentResponse response : responseStream) {
+      // Iterate over the stream and print each response as it arrives.
+      System.out.print(response.text());
     }
 
     ResponseStream<GenerateContentResponse> responseStream2 =
         chatSession.sendMessageStream(
             "Can you modify the story to be written for a 5 year old?", null);
 
-    while (responseStream2.iterator().hasNext()) {
-      GenerateContentResponse response = responseStream2.iterator().next();
-      System.out.println("Streaming response 2: " + response.text());
+    System.out.println("Streaming response 2:");
+    for (GenerateContentResponse response : responseStream2) {
+      // Iterate over the stream and print each response as it arrives.
+      System.out.print(response.text());
     }
 
     // Get the history of the chat session.
@@ -83,4 +94,6 @@ public class ChatWithHistoryStreaming {
     // stream, so chatSession.getHistory(false) here returns 4 items (2 user-model message pairs)
     System.out.println("History: " + chatSession.getHistory(false));
   }
+
+  private ChatWithHistoryStreaming() {}
 }

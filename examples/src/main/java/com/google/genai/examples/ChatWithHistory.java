@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -37,19 +39,23 @@
  */
 package com.google.genai.examples;
 
+import com.google.common.collect.ImmutableList;
 import com.google.genai.Chat;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentResponse;
-import java.util.List;
 
 /** An example of using the Unified Gen AI Java SDK to create a chat session with history. */
-public class ChatWithHistory {
+public final class ChatWithHistory {
   public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
     // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
 
     if (client.vertexAI()) {
@@ -63,19 +69,22 @@ public class ChatWithHistory {
 
     GenerateContentResponse response =
         chatSession.sendMessage("Can you tell me a story about cheese in 100 words?");
-
     // Gets the text string from the response by the quick accessor method `text()`.
     System.out.println("Unary response: " + response.text());
 
     GenerateContentResponse response2 =
         chatSession.sendMessage("Can you modify the story to be written for a 5 year old?");
+    // Gets the text string from the second response.
+    System.out.println("Unary response: " + response2.text());
 
     // Get the history of the chat session.
     // Passing 'true' to getHistory() returns the curated history, which excludes empty or invalid
     // parts.
     // Passing 'false' here would return the comprehensive history, including empty or invalid
     // parts.
-    List<Content> history = chatSession.getHistory(true);
+    ImmutableList<Content> history = chatSession.getHistory(true);
     System.out.println("History: " + history);
   }
+
+  private ChatWithHistory() {}
 }

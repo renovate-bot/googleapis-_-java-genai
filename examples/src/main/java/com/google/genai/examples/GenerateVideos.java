@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -38,18 +40,22 @@
 package com.google.genai.examples;
 
 import com.google.genai.Client;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.Video;
-import com.google.genai.errors.GenAiIOException;
 
 /** An example of using the Unified Gen AI Java SDK to generate videos. */
-public class GenerateVideos {
+public final class GenerateVideos {
   public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
     // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
 
     if (client.vertexAI()) {
@@ -99,4 +105,6 @@ public class GenerateVideos {
       System.out.println("An error occurred while downloading the video: " + e.getMessage());
     }
   }
+
+  private GenerateVideos() {}
 }

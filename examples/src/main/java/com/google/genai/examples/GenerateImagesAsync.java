@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -44,12 +46,16 @@ import com.google.genai.types.Image;
 import java.util.concurrent.CompletableFuture;
 
 /** An example of using the Unified Gen AI Java SDK to generate images asynchronously. */
-public class GenerateImagesAsync {
+public final class GenerateImagesAsync {
   public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
     // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
 
     if (client.vertexAI()) {
@@ -87,4 +93,6 @@ public class GenerateImagesAsync {
             })
         .join();
   }
+
+  private GenerateImagesAsync() {}
 }

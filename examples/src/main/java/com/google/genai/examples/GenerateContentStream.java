@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -42,11 +44,23 @@ import com.google.genai.ResponseStream;
 import com.google.genai.types.GenerateContentResponse;
 
 /** An example of using the Unified GenAI Java SDK to generate stream of content. */
-public class GenerateContentStream {
+public final class GenerateContentStream {
   public static void main(String[] args) {
-    // Instantiate the client using Vertex API. The client gets the project and location from the
-    // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
-    Client client = Client.builder().vertexAI(true).build();
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(
@@ -61,4 +75,6 @@ public class GenerateContentStream {
     // stream after consumption (or using try block to get the response stream).
     responseStream.close();
   }
+
+  private GenerateContentStream() {}
 }

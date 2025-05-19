@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -47,18 +49,33 @@ import com.google.genai.types.Tool;
 import java.lang.reflect.Method;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
-public class GenerateContentWithFunctionCall {
+public final class GenerateContentWithFunctionCall {
+  /** A callable function to get the weather. */
   public static String getCurrentWeather(String location, String unit) {
     return "The weather in " + location + " is " + "very nice.";
   }
 
+  /** A callable function to divide two integers. */
   public static Integer divideTwoIntegers(Integer numerator, Integer denominator) {
     return numerator / denominator;
   }
 
   public static void main(String[] args) throws NoSuchMethodException {
-    // Instantiate the client using Gemini Developer API.
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     Method method1 =
         GenerateContentWithFunctionCall.class.getMethod(
@@ -71,6 +88,7 @@ public class GenerateContentWithFunctionCall {
         GenerateContentConfig.builder()
             .tools(
                 ImmutableList.of(
+                    // Add the two methods as callable functions to the list of tools.
                     Tool.builder().functions(ImmutableList.of(method1, method2)).build()))
             .build();
 
@@ -85,4 +103,6 @@ public class GenerateContentWithFunctionCall {
         "The automatic function calling history is: "
             + response.automaticFunctionCallingHistory().get());
   }
+
+  private GenerateContentWithFunctionCall() {}
 }

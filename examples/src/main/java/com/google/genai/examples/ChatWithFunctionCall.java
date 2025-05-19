@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -33,8 +35,7 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java
- * -Dexec.mainClass="com.google.genai.examples.ChatWithFunctionCalling"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithFunctionCall"
  */
 package com.google.genai.examples;
 
@@ -46,12 +47,14 @@ import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Tool;
 import java.lang.reflect.Method;
 
-/** An example of using the Unified Gen AI Java SDK to create a chat session with history. */
-public class ChatWithFunctionCall {
+/** An example of using the Unified Gen AI Java SDK to create a chat session with function calls. */
+public final class ChatWithFunctionCall {
+  /** A callable function to get the current weather. */
   public static String getCurrentWeather(String location) {
     return "The weather in " + location + " is " + "very nice.";
   }
 
+  /** A callable function to divide two integers. */
   public static Integer divideTwoIntegers(int numerator, int denominator) {
     return numerator / denominator;
   }
@@ -61,22 +64,28 @@ public class ChatWithFunctionCall {
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
     // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
-
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
     Client client = new Client();
-    Method method1 =
-        ChatWithFunctionCall.class.getDeclaredMethod("getCurrentWeather", String.class);
-    Method method2 =
-        ChatWithFunctionCall.class.getDeclaredMethod("divideTwoIntegers", int.class, int.class);
 
     if (client.vertexAI()) {
       System.out.println("Using Vertex AI");
     } else {
       System.out.println("Using Gemini Developer API");
     }
+
+    Method method1 =
+        ChatWithFunctionCall.class.getDeclaredMethod("getCurrentWeather", String.class);
+    Method method2 =
+        ChatWithFunctionCall.class.getDeclaredMethod("divideTwoIntegers", int.class, int.class);
+
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .tools(
                 ImmutableList.of(
+                    // Add the two methods as callable functions to the tool.
                     Tool.builder().functions(ImmutableList.of(method1, method2)).build()))
             .build();
     // Create a chat session.
@@ -93,4 +102,6 @@ public class ChatWithFunctionCall {
     System.out.println("second response: " + response2.text());
     System.out.println("chat history: " + chatSession.getHistory(true));
   }
+
+  private ChatWithFunctionCall() {}
 }

@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -39,21 +41,33 @@
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.CountTokensConfig;
 import com.google.genai.types.CountTokensResponse;
-import com.google.genai.types.GoogleSearch;
 import com.google.genai.types.Part;
-import com.google.genai.types.SafetySetting;
-import com.google.genai.types.Tool;
 
-/** An example of using the Unified Gen AI Java SDK to generate content with extra configs. */
-public class CountTokensWithConfigs {
+/**
+ * An example of using the Unified Gen AI Java SDK to count tokens with text string and extra
+ * configs.
+ */
+public final class CountTokensWithConfigs {
   public static void main(String[] args) {
-    // Instantiate the client using Vertex AI.
-    Client client = Client.builder().vertexAI(true).build();
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     // Sets the system instruction in the config.
     Content systemInstruction = Content.fromParts(Part.fromText("You are a history teacher."));
@@ -68,4 +82,6 @@ public class CountTokensWithConfigs {
 
     System.out.println("Response: " + response);
   }
+
+  private CountTokensWithConfigs() {}
 }

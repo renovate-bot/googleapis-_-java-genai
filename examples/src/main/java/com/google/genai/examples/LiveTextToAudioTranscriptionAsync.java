@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -33,8 +35,9 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java
- * -Dexec.mainClass="com.google.genai.examples.LiveTextToAudioTranscriptionAsync"
+ * <p>mvn clean compile
+ *
+ * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.LiveTextToAudioTranscriptionAsync"
  */
 package com.google.genai.examples;
 
@@ -60,17 +63,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-/** Example of using the live module to send and receive messages asynchronously. */
-public class LiveTextToAudioTranscriptionAsync {
+/** Example of using the live module to transcribe text to audio. */
+public final class LiveTextToAudioTranscriptionAsync {
 
   public static void main(String[] args) {
-    // Instantiates the client using Vertex AI, and sets the project and location in the builder.
-    Client client =
-        Client.builder()
-            .vertexAI(true)
-            .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
-            .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
-            .build();
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     // Sets the system instruction in the config.
     Content systemInstruction = Content.fromParts(Part.fromText("Answer in Japanese."));
@@ -175,4 +186,6 @@ public class LiveTextToAudioTranscriptionAsync {
       }
     }
   }
+
+  private LiveTextToAudioTranscriptionAsync() {}
 }

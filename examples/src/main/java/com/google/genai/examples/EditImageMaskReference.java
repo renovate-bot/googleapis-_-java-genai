@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -33,7 +35,9 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.EditImageMaskReference"
+ * <p>mvn clean compile
+ *
+ * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.EditImageMaskReference"
  */
 package com.google.genai.examples;
 
@@ -50,15 +54,23 @@ import com.google.genai.types.ReferenceImage;
 import java.util.ArrayList;
 
 /** An example of using the Unified Gen AI Java SDK to edit an image (Mask reference). */
-public class EditImageMaskReference {
+public final class EditImageMaskReference {
   public static void main(String[] args) {
-    // Instantiates the client using Vertex AI, and sets the project and location in the builder.
-    Client client =
-        Client.builder()
-            .vertexAI(true)
-            .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
-            .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
-            .build();
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     // Base image created using generateImages with prompt:
     // "An umbrella in the foreground, and a rainy night sky in the background"
@@ -98,4 +110,6 @@ public class EditImageMaskReference {
     Image editedImage = editImageResponse.generatedImages().get().get(0).image().get();
     // Do something with editedImage.
   }
+
+  private EditImageMaskReference() {}
 }

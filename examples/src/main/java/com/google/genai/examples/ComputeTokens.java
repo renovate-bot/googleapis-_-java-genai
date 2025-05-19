@@ -26,6 +26,8 @@
  *
  * <p>export GOOGLE_CLOUD_LOCATION=YOUR_LOCATION
  *
+ * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
+ *
  * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
@@ -33,7 +35,7 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.CountTokens"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ComputeTokens"
  */
 package com.google.genai.examples;
 
@@ -41,15 +43,29 @@ import com.google.genai.Client;
 import com.google.genai.types.ComputeTokensResponse;
 
 /** An example of using the Unified Gen AI Java SDK to compute tokens for simple text input. */
-public class ComputeTokens {
+public final class ComputeTokens {
   public static void main(String[] args) {
-    // Instantiate the client using Vertex AI.
-    Client client = Client.builder().vertexAI(true).build();
+    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
+    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
+    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
+    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
+    //
+    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
+    // get a `UnsupportedOperationException` if you try to use a service that is not available in
+    // the backend you are using.
+    Client client = new Client();
+
+    if (client.vertexAI()) {
+      System.out.println("Using Vertex AI");
+    } else {
+      System.out.println("Using Gemini Developer API");
+    }
 
     ComputeTokensResponse response =
         client.models.computeTokens("gemini-2.0-flash-001", "What is your name?", null);
 
-    // Gets the text string from the response by the quick accessor method `text()`.
-    System.out.println("Unary response: " + response);
+    System.out.println("Compute tokens response: " + response);
   }
+
+  private ComputeTokens() {}
 }
