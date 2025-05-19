@@ -41,6 +41,10 @@ import java.util.function.Function;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * Provides methods for managing the cached content. Instantiating this class is not required. After
+ * instantiating a {@link Client}, access methods through `client.caches.methodName(...)` directly.
+ */
 public final class Caches {
   final ApiClient apiClient;
 
@@ -1661,6 +1665,13 @@ public final class Caches {
     return toObject;
   }
 
+  /**
+   * Creates a cached content resource.
+   *
+   * @param model The model to use.
+   * @param config A {@link CreateCachedContentConfig} for configuring the create request.
+   * @return A {@link CachedContent} object that contains the info of the created resource.
+   */
   public CachedContent create(String model, CreateCachedContentConfig config) {
 
     CreateCachedContentParameters.Builder parameterBuilder =
@@ -1724,6 +1735,13 @@ public final class Caches {
     }
   }
 
+  /**
+   * Gets a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to get.
+   * @param config A {@link GetCachedContentConfig} for configuring the get request.
+   * @return A {@link CachedContent} object that contains the info of the cached content.
+   */
   public CachedContent get(String name, GetCachedContentConfig config) {
 
     GetCachedContentParameters.Builder parameterBuilder = GetCachedContentParameters.builder();
@@ -1786,6 +1804,12 @@ public final class Caches {
     }
   }
 
+  /**
+   * Deletes a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to delete.
+   * @param config A {@link DeleteCachedContentConfig} for configuring the delete request.
+   */
   public DeleteCachedContentResponse delete(String name, DeleteCachedContentConfig config) {
 
     DeleteCachedContentParameters.Builder parameterBuilder =

@@ -38,14 +38,34 @@ public final class AsyncCaches {
     this.caches = new Caches(apiClient);
   }
 
+  /**
+   * Asynchronously creates a cached content resource.
+   *
+   * @param model The model to use.
+   * @param config A {@link CreateCachedContentConfig} for configuring the create request.
+   * @return A {@link CachedContent} object that contains the info of the created resource.
+   */
   public CompletableFuture<CachedContent> create(String model, CreateCachedContentConfig config) {
     return CompletableFuture.supplyAsync(() -> caches.create(model, config));
   }
 
+  /**
+   * Asynchronously gets a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to get.
+   * @param config A {@link GetCachedContentConfig} for configuring the get request.
+   * @return A {@link CachedContent} object that contains the info of the cached content.
+   */
   public CompletableFuture<CachedContent> get(String name, GetCachedContentConfig config) {
     return CompletableFuture.supplyAsync(() -> caches.get(name, config));
   }
 
+  /**
+   * Asynchronously deletes a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to delete.
+   * @param config A {@link DeleteCachedContentConfig} for configuring the delete request.
+   */
   public CompletableFuture<DeleteCachedContentResponse> delete(
       String name, DeleteCachedContentConfig config) {
     return CompletableFuture.supplyAsync(() -> caches.delete(name, config));
