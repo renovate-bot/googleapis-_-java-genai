@@ -29,7 +29,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GenerationConfigRoutingConfigManualRoutingMode.Builder.class)
 public abstract class GenerationConfigRoutingConfigManualRoutingMode extends JsonSerializable {
-  /** The model name to use. Only the public LLM models are accepted. e.g. 'gemini-1.5-pro-001'. */
+  /**
+   * The model name to use. Only the public LLM models are accepted. See [Supported
+   * models](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models).
+   */
   @JsonProperty("modelName")
   public abstract Optional<String> modelName();
 

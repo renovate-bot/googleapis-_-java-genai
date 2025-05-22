@@ -336,6 +336,57 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"displayName"}))) {
+      throw new IllegalArgumentException("displayName parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"displayName"},
+          Common.getValueByPath(fromObject, new String[] {"displayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -367,6 +418,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -379,13 +441,6 @@ final class LiveConverters {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -444,6 +499,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -456,13 +522,6 @@ final class LiveConverters {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -2723,6 +2782,54 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"displayName"},
+          Common.getValueByPath(fromObject, new String[] {"displayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -2754,6 +2861,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -2766,13 +2884,6 @@ final class LiveConverters {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -2831,6 +2942,17 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -2843,13 +2965,6 @@ final class LiveConverters {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {

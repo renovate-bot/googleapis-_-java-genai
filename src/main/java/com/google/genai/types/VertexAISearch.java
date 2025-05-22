@@ -46,6 +46,17 @@ public abstract class VertexAISearch extends JsonSerializable {
   @JsonProperty("engine")
   public abstract Optional<String> engine();
 
+  /** Optional. Filter strings to be passed to the search API. */
+  @JsonProperty("filter")
+  public abstract Optional<String> filter();
+
+  /**
+   * Optional. Number of search results to return per query. The default value is 10. The maximumm
+   * allowed value is 10.
+   */
+  @JsonProperty("maxResults")
+  public abstract Optional<Integer> maxResults();
+
   /** Instantiates a builder for VertexAISearch. */
   public static Builder builder() {
     return new AutoValue_VertexAISearch.Builder();
@@ -68,6 +79,12 @@ public abstract class VertexAISearch extends JsonSerializable {
 
     @JsonProperty("engine")
     public abstract Builder engine(String engine);
+
+    @JsonProperty("filter")
+    public abstract Builder filter(String filter);
+
+    @JsonProperty("maxResults")
+    public abstract Builder maxResults(Integer maxResults);
 
     public abstract VertexAISearch build();
   }

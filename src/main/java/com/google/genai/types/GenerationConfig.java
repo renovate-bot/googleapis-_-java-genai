@@ -18,10 +18,13 @@
 
 package com.google.genai.types;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.List;
@@ -31,6 +34,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GenerationConfig.Builder.class)
 public abstract class GenerationConfig extends JsonSerializable {
+  /** Optional. Config for model selection. */
+  @JsonProperty("modelSelectionConfig")
+  public abstract Optional<ModelSelectionConfig> modelSelectionConfig();
+
   /** Optional. If enabled, audio timestamp will be included in the request to the model. */
   @JsonProperty("audioTimestamp")
   public abstract Optional<Boolean> audioTimestamp();
@@ -72,6 +79,10 @@ public abstract class GenerationConfig extends JsonSerializable {
   @JsonProperty("responseMimeType")
   public abstract Optional<String> responseMimeType();
 
+  /** Optional. The modalities of the response. */
+  @JsonProperty("responseModalities")
+  public abstract Optional<List<Modality>> responseModalities();
+
   /**
    * Optional. The `Schema` object allows the definition of input and output data types. These types
    * can be objects, but also primitives and arrays. Represents a select subset of an [OpenAPI 3.0
@@ -90,6 +101,10 @@ public abstract class GenerationConfig extends JsonSerializable {
   @JsonProperty("seed")
   public abstract Optional<Integer> seed();
 
+  /** Optional. The speech generation config. */
+  @JsonProperty("speechConfig")
+  public abstract Optional<SpeechConfig> speechConfig();
+
   /** Optional. Stop sequences. */
   @JsonProperty("stopSequences")
   public abstract Optional<List<String>> stopSequences();
@@ -97,6 +112,13 @@ public abstract class GenerationConfig extends JsonSerializable {
   /** Optional. Controls the randomness of predictions. */
   @JsonProperty("temperature")
   public abstract Optional<Float> temperature();
+
+  /**
+   * Optional. Config for thinking features. An error will be returned if this field is set for
+   * models that don't support thinking.
+   */
+  @JsonProperty("thinkingConfig")
+  public abstract Optional<GenerationConfigThinkingConfig> thinkingConfig();
 
   /** Optional. If specified, top-k sampling will be used. */
   @JsonProperty("topK")
@@ -122,6 +144,9 @@ public abstract class GenerationConfig extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GenerationConfig.Builder();
     }
+
+    @JsonProperty("modelSelectionConfig")
+    public abstract Builder modelSelectionConfig(ModelSelectionConfig modelSelectionConfig);
 
     @JsonProperty("audioTimestamp")
     public abstract Builder audioTimestamp(boolean audioTimestamp);
@@ -160,6 +185,23 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("responseMimeType")
     public abstract Builder responseMimeType(String responseMimeType);
 
+    @JsonProperty("responseModalities")
+    public abstract Builder responseModalities(List<Modality> responseModalities);
+
+    @CanIgnoreReturnValue
+    public Builder responseModalitiesFromKnown(List<Modality.Known> knownTypes) {
+      ImmutableList<Modality> listItems =
+          knownTypes.stream().map(Modality::new).collect(toImmutableList());
+      return responseModalities(listItems);
+    }
+
+    @CanIgnoreReturnValue
+    public Builder responseModalitiesFromString(List<String> responseModalities) {
+      ImmutableList<Modality> listItems =
+          responseModalities.stream().map(Modality::new).collect(toImmutableList());
+      return responseModalities(listItems);
+    }
+
     @JsonProperty("responseSchema")
     public abstract Builder responseSchema(Schema responseSchema);
 
@@ -169,11 +211,17 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
 
+    @JsonProperty("speechConfig")
+    public abstract Builder speechConfig(SpeechConfig speechConfig);
+
     @JsonProperty("stopSequences")
     public abstract Builder stopSequences(List<String> stopSequences);
 
     @JsonProperty("temperature")
     public abstract Builder temperature(Float temperature);
+
+    @JsonProperty("thinkingConfig")
+    public abstract Builder thinkingConfig(GenerationConfigThinkingConfig thinkingConfig);
 
     @JsonProperty("topK")
     public abstract Builder topK(Float topK);

@@ -79,10 +79,7 @@ public abstract class Tool extends JsonSerializable {
   @JsonIgnore
   public abstract Optional<List<Method>> functions();
 
-  /**
-   * Optional. CodeExecution tool type. Enables the model to execute code as part of generation.
-   * This field is only used by the Gemini Developer API services.
-   */
+  /** Optional. CodeExecution tool type. Enables the model to execute code as part of generation. */
   @JsonProperty("codeExecution")
   public abstract Optional<ToolCodeExecution> codeExecution();
 

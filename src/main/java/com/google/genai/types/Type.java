@@ -47,7 +47,10 @@ public class Type {
     ARRAY,
 
     /** OpenAPI object type */
-    OBJECT
+    OBJECT,
+
+    /** Null type */
+    NULL
   }
 
   private Known typeEnum;

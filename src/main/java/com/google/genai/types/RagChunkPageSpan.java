@@ -25,46 +25,46 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Retrieval config. */
+/** Represents where the chunk starts and ends in the document. */
 @AutoValue
-@JsonDeserialize(builder = RetrievalConfig.Builder.class)
-public abstract class RetrievalConfig extends JsonSerializable {
-  /** Optional. The location of the user. */
-  @JsonProperty("latLng")
-  public abstract Optional<LatLng> latLng();
+@JsonDeserialize(builder = RagChunkPageSpan.Builder.class)
+public abstract class RagChunkPageSpan extends JsonSerializable {
+  /** Page where chunk starts in the document. Inclusive. 1-indexed. */
+  @JsonProperty("firstPage")
+  public abstract Optional<Integer> firstPage();
 
-  /** The language code of the user. */
-  @JsonProperty("languageCode")
-  public abstract Optional<String> languageCode();
+  /** Page where chunk ends in the document. Inclusive. 1-indexed. */
+  @JsonProperty("lastPage")
+  public abstract Optional<Integer> lastPage();
 
-  /** Instantiates a builder for RetrievalConfig. */
+  /** Instantiates a builder for RagChunkPageSpan. */
   public static Builder builder() {
-    return new AutoValue_RetrievalConfig.Builder();
+    return new AutoValue_RagChunkPageSpan.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for RetrievalConfig. */
+  /** Builder for RagChunkPageSpan. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `RetrievalConfig.builder()` for instantiation. */
+    /** For internal usage. Please use `RagChunkPageSpan.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_RetrievalConfig.Builder();
+      return new AutoValue_RagChunkPageSpan.Builder();
     }
 
-    @JsonProperty("latLng")
-    public abstract Builder latLng(LatLng latLng);
+    @JsonProperty("firstPage")
+    public abstract Builder firstPage(Integer firstPage);
 
-    @JsonProperty("languageCode")
-    public abstract Builder languageCode(String languageCode);
+    @JsonProperty("lastPage")
+    public abstract Builder lastPage(Integer lastPage);
 
-    public abstract RetrievalConfig build();
+    public abstract RagChunkPageSpan build();
   }
 
-  /** Deserializes a JSON string to a RetrievalConfig object. */
-  public static RetrievalConfig fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, RetrievalConfig.class);
+  /** Deserializes a JSON string to a RagChunkPageSpan object. */
+  public static RagChunkPageSpan fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, RagChunkPageSpan.class);
   }
 }

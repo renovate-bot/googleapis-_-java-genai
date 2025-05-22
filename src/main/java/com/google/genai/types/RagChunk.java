@@ -25,46 +25,46 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Retrieval config. */
+/** A RagChunk includes the content of a chunk of a RagFile, and associated metadata. */
 @AutoValue
-@JsonDeserialize(builder = RetrievalConfig.Builder.class)
-public abstract class RetrievalConfig extends JsonSerializable {
-  /** Optional. The location of the user. */
-  @JsonProperty("latLng")
-  public abstract Optional<LatLng> latLng();
+@JsonDeserialize(builder = RagChunk.Builder.class)
+public abstract class RagChunk extends JsonSerializable {
+  /** If populated, represents where the chunk starts and ends in the document. */
+  @JsonProperty("pageSpan")
+  public abstract Optional<RagChunkPageSpan> pageSpan();
 
-  /** The language code of the user. */
-  @JsonProperty("languageCode")
-  public abstract Optional<String> languageCode();
+  /** The content of the chunk. */
+  @JsonProperty("text")
+  public abstract Optional<String> text();
 
-  /** Instantiates a builder for RetrievalConfig. */
+  /** Instantiates a builder for RagChunk. */
   public static Builder builder() {
-    return new AutoValue_RetrievalConfig.Builder();
+    return new AutoValue_RagChunk.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for RetrievalConfig. */
+  /** Builder for RagChunk. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `RetrievalConfig.builder()` for instantiation. */
+    /** For internal usage. Please use `RagChunk.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_RetrievalConfig.Builder();
+      return new AutoValue_RagChunk.Builder();
     }
 
-    @JsonProperty("latLng")
-    public abstract Builder latLng(LatLng latLng);
+    @JsonProperty("pageSpan")
+    public abstract Builder pageSpan(RagChunkPageSpan pageSpan);
 
-    @JsonProperty("languageCode")
-    public abstract Builder languageCode(String languageCode);
+    @JsonProperty("text")
+    public abstract Builder text(String text);
 
-    public abstract RetrievalConfig build();
+    public abstract RagChunk build();
   }
 
-  /** Deserializes a JSON string to a RetrievalConfig object. */
-  public static RetrievalConfig fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, RetrievalConfig.class);
+  /** Deserializes a JSON string to a RagChunk object. */
+  public static RagChunk fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, RagChunk.class);
   }
 }

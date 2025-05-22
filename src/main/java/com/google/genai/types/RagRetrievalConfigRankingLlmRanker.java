@@ -29,7 +29,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = RagRetrievalConfigRankingLlmRanker.Builder.class)
 public abstract class RagRetrievalConfigRankingLlmRanker extends JsonSerializable {
-  /** Optional. The model name used for ranking. Format: `gemini-1.5-pro` */
+  /**
+   * Optional. The model name used for ranking. See [Supported
+   * models](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models).
+   */
   @JsonProperty("modelName")
   public abstract Optional<String> modelName();
 

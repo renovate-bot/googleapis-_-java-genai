@@ -43,7 +43,9 @@ public class HarmCategory {
     /** The harm category is sexually explicit content. */
     HARM_CATEGORY_SEXUALLY_EXPLICIT,
 
-    /** The harm category is civic integrity. */
+    /**
+     * Deprecated: Election filter is not longer supported. The harm category is civic integrity.
+     */
     HARM_CATEGORY_CIVIC_INTEGRITY
   }
 

@@ -29,6 +29,13 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkRetrievedContext.Builder.class)
 public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
+  /**
+   * Additional context for the RAG retrieval result. This is only populated when using the RAG
+   * retrieval tool.
+   */
+  @JsonProperty("ragChunk")
+  public abstract Optional<RagChunk> ragChunk();
+
   /** Text of the attribution. */
   @JsonProperty("text")
   public abstract Optional<String> text();
@@ -59,6 +66,9 @@ public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GroundingChunkRetrievedContext.Builder();
     }
+
+    @JsonProperty("ragChunk")
+    public abstract Builder ragChunk(RagChunk ragChunk);
 
     @JsonProperty("text")
     public abstract Builder text(String text);

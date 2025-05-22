@@ -142,6 +142,30 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"displayName"}))) {
+      throw new IllegalArgumentException("displayName parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -173,6 +197,17 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -185,13 +220,6 @@ public final class Models {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -237,6 +265,167 @@ public final class Models {
           toObject,
           new String[] {"role"},
           Common.getValueByPath(fromObject, new String[] {"role"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode schemaToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"anyOf"},
+          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"default"},
+          Common.getValueByPath(fromObject, new String[] {"default"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"enum"},
+          Common.getValueByPath(fromObject, new String[] {"enum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"example"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"example"},
+          Common.getValueByPath(fromObject, new String[] {"example"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"format"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"format"},
+          Common.getValueByPath(fromObject, new String[] {"format"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"items"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"items"},
+          Common.getValueByPath(fromObject, new String[] {"items"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxItems"},
+          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxLength"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxLength"},
+          Common.getValueByPath(fromObject, new String[] {"maxLength"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxProperties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxProperties"},
+          Common.getValueByPath(fromObject, new String[] {"maxProperties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maximum"},
+          Common.getValueByPath(fromObject, new String[] {"maximum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minItems"},
+          Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minLength"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minLength"},
+          Common.getValueByPath(fromObject, new String[] {"minLength"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minProperties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minProperties"},
+          Common.getValueByPath(fromObject, new String[] {"minProperties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minimum"},
+          Common.getValueByPath(fromObject, new String[] {"minimum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nullable"},
+          Common.getValueByPath(fromObject, new String[] {"nullable"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"pattern"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"pattern"},
+          Common.getValueByPath(fromObject, new String[] {"pattern"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"properties"},
+          Common.getValueByPath(fromObject, new String[] {"properties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"propertyOrdering"},
+          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"required"},
+          Common.getValueByPath(fromObject, new String[] {"required"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"type"},
+          Common.getValueByPath(fromObject, new String[] {"type"}));
     }
 
     return toObject;
@@ -608,6 +797,13 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"languageCode"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"languageCode"},
+          Common.getValueByPath(fromObject, new String[] {"languageCode"}));
+    }
+
     return toObject;
   }
 
@@ -878,8 +1074,13 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"responseSchema"},
-          Transformers.tSchema(
-              this.apiClient, Common.getValueByPath(fromObject, new String[] {"responseSchema"})));
+          schemaToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Transformers.tSchema(
+                      this.apiClient,
+                      Common.getValueByPath(fromObject, new String[] {"responseSchema"}))),
+              toObject));
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"routingConfig"}))) {
@@ -1644,6 +1845,33 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"displayName"},
+          Common.getValueByPath(fromObject, new String[] {"displayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -1675,6 +1903,17 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1687,13 +1926,6 @@ public final class Models {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -1739,6 +1971,167 @@ public final class Models {
           toObject,
           new String[] {"role"},
           Common.getValueByPath(fromObject, new String[] {"role"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode schemaToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"anyOf"},
+          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"default"},
+          Common.getValueByPath(fromObject, new String[] {"default"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"description"},
+          Common.getValueByPath(fromObject, new String[] {"description"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"enum"},
+          Common.getValueByPath(fromObject, new String[] {"enum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"example"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"example"},
+          Common.getValueByPath(fromObject, new String[] {"example"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"format"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"format"},
+          Common.getValueByPath(fromObject, new String[] {"format"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"items"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"items"},
+          Common.getValueByPath(fromObject, new String[] {"items"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxItems"},
+          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxLength"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxLength"},
+          Common.getValueByPath(fromObject, new String[] {"maxLength"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxProperties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxProperties"},
+          Common.getValueByPath(fromObject, new String[] {"maxProperties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maximum"},
+          Common.getValueByPath(fromObject, new String[] {"maximum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minItems"},
+          Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minLength"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minLength"},
+          Common.getValueByPath(fromObject, new String[] {"minLength"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minProperties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minProperties"},
+          Common.getValueByPath(fromObject, new String[] {"minProperties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minimum"},
+          Common.getValueByPath(fromObject, new String[] {"minimum"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nullable"},
+          Common.getValueByPath(fromObject, new String[] {"nullable"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"pattern"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"pattern"},
+          Common.getValueByPath(fromObject, new String[] {"pattern"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"properties"},
+          Common.getValueByPath(fromObject, new String[] {"properties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"propertyOrdering"},
+          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"required"},
+          Common.getValueByPath(fromObject, new String[] {"required"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"type"},
+          Common.getValueByPath(fromObject, new String[] {"type"}));
     }
 
     return toObject;
@@ -2137,6 +2530,13 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"languageCode"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"languageCode"},
+          Common.getValueByPath(fromObject, new String[] {"languageCode"}));
+    }
+
     return toObject;
   }
 
@@ -2385,8 +2785,13 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"responseSchema"},
-          Transformers.tSchema(
-              this.apiClient, Common.getValueByPath(fromObject, new String[] {"responseSchema"})));
+          schemaToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Transformers.tSchema(
+                      this.apiClient,
+                      Common.getValueByPath(fromObject, new String[] {"responseSchema"}))),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"routingConfig"}) != null) {
@@ -3654,6 +4059,27 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -3685,6 +4111,17 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -3697,13 +4134,6 @@ public final class Models {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {
@@ -4465,6 +4895,33 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode fileDataFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"displayName"},
+          Common.getValueByPath(fromObject, new String[] {"displayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode partFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -4496,6 +4953,17 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          fileDataFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecutionResult"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -4508,13 +4976,6 @@ public final class Models {
           toObject,
           new String[] {"executableCode"},
           Common.getValueByPath(fromObject, new String[] {"executableCode"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"fileData"},
-          Common.getValueByPath(fromObject, new String[] {"fileData"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"functionCall"}) != null) {

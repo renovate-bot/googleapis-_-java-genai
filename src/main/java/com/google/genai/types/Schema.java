@@ -29,9 +29,11 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Schema is used to define the format of input/output data. Represents a select subset of an
- * [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema-object). More fields may
- * be added in the future as needed.
+ * Schema is used to define the format of input/output data.
+ *
+ * <p>Represents a select subset of an [OpenAPI 3.0 schema
+ * object](https://spec.openapis.org/oas/v3.0.3#schema-object). More fields may be added in the
+ * future as needed.
  */
 @AutoValue
 @JsonDeserialize(builder = Schema.Builder.class)

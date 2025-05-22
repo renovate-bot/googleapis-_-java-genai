@@ -38,7 +38,7 @@ public abstract class FunctionCall extends JsonSerializable {
   public abstract Optional<String> id();
 
   /**
-   * Optional. Required. The function parameters and values in JSON object format. See
+   * Optional. The function parameters and values in JSON object format. See
    * [FunctionDeclaration.parameters] for parameter details.
    */
   @JsonProperty("args")
