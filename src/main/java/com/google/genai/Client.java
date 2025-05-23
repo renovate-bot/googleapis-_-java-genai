@@ -103,7 +103,7 @@ public final class Client implements AutoCloseable {
           environmentVariables);
     }
 
-    /** Sets the API key for Google AI APIs. */
+    /** Sets the API key for Gemini API. */
     public Builder apiKey(String apiKey) {
       checkNotNull(apiKey, "apiKey cannot be null");
       this.apiKey = Optional.of(apiKey);
@@ -183,7 +183,7 @@ public final class Client implements AutoCloseable {
    * Constructs a Client instance with the given parameters.
    *
    * @param apiKey Optional String for the <a href="https://ai.google.dev/gemini-api/docs/api-key">API key</a>.
-   *     Google AI APIs only.
+   *     Gemini API only.
    * @param project Optional String for the project ID. Vertex AI APIs only.
    *     Find your <a href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects">project ID</a>
    * @param location Optional String for the <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations">location</a>.
@@ -225,7 +225,7 @@ public final class Client implements AutoCloseable {
             "Project/location and API key are mutually exclusive in the client initializer.");
       }
       if (!useVertexAI) {
-        throw new IllegalArgumentException("Google AI APIs do not support project/location.");
+        throw new IllegalArgumentException("Gemini API do not support project/location.");
       }
     }
 
@@ -248,7 +248,7 @@ public final class Client implements AutoCloseable {
         || this.debugConfig.clientMode().equals("auto")) {
       System.out.println("Instantialing a client that will use Replay mode...");
       if (!useVertexAI) {
-        System.out.println("Instantialing a replay client that will use Google AI APIs...");
+        System.out.println("Instantialing a replay client that will use Gemini API...");
         this.apiClient =
             new ReplayApiClient(
                 /* apiKey= */ apiKey,
@@ -304,7 +304,7 @@ public final class Client implements AutoCloseable {
     return apiClient.location();
   }
 
-  /** Returns the API key for Google AI APIs. */
+  /** Returns the API key for Gemini API. */
   public String apiKey() {
     return apiClient.apiKey();
   }
