@@ -1744,6 +1744,10 @@ public final class Models {
       throw new IllegalArgumentException("enhancePrompt parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"generateAudio"}))) {
+      throw new IllegalArgumentException("generateAudio parameter is not supported in Gemini API.");
+    }
+
     return toObject;
   }
 
@@ -3962,6 +3966,13 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "enhancePrompt"},
           Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"generateAudio"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "generateAudio"},
+          Common.getValueByPath(fromObject, new String[] {"generateAudio"}));
     }
 
     return toObject;

@@ -89,6 +89,10 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
   @JsonProperty("enhancePrompt")
   public abstract Optional<Boolean> enhancePrompt();
 
+  /** Whether to generate audio along with the video. */
+  @JsonProperty("generateAudio")
+  public abstract Optional<Boolean> generateAudio();
+
   /** Instantiates a builder for GenerateVideosConfig. */
   public static Builder builder() {
     return new AutoValue_GenerateVideosConfig.Builder();
@@ -141,6 +145,9 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
 
     @JsonProperty("enhancePrompt")
     public abstract Builder enhancePrompt(boolean enhancePrompt);
+
+    @JsonProperty("generateAudio")
+    public abstract Builder generateAudio(boolean generateAudio);
 
     public abstract GenerateVideosConfig build();
   }
