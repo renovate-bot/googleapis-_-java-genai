@@ -17,7 +17,7 @@ If you're using Maven, add the following to your dependencies:
   <dependency>
     <groupId>com.google.genai</groupId>
     <artifactId>google-genai</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
   </dependency>
 </dependencies>
 ```
@@ -380,7 +380,7 @@ Apache 2.0 - See [LICENSE][license] for more information.
 [gemini-api-doc]: https://ai.google.dev/gemini-api/docs
 [vertex-api-doc]: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.genai/google-genai.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.genai/google-genai/1.0.0
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.genai/google-genai
 [javadoc-image]: https://img.shields.io/badge/JavaDoc-Online-green
 [javadoc-link]: https://googleapis.github.io/java-genai/javadoc/
 [license]: https://github.com/googleapis/java-genai/blob/main/LICENSE
