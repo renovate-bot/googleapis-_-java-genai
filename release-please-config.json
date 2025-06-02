@@ -5,7 +5,7 @@
   "separate-pull-requests": true,
   "include-component-in-tag": false,
   "initial-version": "0.2.0-SNAPSHOT",
-  "extra-files": ["README.md"],
+  "extra-files": ["README.md", "src/main/java/com/google/genai/ApiClient.java"],
   "packages": {
     ".": {
       "changelog-path": "CHANGELOG.md",
