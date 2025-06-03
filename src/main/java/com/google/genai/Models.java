@@ -1747,8 +1747,11 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"negativePrompt"}));
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}))) {
-      throw new IllegalArgumentException("enhancePrompt parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "enhancePrompt"},
+          Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}));
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"generateAudio"}))) {
