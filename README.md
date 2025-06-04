@@ -29,15 +29,6 @@ If you're using Maven, add the following to your dependencies:
 Follow the instructions in this section to get started using the Google Gen AI
 SDK for Java.
 
-You can either set the following environment variables or pass them to the
-client builder explicitly:
-
-```bash
-GOOGLE_API_KEY=${GEMINI_API_KEY}      # Required to call Gemini APIs
-GOOGLE_CLOUD_PROJECT=${PROJECT_NAME}  # Required to call Vertex AI APIs
-GOOGLE_CLOUD_LOCATION=${LOCATION}     # Required to call Vertex AI APIs
-```
-
 ### Create a client
 The Google Gen AI Java SDK provides a Client class, simplifying interaction
 with both the Gemini API and Vertex AI API. With minimal configuration,
@@ -48,11 +39,6 @@ your code.
 ```java
 import com.google.genai.Client;
 
-// The simplest way for instantiation. The client gets the API key from the
-// environment variable `GOOGLE_API_KEY` and use Gemini API when the environment
-// variable `GOOGLE_GENAI_USE_VERTEXAI` is not set or set to `false`.
-Client client = new Client();
-
 // Use Builder class for instantiation. Explicitly set the API key to use Gemini
 // Developer backend.
 Client client = Client.builder().apiKey("your-api-key").build();
@@ -62,11 +48,6 @@ Client client = Client.builder().apiKey("your-api-key").build();
 ```java
 import com.google.genai.Client;
 
-// The client gets the project and location from the environment variable
-// `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`. It uses Vertex AI APIs
-// when the environment variable `GOOGLE_GENAI_USE_VERTEXAI` is set to `true`.
-Client client = new Client();
-
 // Use Builder class for instantiation. Explicitly set the project and location,
 // and set `vertexAI(true)` to use Vertex AI backend.
 Client client = Client.builder()
@@ -74,6 +55,33 @@ Client client = Client.builder()
   .location("your-location")
   .vertexAI(true)
   .build();
+```
+
+#### (Optional) Using environment variables:
+
+You can create a client by configuring the necessary environment variables.
+Configuration setup instructions depends on whether you're using the Gemini
+Developer API or the Gemini API in Vertex AI.
+
+**Gemini Developer API:** Set `GOOGLE_API_KEY` as shown below:
+
+```bash
+export GOOGLE_API_KEY='your-api-key'
+```
+
+**Gemini API on Vertex AI:** Set `GOOGLE_GENAI_USE_VERTEXAI`,
+`GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`, as shown below:
+
+```bash
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT='your-project-id'
+export GOOGLE_CLOUD_LOCATION='us-central1'
+```
+
+```java
+import com.google.genai.Client;
+
+Client client = new Client();
 ```
 
 ### Interact with models
