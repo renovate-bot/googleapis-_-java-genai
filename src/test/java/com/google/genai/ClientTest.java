@@ -144,7 +144,7 @@ public class ClientTest {
             IllegalArgumentException.class, () -> Client.builder().project(PROJECT).build());
 
     // Assert
-    assertEquals("Google AI APIs do not support project/location.", exception.getMessage());
+    assertEquals("Gemini API do not support project/location.", exception.getMessage());
   }
 
   @Test

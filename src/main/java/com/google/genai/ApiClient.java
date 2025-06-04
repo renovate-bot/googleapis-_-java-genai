@@ -26,6 +26,7 @@ import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -37,6 +38,8 @@ import org.jspecify.annotations.Nullable;
 abstract class ApiClient {
 
   private static final String SDK_VERSION = "1.0.0"; // x-version-update:google-genai:released
+  private static final Logger logger = Logger.getLogger(ApiClient.class.getName());
+
   CloseableHttpClient httpClient;
   // For Google AI APIs
   final Optional<String> apiKey;
@@ -53,10 +56,11 @@ abstract class ApiClient {
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
 
     try {
-      this.apiKey = Optional.of(apiKey.orElse(System.getenv("GOOGLE_API_KEY")));
+      this.apiKey = Optional.of(apiKey.orElse(getApiKeyFromEnv()));
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
-          "API key must either be provided or set in the environment variable" + " GOOGLE_API_KEY.",
+          "API key must either be provided or set in the environment variable"
+              + " GOOGLE_API_KEY or GEMINI_API_KEY. If both are set, GOOGLE_API_KEY will be used.",
           e);
     }
 
@@ -118,6 +122,25 @@ abstract class ApiClient {
     this.apiKey = Optional.empty();
     this.vertexAI = true;
     this.httpClient = createHttpClient(httpOptions.timeout());
+  }
+
+  private String getApiKeyFromEnv() {
+    String googleApiKey = System.getenv("GOOGLE_API_KEY");
+    if (googleApiKey != null && googleApiKey.isEmpty()) {
+      googleApiKey = null;
+    }
+    String geminiApiKey = System.getenv("GEMINI_API_KEY");
+    if (geminiApiKey != null && geminiApiKey.isEmpty()) {
+      geminiApiKey = null;
+    }
+    if (googleApiKey != null && geminiApiKey != null) {
+      logger.warning(
+          "Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.");
+    }
+    if (googleApiKey != null) {
+      return googleApiKey;
+    }
+    return geminiApiKey;
   }
 
   private CloseableHttpClient createHttpClient(Optional<Integer> timeout) {
