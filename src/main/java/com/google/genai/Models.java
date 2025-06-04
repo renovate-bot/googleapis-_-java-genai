@@ -2481,8 +2481,15 @@ public final class Models {
               toObject));
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"urlContext"}))) {
-      throw new IllegalArgumentException("urlContext parameter is not supported in Vertex AI.");
+    if (Common.getValueByPath(fromObject, new String[] {"urlContext"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlContext"},
+          urlContextToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"urlContext"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
@@ -5160,6 +5167,17 @@ public final class Models {
           toObject,
           new String[] {"finishReason"},
           Common.getValueByPath(fromObject, new String[] {"finishReason"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlContextMetadata"},
+          urlContextMetadataFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}) != null) {
