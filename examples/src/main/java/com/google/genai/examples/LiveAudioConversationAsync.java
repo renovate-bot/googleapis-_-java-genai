@@ -98,9 +98,9 @@ public final class LiveAudioConversationAsync {
       return null;
     }
 
-    Blob media = Blob.builder().mimeType("audio/pcm").data(audioData).build();
-
-    return LiveSendRealtimeInputParameters.builder().media(media).build();
+    return LiveSendRealtimeInputParameters.builder()
+        .media(Blob.builder().mimeType("audio/pcm").data(audioData))
+        .build();
   }
 
   /** Reads audio from the microphone and sends it to the API session. Runs in a separate thread. */
@@ -167,10 +167,8 @@ public final class LiveAudioConversationAsync {
                     .voiceConfig(
                         VoiceConfig.builder()
                             .prebuiltVoiceConfig(
-                                PrebuiltVoiceConfig.builder().voiceName(voiceName).build())
-                            .build())
-                    .languageCode("en-US")
-                    .build())
+                                PrebuiltVoiceConfig.builder().voiceName(voiceName)))
+                    .languageCode("en-US"))
             .build();
 
     // --- Shutdown Hook for Cleanup ---

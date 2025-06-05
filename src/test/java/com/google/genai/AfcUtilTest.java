@@ -57,8 +57,7 @@ public final class AfcUtilTest {
                   .properties(
                       ImmutableMap.of(
                           "input", Schema.builder().type(Type.Known.STRING).title("input").build()))
-                  .required(ImmutableList.of("input"))
-                  .build())
+                  .required(ImmutableList.of("input")))
           .build();
 
   private static FunctionDeclaration testFunctionDeclaration2 =
@@ -71,8 +70,7 @@ public final class AfcUtilTest {
                       ImmutableMap.of(
                           "input2",
                           Schema.builder().type(Type.Known.STRING).title("input2").build()))
-                  .required(ImmutableList.of("input2"))
-                  .build())
+                  .required(ImmutableList.of("input2")))
           .build();
 
   @BeforeEach
@@ -174,8 +172,7 @@ public final class AfcUtilTest {
   public void shouldDisableAfc_disableAfc_returnsTrue() {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .automaticFunctionCalling(
-                AutomaticFunctionCallingConfig.builder().disable(true).build())
+            .automaticFunctionCalling(AutomaticFunctionCallingConfig.builder().disable(true))
             .build();
     boolean shouldDisableAfc = AfcUtil.shouldDisableAfc(config);
     assertEquals(true, shouldDisableAfc);
@@ -186,10 +183,7 @@ public final class AfcUtilTest {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .automaticFunctionCalling(
-                AutomaticFunctionCallingConfig.builder()
-                    .disable(true)
-                    .maximumRemoteCalls(10)
-                    .build())
+                AutomaticFunctionCallingConfig.builder().disable(true).maximumRemoteCalls(10))
             .build();
     boolean shouldDisableAfc = AfcUtil.shouldDisableAfc(config);
     assertEquals(true, shouldDisableAfc);
@@ -200,10 +194,7 @@ public final class AfcUtilTest {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .automaticFunctionCalling(
-                AutomaticFunctionCallingConfig.builder()
-                    .disable(false)
-                    .maximumRemoteCalls(-1)
-                    .build())
+                AutomaticFunctionCallingConfig.builder().disable(false).maximumRemoteCalls(-1))
             .build();
     boolean shouldDisableAfc = AfcUtil.shouldDisableAfc(config);
     assertEquals(true, shouldDisableAfc);
@@ -227,7 +218,7 @@ public final class AfcUtilTest {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .automaticFunctionCalling(
-                AutomaticFunctionCallingConfig.builder().maximumRemoteCalls(5).build())
+                AutomaticFunctionCallingConfig.builder().maximumRemoteCalls(5))
             .build();
     int maxRemoteCallsAfc = AfcUtil.getMaxRemoteCallsAfc(config);
     assertEquals(5, maxRemoteCallsAfc);
@@ -237,7 +228,7 @@ public final class AfcUtilTest {
   public void getMaxRemoteCallsAfc_emptyMaxRemoteCalls_returnsDefaultMaxRemoteCallsAfc() {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .automaticFunctionCalling(AutomaticFunctionCallingConfig.builder().build())
+            .automaticFunctionCalling(AutomaticFunctionCallingConfig.builder())
             .build();
     int maxRemoteCallsAfc = AfcUtil.getMaxRemoteCallsAfc(config);
     assertEquals(10, maxRemoteCallsAfc);
@@ -261,7 +252,7 @@ public final class AfcUtilTest {
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .automaticFunctionCalling(
-                AutomaticFunctionCallingConfig.builder().ignoreCallHistory(true).build())
+                AutomaticFunctionCallingConfig.builder().ignoreCallHistory(true))
             .build();
     boolean shouldAppendAfcHistory = AfcUtil.shouldAppendAfcHistory(config);
     assertEquals(false, shouldAppendAfcHistory);

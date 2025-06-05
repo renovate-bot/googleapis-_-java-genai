@@ -50,8 +50,22 @@ public abstract class VoiceConfig extends JsonSerializable {
       return new AutoValue_VoiceConfig.Builder();
     }
 
+    /**
+     * Setter for prebuiltVoiceConfig.
+     *
+     * <p>prebuiltVoiceConfig: The configuration for the speaker to use.
+     */
     @JsonProperty("prebuiltVoiceConfig")
     public abstract Builder prebuiltVoiceConfig(PrebuiltVoiceConfig prebuiltVoiceConfig);
+
+    /**
+     * Setter for prebuiltVoiceConfig builder.
+     *
+     * <p>prebuiltVoiceConfig: The configuration for the speaker to use.
+     */
+    public Builder prebuiltVoiceConfig(PrebuiltVoiceConfig.Builder prebuiltVoiceConfigBuilder) {
+      return prebuiltVoiceConfig(prebuiltVoiceConfigBuilder.build());
+    }
 
     public abstract VoiceConfig build();
   }

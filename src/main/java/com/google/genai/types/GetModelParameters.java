@@ -56,11 +56,30 @@ public abstract class GetModelParameters extends JsonSerializable {
       return new AutoValue_GetModelParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model:
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Optional parameters for the request.
+     */
     @JsonProperty("config")
     public abstract Builder config(GetModelConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Optional parameters for the request.
+     */
+    public Builder config(GetModelConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GetModelParameters build();
   }

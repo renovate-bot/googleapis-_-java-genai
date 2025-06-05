@@ -68,15 +68,37 @@ public abstract class Segment extends JsonSerializable {
       return new AutoValue_Segment.Builder();
     }
 
+    /**
+     * Setter for endIndex.
+     *
+     * <p>endIndex: Output only. End index in the given Part, measured in bytes. Offset from the
+     * start of the Part, exclusive, starting at zero.
+     */
     @JsonProperty("endIndex")
     public abstract Builder endIndex(Integer endIndex);
 
+    /**
+     * Setter for partIndex.
+     *
+     * <p>partIndex: Output only. The index of a Part object within its parent Content object.
+     */
     @JsonProperty("partIndex")
     public abstract Builder partIndex(Integer partIndex);
 
+    /**
+     * Setter for startIndex.
+     *
+     * <p>startIndex: Output only. Start index in the given Part, measured in bytes. Offset from the
+     * start of the Part, inclusive, starting at zero.
+     */
     @JsonProperty("startIndex")
     public abstract Builder startIndex(Integer startIndex);
 
+    /**
+     * Setter for text.
+     *
+     * <p>text: Output only. The text corresponding to the segment from the response.
+     */
     @JsonProperty("text")
     public abstract Builder text(String text);
 

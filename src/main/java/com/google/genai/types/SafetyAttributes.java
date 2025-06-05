@@ -59,12 +59,27 @@ public abstract class SafetyAttributes extends JsonSerializable {
       return new AutoValue_SafetyAttributes.Builder();
     }
 
+    /**
+     * Setter for categories.
+     *
+     * <p>categories: List of RAI categories.
+     */
     @JsonProperty("categories")
     public abstract Builder categories(List<String> categories);
 
+    /**
+     * Setter for scores.
+     *
+     * <p>scores: List of scores of each categories.
+     */
     @JsonProperty("scores")
     public abstract Builder scores(List<Float> scores);
 
+    /**
+     * Setter for contentType.
+     *
+     * <p>contentType: Internal use only.
+     */
     @JsonProperty("contentType")
     public abstract Builder contentType(String contentType);
 

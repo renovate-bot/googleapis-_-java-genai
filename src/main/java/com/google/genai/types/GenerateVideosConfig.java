@@ -110,42 +110,121 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
       return new AutoValue_GenerateVideosConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for numberOfVideos.
+     *
+     * <p>numberOfVideos: Number of output videos.
+     */
     @JsonProperty("numberOfVideos")
     public abstract Builder numberOfVideos(Integer numberOfVideos);
 
+    /**
+     * Setter for outputGcsUri.
+     *
+     * <p>outputGcsUri: The gcs bucket where to save the generated videos.
+     */
     @JsonProperty("outputGcsUri")
     public abstract Builder outputGcsUri(String outputGcsUri);
 
+    /**
+     * Setter for fps.
+     *
+     * <p>fps: Frames per second for video generation.
+     */
     @JsonProperty("fps")
     public abstract Builder fps(Integer fps);
 
+    /**
+     * Setter for durationSeconds.
+     *
+     * <p>durationSeconds: Duration of the clip for video generation in seconds.
+     */
     @JsonProperty("durationSeconds")
     public abstract Builder durationSeconds(Integer durationSeconds);
 
+    /**
+     * Setter for seed.
+     *
+     * <p>seed: The RNG seed. If RNG seed is exactly same for each request with unchanged inputs,
+     * the prediction results will be consistent. Otherwise, a random RNG seed will be used each
+     * time to produce a different result.
+     */
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
 
+    /**
+     * Setter for aspectRatio.
+     *
+     * <p>aspectRatio: The aspect ratio for the generated video. 16:9 (landscape) and 9:16
+     * (portrait) are supported.
+     */
     @JsonProperty("aspectRatio")
     public abstract Builder aspectRatio(String aspectRatio);
 
+    /**
+     * Setter for resolution.
+     *
+     * <p>resolution: The resolution for the generated video. 1280x720, 1920x1080 are supported.
+     */
     @JsonProperty("resolution")
     public abstract Builder resolution(String resolution);
 
+    /**
+     * Setter for personGeneration.
+     *
+     * <p>personGeneration: Whether allow to generate person videos, and restrict to specific ages.
+     * Supported values are: dont_allow, allow_adult.
+     */
     @JsonProperty("personGeneration")
     public abstract Builder personGeneration(String personGeneration);
 
+    /**
+     * Setter for pubsubTopic.
+     *
+     * <p>pubsubTopic: The pubsub topic where to publish the video generation progress.
+     */
     @JsonProperty("pubsubTopic")
     public abstract Builder pubsubTopic(String pubsubTopic);
 
+    /**
+     * Setter for negativePrompt.
+     *
+     * <p>negativePrompt: Optional field in addition to the text content. Negative prompts can be
+     * explicitly stated here to help generate the video.
+     */
     @JsonProperty("negativePrompt")
     public abstract Builder negativePrompt(String negativePrompt);
 
+    /**
+     * Setter for enhancePrompt.
+     *
+     * <p>enhancePrompt: Whether to use the prompt rewriting logic.
+     */
     @JsonProperty("enhancePrompt")
     public abstract Builder enhancePrompt(boolean enhancePrompt);
 
+    /**
+     * Setter for generateAudio.
+     *
+     * <p>generateAudio: Whether to generate audio along with the video.
+     */
     @JsonProperty("generateAudio")
     public abstract Builder generateAudio(boolean generateAudio);
 

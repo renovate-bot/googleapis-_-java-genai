@@ -86,14 +86,14 @@ public final class LiveTextToAudioTranscriptionAsync {
     // Sets the system instruction in the config.
     Content systemInstruction = Content.fromParts(Part.fromText("Answer in Japanese."));
     // Sets the Google Search tool in the config.
-    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder().build()).build();
+    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder()).build();
 
     LiveConnectConfig config =
         LiveConnectConfig.builder()
             .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.AUDIO))
-            .outputAudioTranscription(AudioTranscriptionConfig.builder().build())
+            .outputAudioTranscription(AudioTranscriptionConfig.builder())
             .systemInstruction(systemInstruction)
-            .speechConfig(SpeechConfig.builder().languageCode("ja-JP").build())
+            .speechConfig(SpeechConfig.builder().languageCode("ja-JP"))
             .tools(ImmutableList.of(googleSearchTool))
             .build();
 

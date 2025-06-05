@@ -50,6 +50,11 @@ public abstract class StyleReferenceConfig extends JsonSerializable {
       return new AutoValue_StyleReferenceConfig.Builder();
     }
 
+    /**
+     * Setter for styleDescription.
+     *
+     * <p>styleDescription: A text description of the style to use for the generated image.
+     */
     @JsonProperty("styleDescription")
     public abstract Builder styleDescription(String styleDescription);
 

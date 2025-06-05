@@ -58,12 +58,29 @@ public abstract class RagRetrievalConfigFilter extends JsonSerializable {
       return new AutoValue_RagRetrievalConfigFilter.Builder();
     }
 
+    /**
+     * Setter for metadataFilter.
+     *
+     * <p>metadataFilter: Optional. String for metadata filtering.
+     */
     @JsonProperty("metadataFilter")
     public abstract Builder metadataFilter(String metadataFilter);
 
+    /**
+     * Setter for vectorDistanceThreshold.
+     *
+     * <p>vectorDistanceThreshold: Optional. Only returns contexts with vector distance smaller than
+     * the threshold.
+     */
     @JsonProperty("vectorDistanceThreshold")
     public abstract Builder vectorDistanceThreshold(Double vectorDistanceThreshold);
 
+    /**
+     * Setter for vectorSimilarityThreshold.
+     *
+     * <p>vectorSimilarityThreshold: Optional. Only returns contexts with vector similarity larger
+     * than the threshold.
+     */
     @JsonProperty("vectorSimilarityThreshold")
     public abstract Builder vectorSimilarityThreshold(Double vectorSimilarityThreshold);
 

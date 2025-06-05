@@ -65,9 +65,22 @@ public abstract class Content extends JsonSerializable {
       return new AutoValue_Content.Builder();
     }
 
+    /**
+     * Setter for parts.
+     *
+     * <p>parts: List of parts that constitute a single message. Each part may have a different IANA
+     * MIME type.
+     */
     @JsonProperty("parts")
     public abstract Builder parts(List<Part> parts);
 
+    /**
+     * Setter for role.
+     *
+     * <p>role: Optional. The producer of the content. Must be either 'user' or 'model'. Useful to
+     * set for multi-turn conversations, otherwise can be empty. If role is not specified, SDK will
+     * determine the role.
+     */
     @JsonProperty("role")
     public abstract Builder role(String role);
 

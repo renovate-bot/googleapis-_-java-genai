@@ -55,9 +55,19 @@ public abstract class ListFilesResponse extends JsonSerializable {
       return new AutoValue_ListFilesResponse.Builder();
     }
 
+    /**
+     * Setter for nextPageToken.
+     *
+     * <p>nextPageToken: A token to retrieve next page of results.
+     */
     @JsonProperty("nextPageToken")
     public abstract Builder nextPageToken(String nextPageToken);
 
+    /**
+     * Setter for files.
+     *
+     * <p>files: The list of files.
+     */
     @JsonProperty("files")
     public abstract Builder files(List<File> files);
 

@@ -57,11 +57,31 @@ public abstract class LiveConnectParameters extends JsonSerializable {
       return new AutoValue_LiveConnectParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Optional configuration parameters for the request.
+     */
     @JsonProperty("config")
     public abstract Builder config(LiveConnectConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Optional configuration parameters for the request.
+     */
+    public Builder config(LiveConnectConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract LiveConnectParameters build();
   }

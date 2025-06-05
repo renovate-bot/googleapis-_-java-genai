@@ -69,17 +69,67 @@ public abstract class CountTokensConfig extends JsonSerializable {
       return new AutoValue_CountTokensConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for systemInstruction.
+     *
+     * <p>systemInstruction: Instructions for the model to steer it toward better performance.
+     */
     @JsonProperty("systemInstruction")
     public abstract Builder systemInstruction(Content systemInstruction);
 
+    /**
+     * Setter for systemInstruction builder.
+     *
+     * <p>systemInstruction: Instructions for the model to steer it toward better performance.
+     */
+    public Builder systemInstruction(Content.Builder systemInstructionBuilder) {
+      return systemInstruction(systemInstructionBuilder.build());
+    }
+
+    /**
+     * Setter for tools.
+     *
+     * <p>tools: Code that enables the system to interact with external systems to perform an action
+     * outside of the knowledge and scope of the model.
+     */
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
 
+    /**
+     * Setter for generationConfig.
+     *
+     * <p>generationConfig: Configuration that the model uses to generate the response. Not
+     * supported by the Gemini Developer API.
+     */
     @JsonProperty("generationConfig")
     public abstract Builder generationConfig(GenerationConfig generationConfig);
+
+    /**
+     * Setter for generationConfig builder.
+     *
+     * <p>generationConfig: Configuration that the model uses to generate the response. Not
+     * supported by the Gemini Developer API.
+     */
+    public Builder generationConfig(GenerationConfig.Builder generationConfigBuilder) {
+      return generationConfig(generationConfigBuilder.build());
+    }
 
     public abstract CountTokensConfig build();
   }

@@ -69,8 +69,7 @@ public final class RequestLevelHttpOptions {
     // Set a customized header per request config.
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .httpOptions(
-                HttpOptions.builder().headers(ImmutableMap.of("my-header", "my-value")).build())
+            .httpOptions(HttpOptions.builder().headers(ImmutableMap.of("my-header", "my-value")))
             .build();
 
     GenerateContentResponse response =

@@ -59,12 +59,27 @@ public abstract class TunedModelInfo extends JsonSerializable {
       return new AutoValue_TunedModelInfo.Builder();
     }
 
+    /**
+     * Setter for baseModel.
+     *
+     * <p>baseModel: ID of the base model that you want to tune.
+     */
     @JsonProperty("baseModel")
     public abstract Builder baseModel(String baseModel);
 
+    /**
+     * Setter for createTime.
+     *
+     * <p>createTime: Date and time when the base model was created.
+     */
     @JsonProperty("createTime")
     public abstract Builder createTime(Instant createTime);
 
+    /**
+     * Setter for updateTime.
+     *
+     * <p>updateTime: Date and time when the base model was last updated.
+     */
     @JsonProperty("updateTime")
     public abstract Builder updateTime(Instant updateTime);
 

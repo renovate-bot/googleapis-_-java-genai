@@ -89,27 +89,72 @@ public abstract class TestTableItem extends JsonSerializable {
       return new AutoValue_TestTableItem.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The name of the test. This is used to derive the replay id.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for parameters.
+     *
+     * <p>parameters: The parameters to the test. Use pydantic models.
+     */
     @JsonProperty("parameters")
     public abstract Builder parameters(Map<String, Object> parameters);
 
+    /**
+     * Setter for exceptionIfMldev.
+     *
+     * <p>exceptionIfMldev: Expects an exception for MLDev matching the string.
+     */
     @JsonProperty("exceptionIfMldev")
     public abstract Builder exceptionIfMldev(String exceptionIfMldev);
 
+    /**
+     * Setter for exceptionIfVertex.
+     *
+     * <p>exceptionIfVertex: Expects an exception for Vertex matching the string.
+     */
     @JsonProperty("exceptionIfVertex")
     public abstract Builder exceptionIfVertex(String exceptionIfVertex);
 
+    /**
+     * Setter for overrideReplayId.
+     *
+     * <p>overrideReplayId: Use if you don't want to use the default replay id which is derived from
+     * the test name.
+     */
     @JsonProperty("overrideReplayId")
     public abstract Builder overrideReplayId(String overrideReplayId);
 
+    /**
+     * Setter for hasUnion.
+     *
+     * <p>hasUnion: True if the parameters contain an unsupported union type. This test will be
+     * skipped for languages that do not support the union type.
+     */
     @JsonProperty("hasUnion")
     public abstract Builder hasUnion(boolean hasUnion);
 
+    /**
+     * Setter for skipInApiMode.
+     *
+     * <p>skipInApiMode: When set to a reason string, this test will be skipped in the API mode. Use
+     * this flag for tests that can not be reproduced with the real API. E.g. a test that deletes a
+     * resource.
+     */
     @JsonProperty("skipInApiMode")
     public abstract Builder skipInApiMode(String skipInApiMode);
 
+    /**
+     * Setter for ignoreKeys.
+     *
+     * <p>ignoreKeys: Keys to ignore when comparing the request and response. This is useful for
+     * tests that are not deterministic.
+     */
     @JsonProperty("ignoreKeys")
     public abstract Builder ignoreKeys(List<String> ignoreKeys);
 

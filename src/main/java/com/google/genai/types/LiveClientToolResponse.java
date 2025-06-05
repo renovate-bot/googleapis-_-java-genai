@@ -60,6 +60,11 @@ public abstract class LiveClientToolResponse extends JsonSerializable {
       return new AutoValue_LiveClientToolResponse.Builder();
     }
 
+    /**
+     * Setter for functionResponses.
+     *
+     * <p>functionResponses: The response to the function calls.
+     */
     @JsonProperty("functionResponses")
     public abstract Builder functionResponses(List<FunctionResponse> functionResponses);
 

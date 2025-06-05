@@ -117,36 +117,98 @@ public abstract class File extends JsonSerializable {
       return new AutoValue_File.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The `File` resource name. The ID (name excluding the "files/" prefix) can contain up
+     * to 40 characters that are lowercase alphanumeric or dashes (-). The ID cannot start or end
+     * with a dash. If the name is empty on create, a unique name will be generated. Example:
+     * `files/123-456`
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Optional. The human-readable display name for the `File`. The display name
+     * must be no more than 512 characters in length, including spaces. Example: 'Welcome Image'
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: Output only. MIME type of the file.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 
+    /**
+     * Setter for sizeBytes.
+     *
+     * <p>sizeBytes: Output only. Size of the file in bytes.
+     */
     @JsonProperty("sizeBytes")
     public abstract Builder sizeBytes(Long sizeBytes);
 
+    /**
+     * Setter for createTime.
+     *
+     * <p>createTime: Output only. The timestamp of when the `File` was created.
+     */
     @JsonProperty("createTime")
     public abstract Builder createTime(Instant createTime);
 
+    /**
+     * Setter for expirationTime.
+     *
+     * <p>expirationTime: Output only. The timestamp of when the `File` will be deleted. Only set if
+     * the `File` is scheduled to expire.
+     */
     @JsonProperty("expirationTime")
     public abstract Builder expirationTime(Instant expirationTime);
 
+    /**
+     * Setter for updateTime.
+     *
+     * <p>updateTime: Output only. The timestamp of when the `File` was last updated.
+     */
     @JsonProperty("updateTime")
     public abstract Builder updateTime(Instant updateTime);
 
+    /**
+     * Setter for sha256Hash.
+     *
+     * <p>sha256Hash: Output only. SHA-256 hash of the uploaded bytes. The hash value is encoded in
+     * base64 format.
+     */
     @JsonProperty("sha256Hash")
     public abstract Builder sha256Hash(String sha256Hash);
 
+    /**
+     * Setter for uri.
+     *
+     * <p>uri: Output only. The URI of the `File`.
+     */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
 
+    /**
+     * Setter for downloadUri.
+     *
+     * <p>downloadUri: Output only. The URI of the `File`, only set for downloadable (generated)
+     * files.
+     */
     @JsonProperty("downloadUri")
     public abstract Builder downloadUri(String downloadUri);
 
+    /**
+     * Setter for state.
+     *
+     * <p>state: Output only. Processing state of the File.
+     */
     @JsonProperty("state")
     public abstract Builder state(FileState state);
 
@@ -159,6 +221,11 @@ public abstract class File extends JsonSerializable {
     public Builder state(String state) {
       return state(new FileState(state));
     }
+    /**
+     * Setter for source.
+     *
+     * <p>source: Output only. The source of the `File`.
+     */
 
     @JsonProperty("source")
     public abstract Builder source(FileSource source);
@@ -172,12 +239,31 @@ public abstract class File extends JsonSerializable {
     public Builder source(String source) {
       return source(new FileSource(source));
     }
+    /**
+     * Setter for videoMetadata.
+     *
+     * <p>videoMetadata: Output only. Metadata for a video.
+     */
 
     @JsonProperty("videoMetadata")
     public abstract Builder videoMetadata(Map<String, Object> videoMetadata);
 
+    /**
+     * Setter for error.
+     *
+     * <p>error: Output only. Error status if File processing failed.
+     */
     @JsonProperty("error")
     public abstract Builder error(FileStatus error);
+
+    /**
+     * Setter for error builder.
+     *
+     * <p>error: Output only. Error status if File processing failed.
+     */
+    public Builder error(FileStatus.Builder errorBuilder) {
+      return error(errorBuilder.build());
+    }
 
     public abstract File build();
   }

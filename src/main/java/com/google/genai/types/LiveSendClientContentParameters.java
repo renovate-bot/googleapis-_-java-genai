@@ -61,9 +61,21 @@ public abstract class LiveSendClientContentParameters extends JsonSerializable {
       return new AutoValue_LiveSendClientContentParameters.Builder();
     }
 
+    /**
+     * Setter for turns.
+     *
+     * <p>turns: Client content to send to the session.
+     */
     @JsonProperty("turns")
     public abstract Builder turns(List<Content> turns);
 
+    /**
+     * Setter for turnComplete.
+     *
+     * <p>turnComplete: If true, indicates that the server content generation should start with the
+     * currently accumulated prompt. Otherwise, the server will await additional messages before
+     * starting generation.
+     */
     @JsonProperty("turnComplete")
     public abstract Builder turnComplete(boolean turnComplete);
 

@@ -54,11 +54,39 @@ public abstract class RagRetrievalConfigRanking extends JsonSerializable {
       return new AutoValue_RagRetrievalConfigRanking.Builder();
     }
 
+    /**
+     * Setter for llmRanker.
+     *
+     * <p>llmRanker: Optional. Config for LlmRanker.
+     */
     @JsonProperty("llmRanker")
     public abstract Builder llmRanker(RagRetrievalConfigRankingLlmRanker llmRanker);
 
+    /**
+     * Setter for llmRanker builder.
+     *
+     * <p>llmRanker: Optional. Config for LlmRanker.
+     */
+    public Builder llmRanker(RagRetrievalConfigRankingLlmRanker.Builder llmRankerBuilder) {
+      return llmRanker(llmRankerBuilder.build());
+    }
+
+    /**
+     * Setter for rankService.
+     *
+     * <p>rankService: Optional. Config for Rank Service.
+     */
     @JsonProperty("rankService")
     public abstract Builder rankService(RagRetrievalConfigRankingRankService rankService);
+
+    /**
+     * Setter for rankService builder.
+     *
+     * <p>rankService: Optional. Config for Rank Service.
+     */
+    public Builder rankService(RagRetrievalConfigRankingRankService.Builder rankServiceBuilder) {
+      return rankService(rankServiceBuilder.build());
+    }
 
     public abstract RagRetrievalConfigRanking build();
   }

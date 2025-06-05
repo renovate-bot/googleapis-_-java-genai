@@ -54,11 +54,39 @@ public abstract class ReplayInteraction extends JsonSerializable {
       return new AutoValue_ReplayInteraction.Builder();
     }
 
+    /**
+     * Setter for request.
+     *
+     * <p>request:
+     */
     @JsonProperty("request")
     public abstract Builder request(ReplayRequest request);
 
+    /**
+     * Setter for request builder.
+     *
+     * <p>request:
+     */
+    public Builder request(ReplayRequest.Builder requestBuilder) {
+      return request(requestBuilder.build());
+    }
+
+    /**
+     * Setter for response.
+     *
+     * <p>response:
+     */
     @JsonProperty("response")
     public abstract Builder response(ReplayResponse response);
+
+    /**
+     * Setter for response builder.
+     *
+     * <p>response:
+     */
+    public Builder response(ReplayResponse.Builder responseBuilder) {
+      return response(responseBuilder.build());
+    }
 
     public abstract ReplayInteraction build();
   }

@@ -62,9 +62,21 @@ public abstract class GenerationConfigThinkingConfig extends JsonSerializable {
       return new AutoValue_GenerationConfigThinkingConfig.Builder();
     }
 
+    /**
+     * Setter for includeThoughts.
+     *
+     * <p>includeThoughts: Optional. Indicates whether to include thoughts in the response. If true,
+     * thoughts are returned only when available.
+     */
     @JsonProperty("includeThoughts")
     public abstract Builder includeThoughts(boolean includeThoughts);
 
+    /**
+     * Setter for thinkingBudget.
+     *
+     * <p>thinkingBudget: Optional. Indicates the thinking budget in tokens. This is only applied
+     * when enable_thinking is true.
+     */
     @JsonProperty("thinkingBudget")
     public abstract Builder thinkingBudget(Integer thinkingBudget);
 

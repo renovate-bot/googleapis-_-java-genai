@@ -63,9 +63,24 @@ public abstract class AuthConfigOauthConfig extends JsonSerializable {
       return new AutoValue_AuthConfigOauthConfig.Builder();
     }
 
+    /**
+     * Setter for accessToken.
+     *
+     * <p>accessToken: Access token for extension endpoint. Only used to propagate token from
+     * [[ExecuteExtensionRequest.runtime_auth_config]] at request time.
+     */
     @JsonProperty("accessToken")
     public abstract Builder accessToken(String accessToken);
 
+    /**
+     * Setter for serviceAccount.
+     *
+     * <p>serviceAccount: The service account used to generate access tokens for executing the
+     * Extension. - If the service account is specified, the `iam.serviceAccounts.getAccessToken`
+     * permission should be granted to Vertex AI Extension Service Agent
+     * (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the
+     * provided service account.
+     */
     @JsonProperty("serviceAccount")
     public abstract Builder serviceAccount(String serviceAccount);
 

@@ -59,12 +59,27 @@ public abstract class TokensInfo extends JsonSerializable {
       return new AutoValue_TokensInfo.Builder();
     }
 
+    /**
+     * Setter for role.
+     *
+     * <p>role: Optional. Optional fields for the role from the corresponding Content.
+     */
     @JsonProperty("role")
     public abstract Builder role(String role);
 
+    /**
+     * Setter for tokenIds.
+     *
+     * <p>tokenIds: A list of token ids from the input.
+     */
     @JsonProperty("tokenIds")
     public abstract Builder tokenIds(List<Long> tokenIds);
 
+    /**
+     * Setter for tokens.
+     *
+     * <p>tokens: A list of tokens from the input.
+     */
     @JsonProperty("tokens")
     public abstract Builder tokens(List<byte[]> tokens);
 

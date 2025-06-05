@@ -62,15 +62,44 @@ public abstract class UpdateModelConfig extends JsonSerializable {
       return new AutoValue_UpdateModelConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName:
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for description.
+     *
+     * <p>description:
+     */
     @JsonProperty("description")
     public abstract Builder description(String description);
 
+    /**
+     * Setter for defaultCheckpointId.
+     *
+     * <p>defaultCheckpointId:
+     */
     @JsonProperty("defaultCheckpointId")
     public abstract Builder defaultCheckpointId(String defaultCheckpointId);
 

@@ -60,6 +60,11 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
       return new AutoValue_FunctionCallingConfig.Builder();
     }
 
+    /**
+     * Setter for mode.
+     *
+     * <p>mode: Optional. Function calling mode.
+     */
     @JsonProperty("mode")
     public abstract Builder mode(FunctionCallingConfigMode mode);
 
@@ -72,6 +77,13 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
     public Builder mode(String mode) {
       return mode(new FunctionCallingConfigMode(mode));
     }
+    /**
+     * Setter for allowedFunctionNames.
+     *
+     * <p>allowedFunctionNames: Optional. Function names to call. Only set when the Mode is ANY.
+     * Function names should match [FunctionDeclaration.name]. With mode set to ANY, model will
+     * predict a function call from the set of function names provided.
+     */
 
     @JsonProperty("allowedFunctionNames")
     public abstract Builder allowedFunctionNames(List<String> allowedFunctionNames);

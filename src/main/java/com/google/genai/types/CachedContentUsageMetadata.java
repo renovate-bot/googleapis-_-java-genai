@@ -66,18 +66,43 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
       return new AutoValue_CachedContentUsageMetadata.Builder();
     }
 
+    /**
+     * Setter for audioDurationSeconds.
+     *
+     * <p>audioDurationSeconds: Duration of audio in seconds.
+     */
     @JsonProperty("audioDurationSeconds")
     public abstract Builder audioDurationSeconds(Integer audioDurationSeconds);
 
+    /**
+     * Setter for imageCount.
+     *
+     * <p>imageCount: Number of images.
+     */
     @JsonProperty("imageCount")
     public abstract Builder imageCount(Integer imageCount);
 
+    /**
+     * Setter for textCount.
+     *
+     * <p>textCount: Number of text characters.
+     */
     @JsonProperty("textCount")
     public abstract Builder textCount(Integer textCount);
 
+    /**
+     * Setter for totalTokenCount.
+     *
+     * <p>totalTokenCount: Total number of tokens that the cached content consumes.
+     */
     @JsonProperty("totalTokenCount")
     public abstract Builder totalTokenCount(Integer totalTokenCount);
 
+    /**
+     * Setter for videoDurationSeconds.
+     *
+     * <p>videoDurationSeconds: Duration of video in seconds.
+     */
     @JsonProperty("videoDurationSeconds")
     public abstract Builder videoDurationSeconds(Integer videoDurationSeconds);
 

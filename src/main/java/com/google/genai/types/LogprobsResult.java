@@ -58,9 +58,20 @@ public abstract class LogprobsResult extends JsonSerializable {
       return new AutoValue_LogprobsResult.Builder();
     }
 
+    /**
+     * Setter for chosenCandidates.
+     *
+     * <p>chosenCandidates: Length = total number of decoding steps. The chosen candidates may or
+     * may not be in top_candidates.
+     */
     @JsonProperty("chosenCandidates")
     public abstract Builder chosenCandidates(List<LogprobsResultCandidate> chosenCandidates);
 
+    /**
+     * Setter for topCandidates.
+     *
+     * <p>topCandidates: Length = total number of decoding steps.
+     */
     @JsonProperty("topCandidates")
     public abstract Builder topCandidates(List<LogprobsResultTopCandidates> topCandidates);
 

@@ -58,6 +58,11 @@ public abstract class DynamicRetrievalConfig extends JsonSerializable {
       return new AutoValue_DynamicRetrievalConfig.Builder();
     }
 
+    /**
+     * Setter for mode.
+     *
+     * <p>mode: The mode of the predictor to be used in dynamic retrieval.
+     */
     @JsonProperty("mode")
     public abstract Builder mode(DynamicRetrievalConfigMode mode);
 
@@ -70,6 +75,12 @@ public abstract class DynamicRetrievalConfig extends JsonSerializable {
     public Builder mode(String mode) {
       return mode(new DynamicRetrievalConfigMode(mode));
     }
+    /**
+     * Setter for dynamicThreshold.
+     *
+     * <p>dynamicThreshold: Optional. The threshold to be used in dynamic retrieval. If not set, a
+     * system default value is used.
+     */
 
     @JsonProperty("dynamicThreshold")
     public abstract Builder dynamicThreshold(Float dynamicThreshold);

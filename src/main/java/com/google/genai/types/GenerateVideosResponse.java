@@ -59,12 +59,27 @@ public abstract class GenerateVideosResponse extends JsonSerializable {
       return new AutoValue_GenerateVideosResponse.Builder();
     }
 
+    /**
+     * Setter for generatedVideos.
+     *
+     * <p>generatedVideos: List of the generated videos
+     */
     @JsonProperty("generatedVideos")
     public abstract Builder generatedVideos(List<GeneratedVideo> generatedVideos);
 
+    /**
+     * Setter for raiMediaFilteredCount.
+     *
+     * <p>raiMediaFilteredCount: Returns if any videos were filtered due to RAI policies.
+     */
     @JsonProperty("raiMediaFilteredCount")
     public abstract Builder raiMediaFilteredCount(Integer raiMediaFilteredCount);
 
+    /**
+     * Setter for raiMediaFilteredReasons.
+     *
+     * <p>raiMediaFilteredReasons: Returns rai failure reasons if any.
+     */
     @JsonProperty("raiMediaFilteredReasons")
     public abstract Builder raiMediaFilteredReasons(List<String> raiMediaFilteredReasons);
 

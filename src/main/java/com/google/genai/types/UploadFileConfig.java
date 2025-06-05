@@ -68,15 +68,46 @@ public abstract class UploadFileConfig extends JsonSerializable {
       return new AutoValue_UploadFileConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for name.
+     *
+     * <p>name: The name of the file in the destination (e.g., 'files/sample-image'. If not provided
+     * one will be generated.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: mime_type: The MIME type of the file. If not provided, it will be inferred from
+     * the file extension.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Optional display name of the file.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 

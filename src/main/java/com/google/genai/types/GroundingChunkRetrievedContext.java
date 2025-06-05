@@ -67,15 +67,46 @@ public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
       return new AutoValue_GroundingChunkRetrievedContext.Builder();
     }
 
+    /**
+     * Setter for ragChunk.
+     *
+     * <p>ragChunk: Additional context for the RAG retrieval result. This is only populated when
+     * using the RAG retrieval tool.
+     */
     @JsonProperty("ragChunk")
     public abstract Builder ragChunk(RagChunk ragChunk);
 
+    /**
+     * Setter for ragChunk builder.
+     *
+     * <p>ragChunk: Additional context for the RAG retrieval result. This is only populated when
+     * using the RAG retrieval tool.
+     */
+    public Builder ragChunk(RagChunk.Builder ragChunkBuilder) {
+      return ragChunk(ragChunkBuilder.build());
+    }
+
+    /**
+     * Setter for text.
+     *
+     * <p>text: Text of the attribution.
+     */
     @JsonProperty("text")
     public abstract Builder text(String text);
 
+    /**
+     * Setter for title.
+     *
+     * <p>title: Title of the attribution.
+     */
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    /**
+     * Setter for uri.
+     *
+     * <p>uri: URI reference of the attribution.
+     */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
 

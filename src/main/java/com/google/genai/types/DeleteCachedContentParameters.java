@@ -58,11 +58,30 @@ public abstract class DeleteCachedContentParameters extends JsonSerializable {
       return new AutoValue_DeleteCachedContentParameters.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The server-generated resource name of the cached content.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Optional parameters for the request.
+     */
     @JsonProperty("config")
     public abstract Builder config(DeleteCachedContentConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Optional parameters for the request.
+     */
+    public Builder config(DeleteCachedContentConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract DeleteCachedContentParameters build();
   }

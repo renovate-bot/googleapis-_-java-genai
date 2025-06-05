@@ -74,15 +74,38 @@ public abstract class VertexAISearch extends JsonSerializable {
       return new AutoValue_VertexAISearch.Builder();
     }
 
+    /**
+     * Setter for datastore.
+     *
+     * <p>datastore: Optional. Fully-qualified Vertex AI Search data store resource ID. Format:
+     * `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}`
+     */
     @JsonProperty("datastore")
     public abstract Builder datastore(String datastore);
 
+    /**
+     * Setter for engine.
+     *
+     * <p>engine: Optional. Fully-qualified Vertex AI Search engine resource ID. Format:
+     * `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}`
+     */
     @JsonProperty("engine")
     public abstract Builder engine(String engine);
 
+    /**
+     * Setter for filter.
+     *
+     * <p>filter: Optional. Filter strings to be passed to the search API.
+     */
     @JsonProperty("filter")
     public abstract Builder filter(String filter);
 
+    /**
+     * Setter for maxResults.
+     *
+     * <p>maxResults: Optional. Number of search results to return per query. The default value is
+     * 10. The maximumm allowed value is 10.
+     */
     @JsonProperty("maxResults")
     public abstract Builder maxResults(Integer maxResults);
 

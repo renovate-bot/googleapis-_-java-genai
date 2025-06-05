@@ -56,11 +56,40 @@ public abstract class GenerationConfigRoutingConfig extends JsonSerializable {
       return new AutoValue_GenerationConfigRoutingConfig.Builder();
     }
 
+    /**
+     * Setter for autoMode.
+     *
+     * <p>autoMode: Automated routing.
+     */
     @JsonProperty("autoMode")
     public abstract Builder autoMode(GenerationConfigRoutingConfigAutoRoutingMode autoMode);
 
+    /**
+     * Setter for autoMode builder.
+     *
+     * <p>autoMode: Automated routing.
+     */
+    public Builder autoMode(GenerationConfigRoutingConfigAutoRoutingMode.Builder autoModeBuilder) {
+      return autoMode(autoModeBuilder.build());
+    }
+
+    /**
+     * Setter for manualMode.
+     *
+     * <p>manualMode: Manual routing.
+     */
     @JsonProperty("manualMode")
     public abstract Builder manualMode(GenerationConfigRoutingConfigManualRoutingMode manualMode);
+
+    /**
+     * Setter for manualMode builder.
+     *
+     * <p>manualMode: Manual routing.
+     */
+    public Builder manualMode(
+        GenerationConfigRoutingConfigManualRoutingMode.Builder manualModeBuilder) {
+      return manualMode(manualModeBuilder.build());
+    }
 
     public abstract GenerationConfigRoutingConfig build();
   }

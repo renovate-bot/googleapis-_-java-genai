@@ -54,9 +54,19 @@ public abstract class RagChunkPageSpan extends JsonSerializable {
       return new AutoValue_RagChunkPageSpan.Builder();
     }
 
+    /**
+     * Setter for firstPage.
+     *
+     * <p>firstPage: Page where chunk starts in the document. Inclusive. 1-indexed.
+     */
     @JsonProperty("firstPage")
     public abstract Builder firstPage(Integer firstPage);
 
+    /**
+     * Setter for lastPage.
+     *
+     * <p>lastPage: Page where chunk ends in the document. Inclusive. 1-indexed.
+     */
     @JsonProperty("lastPage")
     public abstract Builder lastPage(Integer lastPage);
 

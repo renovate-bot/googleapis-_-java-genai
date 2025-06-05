@@ -58,12 +58,27 @@ public abstract class Video extends JsonSerializable {
       return new AutoValue_Video.Builder();
     }
 
+    /**
+     * Setter for uri.
+     *
+     * <p>uri: Path to another storage.
+     */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
 
+    /**
+     * Setter for videoBytes.
+     *
+     * <p>videoBytes: Video bytes.
+     */
     @JsonProperty("videoBytes")
     public abstract Builder videoBytes(byte[] videoBytes);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: Video encoding, for example "video/mp4".
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 

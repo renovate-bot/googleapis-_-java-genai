@@ -58,6 +58,16 @@ public abstract class AuthConfigHttpBasicAuthConfig extends JsonSerializable {
       return new AutoValue_AuthConfigHttpBasicAuthConfig.Builder();
     }
 
+    /**
+     * Setter for credentialSecret.
+     *
+     * <p>credentialSecret: Required. The name of the SecretManager secret version resource storing
+     * the base64 encoded credentials. Format:
+     * `projects/{project}/secrets/{secrete}/versions/{version}` - If specified, the
+     * `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service
+     * Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the
+     * specified resource.
+     */
     @JsonProperty("credentialSecret")
     public abstract Builder credentialSecret(String credentialSecret);
 

@@ -61,9 +61,19 @@ public abstract class LatLng extends JsonSerializable {
       return new AutoValue_LatLng.Builder();
     }
 
+    /**
+     * Setter for latitude.
+     *
+     * <p>latitude: The latitude in degrees. It must be in the range [-90.0, +90.0].
+     */
     @JsonProperty("latitude")
     public abstract Builder latitude(Double latitude);
 
+    /**
+     * Setter for longitude.
+     *
+     * <p>longitude: The longitude in degrees. It must be in the range [-180.0, +180.0]
+     */
     @JsonProperty("longitude")
     public abstract Builder longitude(Double longitude);
 

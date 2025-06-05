@@ -54,9 +54,19 @@ public abstract class Endpoint extends JsonSerializable {
       return new AutoValue_Endpoint.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: Resource name of the endpoint.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for deployedModelId.
+     *
+     * <p>deployedModelId: ID of the model that's deployed to the endpoint.
+     */
     @JsonProperty("deployedModelId")
     public abstract Builder deployedModelId(String deployedModelId);
 

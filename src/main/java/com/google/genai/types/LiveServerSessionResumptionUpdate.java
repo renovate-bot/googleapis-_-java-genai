@@ -82,12 +82,43 @@ public abstract class LiveServerSessionResumptionUpdate extends JsonSerializable
       return new AutoValue_LiveServerSessionResumptionUpdate.Builder();
     }
 
+    /**
+     * Setter for newHandle.
+     *
+     * <p>newHandle: New handle that represents state that can be resumed. Empty if
+     * `resumable`=false.
+     */
     @JsonProperty("newHandle")
     public abstract Builder newHandle(String newHandle);
 
+    /**
+     * Setter for resumable.
+     *
+     * <p>resumable: True if session can be resumed at this point. It might be not possible to
+     * resume session at some points. In that case we send update empty new_handle and
+     * resumable=false. Example of such case could be model executing function calls or just
+     * generating. Resuming session (using previous session token) in such state will result in some
+     * data loss.
+     */
     @JsonProperty("resumable")
     public abstract Builder resumable(boolean resumable);
 
+    /**
+     * Setter for lastConsumedClientMessageIndex.
+     *
+     * <p>lastConsumedClientMessageIndex: Index of last message sent by client that is included in
+     * state represented by this SessionResumptionToken. Only sent when
+     * `SessionResumptionConfig.transparent` is set.
+     *
+     * <p>Presence of this index allows users to transparently reconnect and avoid issue of losing
+     * some part of realtime audio input/video. If client wishes to temporarily disconnect (for
+     * example as result of receiving GoAway) they can do it without losing state by buffering
+     * messages sent since last `SessionResmumptionTokenUpdate`. This field will enable them to
+     * limit buffering (avoid keeping all requests in RAM).
+     *
+     * <p>Note: This should not be used for when resuming a session at some time later -- in those
+     * cases partial audio and video frames arelikely not needed.
+     */
     @JsonProperty("lastConsumedClientMessageIndex")
     public abstract Builder lastConsumedClientMessageIndex(Long lastConsumedClientMessageIndex);
 

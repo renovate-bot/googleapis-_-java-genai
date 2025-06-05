@@ -55,9 +55,19 @@ public abstract class ReplayFile extends JsonSerializable {
       return new AutoValue_ReplayFile.Builder();
     }
 
+    /**
+     * Setter for replayId.
+     *
+     * <p>replayId:
+     */
     @JsonProperty("replayId")
     public abstract Builder replayId(String replayId);
 
+    /**
+     * Setter for interactions.
+     *
+     * <p>interactions:
+     */
     @JsonProperty("interactions")
     public abstract Builder interactions(List<ReplayInteraction> interactions);
 

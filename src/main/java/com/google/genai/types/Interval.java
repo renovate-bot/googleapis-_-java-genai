@@ -61,9 +61,19 @@ public abstract class Interval extends JsonSerializable {
       return new AutoValue_Interval.Builder();
     }
 
+    /**
+     * Setter for startTime.
+     *
+     * <p>startTime: The start time of the interval.
+     */
     @JsonProperty("startTime")
     public abstract Builder startTime(Instant startTime);
 
+    /**
+     * Setter for endTime.
+     *
+     * <p>endTime: The end time of the interval.
+     */
     @JsonProperty("endTime")
     public abstract Builder endTime(Instant endTime);
 

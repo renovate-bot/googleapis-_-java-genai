@@ -56,6 +56,12 @@ public abstract class RagRetrievalConfigRankingLlmRanker extends JsonSerializabl
       return new AutoValue_RagRetrievalConfigRankingLlmRanker.Builder();
     }
 
+    /**
+     * Setter for modelName.
+     *
+     * <p>modelName: Optional. The model name used for ranking. See [Supported
+     * models](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models).
+     */
     @JsonProperty("modelName")
     public abstract Builder modelName(String modelName);
 

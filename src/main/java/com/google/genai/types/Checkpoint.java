@@ -58,12 +58,27 @@ public abstract class Checkpoint extends JsonSerializable {
       return new AutoValue_Checkpoint.Builder();
     }
 
+    /**
+     * Setter for checkpointId.
+     *
+     * <p>checkpointId: The ID of the checkpoint.
+     */
     @JsonProperty("checkpointId")
     public abstract Builder checkpointId(String checkpointId);
 
+    /**
+     * Setter for epoch.
+     *
+     * <p>epoch: The epoch of the checkpoint.
+     */
     @JsonProperty("epoch")
     public abstract Builder epoch(Long epoch);
 
+    /**
+     * Setter for step.
+     *
+     * <p>step: The step of the checkpoint.
+     */
     @JsonProperty("step")
     public abstract Builder step(Long step);
 

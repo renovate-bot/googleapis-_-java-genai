@@ -66,9 +66,22 @@ public abstract class SessionResumptionConfig extends JsonSerializable {
       return new AutoValue_SessionResumptionConfig.Builder();
     }
 
+    /**
+     * Setter for handle.
+     *
+     * <p>handle: Session resumption handle of previous session (session to restore).
+     *
+     * <p>If not present new session will be started.
+     */
     @JsonProperty("handle")
     public abstract Builder handle(String handle);
 
+    /**
+     * Setter for transparent.
+     *
+     * <p>transparent: If set the server will send `last_consumed_client_message_index` in the
+     * `session_resumption_update` messages to allow for transparent reconnections.
+     */
     @JsonProperty("transparent")
     public abstract Builder transparent(boolean transparent);
 

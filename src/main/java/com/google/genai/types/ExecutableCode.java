@@ -59,9 +59,19 @@ public abstract class ExecutableCode extends JsonSerializable {
       return new AutoValue_ExecutableCode.Builder();
     }
 
+    /**
+     * Setter for code.
+     *
+     * <p>code: Required. The code to be executed.
+     */
     @JsonProperty("code")
     public abstract Builder code(String code);
 
+    /**
+     * Setter for language.
+     *
+     * <p>language: Required. Programming language of the `code`.
+     */
     @JsonProperty("language")
     public abstract Builder language(Language language);
 

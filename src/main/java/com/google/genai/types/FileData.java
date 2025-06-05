@@ -61,12 +61,28 @@ public abstract class FileData extends JsonSerializable {
       return new AutoValue_FileData.Builder();
     }
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Optional. Display name of the file data. Used to provide a label or filename
+     * to distinguish file datas. It is not currently used in the Gemini GenerateContent calls.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for fileUri.
+     *
+     * <p>fileUri: Required. URI.
+     */
     @JsonProperty("fileUri")
     public abstract Builder fileUri(String fileUri);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: Required. The IANA standard MIME type of the source data.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 

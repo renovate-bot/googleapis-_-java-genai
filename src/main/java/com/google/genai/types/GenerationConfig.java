@@ -145,24 +145,69 @@ public abstract class GenerationConfig extends JsonSerializable {
       return new AutoValue_GenerationConfig.Builder();
     }
 
+    /**
+     * Setter for modelSelectionConfig.
+     *
+     * <p>modelSelectionConfig: Optional. Config for model selection.
+     */
     @JsonProperty("modelSelectionConfig")
     public abstract Builder modelSelectionConfig(ModelSelectionConfig modelSelectionConfig);
 
+    /**
+     * Setter for modelSelectionConfig builder.
+     *
+     * <p>modelSelectionConfig: Optional. Config for model selection.
+     */
+    public Builder modelSelectionConfig(ModelSelectionConfig.Builder modelSelectionConfigBuilder) {
+      return modelSelectionConfig(modelSelectionConfigBuilder.build());
+    }
+
+    /**
+     * Setter for audioTimestamp.
+     *
+     * <p>audioTimestamp: Optional. If enabled, audio timestamp will be included in the request to
+     * the model.
+     */
     @JsonProperty("audioTimestamp")
     public abstract Builder audioTimestamp(boolean audioTimestamp);
 
+    /**
+     * Setter for candidateCount.
+     *
+     * <p>candidateCount: Optional. Number of candidates to generate.
+     */
     @JsonProperty("candidateCount")
     public abstract Builder candidateCount(Integer candidateCount);
 
+    /**
+     * Setter for frequencyPenalty.
+     *
+     * <p>frequencyPenalty: Optional. Frequency penalties.
+     */
     @JsonProperty("frequencyPenalty")
     public abstract Builder frequencyPenalty(Float frequencyPenalty);
 
+    /**
+     * Setter for logprobs.
+     *
+     * <p>logprobs: Optional. Logit probabilities.
+     */
     @JsonProperty("logprobs")
     public abstract Builder logprobs(Integer logprobs);
 
+    /**
+     * Setter for maxOutputTokens.
+     *
+     * <p>maxOutputTokens: Optional. The maximum number of output tokens to generate per message.
+     */
     @JsonProperty("maxOutputTokens")
     public abstract Builder maxOutputTokens(Integer maxOutputTokens);
 
+    /**
+     * Setter for mediaResolution.
+     *
+     * <p>mediaResolution: Optional. If specified, the media resolution specified will be used.
+     */
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
 
@@ -175,16 +220,39 @@ public abstract class GenerationConfig extends JsonSerializable {
     public Builder mediaResolution(String mediaResolution) {
       return mediaResolution(new MediaResolution(mediaResolution));
     }
+    /**
+     * Setter for presencePenalty.
+     *
+     * <p>presencePenalty: Optional. Positive penalties.
+     */
 
     @JsonProperty("presencePenalty")
     public abstract Builder presencePenalty(Float presencePenalty);
 
+    /**
+     * Setter for responseLogprobs.
+     *
+     * <p>responseLogprobs: Optional. If true, export the logprobs results in response.
+     */
     @JsonProperty("responseLogprobs")
     public abstract Builder responseLogprobs(boolean responseLogprobs);
 
+    /**
+     * Setter for responseMimeType.
+     *
+     * <p>responseMimeType: Optional. Output response mimetype of the generated candidate text.
+     * Supported mimetype: - `text/plain`: (default) Text output. - `application/json`: JSON
+     * response in the candidates. The model needs to be prompted to output the appropriate response
+     * type, otherwise the behavior is undefined. This is a preview feature.
+     */
     @JsonProperty("responseMimeType")
     public abstract Builder responseMimeType(String responseMimeType);
 
+    /**
+     * Setter for responseModalities.
+     *
+     * <p>responseModalities: Optional. The modalities of the response.
+     */
     @JsonProperty("responseModalities")
     public abstract Builder responseModalities(List<Modality> responseModalities);
 
@@ -201,31 +269,122 @@ public abstract class GenerationConfig extends JsonSerializable {
           responseModalities.stream().map(Modality::new).collect(toImmutableList());
       return responseModalities(listItems);
     }
+    /**
+     * Setter for responseSchema.
+     *
+     * <p>responseSchema: Optional. The `Schema` object allows the definition of input and output
+     * data types. These types can be objects, but also primitives and arrays. Represents a select
+     * subset of an [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema). If
+     * set, a compatible response_mime_type must also be set. Compatible mimetypes:
+     * `application/json`: Schema for JSON response.
+     */
 
     @JsonProperty("responseSchema")
     public abstract Builder responseSchema(Schema responseSchema);
 
+    /**
+     * Setter for responseSchema builder.
+     *
+     * <p>responseSchema: Optional. The `Schema` object allows the definition of input and output
+     * data types. These types can be objects, but also primitives and arrays. Represents a select
+     * subset of an [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema). If
+     * set, a compatible response_mime_type must also be set. Compatible mimetypes:
+     * `application/json`: Schema for JSON response.
+     */
+    public Builder responseSchema(Schema.Builder responseSchemaBuilder) {
+      return responseSchema(responseSchemaBuilder.build());
+    }
+
+    /**
+     * Setter for routingConfig.
+     *
+     * <p>routingConfig: Optional. Routing configuration.
+     */
     @JsonProperty("routingConfig")
     public abstract Builder routingConfig(GenerationConfigRoutingConfig routingConfig);
 
+    /**
+     * Setter for routingConfig builder.
+     *
+     * <p>routingConfig: Optional. Routing configuration.
+     */
+    public Builder routingConfig(GenerationConfigRoutingConfig.Builder routingConfigBuilder) {
+      return routingConfig(routingConfigBuilder.build());
+    }
+
+    /**
+     * Setter for seed.
+     *
+     * <p>seed: Optional. Seed.
+     */
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
 
+    /**
+     * Setter for speechConfig.
+     *
+     * <p>speechConfig: Optional. The speech generation config.
+     */
     @JsonProperty("speechConfig")
     public abstract Builder speechConfig(SpeechConfig speechConfig);
 
+    /**
+     * Setter for speechConfig builder.
+     *
+     * <p>speechConfig: Optional. The speech generation config.
+     */
+    public Builder speechConfig(SpeechConfig.Builder speechConfigBuilder) {
+      return speechConfig(speechConfigBuilder.build());
+    }
+
+    /**
+     * Setter for stopSequences.
+     *
+     * <p>stopSequences: Optional. Stop sequences.
+     */
     @JsonProperty("stopSequences")
     public abstract Builder stopSequences(List<String> stopSequences);
 
+    /**
+     * Setter for temperature.
+     *
+     * <p>temperature: Optional. Controls the randomness of predictions.
+     */
     @JsonProperty("temperature")
     public abstract Builder temperature(Float temperature);
 
+    /**
+     * Setter for thinkingConfig.
+     *
+     * <p>thinkingConfig: Optional. Config for thinking features. An error will be returned if this
+     * field is set for models that don't support thinking.
+     */
     @JsonProperty("thinkingConfig")
     public abstract Builder thinkingConfig(GenerationConfigThinkingConfig thinkingConfig);
 
+    /**
+     * Setter for thinkingConfig builder.
+     *
+     * <p>thinkingConfig: Optional. Config for thinking features. An error will be returned if this
+     * field is set for models that don't support thinking.
+     */
+    public Builder thinkingConfig(GenerationConfigThinkingConfig.Builder thinkingConfigBuilder) {
+      return thinkingConfig(thinkingConfigBuilder.build());
+    }
+
+    /**
+     * Setter for topK.
+     *
+     * <p>topK: Optional. If specified, top-k sampling will be used.
+     */
     @JsonProperty("topK")
     public abstract Builder topK(Float topK);
 
+    /**
+     * Setter for topP.
+     *
+     * <p>topP: Optional. If specified, nucleus sampling will be used.
+     */
     @JsonProperty("topP")
     public abstract Builder topP(Float topP);
 

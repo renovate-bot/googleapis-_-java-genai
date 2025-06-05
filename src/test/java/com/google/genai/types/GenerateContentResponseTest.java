@@ -56,18 +56,14 @@ public class GenerateContentResponseTest {
   private static final Part PART_WITH_EXECUTABLE_CODE =
       Part.builder()
           .executableCode(
-              ExecutableCode.builder()
-                  .code("executableCode")
-                  .language(Language.Known.PYTHON)
-                  .build())
+              ExecutableCode.builder().code("executableCode").language(Language.Known.PYTHON))
           .build();
   private static final Part PART_WITH_CODE_EXECUTION_RESULT =
       Part.builder()
           .codeExecutionResult(
               CodeExecutionResult.builder()
                   .output("codeExecutionResult")
-                  .outcome(Outcome.Known.OUTCOME_OK)
-                  .build())
+                  .outcome(Outcome.Known.OUTCOME_OK))
           .build();
 
   private static final Content CONTENT_1 =

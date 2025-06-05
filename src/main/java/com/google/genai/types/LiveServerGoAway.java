@@ -54,6 +54,13 @@ public abstract class LiveServerGoAway extends JsonSerializable {
       return new AutoValue_LiveServerGoAway.Builder();
     }
 
+    /**
+     * Setter for timeLeft.
+     *
+     * <p>timeLeft: The remaining time before the connection will be terminated as ABORTED. The
+     * minimal time returned here is specified differently together with the rate limits for a given
+     * model.
+     */
     @JsonProperty("timeLeft")
     public abstract Builder timeLeft(Duration timeLeft);
 

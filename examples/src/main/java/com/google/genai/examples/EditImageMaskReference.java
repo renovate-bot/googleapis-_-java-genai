@@ -95,8 +95,7 @@ public final class EditImageMaskReference {
             .config(
                 MaskReferenceConfig.builder()
                     .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
-                    .maskDilation(0.0f)
-                    .build())
+                    .maskDilation(0.0f))
             .build();
     referenceImages.add(maskReferenceImage);
 

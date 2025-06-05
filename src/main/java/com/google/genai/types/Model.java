@@ -103,39 +103,111 @@ public abstract class Model extends JsonSerializable {
       return new AutoValue_Model.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: Resource name of the model.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Display name of the model.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for description.
+     *
+     * <p>description: Description of the model.
+     */
     @JsonProperty("description")
     public abstract Builder description(String description);
 
+    /**
+     * Setter for version.
+     *
+     * <p>version: Version ID of the model. A new version is committed when a new model version is
+     * uploaded or trained under an existing model ID. The version ID is an auto-incrementing
+     * decimal number in string representation.
+     */
     @JsonProperty("version")
     public abstract Builder version(String version);
 
+    /**
+     * Setter for endpoints.
+     *
+     * <p>endpoints: List of deployed models created from this base model. Note that a model could
+     * have been deployed to endpoints in different locations.
+     */
     @JsonProperty("endpoints")
     public abstract Builder endpoints(List<Endpoint> endpoints);
 
+    /**
+     * Setter for labels.
+     *
+     * <p>labels: Labels with user-defined metadata to organize your models.
+     */
     @JsonProperty("labels")
     public abstract Builder labels(Map<String, String> labels);
 
+    /**
+     * Setter for tunedModelInfo.
+     *
+     * <p>tunedModelInfo: Information about the tuned model from the base model.
+     */
     @JsonProperty("tunedModelInfo")
     public abstract Builder tunedModelInfo(TunedModelInfo tunedModelInfo);
 
+    /**
+     * Setter for tunedModelInfo builder.
+     *
+     * <p>tunedModelInfo: Information about the tuned model from the base model.
+     */
+    public Builder tunedModelInfo(TunedModelInfo.Builder tunedModelInfoBuilder) {
+      return tunedModelInfo(tunedModelInfoBuilder.build());
+    }
+
+    /**
+     * Setter for inputTokenLimit.
+     *
+     * <p>inputTokenLimit: The maximum number of input tokens that the model can handle.
+     */
     @JsonProperty("inputTokenLimit")
     public abstract Builder inputTokenLimit(Integer inputTokenLimit);
 
+    /**
+     * Setter for outputTokenLimit.
+     *
+     * <p>outputTokenLimit: The maximum number of output tokens that the model can generate.
+     */
     @JsonProperty("outputTokenLimit")
     public abstract Builder outputTokenLimit(Integer outputTokenLimit);
 
+    /**
+     * Setter for supportedActions.
+     *
+     * <p>supportedActions: List of actions that are supported by the model.
+     */
     @JsonProperty("supportedActions")
     public abstract Builder supportedActions(List<String> supportedActions);
 
+    /**
+     * Setter for defaultCheckpointId.
+     *
+     * <p>defaultCheckpointId: The default checkpoint id of a model version.
+     */
     @JsonProperty("defaultCheckpointId")
     public abstract Builder defaultCheckpointId(String defaultCheckpointId);
 
+    /**
+     * Setter for checkpoints.
+     *
+     * <p>checkpoints: The checkpoints of the model.
+     */
     @JsonProperty("checkpoints")
     public abstract Builder checkpoints(List<Checkpoint> checkpoints);
 

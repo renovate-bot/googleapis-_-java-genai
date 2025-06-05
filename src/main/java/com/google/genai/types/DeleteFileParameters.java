@@ -56,11 +56,30 @@ public abstract class DeleteFileParameters extends JsonSerializable {
       return new AutoValue_DeleteFileParameters.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The name identifier for the file to be deleted.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(DeleteFileConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(DeleteFileConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract DeleteFileParameters build();
   }

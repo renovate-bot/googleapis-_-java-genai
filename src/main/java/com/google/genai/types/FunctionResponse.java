@@ -88,9 +88,26 @@ public abstract class FunctionResponse extends JsonSerializable {
       return new AutoValue_FunctionResponse.Builder();
     }
 
+    /**
+     * Setter for willContinue.
+     *
+     * <p>willContinue: Signals that function call continues, and more responses will be returned,
+     * turning the function call into a generator. Is only applicable to NON_BLOCKING function calls
+     * (see FunctionDeclaration.behavior for details), ignored otherwise. If false, the default,
+     * future responses will not be considered. Is only applicable to NON_BLOCKING function calls,
+     * is ignored otherwise. If set to false, future responses will not be considered. It is allowed
+     * to return empty `response` with `will_continue=False` to signal that the function call is
+     * finished.
+     */
     @JsonProperty("willContinue")
     public abstract Builder willContinue(boolean willContinue);
 
+    /**
+     * Setter for scheduling.
+     *
+     * <p>scheduling: Specifies how the response should be scheduled in the conversation. Only
+     * applicable to NON_BLOCKING function calls, is ignored otherwise. Defaults to WHEN_IDLE.
+     */
     @JsonProperty("scheduling")
     public abstract Builder scheduling(FunctionResponseScheduling scheduling);
 
@@ -103,13 +120,32 @@ public abstract class FunctionResponse extends JsonSerializable {
     public Builder scheduling(String scheduling) {
       return scheduling(new FunctionResponseScheduling(scheduling));
     }
+    /**
+     * Setter for id.
+     *
+     * <p>id: Optional. The id of the function call this response is for. Populated by the client to
+     * match the corresponding function call `id`.
+     */
 
     @JsonProperty("id")
     public abstract Builder id(String id);
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: Required. The name of the function to call. Matches [FunctionDeclaration.name] and
+     * [FunctionCall.name].
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for response.
+     *
+     * <p>response: Required. The function response in JSON object format. Use "output" key to
+     * specify function output and "error" key to specify error details (if any). If "output" and
+     * "error" keys are not specified, then whole "response" is treated as function output.
+     */
     @JsonProperty("response")
     public abstract Builder response(Map<String, Object> response);
 

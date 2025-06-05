@@ -50,8 +50,22 @@ public abstract class GeneratedVideo extends JsonSerializable {
       return new AutoValue_GeneratedVideo.Builder();
     }
 
+    /**
+     * Setter for video.
+     *
+     * <p>video: The output video
+     */
     @JsonProperty("video")
     public abstract Builder video(Video video);
+
+    /**
+     * Setter for video builder.
+     *
+     * <p>video: The output video
+     */
+    public Builder video(Video.Builder videoBuilder) {
+      return video(videoBuilder.build());
+    }
 
     public abstract GeneratedVideo build();
   }

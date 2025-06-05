@@ -82,7 +82,7 @@ public final class EditImageStyleTransfer {
         StyleReferenceImage.builder()
             .referenceImage(image)
             .referenceId(1)
-            .config(StyleReferenceConfig.builder().styleDescription("Watercolor").build())
+            .config(StyleReferenceConfig.builder().styleDescription("Watercolor"))
             .build();
     referenceImages.add(styleReferenceImage);
 

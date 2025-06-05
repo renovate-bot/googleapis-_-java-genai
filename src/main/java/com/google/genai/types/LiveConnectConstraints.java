@@ -57,11 +57,31 @@ public abstract class LiveConnectConstraints extends JsonSerializable {
       return new AutoValue_LiveConnectConstraints.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to configure in the ephemeral token for Live API. For a list of
+     * models, see `Gemini models <https://ai.google.dev/gemini-api/docs/models>`.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration specific to Live API connections created using this token.
+     */
     @JsonProperty("config")
     public abstract Builder config(LiveConnectConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration specific to Live API connections created using this token.
+     */
+    public Builder config(LiveConnectConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract LiveConnectConstraints build();
   }

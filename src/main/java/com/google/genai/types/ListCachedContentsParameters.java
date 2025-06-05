@@ -54,8 +54,22 @@ public abstract class ListCachedContentsParameters extends JsonSerializable {
       return new AutoValue_ListCachedContentsParameters.Builder();
     }
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
     @JsonProperty("config")
     public abstract Builder config(ListCachedContentsConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
+    public Builder config(ListCachedContentsConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract ListCachedContentsParameters build();
   }

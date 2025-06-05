@@ -61,12 +61,28 @@ public abstract class Blob extends JsonSerializable {
       return new AutoValue_Blob.Builder();
     }
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Optional. Display name of the blob. Used to provide a label or filename to
+     * distinguish blobs. This field is not currently used in the Gemini GenerateContent calls.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for data.
+     *
+     * <p>data: Required. Raw bytes.
+     */
     @JsonProperty("data")
     public abstract Builder data(byte[] data);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: Required. The IANA standard MIME type of the source data.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 

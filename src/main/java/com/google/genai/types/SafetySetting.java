@@ -59,6 +59,12 @@ public abstract class SafetySetting extends JsonSerializable {
       return new AutoValue_SafetySetting.Builder();
     }
 
+    /**
+     * Setter for method.
+     *
+     * <p>method: Determines if the harm block method uses probability or probability and severity
+     * scores.
+     */
     @JsonProperty("method")
     public abstract Builder method(HarmBlockMethod method);
 
@@ -71,6 +77,11 @@ public abstract class SafetySetting extends JsonSerializable {
     public Builder method(String method) {
       return method(new HarmBlockMethod(method));
     }
+    /**
+     * Setter for category.
+     *
+     * <p>category: Required. Harm category.
+     */
 
     @JsonProperty("category")
     public abstract Builder category(HarmCategory category);
@@ -84,6 +95,11 @@ public abstract class SafetySetting extends JsonSerializable {
     public Builder category(String category) {
       return category(new HarmCategory(category));
     }
+    /**
+     * Setter for threshold.
+     *
+     * <p>threshold: Required. The harm block threshold.
+     */
 
     @JsonProperty("threshold")
     public abstract Builder threshold(HarmBlockThreshold threshold);

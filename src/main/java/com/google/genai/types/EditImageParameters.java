@@ -65,17 +65,46 @@ public abstract class EditImageParameters extends JsonSerializable {
       return new AutoValue_EditImageParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: The model to use.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for prompt.
+     *
+     * <p>prompt: A text description of the edit to apply to the image.
+     */
     @JsonProperty("prompt")
     public abstract Builder prompt(String prompt);
 
+    /**
+     * Setter for referenceImages.
+     *
+     * <p>referenceImages: The reference images for Imagen 3 editing.
+     */
     @JsonProperty("referenceImages")
     public abstract Builder referenceImages(List<ReferenceImageAPI> referenceImages);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration for editing.
+     */
     @JsonProperty("config")
     public abstract Builder config(EditImageConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration for editing.
+     */
+    public Builder config(EditImageConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract EditImageParameters build();
   }

@@ -55,9 +55,19 @@ public abstract class UrlMetadata extends JsonSerializable {
       return new AutoValue_UrlMetadata.Builder();
     }
 
+    /**
+     * Setter for retrievedUrl.
+     *
+     * <p>retrievedUrl: The URL retrieved by the tool.
+     */
     @JsonProperty("retrievedUrl")
     public abstract Builder retrievedUrl(String retrievedUrl);
 
+    /**
+     * Setter for urlRetrievalStatus.
+     *
+     * <p>urlRetrievalStatus: Status of the url retrieval.
+     */
     @JsonProperty("urlRetrievalStatus")
     public abstract Builder urlRetrievalStatus(UrlRetrievalStatus urlRetrievalStatus);
 

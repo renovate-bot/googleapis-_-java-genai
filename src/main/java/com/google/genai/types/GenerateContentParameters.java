@@ -64,14 +64,39 @@ public abstract class GenerateContentParameters extends JsonSerializable {
       return new AutoValue_GenerateContentParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for contents.
+     *
+     * <p>contents: Content of the request.
+     */
     @JsonProperty("contents")
     public abstract Builder contents(List<Content> contents);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration that contains optional model parameters.
+     */
     @JsonProperty("config")
     public abstract Builder config(GenerateContentConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration that contains optional model parameters.
+     */
+    public Builder config(GenerateContentConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GenerateContentParameters build();
   }

@@ -50,6 +50,11 @@ public abstract class ApiKeyConfig extends JsonSerializable {
       return new AutoValue_ApiKeyConfig.Builder();
     }
 
+    /**
+     * Setter for apiKeyString.
+     *
+     * <p>apiKeyString: The API key to be used in the request directly.
+     */
     @JsonProperty("apiKeyString")
     public abstract Builder apiKeyString(String apiKeyString);
 

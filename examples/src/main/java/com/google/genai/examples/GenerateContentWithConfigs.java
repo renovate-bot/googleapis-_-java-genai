@@ -88,7 +88,7 @@ public final class GenerateContentWithConfigs {
     Content systemInstruction = Content.fromParts(Part.fromText("You are a history teacher."));
 
     // Sets the Google Search tool in the config.
-    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder().build()).build();
+    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder()).build();
 
     GenerateContentConfig config =
         GenerateContentConfig.builder()

@@ -50,8 +50,7 @@ public class FunctionDeclarationTest {
               Schema.builder()
                   .type(Type.Known.OBJECT)
                   .properties(buildPropertiesMap())
-                  .required(REQUIRED_PARAM_NAMES)
-                  .build())
+                  .required(REQUIRED_PARAM_NAMES))
           .build();
 
   /** Helper method to build the properties map. */

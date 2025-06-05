@@ -58,6 +58,11 @@ public abstract class ControlReferenceConfig extends JsonSerializable {
       return new AutoValue_ControlReferenceConfig.Builder();
     }
 
+    /**
+     * Setter for controlType.
+     *
+     * <p>controlType: The type of control reference image to use.
+     */
     @JsonProperty("controlType")
     public abstract Builder controlType(ControlReferenceType controlType);
 
@@ -70,6 +75,13 @@ public abstract class ControlReferenceConfig extends JsonSerializable {
     public Builder controlType(String controlType) {
       return controlType(new ControlReferenceType(controlType));
     }
+    /**
+     * Setter for enableControlImageComputation.
+     *
+     * <p>enableControlImageComputation: Defaults to False. When set to True, the control image will
+     * be computed by the model based on the control type. When set to False, the control image must
+     * be provided by the user.
+     */
 
     @JsonProperty("enableControlImageComputation")
     public abstract Builder enableControlImageComputation(boolean enableControlImageComputation);

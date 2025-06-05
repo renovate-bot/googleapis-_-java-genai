@@ -50,6 +50,11 @@ public abstract class PrebuiltVoiceConfig extends JsonSerializable {
       return new AutoValue_PrebuiltVoiceConfig.Builder();
     }
 
+    /**
+     * Setter for voiceName.
+     *
+     * <p>voiceName: The name of the prebuilt voice to use.
+     */
     @JsonProperty("voiceName")
     public abstract Builder voiceName(String voiceName);
 

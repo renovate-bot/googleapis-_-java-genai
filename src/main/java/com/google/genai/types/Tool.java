@@ -100,32 +100,156 @@ public abstract class Tool extends JsonSerializable {
       return new AutoValue_Tool.Builder();
     }
 
+    /**
+     * Setter for functionDeclarations.
+     *
+     * <p>functionDeclarations: List of function declarations that the tool supports.
+     */
     @JsonProperty("functionDeclarations")
     public abstract Builder functionDeclarations(List<FunctionDeclaration> functionDeclarations);
 
+    /**
+     * Setter for retrieval.
+     *
+     * <p>retrieval: Optional. Retrieval tool type. System will always execute the provided
+     * retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are
+     * presented to the model for generation.
+     */
     @JsonProperty("retrieval")
     public abstract Builder retrieval(Retrieval retrieval);
 
+    /**
+     * Setter for retrieval builder.
+     *
+     * <p>retrieval: Optional. Retrieval tool type. System will always execute the provided
+     * retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are
+     * presented to the model for generation.
+     */
+    public Builder retrieval(Retrieval.Builder retrievalBuilder) {
+      return retrieval(retrievalBuilder.build());
+    }
+
+    /**
+     * Setter for googleSearch.
+     *
+     * <p>googleSearch: Optional. Google Search tool type. Specialized retrieval tool that is
+     * powered by Google Search.
+     */
     @JsonProperty("googleSearch")
     public abstract Builder googleSearch(GoogleSearch googleSearch);
 
+    /**
+     * Setter for googleSearch builder.
+     *
+     * <p>googleSearch: Optional. Google Search tool type. Specialized retrieval tool that is
+     * powered by Google Search.
+     */
+    public Builder googleSearch(GoogleSearch.Builder googleSearchBuilder) {
+      return googleSearch(googleSearchBuilder.build());
+    }
+
+    /**
+     * Setter for googleSearchRetrieval.
+     *
+     * <p>googleSearchRetrieval: Optional. GoogleSearchRetrieval tool type. Specialized retrieval
+     * tool that is powered by Google search.
+     */
     @JsonProperty("googleSearchRetrieval")
     public abstract Builder googleSearchRetrieval(GoogleSearchRetrieval googleSearchRetrieval);
 
+    /**
+     * Setter for googleSearchRetrieval builder.
+     *
+     * <p>googleSearchRetrieval: Optional. GoogleSearchRetrieval tool type. Specialized retrieval
+     * tool that is powered by Google search.
+     */
+    public Builder googleSearchRetrieval(
+        GoogleSearchRetrieval.Builder googleSearchRetrievalBuilder) {
+      return googleSearchRetrieval(googleSearchRetrievalBuilder.build());
+    }
+
+    /**
+     * Setter for enterpriseWebSearch.
+     *
+     * <p>enterpriseWebSearch: Optional. Enterprise web search tool type. Specialized retrieval tool
+     * that is powered by Vertex AI Search and Sec4 compliance.
+     */
     @JsonProperty("enterpriseWebSearch")
     public abstract Builder enterpriseWebSearch(EnterpriseWebSearch enterpriseWebSearch);
 
+    /**
+     * Setter for enterpriseWebSearch builder.
+     *
+     * <p>enterpriseWebSearch: Optional. Enterprise web search tool type. Specialized retrieval tool
+     * that is powered by Vertex AI Search and Sec4 compliance.
+     */
+    public Builder enterpriseWebSearch(EnterpriseWebSearch.Builder enterpriseWebSearchBuilder) {
+      return enterpriseWebSearch(enterpriseWebSearchBuilder.build());
+    }
+
+    /**
+     * Setter for googleMaps.
+     *
+     * <p>googleMaps: Optional. Google Maps tool type. Specialized retrieval tool that is powered by
+     * Google Maps.
+     */
     @JsonProperty("googleMaps")
     public abstract Builder googleMaps(GoogleMaps googleMaps);
 
+    /**
+     * Setter for googleMaps builder.
+     *
+     * <p>googleMaps: Optional. Google Maps tool type. Specialized retrieval tool that is powered by
+     * Google Maps.
+     */
+    public Builder googleMaps(GoogleMaps.Builder googleMapsBuilder) {
+      return googleMaps(googleMapsBuilder.build());
+    }
+
+    /**
+     * Setter for urlContext.
+     *
+     * <p>urlContext: Optional. Tool to support URL context retrieval.
+     */
     @JsonProperty("urlContext")
     public abstract Builder urlContext(UrlContext urlContext);
 
+    /**
+     * Setter for urlContext builder.
+     *
+     * <p>urlContext: Optional. Tool to support URL context retrieval.
+     */
+    public Builder urlContext(UrlContext.Builder urlContextBuilder) {
+      return urlContext(urlContextBuilder.build());
+    }
+
+    /**
+     * Setter for functions.
+     *
+     * <p>functions: The java.lang.reflect.Method instance. If provided, it will to be parsed into a
+     * list of FunctionDeclaration instances, and be assigned to the functionDeclarations field.
+     */
     @JsonIgnore
     public abstract Builder functions(List<Method> functions);
 
+    /**
+     * Setter for codeExecution.
+     *
+     * <p>codeExecution: Optional. CodeExecution tool type. Enables the model to execute code as
+     * part of generation.
+     */
     @JsonProperty("codeExecution")
     public abstract Builder codeExecution(ToolCodeExecution codeExecution);
+
+    /**
+     * Setter for codeExecution builder.
+     *
+     * <p>codeExecution: Optional. CodeExecution tool type. Enables the model to execute code as
+     * part of generation.
+     */
+    public Builder codeExecution(ToolCodeExecution.Builder codeExecutionBuilder) {
+      return codeExecution(codeExecutionBuilder.build());
+    }
 
     public abstract Tool build();
   }

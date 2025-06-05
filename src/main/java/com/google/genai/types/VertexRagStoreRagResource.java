@@ -58,9 +58,21 @@ public abstract class VertexRagStoreRagResource extends JsonSerializable {
       return new AutoValue_VertexRagStoreRagResource.Builder();
     }
 
+    /**
+     * Setter for ragCorpus.
+     *
+     * <p>ragCorpus: Optional. RagCorpora resource name. Format:
+     * `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}`
+     */
     @JsonProperty("ragCorpus")
     public abstract Builder ragCorpus(String ragCorpus);
 
+    /**
+     * Setter for ragFileIds.
+     *
+     * <p>ragFileIds: Optional. rag_file_id. The files should be in the same rag_corpus set in
+     * rag_corpus field.
+     */
     @JsonProperty("ragFileIds")
     public abstract Builder ragFileIds(List<String> ragFileIds);
 

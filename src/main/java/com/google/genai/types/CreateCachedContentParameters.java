@@ -58,11 +58,30 @@ public abstract class CreateCachedContentParameters extends JsonSerializable {
       return new AutoValue_CreateCachedContentParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. Example: gemini-2.0-flash
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
     @JsonProperty("config")
     public abstract Builder config(CreateCachedContentConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
+    public Builder config(CreateCachedContentConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract CreateCachedContentParameters build();
   }

@@ -54,11 +54,30 @@ public abstract class SpeakerVoiceConfig extends JsonSerializable {
       return new AutoValue_SpeakerVoiceConfig.Builder();
     }
 
+    /**
+     * Setter for speaker.
+     *
+     * <p>speaker: The name of the speaker to use. Should be the same as in the prompt.
+     */
     @JsonProperty("speaker")
     public abstract Builder speaker(String speaker);
 
+    /**
+     * Setter for voiceConfig.
+     *
+     * <p>voiceConfig: The configuration for the voice to use.
+     */
     @JsonProperty("voiceConfig")
     public abstract Builder voiceConfig(VoiceConfig voiceConfig);
+
+    /**
+     * Setter for voiceConfig builder.
+     *
+     * <p>voiceConfig: The configuration for the voice to use.
+     */
+    public Builder voiceConfig(VoiceConfig.Builder voiceConfigBuilder) {
+      return voiceConfig(voiceConfigBuilder.build());
+    }
 
     public abstract SpeakerVoiceConfig build();
   }

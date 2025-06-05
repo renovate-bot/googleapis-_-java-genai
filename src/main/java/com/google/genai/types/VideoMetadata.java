@@ -62,12 +62,28 @@ public abstract class VideoMetadata extends JsonSerializable {
       return new AutoValue_VideoMetadata.Builder();
     }
 
+    /**
+     * Setter for fps.
+     *
+     * <p>fps: The frame rate of the video sent to the model. If not specified, the default value
+     * will be 1.0. The fps range is (0.0, 24.0].
+     */
     @JsonProperty("fps")
     public abstract Builder fps(Double fps);
 
+    /**
+     * Setter for endOffset.
+     *
+     * <p>endOffset: Optional. The end offset of the video.
+     */
     @JsonProperty("endOffset")
     public abstract Builder endOffset(Duration endOffset);
 
+    /**
+     * Setter for startOffset.
+     *
+     * <p>startOffset: Optional. The start offset of the video.
+     */
     @JsonProperty("startOffset")
     public abstract Builder startOffset(Duration startOffset);
 

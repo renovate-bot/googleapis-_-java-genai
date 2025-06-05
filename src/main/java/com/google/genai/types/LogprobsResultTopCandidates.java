@@ -51,6 +51,11 @@ public abstract class LogprobsResultTopCandidates extends JsonSerializable {
       return new AutoValue_LogprobsResultTopCandidates.Builder();
     }
 
+    /**
+     * Setter for candidates.
+     *
+     * <p>candidates: Sorted by log probability in descending order.
+     */
     @JsonProperty("candidates")
     public abstract Builder candidates(List<LogprobsResultCandidate> candidates);
 

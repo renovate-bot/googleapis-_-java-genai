@@ -64,15 +64,35 @@ public abstract class ReplayResponse extends JsonSerializable {
       return new AutoValue_ReplayResponse.Builder();
     }
 
+    /**
+     * Setter for statusCode.
+     *
+     * <p>statusCode:
+     */
     @JsonProperty("statusCode")
     public abstract Builder statusCode(Integer statusCode);
 
+    /**
+     * Setter for headers.
+     *
+     * <p>headers:
+     */
     @JsonProperty("headers")
     public abstract Builder headers(Map<String, String> headers);
 
+    /**
+     * Setter for bodySegments.
+     *
+     * <p>bodySegments:
+     */
     @JsonProperty("bodySegments")
     public abstract Builder bodySegments(List<Map<String, Object>> bodySegments);
 
+    /**
+     * Setter for sdkResponseSegments.
+     *
+     * <p>sdkResponseSegments:
+     */
     @JsonProperty("sdkResponseSegments")
     public abstract Builder sdkResponseSegments(List<Map<String, Object>> sdkResponseSegments);
 

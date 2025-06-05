@@ -58,12 +58,34 @@ public abstract class GenerateImagesResponse extends JsonSerializable {
       return new AutoValue_GenerateImagesResponse.Builder();
     }
 
+    /**
+     * Setter for generatedImages.
+     *
+     * <p>generatedImages: List of generated images.
+     */
     @JsonProperty("generatedImages")
     public abstract Builder generatedImages(List<GeneratedImage> generatedImages);
 
+    /**
+     * Setter for positivePromptSafetyAttributes.
+     *
+     * <p>positivePromptSafetyAttributes: Safety attributes of the positive prompt. Only populated
+     * if ``include_safety_attributes`` is set to True.
+     */
     @JsonProperty("positivePromptSafetyAttributes")
     public abstract Builder positivePromptSafetyAttributes(
         SafetyAttributes positivePromptSafetyAttributes);
+
+    /**
+     * Setter for positivePromptSafetyAttributes builder.
+     *
+     * <p>positivePromptSafetyAttributes: Safety attributes of the positive prompt. Only populated
+     * if ``include_safety_attributes`` is set to True.
+     */
+    public Builder positivePromptSafetyAttributes(
+        SafetyAttributes.Builder positivePromptSafetyAttributesBuilder) {
+      return positivePromptSafetyAttributes(positivePromptSafetyAttributesBuilder.build());
+    }
 
     public abstract GenerateImagesResponse build();
   }

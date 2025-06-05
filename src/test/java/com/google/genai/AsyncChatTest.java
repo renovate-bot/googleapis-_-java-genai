@@ -72,8 +72,7 @@ public class AsyncChatTest {
                               .parts(
                                   Arrays.asList(
                                       Part.builder().text(STREAMING_RESPONSE_CHUNK_1).build()))
-                              .role("model")
-                              .build())
+                              .role("model"))
                       .build()))
           .build();
 
@@ -87,8 +86,7 @@ public class AsyncChatTest {
                               .parts(
                                   Arrays.asList(
                                       Part.builder().text(STREAMING_RESPONSE_CHUNK_2).build()))
-                              .role("model")
-                              .build())
+                              .role("model"))
                       .build()))
           .build();
 
@@ -102,16 +100,14 @@ public class AsyncChatTest {
                               .parts(
                                   Arrays.asList(
                                       Part.builder().text(STREAMING_RESPONSE_CHUNK_3).build()))
-                              .role("model")
-                              .build())
+                              .role("model"))
                       .finishReason(FinishReason.Known.STOP)
                       .build()))
           .usageMetadata(
               GenerateContentResponseUsageMetadata.builder()
                   .promptTokenCount(10)
                   .candidatesTokenCount(25)
-                  .totalTokenCount(35)
-                  .build())
+                  .totalTokenCount(35))
           .build();
 
   String jsonChunk1 = responseChunk1.toJson();
@@ -132,8 +128,7 @@ public class AsyncChatTest {
                               .parts(
                                   Arrays.asList(
                                       Part.builder().text(NON_STREAMING_RESPONSE).build()))
-                              .role("model")
-                              .build())
+                              .role("model"))
                       .build()))
           .build();
   String nonStreamData = nonStreamingResponse.toJson();

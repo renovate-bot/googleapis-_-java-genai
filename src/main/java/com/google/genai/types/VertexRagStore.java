@@ -71,18 +71,55 @@ public abstract class VertexRagStore extends JsonSerializable {
       return new AutoValue_VertexRagStore.Builder();
     }
 
+    /**
+     * Setter for ragCorpora.
+     *
+     * <p>ragCorpora: Optional. Deprecated. Please use rag_resources instead.
+     */
     @JsonProperty("ragCorpora")
     public abstract Builder ragCorpora(List<String> ragCorpora);
 
+    /**
+     * Setter for ragResources.
+     *
+     * <p>ragResources: Optional. The representation of the rag source. It can be used to specify
+     * corpus only or ragfiles. Currently only support one corpus or multiple files from one corpus.
+     * In the future we may open up multiple corpora support.
+     */
     @JsonProperty("ragResources")
     public abstract Builder ragResources(List<VertexRagStoreRagResource> ragResources);
 
+    /**
+     * Setter for ragRetrievalConfig.
+     *
+     * <p>ragRetrievalConfig: Optional. The retrieval config for the Rag query.
+     */
     @JsonProperty("ragRetrievalConfig")
     public abstract Builder ragRetrievalConfig(RagRetrievalConfig ragRetrievalConfig);
 
+    /**
+     * Setter for ragRetrievalConfig builder.
+     *
+     * <p>ragRetrievalConfig: Optional. The retrieval config for the Rag query.
+     */
+    public Builder ragRetrievalConfig(RagRetrievalConfig.Builder ragRetrievalConfigBuilder) {
+      return ragRetrievalConfig(ragRetrievalConfigBuilder.build());
+    }
+
+    /**
+     * Setter for similarityTopK.
+     *
+     * <p>similarityTopK: Optional. Number of top k results to return from the selected corpora.
+     */
     @JsonProperty("similarityTopK")
     public abstract Builder similarityTopK(Integer similarityTopK);
 
+    /**
+     * Setter for vectorDistanceThreshold.
+     *
+     * <p>vectorDistanceThreshold: Optional. Only return results with vector distance smaller than
+     * the threshold.
+     */
     @JsonProperty("vectorDistanceThreshold")
     public abstract Builder vectorDistanceThreshold(Double vectorDistanceThreshold);
 

@@ -61,14 +61,49 @@ public abstract class Retrieval extends JsonSerializable {
       return new AutoValue_Retrieval.Builder();
     }
 
+    /**
+     * Setter for disableAttribution.
+     *
+     * <p>disableAttribution: Optional. Deprecated. This option is no longer supported.
+     */
     @JsonProperty("disableAttribution")
     public abstract Builder disableAttribution(boolean disableAttribution);
 
+    /**
+     * Setter for vertexAiSearch.
+     *
+     * <p>vertexAiSearch: Set to use data source powered by Vertex AI Search.
+     */
     @JsonProperty("vertexAiSearch")
     public abstract Builder vertexAiSearch(VertexAISearch vertexAiSearch);
 
+    /**
+     * Setter for vertexAiSearch builder.
+     *
+     * <p>vertexAiSearch: Set to use data source powered by Vertex AI Search.
+     */
+    public Builder vertexAiSearch(VertexAISearch.Builder vertexAiSearchBuilder) {
+      return vertexAiSearch(vertexAiSearchBuilder.build());
+    }
+
+    /**
+     * Setter for vertexRagStore.
+     *
+     * <p>vertexRagStore: Set to use data source powered by Vertex RAG store. User data is uploaded
+     * via the VertexRagDataService.
+     */
     @JsonProperty("vertexRagStore")
     public abstract Builder vertexRagStore(VertexRagStore vertexRagStore);
+
+    /**
+     * Setter for vertexRagStore builder.
+     *
+     * <p>vertexRagStore: Set to use data source powered by Vertex RAG store. User data is uploaded
+     * via the VertexRagDataService.
+     */
+    public Builder vertexRagStore(VertexRagStore.Builder vertexRagStoreBuilder) {
+      return vertexRagStore(vertexRagStoreBuilder.build());
+    }
 
     public abstract Retrieval build();
   }

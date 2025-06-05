@@ -54,9 +54,19 @@ public abstract class Transcription extends JsonSerializable {
       return new AutoValue_Transcription.Builder();
     }
 
+    /**
+     * Setter for text.
+     *
+     * <p>text: Transcription text.
+     */
     @JsonProperty("text")
     public abstract Builder text(String text);
 
+    /**
+     * Setter for finished.
+     *
+     * <p>finished: The bool indicates the end of the transcription.
+     */
     @JsonProperty("finished")
     public abstract Builder finished(boolean finished);
 

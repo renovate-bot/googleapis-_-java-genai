@@ -64,15 +64,35 @@ public abstract class ReplayRequest extends JsonSerializable {
       return new AutoValue_ReplayRequest.Builder();
     }
 
+    /**
+     * Setter for method.
+     *
+     * <p>method:
+     */
     @JsonProperty("method")
     public abstract Builder method(String method);
 
+    /**
+     * Setter for url.
+     *
+     * <p>url:
+     */
     @JsonProperty("url")
     public abstract Builder url(String url);
 
+    /**
+     * Setter for headers.
+     *
+     * <p>headers:
+     */
     @JsonProperty("headers")
     public abstract Builder headers(Map<String, String> headers);
 
+    /**
+     * Setter for bodySegments.
+     *
+     * <p>bodySegments:
+     */
     @JsonProperty("bodySegments")
     public abstract Builder bodySegments(List<Map<String, Object>> bodySegments);
 

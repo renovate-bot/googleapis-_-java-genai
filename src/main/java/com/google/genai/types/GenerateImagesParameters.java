@@ -63,14 +63,39 @@ public abstract class GenerateImagesParameters extends JsonSerializable {
       return new AutoValue_GenerateImagesParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for prompt.
+     *
+     * <p>prompt: Text prompt that typically describes the images to output.
+     */
     @JsonProperty("prompt")
     public abstract Builder prompt(String prompt);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration for generating images.
+     */
     @JsonProperty("config")
     public abstract Builder config(GenerateImagesConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration for generating images.
+     */
+    public Builder config(GenerateImagesConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GenerateImagesParameters build();
   }

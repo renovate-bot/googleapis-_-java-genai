@@ -50,6 +50,12 @@ public abstract class EmbedContentMetadata extends JsonSerializable {
       return new AutoValue_EmbedContentMetadata.Builder();
     }
 
+    /**
+     * Setter for billableCharacterCount.
+     *
+     * <p>billableCharacterCount: Vertex API only. The total number of billable characters included
+     * in the request.
+     */
     @JsonProperty("billableCharacterCount")
     public abstract Builder billableCharacterCount(Integer billableCharacterCount);
 

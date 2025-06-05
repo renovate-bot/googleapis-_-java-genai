@@ -56,6 +56,14 @@ public abstract class RagRetrievalConfigHybridSearch extends JsonSerializable {
       return new AutoValue_RagRetrievalConfigHybridSearch.Builder();
     }
 
+    /**
+     * Setter for alpha.
+     *
+     * <p>alpha: Optional. Alpha value controls the weight between dense and sparse vector search
+     * results. The range is [0, 1], while 0 means sparse vector search only and 1 means dense
+     * vector search only. The default value is 0.5 which balances sparse and dense vector search
+     * equally.
+     */
     @JsonProperty("alpha")
     public abstract Builder alpha(Float alpha);
 

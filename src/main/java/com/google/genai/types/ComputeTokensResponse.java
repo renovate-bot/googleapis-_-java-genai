@@ -55,6 +55,13 @@ public abstract class ComputeTokensResponse extends JsonSerializable {
       return new AutoValue_ComputeTokensResponse.Builder();
     }
 
+    /**
+     * Setter for tokensInfo.
+     *
+     * <p>tokensInfo: Lists of tokens info from the input. A ComputeTokensRequest could have
+     * multiple instances with a prompt in each instance. We also need to return lists of tokens
+     * info for the request with multiple instances.
+     */
     @JsonProperty("tokensInfo")
     public abstract Builder tokensInfo(List<TokensInfo> tokensInfo);
 

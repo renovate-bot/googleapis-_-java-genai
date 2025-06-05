@@ -52,8 +52,22 @@ public abstract class ListFilesParameters extends JsonSerializable {
       return new AutoValue_ListFilesParameters.Builder();
     }
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(ListFilesConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(ListFilesConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract ListFilesParameters build();
   }

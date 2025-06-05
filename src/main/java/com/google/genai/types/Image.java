@@ -69,12 +69,29 @@ public abstract class Image extends JsonSerializable {
       return new AutoValue_Image.Builder();
     }
 
+    /**
+     * Setter for gcsUri.
+     *
+     * <p>gcsUri: The Cloud Storage URI of the image. ``Image`` can contain a value for this field
+     * or the ``image_bytes`` field but not both.
+     */
     @JsonProperty("gcsUri")
     public abstract Builder gcsUri(String gcsUri);
 
+    /**
+     * Setter for imageBytes.
+     *
+     * <p>imageBytes: The image bytes data. ``Image`` can contain a value for this field or the
+     * ``gcs_uri`` field but not both.
+     */
     @JsonProperty("imageBytes")
     public abstract Builder imageBytes(byte[] imageBytes);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: The MIME type of the image.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 

@@ -58,12 +58,27 @@ public abstract class LogprobsResultCandidate extends JsonSerializable {
       return new AutoValue_LogprobsResultCandidate.Builder();
     }
 
+    /**
+     * Setter for logProbability.
+     *
+     * <p>logProbability: The candidate's log probability.
+     */
     @JsonProperty("logProbability")
     public abstract Builder logProbability(Float logProbability);
 
+    /**
+     * Setter for token.
+     *
+     * <p>token: The candidate's token string value.
+     */
     @JsonProperty("token")
     public abstract Builder token(String token);
 
+    /**
+     * Setter for tokenId.
+     *
+     * <p>tokenId: The candidate's token id value.
+     */
     @JsonProperty("tokenId")
     public abstract Builder tokenId(Integer tokenId);
 

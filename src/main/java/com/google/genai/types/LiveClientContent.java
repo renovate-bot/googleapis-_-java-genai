@@ -71,9 +71,24 @@ public abstract class LiveClientContent extends JsonSerializable {
       return new AutoValue_LiveClientContent.Builder();
     }
 
+    /**
+     * Setter for turns.
+     *
+     * <p>turns: The content appended to the current conversation with the model.
+     *
+     * <p>For single-turn queries, this is a single instance. For multi-turn queries, this is a
+     * repeated field that contains conversation history and latest request.
+     */
     @JsonProperty("turns")
     public abstract Builder turns(List<Content> turns);
 
+    /**
+     * Setter for turnComplete.
+     *
+     * <p>turnComplete: If true, indicates that the server content generation should start with the
+     * currently accumulated prompt. Otherwise, the server will await additional messages before
+     * starting generation.
+     */
     @JsonProperty("turnComplete")
     public abstract Builder turnComplete(boolean turnComplete);
 

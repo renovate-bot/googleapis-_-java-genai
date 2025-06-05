@@ -79,20 +79,60 @@ public abstract class GenerateVideosOperation extends JsonSerializable {
       return new AutoValue_GenerateVideosOperation.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The server-assigned name, which is only unique within the same service that
+     * originally returns it. If you use the default HTTP mapping, the `name` should be a resource
+     * name ending with `operations/{unique_id}`.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for metadata.
+     *
+     * <p>metadata: Service-specific metadata associated with the operation. It typically contains
+     * progress information and common metadata such as create time. Some services might not provide
+     * such metadata. Any method that returns a long-running operation should document the metadata
+     * type, if any.
+     */
     @JsonProperty("metadata")
     public abstract Builder metadata(Map<String, Object> metadata);
 
+    /**
+     * Setter for done.
+     *
+     * <p>done: If the value is `false`, it means the operation is still in progress. If `true`, the
+     * operation is completed, and either `error` or `response` is available.
+     */
     @JsonProperty("done")
     public abstract Builder done(boolean done);
 
+    /**
+     * Setter for error.
+     *
+     * <p>error: The error result of the operation in case of failure or cancellation.
+     */
     @JsonProperty("error")
     public abstract Builder error(Map<String, Object> error);
 
+    /**
+     * Setter for response.
+     *
+     * <p>response: The generated videos.
+     */
     @JsonProperty("response")
     public abstract Builder response(GenerateVideosResponse response);
+
+    /**
+     * Setter for response builder.
+     *
+     * <p>response: The generated videos.
+     */
+    public Builder response(GenerateVideosResponse.Builder responseBuilder) {
+      return response(responseBuilder.build());
+    }
 
     public abstract GenerateVideosOperation build();
   }

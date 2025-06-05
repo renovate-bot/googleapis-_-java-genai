@@ -63,12 +63,36 @@ public abstract class RawReferenceImage extends JsonSerializable implements Refe
       return new AutoValue_RawReferenceImage.Builder();
     }
 
+    /**
+     * Setter for referenceImage.
+     *
+     * <p>referenceImage: The reference image for the editing operation.
+     */
     @JsonProperty("referenceImage")
     public abstract Builder referenceImage(Image referenceImage);
 
+    /**
+     * Setter for referenceImage builder.
+     *
+     * <p>referenceImage: The reference image for the editing operation.
+     */
+    public Builder referenceImage(Image.Builder referenceImageBuilder) {
+      return referenceImage(referenceImageBuilder.build());
+    }
+
+    /**
+     * Setter for referenceId.
+     *
+     * <p>referenceId: The id of the reference image.
+     */
     @JsonProperty("referenceId")
     public abstract Builder referenceId(Integer referenceId);
 
+    /**
+     * Setter for referenceType.
+     *
+     * <p>referenceType: The type of the reference image. Only set by the SDK.
+     */
     @JsonProperty("referenceType")
     public abstract Builder referenceType(String referenceType);
 

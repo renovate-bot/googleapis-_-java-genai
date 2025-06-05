@@ -62,14 +62,38 @@ public abstract class FetchPredictOperationParameters extends JsonSerializable {
       return new AutoValue_FetchPredictOperationParameters.Builder();
     }
 
+    /**
+     * Setter for operationName.
+     *
+     * <p>operationName: The server-assigned name for the operation.
+     */
     @JsonProperty("operationName")
     public abstract Builder operationName(String operationName);
 
+    /**
+     * Setter for resourceName.
+     *
+     * <p>resourceName:
+     */
     @JsonProperty("resourceName")
     public abstract Builder resourceName(String resourceName);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(FetchPredictOperationConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(FetchPredictOperationConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract FetchPredictOperationParameters build();
   }

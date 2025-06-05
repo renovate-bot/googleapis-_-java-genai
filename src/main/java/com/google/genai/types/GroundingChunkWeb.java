@@ -58,12 +58,27 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
       return new AutoValue_GroundingChunkWeb.Builder();
     }
 
+    /**
+     * Setter for domain.
+     *
+     * <p>domain: Domain of the (original) URI.
+     */
     @JsonProperty("domain")
     public abstract Builder domain(String domain);
 
+    /**
+     * Setter for title.
+     *
+     * <p>title: Title of the chunk.
+     */
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    /**
+     * Setter for uri.
+     *
+     * <p>uri: URI reference of the chunk.
+     */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
 

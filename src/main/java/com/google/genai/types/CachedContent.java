@@ -75,26 +75,70 @@ public abstract class CachedContent extends JsonSerializable {
       return new AutoValue_CachedContent.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The server-generated resource name of the cached content.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: The user-generated meaningful display name of the cached content.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: The name of the publisher model to use for cached content.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for createTime.
+     *
+     * <p>createTime: Creation time of the cache entry.
+     */
     @JsonProperty("createTime")
     public abstract Builder createTime(Instant createTime);
 
+    /**
+     * Setter for updateTime.
+     *
+     * <p>updateTime: When the cache entry was last updated in UTC time.
+     */
     @JsonProperty("updateTime")
     public abstract Builder updateTime(Instant updateTime);
 
+    /**
+     * Setter for expireTime.
+     *
+     * <p>expireTime: Expiration time of the cached content.
+     */
     @JsonProperty("expireTime")
     public abstract Builder expireTime(Instant expireTime);
 
+    /**
+     * Setter for usageMetadata.
+     *
+     * <p>usageMetadata: Metadata on the usage of the cached content.
+     */
     @JsonProperty("usageMetadata")
     public abstract Builder usageMetadata(CachedContentUsageMetadata usageMetadata);
+
+    /**
+     * Setter for usageMetadata builder.
+     *
+     * <p>usageMetadata: Metadata on the usage of the cached content.
+     */
+    public Builder usageMetadata(CachedContentUsageMetadata.Builder usageMetadataBuilder) {
+      return usageMetadata(usageMetadataBuilder.build());
+    }
 
     public abstract CachedContent build();
   }

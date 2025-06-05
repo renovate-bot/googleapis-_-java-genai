@@ -50,8 +50,22 @@ public abstract class GoogleMaps extends JsonSerializable {
       return new AutoValue_GoogleMaps.Builder();
     }
 
+    /**
+     * Setter for authConfig.
+     *
+     * <p>authConfig: Optional. Auth config for the Google Maps tool.
+     */
     @JsonProperty("authConfig")
     public abstract Builder authConfig(AuthConfig authConfig);
+
+    /**
+     * Setter for authConfig builder.
+     *
+     * <p>authConfig: Optional. Auth config for the Google Maps tool.
+     */
+    public Builder authConfig(AuthConfig.Builder authConfigBuilder) {
+      return authConfig(authConfigBuilder.build());
+    }
 
     public abstract GoogleMaps build();
   }

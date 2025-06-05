@@ -97,30 +97,109 @@ public abstract class CreateCachedContentConfig extends JsonSerializable {
       return new AutoValue_CreateCachedContentConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for ttl.
+     *
+     * <p>ttl: The TTL for this resource. The expiration time is computed: now + TTL. It is a
+     * duration string, with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+     */
     @JsonProperty("ttl")
     public abstract Builder ttl(Duration ttl);
 
+    /**
+     * Setter for expireTime.
+     *
+     * <p>expireTime: Timestamp of when this resource is considered expired. Uses RFC 3339 format,
+     * Example: 2014-10-02T15:01:23Z.
+     */
     @JsonProperty("expireTime")
     public abstract Builder expireTime(Instant expireTime);
 
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: The user-generated meaningful display name of the cached content.
+     */
     @JsonProperty("displayName")
     public abstract Builder displayName(String displayName);
 
+    /**
+     * Setter for contents.
+     *
+     * <p>contents: The content to cache.
+     */
     @JsonProperty("contents")
     public abstract Builder contents(List<Content> contents);
 
+    /**
+     * Setter for systemInstruction.
+     *
+     * <p>systemInstruction: Developer set system instruction.
+     */
     @JsonProperty("systemInstruction")
     public abstract Builder systemInstruction(Content systemInstruction);
 
+    /**
+     * Setter for systemInstruction builder.
+     *
+     * <p>systemInstruction: Developer set system instruction.
+     */
+    public Builder systemInstruction(Content.Builder systemInstructionBuilder) {
+      return systemInstruction(systemInstructionBuilder.build());
+    }
+
+    /**
+     * Setter for tools.
+     *
+     * <p>tools: A list of `Tools` the model may use to generate the next response.
+     */
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
 
+    /**
+     * Setter for toolConfig.
+     *
+     * <p>toolConfig: Configuration for the tools to use. This config is shared for all tools.
+     */
     @JsonProperty("toolConfig")
     public abstract Builder toolConfig(ToolConfig toolConfig);
 
+    /**
+     * Setter for toolConfig builder.
+     *
+     * <p>toolConfig: Configuration for the tools to use. This config is shared for all tools.
+     */
+    public Builder toolConfig(ToolConfig.Builder toolConfigBuilder) {
+      return toolConfig(toolConfigBuilder.build());
+    }
+
+    /**
+     * Setter for kmsKeyName.
+     *
+     * <p>kmsKeyName: The Cloud KMS resource identifier of the customer managed encryption key used
+     * to protect a resource. The key needs to be in the same region as where the compute resource
+     * is created. See https://cloud.google.com/vertex-ai/docs/general/cmek for more details. If
+     * this is set, then all created CachedContent objects will be encrypted with the provided
+     * encryption key. Allowed formats:
+     * projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}
+     */
     @JsonProperty("kmsKeyName")
     public abstract Builder kmsKeyName(String kmsKeyName);
 

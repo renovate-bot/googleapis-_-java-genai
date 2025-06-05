@@ -78,21 +78,64 @@ public abstract class EmbedContentConfig extends JsonSerializable {
       return new AutoValue_EmbedContentConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for taskType.
+     *
+     * <p>taskType: Type of task for which the embedding will be used.
+     */
     @JsonProperty("taskType")
     public abstract Builder taskType(String taskType);
 
+    /**
+     * Setter for title.
+     *
+     * <p>title: Title for the text. Only applicable when TaskType is `RETRIEVAL_DOCUMENT`.
+     */
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    /**
+     * Setter for outputDimensionality.
+     *
+     * <p>outputDimensionality: Reduced dimension for the output embedding. If set, excessive values
+     * in the output embedding are truncated from the end. Supported by newer models since 2024
+     * only. You cannot set this value if using the earlier model (`models/embedding-001`).
+     */
     @JsonProperty("outputDimensionality")
     public abstract Builder outputDimensionality(Integer outputDimensionality);
 
+    /**
+     * Setter for mimeType.
+     *
+     * <p>mimeType: Vertex API only. The MIME type of the input.
+     */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
 
+    /**
+     * Setter for autoTruncate.
+     *
+     * <p>autoTruncate: Vertex API only. Whether to silently truncate inputs longer than the max
+     * sequence length. If this option is set to false, oversized inputs will lead to an
+     * INVALID_ARGUMENT error, similar to other text APIs.
+     */
     @JsonProperty("autoTruncate")
     public abstract Builder autoTruncate(boolean autoTruncate);
 

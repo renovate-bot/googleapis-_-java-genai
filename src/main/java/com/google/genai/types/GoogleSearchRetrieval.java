@@ -50,8 +50,25 @@ public abstract class GoogleSearchRetrieval extends JsonSerializable {
       return new AutoValue_GoogleSearchRetrieval.Builder();
     }
 
+    /**
+     * Setter for dynamicRetrievalConfig.
+     *
+     * <p>dynamicRetrievalConfig: Specifies the dynamic retrieval configuration for the given
+     * source.
+     */
     @JsonProperty("dynamicRetrievalConfig")
     public abstract Builder dynamicRetrievalConfig(DynamicRetrievalConfig dynamicRetrievalConfig);
+
+    /**
+     * Setter for dynamicRetrievalConfig builder.
+     *
+     * <p>dynamicRetrievalConfig: Specifies the dynamic retrieval configuration for the given
+     * source.
+     */
+    public Builder dynamicRetrievalConfig(
+        DynamicRetrievalConfig.Builder dynamicRetrievalConfigBuilder) {
+      return dynamicRetrievalConfig(dynamicRetrievalConfigBuilder.build());
+    }
 
     public abstract GoogleSearchRetrieval build();
   }

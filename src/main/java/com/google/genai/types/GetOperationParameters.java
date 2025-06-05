@@ -56,11 +56,30 @@ public abstract class GetOperationParameters extends JsonSerializable {
       return new AutoValue_GetOperationParameters.Builder();
     }
 
+    /**
+     * Setter for operationName.
+     *
+     * <p>operationName: The server-assigned name for the operation.
+     */
     @JsonProperty("operationName")
     public abstract Builder operationName(String operationName);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(GetOperationConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(GetOperationConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GetOperationParameters build();
   }

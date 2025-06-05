@@ -55,9 +55,19 @@ public abstract class HttpResponse extends JsonSerializable {
       return new AutoValue_HttpResponse.Builder();
     }
 
+    /**
+     * Setter for headers.
+     *
+     * <p>headers: Used to retain the processed HTTP headers in the response.
+     */
     @JsonProperty("headers")
     public abstract Builder headers(Map<String, String> headers);
 
+    /**
+     * Setter for body.
+     *
+     * <p>body: The raw HTTP response body, in JSON format.
+     */
     @JsonProperty("body")
     public abstract Builder body(String body);
 

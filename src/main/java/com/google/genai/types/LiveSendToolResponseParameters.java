@@ -53,6 +53,11 @@ public abstract class LiveSendToolResponseParameters extends JsonSerializable {
       return new AutoValue_LiveSendToolResponseParameters.Builder();
     }
 
+    /**
+     * Setter for functionResponses.
+     *
+     * <p>functionResponses: Tool responses to send to the session.
+     */
     @JsonProperty("functionResponses")
     public abstract Builder functionResponses(List<FunctionResponse> functionResponses);
 

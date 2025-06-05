@@ -57,9 +57,20 @@ public abstract class ThinkingConfig extends JsonSerializable {
       return new AutoValue_ThinkingConfig.Builder();
     }
 
+    /**
+     * Setter for includeThoughts.
+     *
+     * <p>includeThoughts: Indicates whether to include thoughts in the response. If true, thoughts
+     * are returned only if the model supports thought and thoughts are available.
+     */
     @JsonProperty("includeThoughts")
     public abstract Builder includeThoughts(boolean includeThoughts);
 
+    /**
+     * Setter for thinkingBudget.
+     *
+     * <p>thinkingBudget: Indicates the thinking budget in tokens.
+     */
     @JsonProperty("thinkingBudget")
     public abstract Builder thinkingBudget(Integer thinkingBudget);
 

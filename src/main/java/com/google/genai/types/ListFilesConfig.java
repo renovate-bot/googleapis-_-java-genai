@@ -58,12 +58,36 @@ public abstract class ListFilesConfig extends JsonSerializable {
       return new AutoValue_ListFilesConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for pageSize.
+     *
+     * <p>pageSize:
+     */
     @JsonProperty("pageSize")
     public abstract Builder pageSize(Integer pageSize);
 
+    /**
+     * Setter for pageToken.
+     *
+     * <p>pageToken:
+     */
     @JsonProperty("pageToken")
     public abstract Builder pageToken(String pageToken);
 

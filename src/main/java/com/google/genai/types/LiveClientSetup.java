@@ -108,38 +108,184 @@ public abstract class LiveClientSetup extends JsonSerializable {
       return new AutoValue_LiveClientSetup.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: The fully qualified name of the publisher model or tuned model endpoint to use.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for generationConfig.
+     *
+     * <p>generationConfig: The generation configuration for the session. Note: only a subset of
+     * fields are supported.
+     */
     @JsonProperty("generationConfig")
     public abstract Builder generationConfig(GenerationConfig generationConfig);
 
+    /**
+     * Setter for generationConfig builder.
+     *
+     * <p>generationConfig: The generation configuration for the session. Note: only a subset of
+     * fields are supported.
+     */
+    public Builder generationConfig(GenerationConfig.Builder generationConfigBuilder) {
+      return generationConfig(generationConfigBuilder.build());
+    }
+
+    /**
+     * Setter for systemInstruction.
+     *
+     * <p>systemInstruction: The user provided system instructions for the model. Note: only text
+     * should be used in parts and content in each part will be in a separate paragraph.
+     */
     @JsonProperty("systemInstruction")
     public abstract Builder systemInstruction(Content systemInstruction);
 
+    /**
+     * Setter for systemInstruction builder.
+     *
+     * <p>systemInstruction: The user provided system instructions for the model. Note: only text
+     * should be used in parts and content in each part will be in a separate paragraph.
+     */
+    public Builder systemInstruction(Content.Builder systemInstructionBuilder) {
+      return systemInstruction(systemInstructionBuilder.build());
+    }
+
+    /**
+     * Setter for tools.
+     *
+     * <p>tools: A list of `Tools` the model may use to generate the next response.
+     *
+     * <p>A `Tool` is a piece of code that enables the system to interact with external systems to
+     * perform an action, or set of actions, outside of knowledge and scope of the model.
+     */
     @JsonProperty("tools")
     public abstract Builder tools(List<Tool> tools);
 
+    /**
+     * Setter for realtimeInputConfig.
+     *
+     * <p>realtimeInputConfig: Configures the realtime input behavior in BidiGenerateContent.
+     */
     @JsonProperty("realtimeInputConfig")
     public abstract Builder realtimeInputConfig(RealtimeInputConfig realtimeInputConfig);
 
+    /**
+     * Setter for realtimeInputConfig builder.
+     *
+     * <p>realtimeInputConfig: Configures the realtime input behavior in BidiGenerateContent.
+     */
+    public Builder realtimeInputConfig(RealtimeInputConfig.Builder realtimeInputConfigBuilder) {
+      return realtimeInputConfig(realtimeInputConfigBuilder.build());
+    }
+
+    /**
+     * Setter for sessionResumption.
+     *
+     * <p>sessionResumption: Configures session resumption mechanism.
+     *
+     * <p>If included server will send SessionResumptionUpdate messages.
+     */
     @JsonProperty("sessionResumption")
     public abstract Builder sessionResumption(SessionResumptionConfig sessionResumption);
 
+    /**
+     * Setter for sessionResumption builder.
+     *
+     * <p>sessionResumption: Configures session resumption mechanism.
+     *
+     * <p>If included server will send SessionResumptionUpdate messages.
+     */
+    public Builder sessionResumption(SessionResumptionConfig.Builder sessionResumptionBuilder) {
+      return sessionResumption(sessionResumptionBuilder.build());
+    }
+
+    /**
+     * Setter for contextWindowCompression.
+     *
+     * <p>contextWindowCompression: Configures context window compression mechanism.
+     *
+     * <p>If included, server will compress context window to fit into given length.
+     */
     @JsonProperty("contextWindowCompression")
     public abstract Builder contextWindowCompression(
         ContextWindowCompressionConfig contextWindowCompression);
 
+    /**
+     * Setter for contextWindowCompression builder.
+     *
+     * <p>contextWindowCompression: Configures context window compression mechanism.
+     *
+     * <p>If included, server will compress context window to fit into given length.
+     */
+    public Builder contextWindowCompression(
+        ContextWindowCompressionConfig.Builder contextWindowCompressionBuilder) {
+      return contextWindowCompression(contextWindowCompressionBuilder.build());
+    }
+
+    /**
+     * Setter for inputAudioTranscription.
+     *
+     * <p>inputAudioTranscription: The transcription of the input aligns with the input audio
+     * language.
+     */
     @JsonProperty("inputAudioTranscription")
     public abstract Builder inputAudioTranscription(
         AudioTranscriptionConfig inputAudioTranscription);
 
+    /**
+     * Setter for inputAudioTranscription builder.
+     *
+     * <p>inputAudioTranscription: The transcription of the input aligns with the input audio
+     * language.
+     */
+    public Builder inputAudioTranscription(
+        AudioTranscriptionConfig.Builder inputAudioTranscriptionBuilder) {
+      return inputAudioTranscription(inputAudioTranscriptionBuilder.build());
+    }
+
+    /**
+     * Setter for outputAudioTranscription.
+     *
+     * <p>outputAudioTranscription: The transcription of the output aligns with the language code
+     * specified for the output audio.
+     */
     @JsonProperty("outputAudioTranscription")
     public abstract Builder outputAudioTranscription(
         AudioTranscriptionConfig outputAudioTranscription);
 
+    /**
+     * Setter for outputAudioTranscription builder.
+     *
+     * <p>outputAudioTranscription: The transcription of the output aligns with the language code
+     * specified for the output audio.
+     */
+    public Builder outputAudioTranscription(
+        AudioTranscriptionConfig.Builder outputAudioTranscriptionBuilder) {
+      return outputAudioTranscription(outputAudioTranscriptionBuilder.build());
+    }
+
+    /**
+     * Setter for proactivity.
+     *
+     * <p>proactivity: Configures the proactivity of the model. This allows the model to respond
+     * proactively to the input and to ignore irrelevant input.
+     */
     @JsonProperty("proactivity")
     public abstract Builder proactivity(ProactivityConfig proactivity);
+
+    /**
+     * Setter for proactivity builder.
+     *
+     * <p>proactivity: Configures the proactivity of the model. This allows the model to respond
+     * proactively to the input and to ignore irrelevant input.
+     */
+    public Builder proactivity(ProactivityConfig.Builder proactivityBuilder) {
+      return proactivity(proactivityBuilder.build());
+    }
 
     public abstract LiveClientSetup build();
   }

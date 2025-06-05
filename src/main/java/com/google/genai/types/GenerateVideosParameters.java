@@ -67,17 +67,56 @@ public abstract class GenerateVideosParameters extends JsonSerializable {
       return new AutoValue_GenerateVideosParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for prompt.
+     *
+     * <p>prompt: The text prompt for generating the videos. Optional for image to video use cases.
+     */
     @JsonProperty("prompt")
     public abstract Builder prompt(String prompt);
 
+    /**
+     * Setter for image.
+     *
+     * <p>image: The input image for generating the videos. Optional if prompt is provided.
+     */
     @JsonProperty("image")
     public abstract Builder image(Image image);
 
+    /**
+     * Setter for image builder.
+     *
+     * <p>image: The input image for generating the videos. Optional if prompt is provided.
+     */
+    public Builder image(Image.Builder imageBuilder) {
+      return image(imageBuilder.build());
+    }
+
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration for generating videos.
+     */
     @JsonProperty("config")
     public abstract Builder config(GenerateVideosConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration for generating videos.
+     */
+    public Builder config(GenerateVideosConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GenerateVideosParameters build();
   }

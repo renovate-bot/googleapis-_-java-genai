@@ -54,9 +54,20 @@ public abstract class CountTokensResponse extends JsonSerializable {
       return new AutoValue_CountTokensResponse.Builder();
     }
 
+    /**
+     * Setter for totalTokens.
+     *
+     * <p>totalTokens: Total number of tokens.
+     */
     @JsonProperty("totalTokens")
     public abstract Builder totalTokens(Integer totalTokens);
 
+    /**
+     * Setter for cachedContentTokenCount.
+     *
+     * <p>cachedContentTokenCount: Number of tokens in the cached part of the prompt (the cached
+     * content).
+     */
     @JsonProperty("cachedContentTokenCount")
     public abstract Builder cachedContentTokenCount(Integer cachedContentTokenCount);
 

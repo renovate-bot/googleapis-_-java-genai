@@ -84,10 +84,9 @@ public final class GenerateContentWithResponseSchema {
                             "ingredients",
                             Schema.builder()
                                 .type(Type.Known.ARRAY)
-                                .items(Schema.builder().type(Type.Known.STRING).build())
+                                .items(Schema.builder().type(Type.Known.STRING))
                                 .build()))
-                    .required(ImmutableList.of("recipe_name", "ingredients"))
-                    .build())
+                    .required(ImmutableList.of("recipe_name", "ingredients")))
             .build();
     GenerateContentConfig config =
         GenerateContentConfig.builder()

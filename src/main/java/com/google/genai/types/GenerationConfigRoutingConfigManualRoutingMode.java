@@ -56,6 +56,12 @@ public abstract class GenerationConfigRoutingConfigManualRoutingMode extends Jso
       return new AutoValue_GenerationConfigRoutingConfigManualRoutingMode.Builder();
     }
 
+    /**
+     * Setter for modelName.
+     *
+     * <p>modelName: The model name to use. Only the public LLM models are accepted. See [Supported
+     * models](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models).
+     */
     @JsonProperty("modelName")
     public abstract Builder modelName(String modelName);
 

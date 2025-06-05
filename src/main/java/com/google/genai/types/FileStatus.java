@@ -66,12 +66,29 @@ public abstract class FileStatus extends JsonSerializable {
       return new AutoValue_FileStatus.Builder();
     }
 
+    /**
+     * Setter for details.
+     *
+     * <p>details: A list of messages that carry the error details. There is a common set of message
+     * types for APIs to use.
+     */
     @JsonProperty("details")
     public abstract Builder details(List<Map<String, Object>> details);
 
+    /**
+     * Setter for message.
+     *
+     * <p>message: A list of messages that carry the error details. There is a common set of message
+     * types for APIs to use.
+     */
     @JsonProperty("message")
     public abstract Builder message(String message);
 
+    /**
+     * Setter for code.
+     *
+     * <p>code: The status code. 0 for OK, 1 for CANCELLED
+     */
     @JsonProperty("code")
     public abstract Builder code(Integer code);
 

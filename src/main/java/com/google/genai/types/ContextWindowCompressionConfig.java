@@ -59,11 +59,31 @@ public abstract class ContextWindowCompressionConfig extends JsonSerializable {
       return new AutoValue_ContextWindowCompressionConfig.Builder();
     }
 
+    /**
+     * Setter for triggerTokens.
+     *
+     * <p>triggerTokens: Number of tokens (before running turn) that triggers context window
+     * compression mechanism.
+     */
     @JsonProperty("triggerTokens")
     public abstract Builder triggerTokens(Long triggerTokens);
 
+    /**
+     * Setter for slidingWindow.
+     *
+     * <p>slidingWindow: Sliding window compression mechanism.
+     */
     @JsonProperty("slidingWindow")
     public abstract Builder slidingWindow(SlidingWindow slidingWindow);
+
+    /**
+     * Setter for slidingWindow builder.
+     *
+     * <p>slidingWindow: Sliding window compression mechanism.
+     */
+    public Builder slidingWindow(SlidingWindow.Builder slidingWindowBuilder) {
+      return slidingWindow(slidingWindowBuilder.build());
+    }
 
     public abstract ContextWindowCompressionConfig build();
   }

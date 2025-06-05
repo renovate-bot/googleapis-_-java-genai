@@ -55,11 +55,31 @@ public abstract class EmbedContentResponse extends JsonSerializable {
       return new AutoValue_EmbedContentResponse.Builder();
     }
 
+    /**
+     * Setter for embeddings.
+     *
+     * <p>embeddings: The embeddings for each request, in the same order as provided in the batch
+     * request.
+     */
     @JsonProperty("embeddings")
     public abstract Builder embeddings(List<ContentEmbedding> embeddings);
 
+    /**
+     * Setter for metadata.
+     *
+     * <p>metadata: Vertex API only. Metadata about the request.
+     */
     @JsonProperty("metadata")
     public abstract Builder metadata(EmbedContentMetadata metadata);
+
+    /**
+     * Setter for metadata builder.
+     *
+     * <p>metadata: Vertex API only. Metadata about the request.
+     */
+    public Builder metadata(EmbedContentMetadata.Builder metadataBuilder) {
+      return metadata(metadataBuilder.build());
+    }
 
     public abstract EmbedContentResponse build();
   }

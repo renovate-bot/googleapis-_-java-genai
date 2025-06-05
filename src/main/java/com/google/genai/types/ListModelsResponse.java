@@ -55,9 +55,19 @@ public abstract class ListModelsResponse extends JsonSerializable {
       return new AutoValue_ListModelsResponse.Builder();
     }
 
+    /**
+     * Setter for nextPageToken.
+     *
+     * <p>nextPageToken:
+     */
     @JsonProperty("nextPageToken")
     public abstract Builder nextPageToken(String nextPageToken);
 
+    /**
+     * Setter for models.
+     *
+     * <p>models:
+     */
     @JsonProperty("models")
     public abstract Builder models(List<Model> models);
 

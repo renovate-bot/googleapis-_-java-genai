@@ -55,11 +55,30 @@ public abstract class ContentEmbedding extends JsonSerializable {
       return new AutoValue_ContentEmbedding.Builder();
     }
 
+    /**
+     * Setter for values.
+     *
+     * <p>values: A list of floats representing an embedding.
+     */
     @JsonProperty("values")
     public abstract Builder values(List<Float> values);
 
+    /**
+     * Setter for statistics.
+     *
+     * <p>statistics: Vertex API only. Statistics of the input text associated with this embedding.
+     */
     @JsonProperty("statistics")
     public abstract Builder statistics(ContentEmbeddingStatistics statistics);
+
+    /**
+     * Setter for statistics builder.
+     *
+     * <p>statistics: Vertex API only. Statistics of the input text associated with this embedding.
+     */
+    public Builder statistics(ContentEmbeddingStatistics.Builder statisticsBuilder) {
+      return statistics(statisticsBuilder.build());
+    }
 
     public abstract ContentEmbedding build();
   }

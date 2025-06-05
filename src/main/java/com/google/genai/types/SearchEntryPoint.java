@@ -54,9 +54,20 @@ public abstract class SearchEntryPoint extends JsonSerializable {
       return new AutoValue_SearchEntryPoint.Builder();
     }
 
+    /**
+     * Setter for renderedContent.
+     *
+     * <p>renderedContent: Optional. Web content snippet that can be embedded in a web page or an
+     * app webview.
+     */
     @JsonProperty("renderedContent")
     public abstract Builder renderedContent(String renderedContent);
 
+    /**
+     * Setter for sdkBlob.
+     *
+     * <p>sdkBlob: Optional. Base64 encoded JSON representing array of tuple.
+     */
     @JsonProperty("sdkBlob")
     public abstract Builder sdkBlob(byte[] sdkBlob);
 

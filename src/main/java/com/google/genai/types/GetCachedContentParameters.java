@@ -56,11 +56,30 @@ public abstract class GetCachedContentParameters extends JsonSerializable {
       return new AutoValue_GetCachedContentParameters.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The server-generated resource name of the cached content.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Optional parameters for the request.
+     */
     @JsonProperty("config")
     public abstract Builder config(GetCachedContentConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Optional parameters for the request.
+     */
+    public Builder config(GetCachedContentConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GetCachedContentParameters build();
   }

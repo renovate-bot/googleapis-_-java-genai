@@ -54,6 +54,13 @@ public abstract class ProactivityConfig extends JsonSerializable {
       return new AutoValue_ProactivityConfig.Builder();
     }
 
+    /**
+     * Setter for proactiveAudio.
+     *
+     * <p>proactiveAudio: If enabled, the model can reject responding to the last prompt. For
+     * example, this allows the model to ignore out of context speech or to stay silent if the user
+     * did not make a request, yet.
+     */
     @JsonProperty("proactiveAudio")
     public abstract Builder proactiveAudio(boolean proactiveAudio);
 

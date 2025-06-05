@@ -64,15 +64,44 @@ public abstract class UpscaleImageAPIParameters extends JsonSerializable {
       return new AutoValue_UpscaleImageAPIParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: The model to use.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for image.
+     *
+     * <p>image: The input image to upscale.
+     */
     @JsonProperty("image")
     public abstract Builder image(Image image);
 
+    /**
+     * Setter for image builder.
+     *
+     * <p>image: The input image to upscale.
+     */
+    public Builder image(Image.Builder imageBuilder) {
+      return image(imageBuilder.build());
+    }
+
+    /**
+     * Setter for upscaleFactor.
+     *
+     * <p>upscaleFactor: The factor to upscale the image (x2 or x4).
+     */
     @JsonProperty("upscaleFactor")
     public abstract Builder upscaleFactor(String upscaleFactor);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration for upscaling.
+     */
     @JsonProperty("config")
     public abstract Builder config(UpscaleImageAPIConfig config);
 

@@ -86,8 +86,7 @@ public final class EditImageSubjectReference {
             .config(
                 SubjectReferenceConfig.builder()
                     .subjectType(SubjectReferenceType.Known.SUBJECT_TYPE_PRODUCT)
-                    .subjectDescription("Product logo")
-                    .build())
+                    .subjectDescription("Product logo"))
             .build();
     referenceImages.add(subjectReferenceImage);
 

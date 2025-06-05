@@ -51,6 +51,11 @@ public abstract class ModelSelectionConfig extends JsonSerializable {
       return new AutoValue_ModelSelectionConfig.Builder();
     }
 
+    /**
+     * Setter for featureSelectionPreference.
+     *
+     * <p>featureSelectionPreference: Options for feature selection preference.
+     */
     @JsonProperty("featureSelectionPreference")
     public abstract Builder featureSelectionPreference(
         FeatureSelectionPreference featureSelectionPreference);

@@ -54,6 +54,11 @@ public abstract class LiveServerToolCall extends JsonSerializable {
       return new AutoValue_LiveServerToolCall.Builder();
     }
 
+    /**
+     * Setter for functionCalls.
+     *
+     * <p>functionCalls: The function call to be executed.
+     */
     @JsonProperty("functionCalls")
     public abstract Builder functionCalls(List<FunctionCall> functionCalls);
 

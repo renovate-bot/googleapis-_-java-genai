@@ -71,9 +71,20 @@ public abstract class SafetyRating extends JsonSerializable {
       return new AutoValue_SafetyRating.Builder();
     }
 
+    /**
+     * Setter for blocked.
+     *
+     * <p>blocked: Output only. Indicates whether the content was filtered out because of this
+     * rating.
+     */
     @JsonProperty("blocked")
     public abstract Builder blocked(boolean blocked);
 
+    /**
+     * Setter for category.
+     *
+     * <p>category: Output only. Harm category.
+     */
     @JsonProperty("category")
     public abstract Builder category(HarmCategory category);
 
@@ -86,6 +97,11 @@ public abstract class SafetyRating extends JsonSerializable {
     public Builder category(String category) {
       return category(new HarmCategory(category));
     }
+    /**
+     * Setter for probability.
+     *
+     * <p>probability: Output only. Harm probability levels in the content.
+     */
 
     @JsonProperty("probability")
     public abstract Builder probability(HarmProbability probability);
@@ -99,10 +115,20 @@ public abstract class SafetyRating extends JsonSerializable {
     public Builder probability(String probability) {
       return probability(new HarmProbability(probability));
     }
+    /**
+     * Setter for probabilityScore.
+     *
+     * <p>probabilityScore: Output only. Harm probability score.
+     */
 
     @JsonProperty("probabilityScore")
     public abstract Builder probabilityScore(Float probabilityScore);
 
+    /**
+     * Setter for severity.
+     *
+     * <p>severity: Output only. Harm severity levels in the content.
+     */
     @JsonProperty("severity")
     public abstract Builder severity(HarmSeverity severity);
 
@@ -115,6 +141,11 @@ public abstract class SafetyRating extends JsonSerializable {
     public Builder severity(String severity) {
       return severity(new HarmSeverity(severity));
     }
+    /**
+     * Setter for severityScore.
+     *
+     * <p>severityScore: Output only. Harm severity score.
+     */
 
     @JsonProperty("severityScore")
     public abstract Builder severityScore(Float severityScore);

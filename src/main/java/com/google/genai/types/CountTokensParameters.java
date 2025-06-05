@@ -64,14 +64,39 @@ public abstract class CountTokensParameters extends JsonSerializable {
       return new AutoValue_CountTokensParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for contents.
+     *
+     * <p>contents: Input content.
+     */
     @JsonProperty("contents")
     public abstract Builder contents(List<Content> contents);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration for counting tokens.
+     */
     @JsonProperty("config")
     public abstract Builder config(CountTokensConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration for counting tokens.
+     */
+    public Builder config(CountTokensConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract CountTokensParameters build();
   }

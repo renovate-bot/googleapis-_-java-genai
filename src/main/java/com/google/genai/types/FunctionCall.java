@@ -65,12 +65,29 @@ public abstract class FunctionCall extends JsonSerializable {
       return new AutoValue_FunctionCall.Builder();
     }
 
+    /**
+     * Setter for id.
+     *
+     * <p>id: The unique id of the function call. If populated, the client to execute the
+     * `function_call` and return the response with the matching `id`.
+     */
     @JsonProperty("id")
     public abstract Builder id(String id);
 
+    /**
+     * Setter for args.
+     *
+     * <p>args: Optional. The function parameters and values in JSON object format. See
+     * [FunctionDeclaration.parameters] for parameter details.
+     */
     @JsonProperty("args")
     public abstract Builder args(Map<String, Object> args);
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: Required. The name of the function to call. Matches [FunctionDeclaration.name].
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 

@@ -62,15 +62,57 @@ public abstract class GeneratedImage extends JsonSerializable {
       return new AutoValue_GeneratedImage.Builder();
     }
 
+    /**
+     * Setter for image.
+     *
+     * <p>image: The output image data.
+     */
     @JsonProperty("image")
     public abstract Builder image(Image image);
 
+    /**
+     * Setter for image builder.
+     *
+     * <p>image: The output image data.
+     */
+    public Builder image(Image.Builder imageBuilder) {
+      return image(imageBuilder.build());
+    }
+
+    /**
+     * Setter for raiFilteredReason.
+     *
+     * <p>raiFilteredReason: Responsible AI filter reason if the image is filtered out of the
+     * response.
+     */
     @JsonProperty("raiFilteredReason")
     public abstract Builder raiFilteredReason(String raiFilteredReason);
 
+    /**
+     * Setter for safetyAttributes.
+     *
+     * <p>safetyAttributes: Safety attributes of the image. Lists of RAI categories and their scores
+     * of each content.
+     */
     @JsonProperty("safetyAttributes")
     public abstract Builder safetyAttributes(SafetyAttributes safetyAttributes);
 
+    /**
+     * Setter for safetyAttributes builder.
+     *
+     * <p>safetyAttributes: Safety attributes of the image. Lists of RAI categories and their scores
+     * of each content.
+     */
+    public Builder safetyAttributes(SafetyAttributes.Builder safetyAttributesBuilder) {
+      return safetyAttributes(safetyAttributesBuilder.build());
+    }
+
+    /**
+     * Setter for enhancedPrompt.
+     *
+     * <p>enhancedPrompt: The rewritten prompt used for the image generation if the prompt enhancer
+     * is enabled.
+     */
     @JsonProperty("enhancedPrompt")
     public abstract Builder enhancedPrompt(String enhancedPrompt);
 

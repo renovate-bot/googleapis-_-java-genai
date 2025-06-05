@@ -52,8 +52,22 @@ public abstract class ListModelsParameters extends JsonSerializable {
       return new AutoValue_ListModelsParameters.Builder();
     }
 
+    /**
+     * Setter for config.
+     *
+     * <p>config:
+     */
     @JsonProperty("config")
     public abstract Builder config(ListModelsConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config:
+     */
+    public Builder config(ListModelsConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract ListModelsParameters build();
   }

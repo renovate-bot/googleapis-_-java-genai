@@ -55,6 +55,11 @@ public abstract class SubjectReferenceConfig extends JsonSerializable {
       return new AutoValue_SubjectReferenceConfig.Builder();
     }
 
+    /**
+     * Setter for subjectType.
+     *
+     * <p>subjectType: The subject type of a subject reference image.
+     */
     @JsonProperty("subjectType")
     public abstract Builder subjectType(SubjectReferenceType subjectType);
 
@@ -67,6 +72,11 @@ public abstract class SubjectReferenceConfig extends JsonSerializable {
     public Builder subjectType(String subjectType) {
       return subjectType(new SubjectReferenceType(subjectType));
     }
+    /**
+     * Setter for subjectDescription.
+     *
+     * <p>subjectDescription: Subject description for the image.
+     */
 
     @JsonProperty("subjectDescription")
     public abstract Builder subjectDescription(String subjectDescription);

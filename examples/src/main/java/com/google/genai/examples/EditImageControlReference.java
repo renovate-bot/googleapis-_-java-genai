@@ -87,8 +87,7 @@ public final class EditImageControlReference {
             .config(
                 ControlReferenceConfig.builder()
                     .controlType(ControlReferenceType.Known.CONTROL_TYPE_SCRIBBLE)
-                    .enableControlImageComputation(true)
-                    .build())
+                    .enableControlImageComputation(true))
             .build();
     referenceImages.add(controlReferenceImage);
 

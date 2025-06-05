@@ -63,13 +63,50 @@ public abstract class SpeechConfig extends JsonSerializable {
       return new AutoValue_SpeechConfig.Builder();
     }
 
+    /**
+     * Setter for voiceConfig.
+     *
+     * <p>voiceConfig: The configuration for the speaker to use.
+     */
     @JsonProperty("voiceConfig")
     public abstract Builder voiceConfig(VoiceConfig voiceConfig);
 
+    /**
+     * Setter for voiceConfig builder.
+     *
+     * <p>voiceConfig: The configuration for the speaker to use.
+     */
+    public Builder voiceConfig(VoiceConfig.Builder voiceConfigBuilder) {
+      return voiceConfig(voiceConfigBuilder.build());
+    }
+
+    /**
+     * Setter for multiSpeakerVoiceConfig.
+     *
+     * <p>multiSpeakerVoiceConfig: The configuration for the multi-speaker setup. It is mutually
+     * exclusive with the voice_config field.
+     */
     @JsonProperty("multiSpeakerVoiceConfig")
     public abstract Builder multiSpeakerVoiceConfig(
         MultiSpeakerVoiceConfig multiSpeakerVoiceConfig);
 
+    /**
+     * Setter for multiSpeakerVoiceConfig builder.
+     *
+     * <p>multiSpeakerVoiceConfig: The configuration for the multi-speaker setup. It is mutually
+     * exclusive with the voice_config field.
+     */
+    public Builder multiSpeakerVoiceConfig(
+        MultiSpeakerVoiceConfig.Builder multiSpeakerVoiceConfigBuilder) {
+      return multiSpeakerVoiceConfig(multiSpeakerVoiceConfigBuilder.build());
+    }
+
+    /**
+     * Setter for languageCode.
+     *
+     * <p>languageCode: Language code (ISO 639. e.g. en-US) for the speech synthesization. Only
+     * available for Live API.
+     */
     @JsonProperty("languageCode")
     public abstract Builder languageCode(String languageCode);
 

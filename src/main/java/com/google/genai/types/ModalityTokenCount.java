@@ -55,6 +55,11 @@ public abstract class ModalityTokenCount extends JsonSerializable {
       return new AutoValue_ModalityTokenCount.Builder();
     }
 
+    /**
+     * Setter for modality.
+     *
+     * <p>modality: The modality associated with this token count.
+     */
     @JsonProperty("modality")
     public abstract Builder modality(MediaModality modality);
 
@@ -67,6 +72,11 @@ public abstract class ModalityTokenCount extends JsonSerializable {
     public Builder modality(String modality) {
       return modality(new MediaModality(modality));
     }
+    /**
+     * Setter for tokenCount.
+     *
+     * <p>tokenCount: Number of tokens.
+     */
 
     @JsonProperty("tokenCount")
     public abstract Builder tokenCount(Integer tokenCount);

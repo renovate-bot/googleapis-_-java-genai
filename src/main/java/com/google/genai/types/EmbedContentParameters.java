@@ -64,14 +64,39 @@ public abstract class EmbedContentParameters extends JsonSerializable {
       return new AutoValue_EmbedContentParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model: ID of the model to use. For a list of models, see `Google models
+     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for contents.
+     *
+     * <p>contents: The content to embed. Only the `parts.text` fields will be counted.
+     */
     @JsonProperty("contents")
     public abstract Builder contents(List<Content> contents);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
     @JsonProperty("config")
     public abstract Builder config(EmbedContentConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Configuration that contains optional parameters.
+     */
+    public Builder config(EmbedContentConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract EmbedContentParameters build();
   }

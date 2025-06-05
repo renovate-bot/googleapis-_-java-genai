@@ -159,69 +159,196 @@ public abstract class Schema extends JsonSerializable {
       return new AutoValue_Schema.Builder();
     }
 
+    /**
+     * Setter for anyOf.
+     *
+     * <p>anyOf: Optional. The value should be validated against any (one or more) of the subschemas
+     * in the list.
+     */
     @JsonProperty("anyOf")
     public abstract Builder anyOf(List<Schema> anyOf);
 
+    /**
+     * Setter for default_.
+     *
+     * <p>default_: Optional. Default value of the data.
+     */
     @JsonProperty("default")
     public abstract Builder default_(Object default_);
 
+    /**
+     * Setter for description.
+     *
+     * <p>description: Optional. The description of the data.
+     */
     @JsonProperty("description")
     public abstract Builder description(String description);
 
+    /**
+     * Setter for enum_.
+     *
+     * <p>enum_: Optional. Possible values of the element of primitive type with enum format.
+     * Examples: 1. We can define direction as : {type:STRING, format:enum, enum:["EAST", NORTH",
+     * "SOUTH", "WEST"]} 2. We can define apartment number as : {type:INTEGER, format:enum,
+     * enum:["101", "201", "301"]}
+     */
     @JsonProperty("enum")
     public abstract Builder enum_(List<String> enum_);
 
+    /**
+     * Setter for example.
+     *
+     * <p>example: Optional. Example of the object. Will only populated when the object is the root.
+     */
     @JsonProperty("example")
     public abstract Builder example(Object example);
 
+    /**
+     * Setter for format.
+     *
+     * <p>format: Optional. The format of the data. Supported formats: for NUMBER type: "float",
+     * "double" for INTEGER type: "int32", "int64" for STRING type: "email", "byte", etc
+     */
     @JsonProperty("format")
     public abstract Builder format(String format);
 
+    /**
+     * Setter for items.
+     *
+     * <p>items: Optional. SCHEMA FIELDS FOR TYPE ARRAY Schema of the elements of Type.ARRAY.
+     */
     @JsonProperty("items")
     public abstract Builder items(Schema items);
 
+    /**
+     * Setter for items builder.
+     *
+     * <p>items: Optional. SCHEMA FIELDS FOR TYPE ARRAY Schema of the elements of Type.ARRAY.
+     */
+    public Builder items(Schema.Builder itemsBuilder) {
+      return items(itemsBuilder.build());
+    }
+
+    /**
+     * Setter for maxItems.
+     *
+     * <p>maxItems: Optional. Maximum number of the elements for Type.ARRAY.
+     */
     @JsonProperty("maxItems")
     public abstract Builder maxItems(Long maxItems);
 
+    /**
+     * Setter for maxLength.
+     *
+     * <p>maxLength: Optional. Maximum length of the Type.STRING
+     */
     @JsonProperty("maxLength")
     public abstract Builder maxLength(Long maxLength);
 
+    /**
+     * Setter for maxProperties.
+     *
+     * <p>maxProperties: Optional. Maximum number of the properties for Type.OBJECT.
+     */
     @JsonProperty("maxProperties")
     public abstract Builder maxProperties(Long maxProperties);
 
+    /**
+     * Setter for maximum.
+     *
+     * <p>maximum: Optional. Maximum value of the Type.INTEGER and Type.NUMBER
+     */
     @JsonProperty("maximum")
     public abstract Builder maximum(Double maximum);
 
+    /**
+     * Setter for minItems.
+     *
+     * <p>minItems: Optional. Minimum number of the elements for Type.ARRAY.
+     */
     @JsonProperty("minItems")
     public abstract Builder minItems(Long minItems);
 
+    /**
+     * Setter for minLength.
+     *
+     * <p>minLength: Optional. SCHEMA FIELDS FOR TYPE STRING Minimum length of the Type.STRING
+     */
     @JsonProperty("minLength")
     public abstract Builder minLength(Long minLength);
 
+    /**
+     * Setter for minProperties.
+     *
+     * <p>minProperties: Optional. Minimum number of the properties for Type.OBJECT.
+     */
     @JsonProperty("minProperties")
     public abstract Builder minProperties(Long minProperties);
 
+    /**
+     * Setter for minimum.
+     *
+     * <p>minimum: Optional. SCHEMA FIELDS FOR TYPE INTEGER and NUMBER Minimum value of the
+     * Type.INTEGER and Type.NUMBER
+     */
     @JsonProperty("minimum")
     public abstract Builder minimum(Double minimum);
 
+    /**
+     * Setter for nullable.
+     *
+     * <p>nullable: Optional. Indicates if the value may be null.
+     */
     @JsonProperty("nullable")
     public abstract Builder nullable(boolean nullable);
 
+    /**
+     * Setter for pattern.
+     *
+     * <p>pattern: Optional. Pattern of the Type.STRING to restrict a string to a regular
+     * expression.
+     */
     @JsonProperty("pattern")
     public abstract Builder pattern(String pattern);
 
+    /**
+     * Setter for properties.
+     *
+     * <p>properties: Optional. SCHEMA FIELDS FOR TYPE OBJECT Properties of Type.OBJECT.
+     */
     @JsonProperty("properties")
     public abstract Builder properties(Map<String, Schema> properties);
 
+    /**
+     * Setter for propertyOrdering.
+     *
+     * <p>propertyOrdering: Optional. The order of the properties. Not a standard field in open api
+     * spec. Only used to support the order of the properties.
+     */
     @JsonProperty("propertyOrdering")
     public abstract Builder propertyOrdering(List<String> propertyOrdering);
 
+    /**
+     * Setter for required.
+     *
+     * <p>required: Optional. Required properties of Type.OBJECT.
+     */
     @JsonProperty("required")
     public abstract Builder required(List<String> required);
 
+    /**
+     * Setter for title.
+     *
+     * <p>title: Optional. The title of the Schema.
+     */
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    /**
+     * Setter for type.
+     *
+     * <p>type: Optional. The type of the data.
+     */
     @JsonProperty("type")
     public abstract Builder type(Type type);
 

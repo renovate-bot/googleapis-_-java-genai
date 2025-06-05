@@ -76,26 +76,106 @@ public abstract class ReferenceImageAPI extends JsonSerializable {
       return new AutoValue_ReferenceImageAPI.Builder();
     }
 
+    /**
+     * Setter for referenceImage.
+     *
+     * <p>referenceImage: The reference image for the editing operation.
+     */
     @JsonProperty("referenceImage")
     public abstract Builder referenceImage(Image referenceImage);
 
+    /**
+     * Setter for referenceImage builder.
+     *
+     * <p>referenceImage: The reference image for the editing operation.
+     */
+    public Builder referenceImage(Image.Builder referenceImageBuilder) {
+      return referenceImage(referenceImageBuilder.build());
+    }
+
+    /**
+     * Setter for referenceId.
+     *
+     * <p>referenceId: The id of the reference image.
+     */
     @JsonProperty("referenceId")
     public abstract Builder referenceId(Integer referenceId);
 
+    /**
+     * Setter for referenceType.
+     *
+     * <p>referenceType: The type of the reference image. Only set by the SDK.
+     */
     @JsonProperty("referenceType")
     public abstract Builder referenceType(String referenceType);
 
+    /**
+     * Setter for maskImageConfig.
+     *
+     * <p>maskImageConfig: Configuration for the mask reference image.
+     */
     @JsonProperty("maskImageConfig")
     public abstract Builder maskImageConfig(MaskReferenceConfig maskImageConfig);
 
+    /**
+     * Setter for maskImageConfig builder.
+     *
+     * <p>maskImageConfig: Configuration for the mask reference image.
+     */
+    public Builder maskImageConfig(MaskReferenceConfig.Builder maskImageConfigBuilder) {
+      return maskImageConfig(maskImageConfigBuilder.build());
+    }
+
+    /**
+     * Setter for controlImageConfig.
+     *
+     * <p>controlImageConfig: Configuration for the control reference image.
+     */
     @JsonProperty("controlImageConfig")
     public abstract Builder controlImageConfig(ControlReferenceConfig controlImageConfig);
 
+    /**
+     * Setter for controlImageConfig builder.
+     *
+     * <p>controlImageConfig: Configuration for the control reference image.
+     */
+    public Builder controlImageConfig(ControlReferenceConfig.Builder controlImageConfigBuilder) {
+      return controlImageConfig(controlImageConfigBuilder.build());
+    }
+
+    /**
+     * Setter for styleImageConfig.
+     *
+     * <p>styleImageConfig: Configuration for the style reference image.
+     */
     @JsonProperty("styleImageConfig")
     public abstract Builder styleImageConfig(StyleReferenceConfig styleImageConfig);
 
+    /**
+     * Setter for styleImageConfig builder.
+     *
+     * <p>styleImageConfig: Configuration for the style reference image.
+     */
+    public Builder styleImageConfig(StyleReferenceConfig.Builder styleImageConfigBuilder) {
+      return styleImageConfig(styleImageConfigBuilder.build());
+    }
+
+    /**
+     * Setter for subjectImageConfig.
+     *
+     * <p>subjectImageConfig: Configuration for the subject reference image.
+     */
     @JsonProperty("subjectImageConfig")
     public abstract Builder subjectImageConfig(SubjectReferenceConfig subjectImageConfig);
+
+    /**
+     * Setter for subjectImageConfig builder.
+     *
+     * <p>subjectImageConfig: Configuration for the subject reference image.
+     */
+    public Builder subjectImageConfig(SubjectReferenceConfig.Builder subjectImageConfigBuilder) {
+      return subjectImageConfig(subjectImageConfigBuilder.build());
+    }
 
     public abstract ReferenceImageAPI build();
   }

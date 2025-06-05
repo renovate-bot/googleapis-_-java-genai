@@ -54,9 +54,28 @@ public abstract class RagChunk extends JsonSerializable {
       return new AutoValue_RagChunk.Builder();
     }
 
+    /**
+     * Setter for pageSpan.
+     *
+     * <p>pageSpan: If populated, represents where the chunk starts and ends in the document.
+     */
     @JsonProperty("pageSpan")
     public abstract Builder pageSpan(RagChunkPageSpan pageSpan);
 
+    /**
+     * Setter for pageSpan builder.
+     *
+     * <p>pageSpan: If populated, represents where the chunk starts and ends in the document.
+     */
+    public Builder pageSpan(RagChunkPageSpan.Builder pageSpanBuilder) {
+      return pageSpan(pageSpanBuilder.build());
+    }
+
+    /**
+     * Setter for text.
+     *
+     * <p>text: The content of the chunk.
+     */
     @JsonProperty("text")
     public abstract Builder text(String text);
 

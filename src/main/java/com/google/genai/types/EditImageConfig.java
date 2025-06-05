@@ -125,27 +125,78 @@ public abstract class EditImageConfig extends JsonSerializable {
       return new AutoValue_EditImageConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for outputGcsUri.
+     *
+     * <p>outputGcsUri: Cloud Storage URI used to store the generated images.
+     */
     @JsonProperty("outputGcsUri")
     public abstract Builder outputGcsUri(String outputGcsUri);
 
+    /**
+     * Setter for negativePrompt.
+     *
+     * <p>negativePrompt: Description of what to discourage in the generated images.
+     */
     @JsonProperty("negativePrompt")
     public abstract Builder negativePrompt(String negativePrompt);
 
+    /**
+     * Setter for numberOfImages.
+     *
+     * <p>numberOfImages: Number of images to generate.
+     */
     @JsonProperty("numberOfImages")
     public abstract Builder numberOfImages(Integer numberOfImages);
 
+    /**
+     * Setter for aspectRatio.
+     *
+     * <p>aspectRatio: Aspect ratio of the generated images.
+     */
     @JsonProperty("aspectRatio")
     public abstract Builder aspectRatio(String aspectRatio);
 
+    /**
+     * Setter for guidanceScale.
+     *
+     * <p>guidanceScale: Controls how much the model adheres to the text prompt. Large values
+     * increase output and prompt alignment, but may compromise image quality.
+     */
     @JsonProperty("guidanceScale")
     public abstract Builder guidanceScale(Float guidanceScale);
 
+    /**
+     * Setter for seed.
+     *
+     * <p>seed: Random seed for image generation. This is not available when ``add_watermark`` is
+     * set to true.
+     */
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
 
+    /**
+     * Setter for safetyFilterLevel.
+     *
+     * <p>safetyFilterLevel: Filter level for safety filtering.
+     */
     @JsonProperty("safetyFilterLevel")
     public abstract Builder safetyFilterLevel(SafetyFilterLevel safetyFilterLevel);
 
@@ -158,6 +209,11 @@ public abstract class EditImageConfig extends JsonSerializable {
     public Builder safetyFilterLevel(String safetyFilterLevel) {
       return safetyFilterLevel(new SafetyFilterLevel(safetyFilterLevel));
     }
+    /**
+     * Setter for personGeneration.
+     *
+     * <p>personGeneration: Allows generation of people by the model.
+     */
 
     @JsonProperty("personGeneration")
     public abstract Builder personGeneration(PersonGeneration personGeneration);
@@ -171,13 +227,30 @@ public abstract class EditImageConfig extends JsonSerializable {
     public Builder personGeneration(String personGeneration) {
       return personGeneration(new PersonGeneration(personGeneration));
     }
+    /**
+     * Setter for includeSafetyAttributes.
+     *
+     * <p>includeSafetyAttributes: Whether to report the safety scores of each generated image and
+     * the positive prompt in the response.
+     */
 
     @JsonProperty("includeSafetyAttributes")
     public abstract Builder includeSafetyAttributes(boolean includeSafetyAttributes);
 
+    /**
+     * Setter for includeRaiReason.
+     *
+     * <p>includeRaiReason: Whether to include the Responsible AI filter reason if the image is
+     * filtered out of the response.
+     */
     @JsonProperty("includeRaiReason")
     public abstract Builder includeRaiReason(boolean includeRaiReason);
 
+    /**
+     * Setter for language.
+     *
+     * <p>language: Language of the text in the prompt.
+     */
     @JsonProperty("language")
     public abstract Builder language(ImagePromptLanguage language);
 
@@ -190,13 +263,29 @@ public abstract class EditImageConfig extends JsonSerializable {
     public Builder language(String language) {
       return language(new ImagePromptLanguage(language));
     }
+    /**
+     * Setter for outputMimeType.
+     *
+     * <p>outputMimeType: MIME type of the generated image.
+     */
 
     @JsonProperty("outputMimeType")
     public abstract Builder outputMimeType(String outputMimeType);
 
+    /**
+     * Setter for outputCompressionQuality.
+     *
+     * <p>outputCompressionQuality: Compression quality of the generated image (for ``image/jpeg``
+     * only).
+     */
     @JsonProperty("outputCompressionQuality")
     public abstract Builder outputCompressionQuality(Integer outputCompressionQuality);
 
+    /**
+     * Setter for editMode.
+     *
+     * <p>editMode: Describes the editing mode for the request.
+     */
     @JsonProperty("editMode")
     public abstract Builder editMode(EditMode editMode);
 
@@ -209,6 +298,12 @@ public abstract class EditImageConfig extends JsonSerializable {
     public Builder editMode(String editMode) {
       return editMode(new EditMode(editMode));
     }
+    /**
+     * Setter for baseSteps.
+     *
+     * <p>baseSteps: The number of sampling steps. A higher value has better image quality, while a
+     * lower value has better latency.
+     */
 
     @JsonProperty("baseSteps")
     public abstract Builder baseSteps(Integer baseSteps);

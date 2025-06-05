@@ -71,21 +71,69 @@ public abstract class GroundingMetadata extends JsonSerializable {
       return new AutoValue_GroundingMetadata.Builder();
     }
 
+    /**
+     * Setter for groundingChunks.
+     *
+     * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
+     */
     @JsonProperty("groundingChunks")
     public abstract Builder groundingChunks(List<GroundingChunk> groundingChunks);
 
+    /**
+     * Setter for groundingSupports.
+     *
+     * <p>groundingSupports: Optional. List of grounding support.
+     */
     @JsonProperty("groundingSupports")
     public abstract Builder groundingSupports(List<GroundingSupport> groundingSupports);
 
+    /**
+     * Setter for retrievalMetadata.
+     *
+     * <p>retrievalMetadata: Optional. Output only. Retrieval metadata.
+     */
     @JsonProperty("retrievalMetadata")
     public abstract Builder retrievalMetadata(RetrievalMetadata retrievalMetadata);
 
+    /**
+     * Setter for retrievalMetadata builder.
+     *
+     * <p>retrievalMetadata: Optional. Output only. Retrieval metadata.
+     */
+    public Builder retrievalMetadata(RetrievalMetadata.Builder retrievalMetadataBuilder) {
+      return retrievalMetadata(retrievalMetadataBuilder.build());
+    }
+
+    /**
+     * Setter for retrievalQueries.
+     *
+     * <p>retrievalQueries: Optional. Queries executed by the retrieval tools.
+     */
     @JsonProperty("retrievalQueries")
     public abstract Builder retrievalQueries(List<String> retrievalQueries);
 
+    /**
+     * Setter for searchEntryPoint.
+     *
+     * <p>searchEntryPoint: Optional. Google search entry for the following-up web searches.
+     */
     @JsonProperty("searchEntryPoint")
     public abstract Builder searchEntryPoint(SearchEntryPoint searchEntryPoint);
 
+    /**
+     * Setter for searchEntryPoint builder.
+     *
+     * <p>searchEntryPoint: Optional. Google search entry for the following-up web searches.
+     */
+    public Builder searchEntryPoint(SearchEntryPoint.Builder searchEntryPointBuilder) {
+      return searchEntryPoint(searchEntryPointBuilder.build());
+    }
+
+    /**
+     * Setter for webSearchQueries.
+     *
+     * <p>webSearchQueries: Optional. Web search queries for the following-up web search.
+     */
     @JsonProperty("webSearchQueries")
     public abstract Builder webSearchQueries(List<String> webSearchQueries);
 

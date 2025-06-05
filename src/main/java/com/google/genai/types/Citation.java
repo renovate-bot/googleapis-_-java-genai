@@ -70,21 +70,60 @@ public abstract class Citation extends JsonSerializable {
       return new AutoValue_Citation.Builder();
     }
 
+    /**
+     * Setter for endIndex.
+     *
+     * <p>endIndex: Output only. End index into the content.
+     */
     @JsonProperty("endIndex")
     public abstract Builder endIndex(Integer endIndex);
 
+    /**
+     * Setter for license.
+     *
+     * <p>license: Output only. License of the attribution.
+     */
     @JsonProperty("license")
     public abstract Builder license(String license);
 
+    /**
+     * Setter for publicationDate.
+     *
+     * <p>publicationDate: Output only. Publication date of the attribution.
+     */
     @JsonProperty("publicationDate")
     public abstract Builder publicationDate(GoogleTypeDate publicationDate);
 
+    /**
+     * Setter for publicationDate builder.
+     *
+     * <p>publicationDate: Output only. Publication date of the attribution.
+     */
+    public Builder publicationDate(GoogleTypeDate.Builder publicationDateBuilder) {
+      return publicationDate(publicationDateBuilder.build());
+    }
+
+    /**
+     * Setter for startIndex.
+     *
+     * <p>startIndex: Output only. Start index into the content.
+     */
     @JsonProperty("startIndex")
     public abstract Builder startIndex(Integer startIndex);
 
+    /**
+     * Setter for title.
+     *
+     * <p>title: Output only. Title of the attribution.
+     */
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    /**
+     * Setter for uri.
+     *
+     * <p>uri: Output only. Url reference of the attribution.
+     */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
 

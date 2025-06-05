@@ -57,9 +57,20 @@ public abstract class ContentEmbeddingStatistics extends JsonSerializable {
       return new AutoValue_ContentEmbeddingStatistics.Builder();
     }
 
+    /**
+     * Setter for truncated.
+     *
+     * <p>truncated: Vertex API only. If the input text was truncated due to having a length longer
+     * than the allowed maximum input.
+     */
     @JsonProperty("truncated")
     public abstract Builder truncated(boolean truncated);
 
+    /**
+     * Setter for tokenCount.
+     *
+     * <p>tokenCount: Vertex API only. Number of tokens of the input text.
+     */
     @JsonProperty("tokenCount")
     public abstract Builder tokenCount(Float tokenCount);
 

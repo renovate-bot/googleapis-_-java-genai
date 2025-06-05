@@ -63,6 +63,11 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
       return new AutoValue_GenerateContentResponsePromptFeedback.Builder();
     }
 
+    /**
+     * Setter for blockReason.
+     *
+     * <p>blockReason: Output only. Blocked reason.
+     */
     @JsonProperty("blockReason")
     public abstract Builder blockReason(BlockedReason blockReason);
 
@@ -75,10 +80,20 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     public Builder blockReason(String blockReason) {
       return blockReason(new BlockedReason(blockReason));
     }
+    /**
+     * Setter for blockReasonMessage.
+     *
+     * <p>blockReasonMessage: Output only. A readable block reason message.
+     */
 
     @JsonProperty("blockReasonMessage")
     public abstract Builder blockReasonMessage(String blockReasonMessage);
 
+    /**
+     * Setter for safetyRatings.
+     *
+     * <p>safetyRatings: Output only. Safety ratings.
+     */
     @JsonProperty("safetyRatings")
     public abstract Builder safetyRatings(List<SafetyRating> safetyRatings);
 

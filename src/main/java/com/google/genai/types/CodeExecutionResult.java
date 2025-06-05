@@ -61,6 +61,11 @@ public abstract class CodeExecutionResult extends JsonSerializable {
       return new AutoValue_CodeExecutionResult.Builder();
     }
 
+    /**
+     * Setter for outcome.
+     *
+     * <p>outcome: Required. Outcome of the code execution.
+     */
     @JsonProperty("outcome")
     public abstract Builder outcome(Outcome outcome);
 
@@ -73,6 +78,12 @@ public abstract class CodeExecutionResult extends JsonSerializable {
     public Builder outcome(String outcome) {
       return outcome(new Outcome(outcome));
     }
+    /**
+     * Setter for output.
+     *
+     * <p>output: Optional. Contains stdout when code execution is successful, stderr or other
+     * description otherwise.
+     */
 
     @JsonProperty("output")
     public abstract Builder output(String output);

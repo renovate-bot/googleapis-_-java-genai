@@ -87,27 +87,86 @@ public abstract class GenerateContentResponse extends JsonSerializable {
       return new AutoValue_GenerateContentResponse.Builder();
     }
 
+    /**
+     * Setter for candidates.
+     *
+     * <p>candidates: Response variations returned by the model.
+     */
     @JsonProperty("candidates")
     public abstract Builder candidates(List<Candidate> candidates);
 
+    /**
+     * Setter for createTime.
+     *
+     * <p>createTime: Timestamp when the request is made to the server.
+     */
     @JsonProperty("createTime")
     public abstract Builder createTime(Instant createTime);
 
+    /**
+     * Setter for responseId.
+     *
+     * <p>responseId: Identifier for each response.
+     */
     @JsonProperty("responseId")
     public abstract Builder responseId(String responseId);
 
+    /**
+     * Setter for automaticFunctionCallingHistory.
+     *
+     * <p>automaticFunctionCallingHistory: The history of automatic function calling.
+     */
     @JsonProperty("automaticFunctionCallingHistory")
     public abstract Builder automaticFunctionCallingHistory(
         List<Content> automaticFunctionCallingHistory);
 
+    /**
+     * Setter for modelVersion.
+     *
+     * <p>modelVersion: Output only. The model version used to generate the response.
+     */
     @JsonProperty("modelVersion")
     public abstract Builder modelVersion(String modelVersion);
 
+    /**
+     * Setter for promptFeedback.
+     *
+     * <p>promptFeedback: Output only. Content filter results for a prompt sent in the request.
+     * Note: Sent only in the first stream chunk. Only happens when no candidates were generated due
+     * to content violations.
+     */
     @JsonProperty("promptFeedback")
     public abstract Builder promptFeedback(GenerateContentResponsePromptFeedback promptFeedback);
 
+    /**
+     * Setter for promptFeedback builder.
+     *
+     * <p>promptFeedback: Output only. Content filter results for a prompt sent in the request.
+     * Note: Sent only in the first stream chunk. Only happens when no candidates were generated due
+     * to content violations.
+     */
+    public Builder promptFeedback(
+        GenerateContentResponsePromptFeedback.Builder promptFeedbackBuilder) {
+      return promptFeedback(promptFeedbackBuilder.build());
+    }
+
+    /**
+     * Setter for usageMetadata.
+     *
+     * <p>usageMetadata: Usage metadata about the response(s).
+     */
     @JsonProperty("usageMetadata")
     public abstract Builder usageMetadata(GenerateContentResponseUsageMetadata usageMetadata);
+
+    /**
+     * Setter for usageMetadata builder.
+     *
+     * <p>usageMetadata: Usage metadata about the response(s).
+     */
+    public Builder usageMetadata(
+        GenerateContentResponseUsageMetadata.Builder usageMetadataBuilder) {
+      return usageMetadata(usageMetadataBuilder.build());
+    }
 
     public abstract GenerateContentResponse build();
   }

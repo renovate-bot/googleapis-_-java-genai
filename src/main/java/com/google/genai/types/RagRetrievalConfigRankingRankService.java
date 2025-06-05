@@ -53,6 +53,12 @@ public abstract class RagRetrievalConfigRankingRankService extends JsonSerializa
       return new AutoValue_RagRetrievalConfigRankingRankService.Builder();
     }
 
+    /**
+     * Setter for modelName.
+     *
+     * <p>modelName: Optional. The model name of the rank service. Format:
+     * `semantic-ranker-512@latest`
+     */
     @JsonProperty("modelName")
     public abstract Builder modelName(String modelName);
 

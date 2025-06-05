@@ -54,9 +54,29 @@ public abstract class CreateFileConfig extends JsonSerializable {
       return new AutoValue_CreateFileConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for shouldReturnHttpResponse.
+     *
+     * <p>shouldReturnHttpResponse: If true, the raw HTTP response will be returned in the
+     * 'sdk_http_response' field.
+     */
     @JsonProperty("shouldReturnHttpResponse")
     public abstract Builder shouldReturnHttpResponse(boolean shouldReturnHttpResponse);
 

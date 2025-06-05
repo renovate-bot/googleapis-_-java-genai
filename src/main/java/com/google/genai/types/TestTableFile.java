@@ -63,15 +63,35 @@ public abstract class TestTableFile extends JsonSerializable {
       return new AutoValue_TestTableFile.Builder();
     }
 
+    /**
+     * Setter for comment.
+     *
+     * <p>comment:
+     */
     @JsonProperty("comment")
     public abstract Builder comment(String comment);
 
+    /**
+     * Setter for testMethod.
+     *
+     * <p>testMethod:
+     */
     @JsonProperty("testMethod")
     public abstract Builder testMethod(String testMethod);
 
+    /**
+     * Setter for parameterNames.
+     *
+     * <p>parameterNames:
+     */
     @JsonProperty("parameterNames")
     public abstract Builder parameterNames(List<String> parameterNames);
 
+    /**
+     * Setter for testTable.
+     *
+     * <p>testTable:
+     */
     @JsonProperty("testTable")
     public abstract Builder testTable(List<TestTableItem> testTable);
 

@@ -59,6 +59,11 @@ public abstract class LiveServerToolCallCancellation extends JsonSerializable {
       return new AutoValue_LiveServerToolCallCancellation.Builder();
     }
 
+    /**
+     * Setter for ids.
+     *
+     * <p>ids: The ids of the tool calls to be cancelled.
+     */
     @JsonProperty("ids")
     public abstract Builder ids(List<String> ids);
 

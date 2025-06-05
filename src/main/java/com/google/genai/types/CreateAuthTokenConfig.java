@@ -87,21 +87,81 @@ public abstract class CreateAuthTokenConfig extends JsonSerializable {
       return new AutoValue_CreateAuthTokenConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for expireTime.
+     *
+     * <p>expireTime: An optional time after which, when using the resulting token, messages in Live
+     * API sessions will be rejected. (Gemini may preemptively close the session after this time.)
+     *
+     * <p>If not set then this defaults to 30 minutes in the future. If set, this value must be less
+     * than 20 hours in the future.
+     */
     @JsonProperty("expireTime")
     public abstract Builder expireTime(Instant expireTime);
 
+    /**
+     * Setter for newSessionExpireTime.
+     *
+     * <p>newSessionExpireTime: The time after which new Live API sessions using the token resulting
+     * from this request will be rejected.
+     *
+     * <p>If not set this defaults to 60 seconds in the future. If set, this value must be less than
+     * 20 hours in the future.
+     */
     @JsonProperty("newSessionExpireTime")
     public abstract Builder newSessionExpireTime(Instant newSessionExpireTime);
 
+    /**
+     * Setter for uses.
+     *
+     * <p>uses: The number of times the token can be used. If this value is zero then no limit is
+     * applied. Default is 1. Resuming a Live API session does not count as a use.
+     */
     @JsonProperty("uses")
     public abstract Builder uses(Integer uses);
 
+    /**
+     * Setter for liveConnectConstraints.
+     *
+     * <p>liveConnectConstraints: Configuration specific to Live API connections created using this
+     * token.
+     */
     @JsonProperty("liveConnectConstraints")
     public abstract Builder liveConnectConstraints(LiveConnectConstraints liveConnectConstraints);
 
+    /**
+     * Setter for liveConnectConstraints builder.
+     *
+     * <p>liveConnectConstraints: Configuration specific to Live API connections created using this
+     * token.
+     */
+    public Builder liveConnectConstraints(
+        LiveConnectConstraints.Builder liveConnectConstraintsBuilder) {
+      return liveConnectConstraints(liveConnectConstraintsBuilder.build());
+    }
+
+    /**
+     * Setter for lockAdditionalFields.
+     *
+     * <p>lockAdditionalFields: Additional fields to lock in the effective LiveConnectParameters.
+     */
     @JsonProperty("lockAdditionalFields")
     public abstract Builder lockAdditionalFields(List<String> lockAdditionalFields);
 

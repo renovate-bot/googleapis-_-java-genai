@@ -98,37 +98,97 @@ public abstract class UsageMetadata extends JsonSerializable {
       return new AutoValue_UsageMetadata.Builder();
     }
 
+    /**
+     * Setter for promptTokenCount.
+     *
+     * <p>promptTokenCount: Number of tokens in the prompt. When `cached_content` is set, this is
+     * still the total effective prompt size meaning this includes the number of tokens in the
+     * cached content.
+     */
     @JsonProperty("promptTokenCount")
     public abstract Builder promptTokenCount(Integer promptTokenCount);
 
+    /**
+     * Setter for cachedContentTokenCount.
+     *
+     * <p>cachedContentTokenCount: Number of tokens in the cached part of the prompt (the cached
+     * content).
+     */
     @JsonProperty("cachedContentTokenCount")
     public abstract Builder cachedContentTokenCount(Integer cachedContentTokenCount);
 
+    /**
+     * Setter for responseTokenCount.
+     *
+     * <p>responseTokenCount: Total number of tokens across all the generated response candidates.
+     */
     @JsonProperty("responseTokenCount")
     public abstract Builder responseTokenCount(Integer responseTokenCount);
 
+    /**
+     * Setter for toolUsePromptTokenCount.
+     *
+     * <p>toolUsePromptTokenCount: Number of tokens present in tool-use prompt(s).
+     */
     @JsonProperty("toolUsePromptTokenCount")
     public abstract Builder toolUsePromptTokenCount(Integer toolUsePromptTokenCount);
 
+    /**
+     * Setter for thoughtsTokenCount.
+     *
+     * <p>thoughtsTokenCount: Number of tokens of thoughts for thinking models.
+     */
     @JsonProperty("thoughtsTokenCount")
     public abstract Builder thoughtsTokenCount(Integer thoughtsTokenCount);
 
+    /**
+     * Setter for totalTokenCount.
+     *
+     * <p>totalTokenCount: Total token count for prompt, response candidates, and tool-use
+     * prompts(if present).
+     */
     @JsonProperty("totalTokenCount")
     public abstract Builder totalTokenCount(Integer totalTokenCount);
 
+    /**
+     * Setter for promptTokensDetails.
+     *
+     * <p>promptTokensDetails: List of modalities that were processed in the request input.
+     */
     @JsonProperty("promptTokensDetails")
     public abstract Builder promptTokensDetails(List<ModalityTokenCount> promptTokensDetails);
 
+    /**
+     * Setter for cacheTokensDetails.
+     *
+     * <p>cacheTokensDetails: List of modalities that were processed in the cache input.
+     */
     @JsonProperty("cacheTokensDetails")
     public abstract Builder cacheTokensDetails(List<ModalityTokenCount> cacheTokensDetails);
 
+    /**
+     * Setter for responseTokensDetails.
+     *
+     * <p>responseTokensDetails: List of modalities that were returned in the response.
+     */
     @JsonProperty("responseTokensDetails")
     public abstract Builder responseTokensDetails(List<ModalityTokenCount> responseTokensDetails);
 
+    /**
+     * Setter for toolUsePromptTokensDetails.
+     *
+     * <p>toolUsePromptTokensDetails: List of modalities that were processed in the tool-use prompt.
+     */
     @JsonProperty("toolUsePromptTokensDetails")
     public abstract Builder toolUsePromptTokensDetails(
         List<ModalityTokenCount> toolUsePromptTokensDetails);
 
+    /**
+     * Setter for trafficType.
+     *
+     * <p>trafficType: Traffic type. This shows whether a request consumes Pay-As-You-Go or
+     * Provisioned Throughput quota.
+     */
     @JsonProperty("trafficType")
     public abstract Builder trafficType(TrafficType trafficType);
 

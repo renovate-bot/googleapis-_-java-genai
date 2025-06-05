@@ -104,29 +104,129 @@ public abstract class LiveServerContent extends JsonSerializable {
       return new AutoValue_LiveServerContent.Builder();
     }
 
+    /**
+     * Setter for modelTurn.
+     *
+     * <p>modelTurn: The content that the model has generated as part of the current conversation
+     * with the user.
+     */
     @JsonProperty("modelTurn")
     public abstract Builder modelTurn(Content modelTurn);
 
+    /**
+     * Setter for modelTurn builder.
+     *
+     * <p>modelTurn: The content that the model has generated as part of the current conversation
+     * with the user.
+     */
+    public Builder modelTurn(Content.Builder modelTurnBuilder) {
+      return modelTurn(modelTurnBuilder.build());
+    }
+
+    /**
+     * Setter for turnComplete.
+     *
+     * <p>turnComplete: If true, indicates that the model is done generating. Generation will only
+     * start in response to additional client messages. Can be set alongside `content`, indicating
+     * that the `content` is the last in the turn.
+     */
     @JsonProperty("turnComplete")
     public abstract Builder turnComplete(boolean turnComplete);
 
+    /**
+     * Setter for interrupted.
+     *
+     * <p>interrupted: If true, indicates that a client message has interrupted current model
+     * generation. If the client is playing out the content in realtime, this is a good signal to
+     * stop and empty the current queue.
+     */
     @JsonProperty("interrupted")
     public abstract Builder interrupted(boolean interrupted);
 
+    /**
+     * Setter for groundingMetadata.
+     *
+     * <p>groundingMetadata: Metadata returned to client when grounding is enabled.
+     */
     @JsonProperty("groundingMetadata")
     public abstract Builder groundingMetadata(GroundingMetadata groundingMetadata);
 
+    /**
+     * Setter for groundingMetadata builder.
+     *
+     * <p>groundingMetadata: Metadata returned to client when grounding is enabled.
+     */
+    public Builder groundingMetadata(GroundingMetadata.Builder groundingMetadataBuilder) {
+      return groundingMetadata(groundingMetadataBuilder.build());
+    }
+
+    /**
+     * Setter for generationComplete.
+     *
+     * <p>generationComplete: If true, indicates that the model is done generating. When model is
+     * interrupted while generating there will be no generation_complete message in interrupted
+     * turn, it will go through interrupted > turn_complete. When model assumes realtime playback
+     * there will be delay between generation_complete and turn_complete that is caused by model
+     * waiting for playback to finish. If true, indicates that the model has finished generating all
+     * content. This is a signal to the client that it can stop sending messages.
+     */
     @JsonProperty("generationComplete")
     public abstract Builder generationComplete(boolean generationComplete);
 
+    /**
+     * Setter for inputTranscription.
+     *
+     * <p>inputTranscription: Input transcription. The transcription is independent to the model
+     * turn which means it doesn’t imply any ordering between transcription and model turn.
+     */
     @JsonProperty("inputTranscription")
     public abstract Builder inputTranscription(Transcription inputTranscription);
 
+    /**
+     * Setter for inputTranscription builder.
+     *
+     * <p>inputTranscription: Input transcription. The transcription is independent to the model
+     * turn which means it doesn’t imply any ordering between transcription and model turn.
+     */
+    public Builder inputTranscription(Transcription.Builder inputTranscriptionBuilder) {
+      return inputTranscription(inputTranscriptionBuilder.build());
+    }
+
+    /**
+     * Setter for outputTranscription.
+     *
+     * <p>outputTranscription: Output transcription. The transcription is independent to the model
+     * turn which means it doesn’t imply any ordering between transcription and model turn.
+     */
     @JsonProperty("outputTranscription")
     public abstract Builder outputTranscription(Transcription outputTranscription);
 
+    /**
+     * Setter for outputTranscription builder.
+     *
+     * <p>outputTranscription: Output transcription. The transcription is independent to the model
+     * turn which means it doesn’t imply any ordering between transcription and model turn.
+     */
+    public Builder outputTranscription(Transcription.Builder outputTranscriptionBuilder) {
+      return outputTranscription(outputTranscriptionBuilder.build());
+    }
+
+    /**
+     * Setter for urlContextMetadata.
+     *
+     * <p>urlContextMetadata: Metadata related to url context retrieval tool.
+     */
     @JsonProperty("urlContextMetadata")
     public abstract Builder urlContextMetadata(UrlContextMetadata urlContextMetadata);
+
+    /**
+     * Setter for urlContextMetadata builder.
+     *
+     * <p>urlContextMetadata: Metadata related to url context retrieval tool.
+     */
+    public Builder urlContextMetadata(UrlContextMetadata.Builder urlContextMetadataBuilder) {
+      return urlContextMetadata(urlContextMetadataBuilder.build());
+    }
 
     public abstract LiveServerContent build();
   }

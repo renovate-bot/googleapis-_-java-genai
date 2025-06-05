@@ -66,10 +66,32 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
       return new AutoValue_RealtimeInputConfig.Builder();
     }
 
+    /**
+     * Setter for automaticActivityDetection.
+     *
+     * <p>automaticActivityDetection: If not set, automatic activity detection is enabled by
+     * default. If automatic voice detection is disabled, the client must send activity signals.
+     */
     @JsonProperty("automaticActivityDetection")
     public abstract Builder automaticActivityDetection(
         AutomaticActivityDetection automaticActivityDetection);
 
+    /**
+     * Setter for automaticActivityDetection builder.
+     *
+     * <p>automaticActivityDetection: If not set, automatic activity detection is enabled by
+     * default. If automatic voice detection is disabled, the client must send activity signals.
+     */
+    public Builder automaticActivityDetection(
+        AutomaticActivityDetection.Builder automaticActivityDetectionBuilder) {
+      return automaticActivityDetection(automaticActivityDetectionBuilder.build());
+    }
+
+    /**
+     * Setter for activityHandling.
+     *
+     * <p>activityHandling: Defines what effect activity has.
+     */
     @JsonProperty("activityHandling")
     public abstract Builder activityHandling(ActivityHandling activityHandling);
 
@@ -82,6 +104,11 @@ public abstract class RealtimeInputConfig extends JsonSerializable {
     public Builder activityHandling(String activityHandling) {
       return activityHandling(new ActivityHandling(activityHandling));
     }
+    /**
+     * Setter for turnCoverage.
+     *
+     * <p>turnCoverage: Defines which input is included in the user's turn.
+     */
 
     @JsonProperty("turnCoverage")
     public abstract Builder turnCoverage(TurnCoverage turnCoverage);

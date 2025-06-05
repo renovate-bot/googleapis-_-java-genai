@@ -53,8 +53,24 @@ public abstract class GoogleSearch extends JsonSerializable {
       return new AutoValue_GoogleSearch.Builder();
     }
 
+    /**
+     * Setter for timeRangeFilter.
+     *
+     * <p>timeRangeFilter: Optional. Filter search results to a specific time range. If customers
+     * set a start time, they must set an end time (and vice versa).
+     */
     @JsonProperty("timeRangeFilter")
     public abstract Builder timeRangeFilter(Interval timeRangeFilter);
+
+    /**
+     * Setter for timeRangeFilter builder.
+     *
+     * <p>timeRangeFilter: Optional. Filter search results to a specific time range. If customers
+     * set a start time, they must set an end time (and vice versa).
+     */
+    public Builder timeRangeFilter(Interval.Builder timeRangeFilterBuilder) {
+      return timeRangeFilter(timeRangeFilterBuilder.build());
+    }
 
     public abstract GoogleSearch build();
   }

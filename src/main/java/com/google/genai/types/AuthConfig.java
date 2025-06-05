@@ -71,9 +71,28 @@ public abstract class AuthConfig extends JsonSerializable {
       return new AutoValue_AuthConfig.Builder();
     }
 
+    /**
+     * Setter for apiKeyConfig.
+     *
+     * <p>apiKeyConfig: Config for API key auth.
+     */
     @JsonProperty("apiKeyConfig")
     public abstract Builder apiKeyConfig(ApiKeyConfig apiKeyConfig);
 
+    /**
+     * Setter for apiKeyConfig builder.
+     *
+     * <p>apiKeyConfig: Config for API key auth.
+     */
+    public Builder apiKeyConfig(ApiKeyConfig.Builder apiKeyConfigBuilder) {
+      return apiKeyConfig(apiKeyConfigBuilder.build());
+    }
+
+    /**
+     * Setter for authType.
+     *
+     * <p>authType: Type of auth scheme.
+     */
     @JsonProperty("authType")
     public abstract Builder authType(AuthType authType);
 
@@ -86,19 +105,77 @@ public abstract class AuthConfig extends JsonSerializable {
     public Builder authType(String authType) {
       return authType(new AuthType(authType));
     }
+    /**
+     * Setter for googleServiceAccountConfig.
+     *
+     * <p>googleServiceAccountConfig: Config for Google Service Account auth.
+     */
 
     @JsonProperty("googleServiceAccountConfig")
     public abstract Builder googleServiceAccountConfig(
         AuthConfigGoogleServiceAccountConfig googleServiceAccountConfig);
 
+    /**
+     * Setter for googleServiceAccountConfig builder.
+     *
+     * <p>googleServiceAccountConfig: Config for Google Service Account auth.
+     */
+    public Builder googleServiceAccountConfig(
+        AuthConfigGoogleServiceAccountConfig.Builder googleServiceAccountConfigBuilder) {
+      return googleServiceAccountConfig(googleServiceAccountConfigBuilder.build());
+    }
+
+    /**
+     * Setter for httpBasicAuthConfig.
+     *
+     * <p>httpBasicAuthConfig: Config for HTTP Basic auth.
+     */
     @JsonProperty("httpBasicAuthConfig")
     public abstract Builder httpBasicAuthConfig(AuthConfigHttpBasicAuthConfig httpBasicAuthConfig);
 
+    /**
+     * Setter for httpBasicAuthConfig builder.
+     *
+     * <p>httpBasicAuthConfig: Config for HTTP Basic auth.
+     */
+    public Builder httpBasicAuthConfig(
+        AuthConfigHttpBasicAuthConfig.Builder httpBasicAuthConfigBuilder) {
+      return httpBasicAuthConfig(httpBasicAuthConfigBuilder.build());
+    }
+
+    /**
+     * Setter for oauthConfig.
+     *
+     * <p>oauthConfig: Config for user oauth.
+     */
     @JsonProperty("oauthConfig")
     public abstract Builder oauthConfig(AuthConfigOauthConfig oauthConfig);
 
+    /**
+     * Setter for oauthConfig builder.
+     *
+     * <p>oauthConfig: Config for user oauth.
+     */
+    public Builder oauthConfig(AuthConfigOauthConfig.Builder oauthConfigBuilder) {
+      return oauthConfig(oauthConfigBuilder.build());
+    }
+
+    /**
+     * Setter for oidcConfig.
+     *
+     * <p>oidcConfig: Config for user OIDC auth.
+     */
     @JsonProperty("oidcConfig")
     public abstract Builder oidcConfig(AuthConfigOidcConfig oidcConfig);
+
+    /**
+     * Setter for oidcConfig builder.
+     *
+     * <p>oidcConfig: Config for user OIDC auth.
+     */
+    public Builder oidcConfig(AuthConfigOidcConfig.Builder oidcConfigBuilder) {
+      return oidcConfig(oidcConfigBuilder.build());
+    }
 
     public abstract AuthConfig build();
   }

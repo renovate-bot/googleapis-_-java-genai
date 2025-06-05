@@ -54,9 +54,28 @@ public abstract class RetrievalConfig extends JsonSerializable {
       return new AutoValue_RetrievalConfig.Builder();
     }
 
+    /**
+     * Setter for latLng.
+     *
+     * <p>latLng: Optional. The location of the user.
+     */
     @JsonProperty("latLng")
     public abstract Builder latLng(LatLng latLng);
 
+    /**
+     * Setter for latLng builder.
+     *
+     * <p>latLng: Optional. The location of the user.
+     */
+    public Builder latLng(LatLng.Builder latLngBuilder) {
+      return latLng(latLngBuilder.build());
+    }
+
+    /**
+     * Setter for languageCode.
+     *
+     * <p>languageCode: The language code of the user.
+     */
     @JsonProperty("languageCode")
     public abstract Builder languageCode(String languageCode);
 

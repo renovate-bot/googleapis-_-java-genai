@@ -51,6 +51,11 @@ public abstract class MultiSpeakerVoiceConfig extends JsonSerializable {
       return new AutoValue_MultiSpeakerVoiceConfig.Builder();
     }
 
+    /**
+     * Setter for speakerVoiceConfigs.
+     *
+     * <p>speakerVoiceConfigs: The configuration for the speaker to use.
+     */
     @JsonProperty("speakerVoiceConfigs")
     public abstract Builder speakerVoiceConfigs(List<SpeakerVoiceConfig> speakerVoiceConfigs);
 

@@ -57,6 +57,11 @@ public abstract class GenerationConfigRoutingConfigAutoRoutingMode extends JsonS
       return new AutoValue_GenerationConfigRoutingConfigAutoRoutingMode.Builder();
     }
 
+    /**
+     * Setter for modelRoutingPreference.
+     *
+     * <p>modelRoutingPreference: The model routing preference.
+     */
     @JsonProperty("modelRoutingPreference")
     public abstract Builder modelRoutingPreference(ModelRoutingPreference modelRoutingPreference);
 

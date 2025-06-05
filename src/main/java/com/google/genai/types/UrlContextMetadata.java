@@ -51,6 +51,11 @@ public abstract class UrlContextMetadata extends JsonSerializable {
       return new AutoValue_UrlContextMetadata.Builder();
     }
 
+    /**
+     * Setter for urlMetadata.
+     *
+     * <p>urlMetadata: List of url context.
+     */
     @JsonProperty("urlMetadata")
     public abstract Builder urlMetadata(List<UrlMetadata> urlMetadata);
 

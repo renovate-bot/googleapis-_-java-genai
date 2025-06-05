@@ -55,9 +55,19 @@ public abstract class ListCachedContentsResponse extends JsonSerializable {
       return new AutoValue_ListCachedContentsResponse.Builder();
     }
 
+    /**
+     * Setter for nextPageToken.
+     *
+     * <p>nextPageToken:
+     */
     @JsonProperty("nextPageToken")
     public abstract Builder nextPageToken(String nextPageToken);
 
+    /**
+     * Setter for cachedContents.
+     *
+     * <p>cachedContents: List of cached contents.
+     */
     @JsonProperty("cachedContents")
     public abstract Builder cachedContents(List<CachedContent> cachedContents);
 

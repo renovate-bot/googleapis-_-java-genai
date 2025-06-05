@@ -98,18 +98,62 @@ public abstract class Candidate extends JsonSerializable {
       return new AutoValue_Candidate.Builder();
     }
 
+    /**
+     * Setter for content.
+     *
+     * <p>content: Contains the multi-part content of the response.
+     */
     @JsonProperty("content")
     public abstract Builder content(Content content);
 
+    /**
+     * Setter for content builder.
+     *
+     * <p>content: Contains the multi-part content of the response.
+     */
+    public Builder content(Content.Builder contentBuilder) {
+      return content(contentBuilder.build());
+    }
+
+    /**
+     * Setter for citationMetadata.
+     *
+     * <p>citationMetadata: Source attribution of the generated content.
+     */
     @JsonProperty("citationMetadata")
     public abstract Builder citationMetadata(CitationMetadata citationMetadata);
 
+    /**
+     * Setter for citationMetadata builder.
+     *
+     * <p>citationMetadata: Source attribution of the generated content.
+     */
+    public Builder citationMetadata(CitationMetadata.Builder citationMetadataBuilder) {
+      return citationMetadata(citationMetadataBuilder.build());
+    }
+
+    /**
+     * Setter for finishMessage.
+     *
+     * <p>finishMessage: Describes the reason the model stopped generating tokens.
+     */
     @JsonProperty("finishMessage")
     public abstract Builder finishMessage(String finishMessage);
 
+    /**
+     * Setter for tokenCount.
+     *
+     * <p>tokenCount: Number of tokens for this candidate.
+     */
     @JsonProperty("tokenCount")
     public abstract Builder tokenCount(Integer tokenCount);
 
+    /**
+     * Setter for finishReason.
+     *
+     * <p>finishReason: The reason why the model stopped generating tokens. If empty, the model has
+     * not stopped generating the tokens.
+     */
     @JsonProperty("finishReason")
     public abstract Builder finishReason(FinishReason finishReason);
 
@@ -122,22 +166,82 @@ public abstract class Candidate extends JsonSerializable {
     public Builder finishReason(String finishReason) {
       return finishReason(new FinishReason(finishReason));
     }
+    /**
+     * Setter for urlContextMetadata.
+     *
+     * <p>urlContextMetadata: Metadata related to url context retrieval tool.
+     */
 
     @JsonProperty("urlContextMetadata")
     public abstract Builder urlContextMetadata(UrlContextMetadata urlContextMetadata);
 
+    /**
+     * Setter for urlContextMetadata builder.
+     *
+     * <p>urlContextMetadata: Metadata related to url context retrieval tool.
+     */
+    public Builder urlContextMetadata(UrlContextMetadata.Builder urlContextMetadataBuilder) {
+      return urlContextMetadata(urlContextMetadataBuilder.build());
+    }
+
+    /**
+     * Setter for avgLogprobs.
+     *
+     * <p>avgLogprobs: Output only. Average log probability score of the candidate.
+     */
     @JsonProperty("avgLogprobs")
     public abstract Builder avgLogprobs(Double avgLogprobs);
 
+    /**
+     * Setter for groundingMetadata.
+     *
+     * <p>groundingMetadata: Output only. Metadata specifies sources used to ground generated
+     * content.
+     */
     @JsonProperty("groundingMetadata")
     public abstract Builder groundingMetadata(GroundingMetadata groundingMetadata);
 
+    /**
+     * Setter for groundingMetadata builder.
+     *
+     * <p>groundingMetadata: Output only. Metadata specifies sources used to ground generated
+     * content.
+     */
+    public Builder groundingMetadata(GroundingMetadata.Builder groundingMetadataBuilder) {
+      return groundingMetadata(groundingMetadataBuilder.build());
+    }
+
+    /**
+     * Setter for index.
+     *
+     * <p>index: Output only. Index of the candidate.
+     */
     @JsonProperty("index")
     public abstract Builder index(Integer index);
 
+    /**
+     * Setter for logprobsResult.
+     *
+     * <p>logprobsResult: Output only. Log-likelihood scores for the response tokens and top tokens
+     */
     @JsonProperty("logprobsResult")
     public abstract Builder logprobsResult(LogprobsResult logprobsResult);
 
+    /**
+     * Setter for logprobsResult builder.
+     *
+     * <p>logprobsResult: Output only. Log-likelihood scores for the response tokens and top tokens
+     */
+    public Builder logprobsResult(LogprobsResult.Builder logprobsResultBuilder) {
+      return logprobsResult(logprobsResultBuilder.build());
+    }
+
+    /**
+     * Setter for safetyRatings.
+     *
+     * <p>safetyRatings: Output only. List of ratings for the safety of a response candidate. There
+     * is at most one rating per category.
+     */
     @JsonProperty("safetyRatings")
     public abstract Builder safetyRatings(List<SafetyRating> safetyRatings);
 

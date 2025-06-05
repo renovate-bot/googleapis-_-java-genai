@@ -56,11 +56,30 @@ public abstract class UpdateModelParameters extends JsonSerializable {
       return new AutoValue_UpdateModelParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model:
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config:
+     */
     @JsonProperty("config")
     public abstract Builder config(UpdateModelConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config:
+     */
+    public Builder config(UpdateModelConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract UpdateModelParameters build();
   }

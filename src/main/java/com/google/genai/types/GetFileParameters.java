@@ -56,11 +56,30 @@ public abstract class GetFileParameters extends JsonSerializable {
       return new AutoValue_GetFileParameters.Builder();
     }
 
+    /**
+     * Setter for name.
+     *
+     * <p>name: The name identifier for the file to retrieve.
+     */
     @JsonProperty("name")
     public abstract Builder name(String name);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(GetFileConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(GetFileConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract GetFileParameters build();
   }

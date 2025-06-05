@@ -54,11 +54,40 @@ public abstract class GroundingChunk extends JsonSerializable {
       return new AutoValue_GroundingChunk.Builder();
     }
 
+    /**
+     * Setter for retrievedContext.
+     *
+     * <p>retrievedContext: Grounding chunk from context retrieved by the retrieval tools.
+     */
     @JsonProperty("retrievedContext")
     public abstract Builder retrievedContext(GroundingChunkRetrievedContext retrievedContext);
 
+    /**
+     * Setter for retrievedContext builder.
+     *
+     * <p>retrievedContext: Grounding chunk from context retrieved by the retrieval tools.
+     */
+    public Builder retrievedContext(
+        GroundingChunkRetrievedContext.Builder retrievedContextBuilder) {
+      return retrievedContext(retrievedContextBuilder.build());
+    }
+
+    /**
+     * Setter for web.
+     *
+     * <p>web: Grounding chunk from the web.
+     */
     @JsonProperty("web")
     public abstract Builder web(GroundingChunkWeb web);
+
+    /**
+     * Setter for web builder.
+     *
+     * <p>web: Grounding chunk from the web.
+     */
+    public Builder web(GroundingChunkWeb.Builder webBuilder) {
+      return web(webBuilder.build());
+    }
 
     public abstract GroundingChunk build();
   }

@@ -73,21 +73,98 @@ public abstract class LiveClientMessage extends JsonSerializable {
       return new AutoValue_LiveClientMessage.Builder();
     }
 
+    /**
+     * Setter for setup.
+     *
+     * <p>setup: Message to be sent by the system when connecting to the API. SDK users should not
+     * send this message.
+     */
     @JsonProperty("setup")
     public abstract Builder setup(LiveClientSetup setup);
 
+    /**
+     * Setter for setup builder.
+     *
+     * <p>setup: Message to be sent by the system when connecting to the API. SDK users should not
+     * send this message.
+     */
+    public Builder setup(LiveClientSetup.Builder setupBuilder) {
+      return setup(setupBuilder.build());
+    }
+
+    /**
+     * Setter for clientContent.
+     *
+     * <p>clientContent: Incremental update of the current conversation delivered from the client.
+     */
     @JsonProperty("clientContent")
     public abstract Builder clientContent(LiveClientContent clientContent);
 
+    /**
+     * Setter for clientContent builder.
+     *
+     * <p>clientContent: Incremental update of the current conversation delivered from the client.
+     */
+    public Builder clientContent(LiveClientContent.Builder clientContentBuilder) {
+      return clientContent(clientContentBuilder.build());
+    }
+
+    /**
+     * Setter for realtimeInput.
+     *
+     * <p>realtimeInput: User input that is sent in real time.
+     */
     @JsonProperty("realtimeInput")
     public abstract Builder realtimeInput(LiveClientRealtimeInput realtimeInput);
 
+    /**
+     * Setter for realtimeInput builder.
+     *
+     * <p>realtimeInput: User input that is sent in real time.
+     */
+    public Builder realtimeInput(LiveClientRealtimeInput.Builder realtimeInputBuilder) {
+      return realtimeInput(realtimeInputBuilder.build());
+    }
+
+    /**
+     * Setter for realtimeInputParameters.
+     *
+     * <p>realtimeInputParameters: This is an alias for `realtime_input` field. Allows the inputs to
+     * sendRealtimeInput to be transformed into `realtime_input` before being sent. Note: This will
+     * overwrite any `realtime_input` field.
+     */
     @JsonProperty("realtimeInputParameters")
     public abstract Builder realtimeInputParameters(
         LiveSendRealtimeInputParameters realtimeInputParameters);
 
+    /**
+     * Setter for realtimeInputParameters builder.
+     *
+     * <p>realtimeInputParameters: This is an alias for `realtime_input` field. Allows the inputs to
+     * sendRealtimeInput to be transformed into `realtime_input` before being sent. Note: This will
+     * overwrite any `realtime_input` field.
+     */
+    public Builder realtimeInputParameters(
+        LiveSendRealtimeInputParameters.Builder realtimeInputParametersBuilder) {
+      return realtimeInputParameters(realtimeInputParametersBuilder.build());
+    }
+
+    /**
+     * Setter for toolResponse.
+     *
+     * <p>toolResponse: Response to a `ToolCallMessage` received from the server.
+     */
     @JsonProperty("toolResponse")
     public abstract Builder toolResponse(LiveClientToolResponse toolResponse);
+
+    /**
+     * Setter for toolResponse builder.
+     *
+     * <p>toolResponse: Response to a `ToolCallMessage` received from the server.
+     */
+    public Builder toolResponse(LiveClientToolResponse.Builder toolResponseBuilder) {
+      return toolResponse(toolResponseBuilder.build());
+    }
 
     public abstract LiveClientMessage build();
   }

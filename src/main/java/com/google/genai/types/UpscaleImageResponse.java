@@ -51,6 +51,11 @@ public abstract class UpscaleImageResponse extends JsonSerializable {
       return new AutoValue_UpscaleImageResponse.Builder();
     }
 
+    /**
+     * Setter for generatedImages.
+     *
+     * <p>generatedImages: Generated images.
+     */
     @JsonProperty("generatedImages")
     public abstract Builder generatedImages(List<GeneratedImage> generatedImages);
 

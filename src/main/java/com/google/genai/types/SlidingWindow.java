@@ -60,6 +60,13 @@ public abstract class SlidingWindow extends JsonSerializable {
       return new AutoValue_SlidingWindow.Builder();
     }
 
+    /**
+     * Setter for targetTokens.
+     *
+     * <p>targetTokens: Session reduction target -- how many tokens we should keep. Window
+     * shortening operation has some latency costs, so we should avoid running it on every turn.
+     * Should be < trigger_tokens. If not set, trigger_tokens/2 is assumed.
+     */
     @JsonProperty("targetTokens")
     public abstract Builder targetTokens(Long targetTokens);
 

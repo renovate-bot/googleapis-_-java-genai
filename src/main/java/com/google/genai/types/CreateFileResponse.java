@@ -50,8 +50,22 @@ public abstract class CreateFileResponse extends JsonSerializable {
       return new AutoValue_CreateFileResponse.Builder();
     }
 
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
     @JsonProperty("sdkHttpResponse")
     public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
+    }
 
     public abstract CreateFileResponse build();
   }

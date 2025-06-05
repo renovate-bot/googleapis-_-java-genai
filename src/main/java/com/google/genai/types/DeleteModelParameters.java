@@ -56,11 +56,30 @@ public abstract class DeleteModelParameters extends JsonSerializable {
       return new AutoValue_DeleteModelParameters.Builder();
     }
 
+    /**
+     * Setter for model.
+     *
+     * <p>model:
+     */
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    /**
+     * Setter for config.
+     *
+     * <p>config: Optional parameters for the request.
+     */
     @JsonProperty("config")
     public abstract Builder config(DeleteModelConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Optional parameters for the request.
+     */
+    public Builder config(DeleteModelConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract DeleteModelParameters build();
   }

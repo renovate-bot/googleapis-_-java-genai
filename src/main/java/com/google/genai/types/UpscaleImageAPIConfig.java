@@ -77,21 +77,61 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
       return new AutoValue_UpscaleImageAPIConfig.Builder();
     }
 
+    /**
+     * Setter for httpOptions.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
     @JsonProperty("httpOptions")
     public abstract Builder httpOptions(HttpOptions httpOptions);
 
+    /**
+     * Setter for httpOptions builder.
+     *
+     * <p>httpOptions: Used to override HTTP request options.
+     */
+    public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
+      return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for includeRaiReason.
+     *
+     * <p>includeRaiReason: Whether to include a reason for filtered-out images in the response.
+     */
     @JsonProperty("includeRaiReason")
     public abstract Builder includeRaiReason(boolean includeRaiReason);
 
+    /**
+     * Setter for outputMimeType.
+     *
+     * <p>outputMimeType: The image format that the output should be saved as.
+     */
     @JsonProperty("outputMimeType")
     public abstract Builder outputMimeType(String outputMimeType);
 
+    /**
+     * Setter for outputCompressionQuality.
+     *
+     * <p>outputCompressionQuality: The level of compression if the ``output_mime_type`` is
+     * ``image/jpeg``.
+     */
     @JsonProperty("outputCompressionQuality")
     public abstract Builder outputCompressionQuality(Integer outputCompressionQuality);
 
+    /**
+     * Setter for numberOfImages.
+     *
+     * <p>numberOfImages:
+     */
     @JsonProperty("numberOfImages")
     public abstract Builder numberOfImages(Integer numberOfImages);
 
+    /**
+     * Setter for mode.
+     *
+     * <p>mode:
+     */
     @JsonProperty("mode")
     public abstract Builder mode(String mode);
 

@@ -60,11 +60,43 @@ public abstract class CreateFileParameters extends JsonSerializable {
       return new AutoValue_CreateFileParameters.Builder();
     }
 
+    /**
+     * Setter for file.
+     *
+     * <p>file: The file to be uploaded. mime_type: (Required) The MIME type of the file. Must be
+     * provided. name: (Optional) The name of the file in the destination (e.g.
+     * 'files/sample-image'). display_name: (Optional) The display name of the file.
+     */
     @JsonProperty("file")
     public abstract Builder file(File file);
 
+    /**
+     * Setter for file builder.
+     *
+     * <p>file: The file to be uploaded. mime_type: (Required) The MIME type of the file. Must be
+     * provided. name: (Optional) The name of the file in the destination (e.g.
+     * 'files/sample-image'). display_name: (Optional) The display name of the file.
+     */
+    public Builder file(File.Builder fileBuilder) {
+      return file(fileBuilder.build());
+    }
+
+    /**
+     * Setter for config.
+     *
+     * <p>config: Used to override the default configuration.
+     */
     @JsonProperty("config")
     public abstract Builder config(CreateFileConfig config);
+
+    /**
+     * Setter for config builder.
+     *
+     * <p>config: Used to override the default configuration.
+     */
+    public Builder config(CreateFileConfig.Builder configBuilder) {
+      return config(configBuilder.build());
+    }
 
     public abstract CreateFileParameters build();
   }

@@ -83,26 +83,112 @@ public abstract class LiveSendRealtimeInputParameters extends JsonSerializable {
       return new AutoValue_LiveSendRealtimeInputParameters.Builder();
     }
 
+    /**
+     * Setter for media.
+     *
+     * <p>media: Realtime input to send to the session.
+     */
     @JsonProperty("media")
     public abstract Builder media(Blob media);
 
+    /**
+     * Setter for media builder.
+     *
+     * <p>media: Realtime input to send to the session.
+     */
+    public Builder media(Blob.Builder mediaBuilder) {
+      return media(mediaBuilder.build());
+    }
+
+    /**
+     * Setter for audio.
+     *
+     * <p>audio: The realtime audio input stream.
+     */
     @JsonProperty("audio")
     public abstract Builder audio(Blob audio);
 
+    /**
+     * Setter for audio builder.
+     *
+     * <p>audio: The realtime audio input stream.
+     */
+    public Builder audio(Blob.Builder audioBuilder) {
+      return audio(audioBuilder.build());
+    }
+
+    /**
+     * Setter for audioStreamEnd.
+     *
+     * <p>audioStreamEnd: Indicates that the audio stream has ended, e.g. because the microphone was
+     * turned off.
+     *
+     * <p>This should only be sent when automatic activity detection is enabled (which is the
+     * default).
+     *
+     * <p>The client can reopen the stream by sending an audio message.
+     */
     @JsonProperty("audioStreamEnd")
     public abstract Builder audioStreamEnd(boolean audioStreamEnd);
 
+    /**
+     * Setter for video.
+     *
+     * <p>video: The realtime video input stream.
+     */
     @JsonProperty("video")
     public abstract Builder video(Blob video);
 
+    /**
+     * Setter for video builder.
+     *
+     * <p>video: The realtime video input stream.
+     */
+    public Builder video(Blob.Builder videoBuilder) {
+      return video(videoBuilder.build());
+    }
+
+    /**
+     * Setter for text.
+     *
+     * <p>text: The realtime text input stream.
+     */
     @JsonProperty("text")
     public abstract Builder text(String text);
 
+    /**
+     * Setter for activityStart.
+     *
+     * <p>activityStart: Marks the start of user activity.
+     */
     @JsonProperty("activityStart")
     public abstract Builder activityStart(ActivityStart activityStart);
 
+    /**
+     * Setter for activityStart builder.
+     *
+     * <p>activityStart: Marks the start of user activity.
+     */
+    public Builder activityStart(ActivityStart.Builder activityStartBuilder) {
+      return activityStart(activityStartBuilder.build());
+    }
+
+    /**
+     * Setter for activityEnd.
+     *
+     * <p>activityEnd: Marks the end of user activity.
+     */
     @JsonProperty("activityEnd")
     public abstract Builder activityEnd(ActivityEnd activityEnd);
+
+    /**
+     * Setter for activityEnd builder.
+     *
+     * <p>activityEnd: Marks the end of user activity.
+     */
+    public Builder activityEnd(ActivityEnd.Builder activityEndBuilder) {
+      return activityEnd(activityEndBuilder.build());
+    }
 
     public abstract LiveSendRealtimeInputParameters build();
   }

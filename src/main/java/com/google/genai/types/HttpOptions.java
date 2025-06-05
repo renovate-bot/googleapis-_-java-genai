@@ -63,15 +63,35 @@ public abstract class HttpOptions extends JsonSerializable {
       return new AutoValue_HttpOptions.Builder();
     }
 
+    /**
+     * Setter for baseUrl.
+     *
+     * <p>baseUrl: The base URL for the AI platform service endpoint.
+     */
     @JsonProperty("baseUrl")
     public abstract Builder baseUrl(String baseUrl);
 
+    /**
+     * Setter for apiVersion.
+     *
+     * <p>apiVersion: Specifies the version of the API to use.
+     */
     @JsonProperty("apiVersion")
     public abstract Builder apiVersion(String apiVersion);
 
+    /**
+     * Setter for headers.
+     *
+     * <p>headers: Additional HTTP headers to be sent with the request.
+     */
     @JsonProperty("headers")
     public abstract Builder headers(Map<String, String> headers);
 
+    /**
+     * Setter for timeout.
+     *
+     * <p>timeout: Timeout for the request in milliseconds.
+     */
     @JsonProperty("timeout")
     public abstract Builder timeout(Integer timeout);
 

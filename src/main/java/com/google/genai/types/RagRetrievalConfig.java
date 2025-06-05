@@ -62,15 +62,62 @@ public abstract class RagRetrievalConfig extends JsonSerializable {
       return new AutoValue_RagRetrievalConfig.Builder();
     }
 
+    /**
+     * Setter for filter.
+     *
+     * <p>filter: Optional. Config for filters.
+     */
     @JsonProperty("filter")
     public abstract Builder filter(RagRetrievalConfigFilter filter);
 
+    /**
+     * Setter for filter builder.
+     *
+     * <p>filter: Optional. Config for filters.
+     */
+    public Builder filter(RagRetrievalConfigFilter.Builder filterBuilder) {
+      return filter(filterBuilder.build());
+    }
+
+    /**
+     * Setter for hybridSearch.
+     *
+     * <p>hybridSearch: Optional. Config for Hybrid Search.
+     */
     @JsonProperty("hybridSearch")
     public abstract Builder hybridSearch(RagRetrievalConfigHybridSearch hybridSearch);
 
+    /**
+     * Setter for hybridSearch builder.
+     *
+     * <p>hybridSearch: Optional. Config for Hybrid Search.
+     */
+    public Builder hybridSearch(RagRetrievalConfigHybridSearch.Builder hybridSearchBuilder) {
+      return hybridSearch(hybridSearchBuilder.build());
+    }
+
+    /**
+     * Setter for ranking.
+     *
+     * <p>ranking: Optional. Config for ranking and reranking.
+     */
     @JsonProperty("ranking")
     public abstract Builder ranking(RagRetrievalConfigRanking ranking);
 
+    /**
+     * Setter for ranking builder.
+     *
+     * <p>ranking: Optional. Config for ranking and reranking.
+     */
+    public Builder ranking(RagRetrievalConfigRanking.Builder rankingBuilder) {
+      return ranking(rankingBuilder.build());
+    }
+
+    /**
+     * Setter for topK.
+     *
+     * <p>topK: Optional. The number of contexts to retrieve.
+     */
     @JsonProperty("topK")
     public abstract Builder topK(Integer topK);
 

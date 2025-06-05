@@ -82,8 +82,7 @@ public final class LiveTextContextWindowCompressionAsync {
             .contextWindowCompression(
                 ContextWindowCompressionConfig.builder()
                     .triggerTokens(1000L)
-                    .slidingWindow(SlidingWindow.builder().targetTokens(500L).build())
-                    .build())
+                    .slidingWindow(SlidingWindow.builder().targetTokens(500L)))
             .build();
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
