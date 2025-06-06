@@ -50,6 +50,15 @@ public abstract class VertexRagStore extends JsonSerializable {
   @JsonProperty("similarityTopK")
   public abstract Optional<Integer> similarityTopK();
 
+  /**
+   * Optional. Currently only supported for Gemini Multimodal Live API. In Gemini Multimodal Live
+   * API, if `store_context` bool is specified, Gemini will leverage it to automatically memorize
+   * the interactions between the client and Gemini, and retrieve context when needed to augment the
+   * response generation for users' ongoing and future interactions.
+   */
+  @JsonProperty("storeContext")
+  public abstract Optional<Boolean> storeContext();
+
   /** Optional. Only return results with vector distance smaller than the threshold. */
   @JsonProperty("vectorDistanceThreshold")
   public abstract Optional<Double> vectorDistanceThreshold();
@@ -113,6 +122,17 @@ public abstract class VertexRagStore extends JsonSerializable {
      */
     @JsonProperty("similarityTopK")
     public abstract Builder similarityTopK(Integer similarityTopK);
+
+    /**
+     * Setter for storeContext.
+     *
+     * <p>storeContext: Optional. Currently only supported for Gemini Multimodal Live API. In Gemini
+     * Multimodal Live API, if `store_context` bool is specified, Gemini will leverage it to
+     * automatically memorize the interactions between the client and Gemini, and retrieve context
+     * when needed to augment the response generation for users' ongoing and future interactions.
+     */
+    @JsonProperty("storeContext")
+    public abstract Builder storeContext(boolean storeContext);
 
     /**
      * Setter for vectorDistanceThreshold.
