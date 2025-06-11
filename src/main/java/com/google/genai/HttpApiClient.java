@@ -20,6 +20,7 @@ import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
@@ -38,8 +39,11 @@ import org.apache.http.entity.StringEntity;
 public class HttpApiClient extends ApiClient {
 
   /** Constructs an ApiClient for Google AI APIs. */
-  HttpApiClient(Optional<String> apiKey, Optional<HttpOptions> httpOptions) {
-    super(apiKey, httpOptions);
+  HttpApiClient(
+      Optional<String> apiKey,
+      Optional<HttpOptions> httpOptions,
+      Optional<ClientOptions> clientOptions) {
+    super(apiKey, httpOptions, clientOptions);
   }
 
   /** Constructs an ApiClient for Vertex AI APIs. */
@@ -47,8 +51,9 @@ public class HttpApiClient extends ApiClient {
       Optional<String> project,
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
-      Optional<HttpOptions> httpOptions) {
-    super(project, location, credentials, httpOptions);
+      Optional<HttpOptions> httpOptions,
+      Optional<ClientOptions> clientOptions) {
+    super(project, location, credentials, httpOptions, clientOptions);
   }
 
   /** Sends a Http request given the http method, path, request json string, and http options. */

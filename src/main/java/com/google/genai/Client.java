@@ -19,7 +19,9 @@ package com.google.genai;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.HashMap;
@@ -85,6 +87,7 @@ public final class Client implements AutoCloseable {
     private Optional<String> project = Optional.empty();
     private Optional<String> location = Optional.empty();
     private Optional<GoogleCredentials> credentials = Optional.empty();
+    private Optional<ClientOptions> clientOptions = Optional.empty();
     private Optional<HttpOptions> httpOptions = Optional.empty();
     private Optional<Boolean> vertexAI = Optional.empty();
     private Optional<DebugConfig> debugConfig = Optional.empty();
@@ -98,12 +101,14 @@ public final class Client implements AutoCloseable {
           location,
           credentials,
           httpOptions,
+          clientOptions,
           vertexAI,
           debugConfig,
           environmentVariables);
     }
 
     /** Sets the API key for Gemini API. */
+    @CanIgnoreReturnValue
     public Builder apiKey(String apiKey) {
       checkNotNull(apiKey, "apiKey cannot be null");
       this.apiKey = Optional.of(apiKey);
@@ -111,6 +116,7 @@ public final class Client implements AutoCloseable {
     }
 
     /** Sets the project ID for Vertex AI APIs. */
+    @CanIgnoreReturnValue
     public Builder project(String project) {
       checkNotNull(project, "project cannot be null");
       this.project = Optional.of(project);
@@ -118,6 +124,7 @@ public final class Client implements AutoCloseable {
     }
 
     /** Sets the location for Vertex AI APIs. */
+    @CanIgnoreReturnValue
     public Builder location(String location) {
       checkNotNull(location, "location cannot be null");
       this.location = Optional.of(location);
@@ -125,13 +132,23 @@ public final class Client implements AutoCloseable {
     }
 
     /** Sets the {@link GoogleCredentials} for Vertex AI APIs. */
+    @CanIgnoreReturnValue
     public Builder credentials(GoogleCredentials credentials) {
       checkNotNull(credentials, "credentials cannot be null");
       this.credentials = Optional.of(credentials);
       return this;
     }
 
+    /** Sets the {@link ClientOptions} for the API client. */
+    @CanIgnoreReturnValue
+    public Builder clientOptions(ClientOptions clientOptions) {
+      checkNotNull(clientOptions, "clientOptions cannot be null");
+      this.clientOptions = Optional.of(clientOptions);
+      return this;
+    }
+
     /** Sets the {@link HttpOptions} for the API client. */
+    @CanIgnoreReturnValue
     public Builder httpOptions(HttpOptions httpOptions) {
       checkNotNull(httpOptions, "httpOptions cannot be null");
       this.httpOptions = Optional.of(httpOptions);
@@ -139,6 +156,7 @@ public final class Client implements AutoCloseable {
     }
 
     /** Sets whether to use Vertex AI APIs. */
+    @CanIgnoreReturnValue
     public Builder vertexAI(boolean vertexAI) {
       this.vertexAI = Optional.of(vertexAI);
       return this;
@@ -148,6 +166,7 @@ public final class Client implements AutoCloseable {
      * Sets the {@link DebugConfig} for debugging or testing the Client. This is for internal use
      * only.
      */
+    @CanIgnoreReturnValue
     Builder debugConfig(DebugConfig debugConfig) {
       checkNotNull(debugConfig, "debugConfig cannot be null");
       this.debugConfig = Optional.of(debugConfig);
@@ -155,6 +174,7 @@ public final class Client implements AutoCloseable {
     }
 
     /** Sets the environment variables for the API client. This is for internal use only. */
+    @CanIgnoreReturnValue
     Builder environmentVariables(Map<String, String> environmentVariables) {
       this.environmentVariables = Optional.of(environmentVariables);
       return this;
@@ -174,6 +194,7 @@ public final class Client implements AutoCloseable {
         /* location= */ Optional.empty(),
         /* credentials= */ Optional.empty(),
         /* httpOptions= */ Optional.empty(),
+        /* clientOptions= */ Optional.empty(),
         /* vertexAI= */ Optional.empty(),
         /* debugConfig= */ Optional.empty(),
         /* environmentVariables= */ Optional.empty());
@@ -182,14 +203,17 @@ public final class Client implements AutoCloseable {
   /**
    * Constructs a Client instance with the given parameters.
    *
-   * @param apiKey Optional String for the <a href="https://ai.google.dev/gemini-api/docs/api-key">API key</a>.
-   *     Gemini API only.
-   * @param project Optional String for the project ID. Vertex AI APIs only.
-   *     Find your <a href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects">project ID</a>
-   * @param location Optional String for the <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations">location</a>.
+   * @param apiKey Optional String for the <a
+   *     href="https://ai.google.dev/gemini-api/docs/api-key">API key</a>. Gemini API only.
+   * @param project Optional String for the project ID. Vertex AI APIs only. Find your <a
+   *     href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects">project
+   *     ID</a>
+   * @param location Optional String for the <a
+   *     href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations">location</a>.
    *     Vertex AI APIs only.
    * @param credentials Optional {@link GoogleCredentials}. Vertex AI APIs only.
    * @param httpOptions Optional {@link HttpOptions} for sending HTTP requests.
+   * @param clientOptions Optional {@link ClientOptions} for the API client.
    * @param vertexAI Optional Boolean for whether to use Vertex AI APIs. If not specified here nor
    *     in the environment variable, default to false.
    * @param debugConfig Optional {@link DebugConfig} for debugging or testing the Client.
@@ -202,6 +226,7 @@ public final class Client implements AutoCloseable {
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
       Optional<HttpOptions> httpOptions,
+      Optional<ClientOptions> clientOptions,
       Optional<Boolean> vertexAI,
       Optional<DebugConfig> debugConfig,
       Optional<Map<String, String>> environmentVariables) {
@@ -253,6 +278,7 @@ public final class Client implements AutoCloseable {
             new ReplayApiClient(
                 /* apiKey= */ apiKey,
                 /* httpOptions= */ httpOptions,
+                /* clientOptions= */ clientOptions,
                 this.debugConfig.replaysDirectory(),
                 this.debugConfig.replayId(),
                 this.debugConfig.clientMode());
@@ -264,20 +290,26 @@ public final class Client implements AutoCloseable {
                 /* location= */ location,
                 /* credentials= */ credentials,
                 /* httpOptions= */ httpOptions,
+                /* clientOptions= */ clientOptions,
                 this.debugConfig.replaysDirectory(),
                 this.debugConfig.replayId(),
                 this.debugConfig.clientMode());
       }
     } else {
       if (!useVertexAI) {
-        this.apiClient = new HttpApiClient(/* apiKey= */ apiKey, /* httpOptions= */ httpOptions);
+        this.apiClient =
+            new HttpApiClient(
+                /* apiKey= */ apiKey,
+                /* httpOptions= */ httpOptions,
+                /* clientOptions= */ clientOptions);
       } else {
         this.apiClient =
             new HttpApiClient(
                 /* project= */ project,
                 /* location= */ location,
                 /* credentials= */ credentials,
-                /* httpOptions= */ httpOptions);
+                /* httpOptions= */ httpOptions,
+                /* clientOptions= */ clientOptions);
       }
     }
 

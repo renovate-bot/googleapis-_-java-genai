@@ -22,6 +22,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.jspecify.annotations.Nullable;
 
 /** Interface for an API client which issues HTTP requests to the GenAI APIs. */
@@ -41,19 +43,24 @@ abstract class ApiClient {
   private static final Logger logger = Logger.getLogger(ApiClient.class.getName());
 
   CloseableHttpClient httpClient;
-  // For Google AI APIs
+  HttpOptions httpOptions;
+  final boolean vertexAI;
+  final Optional<ClientOptions> clientOptions;
+  // For Gemini APIs
   final Optional<String> apiKey;
   // For Vertex AI APIs
   final Optional<String> project;
   final Optional<String> location;
   final Optional<GoogleCredentials> credentials;
-  HttpOptions httpOptions;
-  final boolean vertexAI;
 
   /** Constructs an ApiClient for Google AI APIs. */
-  protected ApiClient(Optional<String> apiKey, Optional<HttpOptions> customHttpOptions) {
+  protected ApiClient(
+      Optional<String> apiKey,
+      Optional<HttpOptions> customHttpOptions,
+      Optional<ClientOptions> clientOptions) {
     checkNotNull(apiKey, "API Key cannot be null");
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
+    checkNotNull(clientOptions, "clientOptions cannot be null");
 
     try {
       this.apiKey = Optional.of(apiKey.orElse(getApiKeyFromEnv()));
@@ -68,6 +75,7 @@ abstract class ApiClient {
     this.location = Optional.empty();
     this.credentials = Optional.empty();
     this.vertexAI = false;
+    this.clientOptions = clientOptions;
 
     this.httpOptions = defaultHttpOptions(/* vertexAI= */ false, this.location);
 
@@ -75,18 +83,20 @@ abstract class ApiClient {
       this.httpOptions = mergeHttpOptions(customHttpOptions.get());
     }
 
-    this.httpClient = createHttpClient(httpOptions.timeout());
+    this.httpClient = createHttpClient(httpOptions.timeout(), clientOptions);
   }
 
   ApiClient(
       Optional<String> project,
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
-      Optional<HttpOptions> customHttpOptions) {
+      Optional<HttpOptions> customHttpOptions,
+      Optional<ClientOptions> clientOptions) {
     checkNotNull(project, "project cannot be null");
     checkNotNull(location, "location cannot be null");
     checkNotNull(credentials, "credentials cannot be null");
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
+    checkNotNull(clientOptions, "clientOptions cannot be null");
 
     try {
       this.project = Optional.of(project.orElse(System.getenv("GOOGLE_CLOUD_PROJECT")));
@@ -114,6 +124,8 @@ abstract class ApiClient {
 
     this.credentials = Optional.of(credentials.orElseGet(() -> defaultCredentials()));
 
+    this.clientOptions = clientOptions;
+
     this.httpOptions = defaultHttpOptions(/* vertexAI= */ true, this.location);
 
     if (customHttpOptions.isPresent()) {
@@ -121,7 +133,7 @@ abstract class ApiClient {
     }
     this.apiKey = Optional.empty();
     this.vertexAI = true;
-    this.httpClient = createHttpClient(httpOptions.timeout());
+    this.httpClient = createHttpClient(httpOptions.timeout(), clientOptions);
   }
 
   private String getApiKeyFromEnv() {
@@ -143,15 +155,23 @@ abstract class ApiClient {
     return geminiApiKey;
   }
 
-  private CloseableHttpClient createHttpClient(Optional<Integer> timeout) {
-    if (!timeout.isPresent()) {
-      return HttpClients.createDefault();
-    }
-    RequestConfig config =
-        RequestConfig.custom()
-            .setConnectTimeout(timeout.get())
-            .build();
-    return HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+  private CloseableHttpClient createHttpClient(
+      Optional<Integer> timeout, Optional<ClientOptions> clientOptions) {
+    HttpClientBuilder builder = HttpClients.custom();
+
+    RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+    timeout.ifPresent(connectTimeout -> requestConfigBuilder.setConnectTimeout(connectTimeout));
+    builder.setDefaultRequestConfig(requestConfigBuilder.build());
+
+    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+    clientOptions.ifPresent(
+        options -> {
+          options.maxConnections().ifPresent(connectionManager::setMaxTotal);
+          options.maxConnectionsPerHost().ifPresent(connectionManager::setDefaultMaxPerRoute);
+        });
+    builder.setConnectionManager(connectionManager);
+
+    return builder.build();
   }
 
   /** Sends a Http request given the http method, path, and request json string. */

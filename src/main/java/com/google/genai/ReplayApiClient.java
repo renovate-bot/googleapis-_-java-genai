@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.ClientOptions;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,10 +60,11 @@ final class ReplayApiClient extends ApiClient {
   ReplayApiClient(
       Optional<String> apiKey,
       Optional<HttpOptions> httpOptions,
+      Optional<ClientOptions> clientOptions,
       String replaysDirectory,
       String replayId,
       String clientMode) {
-    super(apiKey, httpOptions);
+    super(apiKey, httpOptions, clientOptions);
     checkNotNull(replaysDirectory, "replaysDirectory cannot be null");
     checkNotNull(replayId, "replayId cannot be null");
     checkNotNull(clientMode, "clientMode cannot be null");
@@ -78,10 +80,11 @@ final class ReplayApiClient extends ApiClient {
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
       Optional<HttpOptions> httpOptions,
+      Optional<ClientOptions> clientOptions,
       String replaysDirectory,
       String replayId,
       String clientMode) {
-    super(project, location, credentials, httpOptions);
+    super(project, location, credentials, httpOptions, clientOptions);
     checkNotNull(replaysDirectory, "replaysDirectory cannot be null");
     checkNotNull(replayId, "replayId cannot be null");
     checkNotNull(clientMode, "clientMode cannot be null");

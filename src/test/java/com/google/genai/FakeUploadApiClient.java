@@ -16,6 +16,7 @@
 
 package com.google.genai;
 
+import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,10 @@ public final class FakeUploadApiClient extends ApiClient {
   private final Map<String, Integer> fileUploadFailureCount;
 
   public FakeUploadApiClient() {
-    super(Optional.of("fake-api-key"), Optional.<HttpOptions>empty());
+    super(
+        Optional.of("fake-api-key"),
+        Optional.<HttpOptions>empty(),
+        Optional.<ClientOptions>empty());
     fileUploadFailureCount = new HashMap<>();
     this.files = new HashMap<>();
   }
