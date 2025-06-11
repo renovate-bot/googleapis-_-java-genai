@@ -212,21 +212,31 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
 
+    /**
+     * Setter for mediaResolution given a known enum.
+     *
+     * <p>mediaResolution: Optional. If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(MediaResolution.Known knownType) {
       return mediaResolution(new MediaResolution(knownType));
     }
 
+    /**
+     * Setter for mediaResolution given a string.
+     *
+     * <p>mediaResolution: Optional. If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(String mediaResolution) {
       return mediaResolution(new MediaResolution(mediaResolution));
     }
+
     /**
      * Setter for presencePenalty.
      *
      * <p>presencePenalty: Optional. Positive penalties.
      */
-
     @JsonProperty("presencePenalty")
     public abstract Builder presencePenalty(Float presencePenalty);
 
@@ -266,6 +276,31 @@ public abstract class GenerationConfig extends JsonSerializable {
       return responseModalities(Arrays.asList(responseModalities));
     }
 
+    /**
+     * Setter for responseModalities given a varargs of strings.
+     *
+     * <p>responseModalities: Optional. The modalities of the response.
+     */
+    @CanIgnoreReturnValue
+    public Builder responseModalities(String... responseModalities) {
+      return responseModalitiesFromString(Arrays.asList(responseModalities));
+    }
+
+    /**
+     * Setter for responseModalities given a varargs of known enums.
+     *
+     * <p>responseModalities: Optional. The modalities of the response.
+     */
+    @CanIgnoreReturnValue
+    public Builder responseModalities(Modality.Known... knownTypes) {
+      return responseModalitiesFromKnown(Arrays.asList(knownTypes));
+    }
+
+    /**
+     * Setter for responseModalities given a list of known enums.
+     *
+     * <p>responseModalities: Optional. The modalities of the response.
+     */
     @CanIgnoreReturnValue
     public Builder responseModalitiesFromKnown(List<Modality.Known> knownTypes) {
       ImmutableList<Modality> listItems =
@@ -273,12 +308,18 @@ public abstract class GenerationConfig extends JsonSerializable {
       return responseModalities(listItems);
     }
 
+    /**
+     * Setter for responseModalities given a list of strings.
+     *
+     * <p>responseModalities: Optional. The modalities of the response.
+     */
     @CanIgnoreReturnValue
     public Builder responseModalitiesFromString(List<String> responseModalities) {
       ImmutableList<Modality> listItems =
           responseModalities.stream().map(Modality::new).collect(toImmutableList());
       return responseModalities(listItems);
     }
+
     /**
      * Setter for responseSchema.
      *
@@ -288,7 +329,6 @@ public abstract class GenerationConfig extends JsonSerializable {
      * set, a compatible response_mime_type must also be set. Compatible mimetypes:
      * `application/json`: Schema for JSON response.
      */
-
     @JsonProperty("responseSchema")
     public abstract Builder responseSchema(Schema responseSchema);
 

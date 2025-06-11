@@ -90,7 +90,7 @@ public final class LiveTextToAudioTranscriptionAsync {
 
     LiveConnectConfig config =
         LiveConnectConfig.builder()
-            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.AUDIO))
+            .responseModalities(Modality.Known.AUDIO)
             .outputAudioTranscription(AudioTranscriptionConfig.builder())
             .systemInstruction(systemInstruction)
             .speechConfig(SpeechConfig.builder().languageCode("ja-JP"))

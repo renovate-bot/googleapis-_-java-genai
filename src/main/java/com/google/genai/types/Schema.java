@@ -409,11 +409,21 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("type")
     public abstract Builder type(Type type);
 
+    /**
+     * Setter for type given a known enum.
+     *
+     * <p>type: Optional. The type of the data.
+     */
     @CanIgnoreReturnValue
     public Builder type(Type.Known knownType) {
       return type(new Type(knownType));
     }
 
+    /**
+     * Setter for type given a string.
+     *
+     * <p>type: Optional. The type of the data.
+     */
     @CanIgnoreReturnValue
     public Builder type(String type) {
       return type(new Type(type));

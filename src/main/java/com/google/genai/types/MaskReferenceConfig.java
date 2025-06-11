@@ -76,22 +76,34 @@ public abstract class MaskReferenceConfig extends JsonSerializable {
     @JsonProperty("maskMode")
     public abstract Builder maskMode(MaskReferenceMode maskMode);
 
+    /**
+     * Setter for maskMode given a known enum.
+     *
+     * <p>maskMode: Prompts the model to generate a mask instead of you needing to provide one
+     * (unless MASK_MODE_USER_PROVIDED is used).
+     */
     @CanIgnoreReturnValue
     public Builder maskMode(MaskReferenceMode.Known knownType) {
       return maskMode(new MaskReferenceMode(knownType));
     }
 
+    /**
+     * Setter for maskMode given a string.
+     *
+     * <p>maskMode: Prompts the model to generate a mask instead of you needing to provide one
+     * (unless MASK_MODE_USER_PROVIDED is used).
+     */
     @CanIgnoreReturnValue
     public Builder maskMode(String maskMode) {
       return maskMode(new MaskReferenceMode(maskMode));
     }
+
     /**
      * Setter for segmentationClasses.
      *
      * <p>segmentationClasses: A list of up to 5 class ids to use for semantic segmentation.
      * Automatically creates an image mask based on specific objects.
      */
-
     @JsonProperty("segmentationClasses")
     public abstract Builder segmentationClasses(List<Integer> segmentationClasses);
 

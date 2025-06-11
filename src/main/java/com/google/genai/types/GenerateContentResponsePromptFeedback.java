@@ -74,21 +74,31 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     @JsonProperty("blockReason")
     public abstract Builder blockReason(BlockedReason blockReason);
 
+    /**
+     * Setter for blockReason given a known enum.
+     *
+     * <p>blockReason: Output only. Blocked reason.
+     */
     @CanIgnoreReturnValue
     public Builder blockReason(BlockedReason.Known knownType) {
       return blockReason(new BlockedReason(knownType));
     }
 
+    /**
+     * Setter for blockReason given a string.
+     *
+     * <p>blockReason: Output only. Blocked reason.
+     */
     @CanIgnoreReturnValue
     public Builder blockReason(String blockReason) {
       return blockReason(new BlockedReason(blockReason));
     }
+
     /**
      * Setter for blockReasonMessage.
      *
      * <p>blockReasonMessage: Output only. A readable block reason message.
      */
-
     @JsonProperty("blockReasonMessage")
     public abstract Builder blockReasonMessage(String blockReasonMessage);
 

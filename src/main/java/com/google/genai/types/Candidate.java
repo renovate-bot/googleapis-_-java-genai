@@ -160,21 +160,33 @@ public abstract class Candidate extends JsonSerializable {
     @JsonProperty("finishReason")
     public abstract Builder finishReason(FinishReason finishReason);
 
+    /**
+     * Setter for finishReason given a known enum.
+     *
+     * <p>finishReason: The reason why the model stopped generating tokens. If empty, the model has
+     * not stopped generating the tokens.
+     */
     @CanIgnoreReturnValue
     public Builder finishReason(FinishReason.Known knownType) {
       return finishReason(new FinishReason(knownType));
     }
 
+    /**
+     * Setter for finishReason given a string.
+     *
+     * <p>finishReason: The reason why the model stopped generating tokens. If empty, the model has
+     * not stopped generating the tokens.
+     */
     @CanIgnoreReturnValue
     public Builder finishReason(String finishReason) {
       return finishReason(new FinishReason(finishReason));
     }
+
     /**
      * Setter for urlContextMetadata.
      *
      * <p>urlContextMetadata: Metadata related to url context retrieval tool.
      */
-
     @JsonProperty("urlContextMetadata")
     public abstract Builder urlContextMetadata(UrlContextMetadata urlContextMetadata);
 

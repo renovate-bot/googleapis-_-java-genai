@@ -69,15 +69,26 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
     @JsonProperty("mode")
     public abstract Builder mode(FunctionCallingConfigMode mode);
 
+    /**
+     * Setter for mode given a known enum.
+     *
+     * <p>mode: Optional. Function calling mode.
+     */
     @CanIgnoreReturnValue
     public Builder mode(FunctionCallingConfigMode.Known knownType) {
       return mode(new FunctionCallingConfigMode(knownType));
     }
 
+    /**
+     * Setter for mode given a string.
+     *
+     * <p>mode: Optional. Function calling mode.
+     */
     @CanIgnoreReturnValue
     public Builder mode(String mode) {
       return mode(new FunctionCallingConfigMode(mode));
     }
+
     /**
      * Setter for allowedFunctionNames.
      *
@@ -85,7 +96,6 @@ public abstract class FunctionCallingConfig extends JsonSerializable {
      * Function names should match [FunctionDeclaration.name]. With mode set to ANY, model will
      * predict a function call from the set of function names provided.
      */
-
     @JsonProperty("allowedFunctionNames")
     public abstract Builder allowedFunctionNames(List<String> allowedFunctionNames);
 

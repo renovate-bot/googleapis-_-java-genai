@@ -297,11 +297,23 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
     @JsonProperty("trafficType")
     public abstract Builder trafficType(TrafficType trafficType);
 
+    /**
+     * Setter for trafficType given a known enum.
+     *
+     * <p>trafficType: Output only. Traffic type. This shows whether a request consumes
+     * Pay-As-You-Go or Provisioned Throughput quota.
+     */
     @CanIgnoreReturnValue
     public Builder trafficType(TrafficType.Known knownType) {
       return trafficType(new TrafficType(knownType));
     }
 
+    /**
+     * Setter for trafficType given a string.
+     *
+     * <p>trafficType: Output only. Traffic type. This shows whether a request consumes
+     * Pay-As-You-Go or Provisioned Throughput quota.
+     */
     @CanIgnoreReturnValue
     public Builder trafficType(String trafficType) {
       return trafficType(new TrafficType(trafficType));

@@ -281,11 +281,23 @@ public abstract class UsageMetadata extends JsonSerializable {
     @JsonProperty("trafficType")
     public abstract Builder trafficType(TrafficType trafficType);
 
+    /**
+     * Setter for trafficType given a known enum.
+     *
+     * <p>trafficType: Traffic type. This shows whether a request consumes Pay-As-You-Go or
+     * Provisioned Throughput quota.
+     */
     @CanIgnoreReturnValue
     public Builder trafficType(TrafficType.Known knownType) {
       return trafficType(new TrafficType(knownType));
     }
 
+    /**
+     * Setter for trafficType given a string.
+     *
+     * <p>trafficType: Traffic type. This shows whether a request consumes Pay-As-You-Go or
+     * Provisioned Throughput quota.
+     */
     @CanIgnoreReturnValue
     public Builder trafficType(String trafficType) {
       return trafficType(new TrafficType(trafficType));

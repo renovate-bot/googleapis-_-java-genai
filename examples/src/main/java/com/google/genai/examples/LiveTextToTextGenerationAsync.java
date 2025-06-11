@@ -74,9 +74,7 @@ public final class LiveTextToTextGenerationAsync {
     }
 
     LiveConnectConfig config =
-        LiveConnectConfig.builder()
-            .responseModalitiesFromKnown(ImmutableList.of(Modality.Known.TEXT))
-            .build();
+        LiveConnectConfig.builder().responseModalities(Modality.Known.TEXT).build();
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 

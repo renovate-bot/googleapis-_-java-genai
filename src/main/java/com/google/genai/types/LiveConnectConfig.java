@@ -200,6 +200,34 @@ public abstract class LiveConnectConfig extends JsonSerializable {
       return responseModalities(Arrays.asList(responseModalities));
     }
 
+    /**
+     * Setter for responseModalities given a varargs of strings.
+     *
+     * <p>responseModalities: The requested modalities of the response. Represents the set of
+     * modalities that the model can return. Defaults to AUDIO if not specified.
+     */
+    @CanIgnoreReturnValue
+    public Builder responseModalities(String... responseModalities) {
+      return responseModalitiesFromString(Arrays.asList(responseModalities));
+    }
+
+    /**
+     * Setter for responseModalities given a varargs of known enums.
+     *
+     * <p>responseModalities: The requested modalities of the response. Represents the set of
+     * modalities that the model can return. Defaults to AUDIO if not specified.
+     */
+    @CanIgnoreReturnValue
+    public Builder responseModalities(Modality.Known... knownTypes) {
+      return responseModalitiesFromKnown(Arrays.asList(knownTypes));
+    }
+
+    /**
+     * Setter for responseModalities given a list of known enums.
+     *
+     * <p>responseModalities: The requested modalities of the response. Represents the set of
+     * modalities that the model can return. Defaults to AUDIO if not specified.
+     */
     @CanIgnoreReturnValue
     public Builder responseModalitiesFromKnown(List<Modality.Known> knownTypes) {
       ImmutableList<Modality> listItems =
@@ -207,12 +235,19 @@ public abstract class LiveConnectConfig extends JsonSerializable {
       return responseModalities(listItems);
     }
 
+    /**
+     * Setter for responseModalities given a list of strings.
+     *
+     * <p>responseModalities: The requested modalities of the response. Represents the set of
+     * modalities that the model can return. Defaults to AUDIO if not specified.
+     */
     @CanIgnoreReturnValue
     public Builder responseModalitiesFromString(List<String> responseModalities) {
       ImmutableList<Modality> listItems =
           responseModalities.stream().map(Modality::new).collect(toImmutableList());
       return responseModalities(listItems);
     }
+
     /**
      * Setter for temperature.
      *
@@ -220,7 +255,6 @@ public abstract class LiveConnectConfig extends JsonSerializable {
      * temperatures are good for prompts that require a less open-ended or creative response, while
      * higher temperatures can lead to more diverse or creative results.
      */
-
     @JsonProperty("temperature")
     public abstract Builder temperature(Float temperature);
 
@@ -261,22 +295,32 @@ public abstract class LiveConnectConfig extends JsonSerializable {
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
 
+    /**
+     * Setter for mediaResolution given a known enum.
+     *
+     * <p>mediaResolution: If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(MediaResolution.Known knownType) {
       return mediaResolution(new MediaResolution(knownType));
     }
 
+    /**
+     * Setter for mediaResolution given a string.
+     *
+     * <p>mediaResolution: If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(String mediaResolution) {
       return mediaResolution(new MediaResolution(mediaResolution));
     }
+
     /**
      * Setter for seed.
      *
      * <p>seed: When ``seed`` is fixed to a specific number, the model makes a best effort to
      * provide the same response for repeated requests. By default, a random number is used.
      */
-
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
 

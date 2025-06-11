@@ -554,21 +554,31 @@ public abstract class GenerateContentConfig extends JsonSerializable {
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
 
+    /**
+     * Setter for mediaResolution given a known enum.
+     *
+     * <p>mediaResolution: If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(MediaResolution.Known knownType) {
       return mediaResolution(new MediaResolution(knownType));
     }
 
+    /**
+     * Setter for mediaResolution given a string.
+     *
+     * <p>mediaResolution: If specified, the media resolution specified will be used.
+     */
     @CanIgnoreReturnValue
     public Builder mediaResolution(String mediaResolution) {
       return mediaResolution(new MediaResolution(mediaResolution));
     }
+
     /**
      * Setter for speechConfig.
      *
      * <p>speechConfig: The speech generation configuration.
      */
-
     @JsonProperty("speechConfig")
     public abstract Builder speechConfig(SpeechConfig speechConfig);
 
