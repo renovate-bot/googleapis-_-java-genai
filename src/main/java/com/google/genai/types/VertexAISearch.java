@@ -18,11 +18,15 @@
 
 package com.google.genai.types;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,6 +36,14 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = VertexAISearch.Builder.class)
 public abstract class VertexAISearch extends JsonSerializable {
+  /**
+   * Specifications that define the specific DataStores to be searched, along with configurations
+   * for those data stores. This is only considered for Engines with multiple data stores. It should
+   * only be set if engine is used.
+   */
+  @JsonProperty("dataStoreSpecs")
+  public abstract Optional<List<VertexAISearchDataStoreSpec>> dataStoreSpecs();
+
   /**
    * Optional. Fully-qualified Vertex AI Search data store resource ID. Format:
    * `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}`
@@ -72,6 +84,41 @@ public abstract class VertexAISearch extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_VertexAISearch.Builder();
+    }
+
+    /**
+     * Setter for dataStoreSpecs.
+     *
+     * <p>dataStoreSpecs: Specifications that define the specific DataStores to be searched, along
+     * with configurations for those data stores. This is only considered for Engines with multiple
+     * data stores. It should only be set if engine is used.
+     */
+    @JsonProperty("dataStoreSpecs")
+    public abstract Builder dataStoreSpecs(List<VertexAISearchDataStoreSpec> dataStoreSpecs);
+
+    /**
+     * Setter for dataStoreSpecs.
+     *
+     * <p>dataStoreSpecs: Specifications that define the specific DataStores to be searched, along
+     * with configurations for those data stores. This is only considered for Engines with multiple
+     * data stores. It should only be set if engine is used.
+     */
+    public Builder dataStoreSpecs(VertexAISearchDataStoreSpec... dataStoreSpecs) {
+      return dataStoreSpecs(Arrays.asList(dataStoreSpecs));
+    }
+
+    /**
+     * Setter for dataStoreSpecs builder.
+     *
+     * <p>dataStoreSpecs: Specifications that define the specific DataStores to be searched, along
+     * with configurations for those data stores. This is only considered for Engines with multiple
+     * data stores. It should only be set if engine is used.
+     */
+    public Builder dataStoreSpecs(VertexAISearchDataStoreSpec.Builder... dataStoreSpecsBuilders) {
+      return dataStoreSpecs(
+          Arrays.asList(dataStoreSpecsBuilders).stream()
+              .map(VertexAISearchDataStoreSpec.Builder::build)
+              .collect(toImmutableList()));
     }
 
     /**
