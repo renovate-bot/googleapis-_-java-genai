@@ -323,6 +323,25 @@ public final class AsyncModels {
   }
 
   /**
+   * Asynchronously generates videos given a GenAI model, and an input (text, image).
+   *
+   * <p>This method is experimental, and kept for backward compatibility.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param prompt the text prompt for generating the videos. Optional for image to video use cases.
+   * @param image the input image for generating the videos. Optional if prompt is provided.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
+  public CompletableFuture<GenerateVideosOperation> generateVideos(
+      String model, String prompt, Image image, GenerateVideosConfig config) {
+    return CompletableFuture.supplyAsync(
+        () -> models.generateVideos(model, prompt, image, null, config));
+  }
+
+  /**
    * Asynchronously embeds content given a GenAI model and a text string.
    *
    * @param model the name of the GenAI model to use for embedding

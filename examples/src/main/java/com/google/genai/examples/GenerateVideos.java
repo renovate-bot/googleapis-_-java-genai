@@ -77,7 +77,6 @@ public final class GenerateVideos {
             "veo-2.0-generate-001",
             "A neon hologram of a cat driving at top speed",
             null,
-            null,
             generateVideosConfig);
 
     // GenerateVideosOperation.done() is empty if the operation is not done.
@@ -99,11 +98,14 @@ public final class GenerateVideos {
 
     Video generatedVideo =
         generateVideosOperation.response().get().generatedVideos().get().get(0).video().get();
-    try {
-      client.files.download(generatedVideo, "video.mp4", null);
-      System.out.println("Downloaded video to video.mp4");
-    } catch (GenAiIOException e) {
-      System.out.println("An error occurred while downloading the video: " + e.getMessage());
+
+    if (!client.vertexAI()) {
+      try {
+        client.files.download(generatedVideo, "video.mp4", null);
+        System.out.println("Downloaded video to video.mp4");
+      } catch (GenAiIOException e) {
+        System.out.println("An error occurred while downloading the video: " + e.getMessage());
+      }
     }
   }
 
