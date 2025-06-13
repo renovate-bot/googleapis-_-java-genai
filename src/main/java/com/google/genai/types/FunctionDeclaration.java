@@ -72,11 +72,29 @@ public abstract class FunctionDeclaration extends JsonSerializable {
   public abstract Optional<Schema> parameters();
 
   /**
+   * Optional. Describes the parameters to the function in JSON Schema format. The schema must
+   * describe an object where the properties are the parameters to the function. For example: ``` {
+   * "type": "object", "properties": { "name": { "type": "string" }, "age": { "type": "integer" } },
+   * "additionalProperties": false, "required": ["name", "age"], "propertyOrdering": ["name", "age"]
+   * } ``` This field is mutually exclusive with `parameters`.
+   */
+  @JsonProperty("parametersJsonSchema")
+  public abstract Optional<Object> parametersJsonSchema();
+
+  /**
    * Optional. Describes the output from this function in JSON Schema format. Reflects the Open API
    * 3.03 Response Object. The Schema defines the type used for the response value of the function.
    */
   @JsonProperty("response")
   public abstract Optional<Schema> response();
+
+  /**
+   * Optional. Describes the output from this function in JSON Schema format. The value specified by
+   * the schema is the response value of the function. This field is mutually exclusive with
+   * `response`.
+   */
+  @JsonProperty("responseJsonSchema")
+  public abstract Optional<Object> responseJsonSchema();
 
   /** Instantiates a builder for FunctionDeclaration. */
   public static Builder builder() {
@@ -172,6 +190,18 @@ public abstract class FunctionDeclaration extends JsonSerializable {
     }
 
     /**
+     * Setter for parametersJsonSchema.
+     *
+     * <p>parametersJsonSchema: Optional. Describes the parameters to the function in JSON Schema
+     * format. The schema must describe an object where the properties are the parameters to the
+     * function. For example: ``` { "type": "object", "properties": { "name": { "type": "string" },
+     * "age": { "type": "integer" } }, "additionalProperties": false, "required": ["name", "age"],
+     * "propertyOrdering": ["name", "age"] } ``` This field is mutually exclusive with `parameters`.
+     */
+    @JsonProperty("parametersJsonSchema")
+    public abstract Builder parametersJsonSchema(Object parametersJsonSchema);
+
+    /**
      * Setter for response.
      *
      * <p>response: Optional. Describes the output from this function in JSON Schema format.
@@ -191,6 +221,16 @@ public abstract class FunctionDeclaration extends JsonSerializable {
     public Builder response(Schema.Builder responseBuilder) {
       return response(responseBuilder.build());
     }
+
+    /**
+     * Setter for responseJsonSchema.
+     *
+     * <p>responseJsonSchema: Optional. Describes the output from this function in JSON Schema
+     * format. The value specified by the schema is the response value of the function. This field
+     * is mutually exclusive with `response`.
+     */
+    @JsonProperty("responseJsonSchema")
+    public abstract Builder responseJsonSchema(Object responseJsonSchema);
 
     public abstract FunctionDeclaration build();
   }

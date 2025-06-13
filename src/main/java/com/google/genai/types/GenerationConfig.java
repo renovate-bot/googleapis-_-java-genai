@@ -94,6 +94,22 @@ public abstract class GenerationConfig extends JsonSerializable {
   @JsonProperty("responseSchema")
   public abstract Optional<Schema> responseSchema();
 
+  /**
+   * Optional. Output schema of the generated response. This is an alternative to `response_schema`
+   * that accepts [JSON Schema](https://json-schema.org/). If set, `response_schema` must be
+   * omitted, but `response_mime_type` is required. While the full JSON Schema may be sent, not all
+   * features are supported. Specifically, only the following properties are supported: - `$id` -
+   * `$defs` - `$ref` - `$anchor` - `type` - `format` - `title` - `description` - `enum` (for
+   * strings and numbers) - `items` - `prefixItems` - `minItems` - `maxItems` - `minimum` -
+   * `maximum` - `anyOf` - `oneOf` (interpreted the same as `anyOf`) - `properties` -
+   * `additionalProperties` - `required` The non-standard `propertyOrdering` property may also be
+   * set. Cyclic references are unrolled to a limited degree and, as such, may only be used within
+   * non-required properties. (Nullable properties are not sufficient.) If `$ref` is set on a
+   * sub-schema, no other properties, except for than those starting as a `$`, may be set.
+   */
+  @JsonProperty("responseJsonSchema")
+  public abstract Optional<Object> responseJsonSchema();
+
   /** Optional. Routing configuration. */
   @JsonProperty("routingConfig")
   public abstract Optional<GenerationConfigRoutingConfig> routingConfig();
@@ -344,6 +360,25 @@ public abstract class GenerationConfig extends JsonSerializable {
     public Builder responseSchema(Schema.Builder responseSchemaBuilder) {
       return responseSchema(responseSchemaBuilder.build());
     }
+
+    /**
+     * Setter for responseJsonSchema.
+     *
+     * <p>responseJsonSchema: Optional. Output schema of the generated response. This is an
+     * alternative to `response_schema` that accepts [JSON Schema](https://json-schema.org/). If
+     * set, `response_schema` must be omitted, but `response_mime_type` is required. While the full
+     * JSON Schema may be sent, not all features are supported. Specifically, only the following
+     * properties are supported: - `$id` - `$defs` - `$ref` - `$anchor` - `type` - `format` -
+     * `title` - `description` - `enum` (for strings and numbers) - `items` - `prefixItems` -
+     * `minItems` - `maxItems` - `minimum` - `maximum` - `anyOf` - `oneOf` (interpreted the same as
+     * `anyOf`) - `properties` - `additionalProperties` - `required` The non-standard
+     * `propertyOrdering` property may also be set. Cyclic references are unrolled to a limited
+     * degree and, as such, may only be used within non-required properties. (Nullable properties
+     * are not sufficient.) If `$ref` is set on a sub-schema, no other properties, except for than
+     * those starting as a `$`, may be set.
+     */
+    @JsonProperty("responseJsonSchema")
+    public abstract Builder responseJsonSchema(Object responseJsonSchema);
 
     /**
      * Setter for routingConfig.

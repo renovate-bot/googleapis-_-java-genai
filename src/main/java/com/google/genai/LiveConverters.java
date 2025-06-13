@@ -642,11 +642,25 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"parameters"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"parametersJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parametersJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"parametersJsonSchema"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"response"},
           Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
     }
 
     return toObject;
@@ -681,11 +695,25 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"parameters"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"parametersJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"parametersJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"parametersJsonSchema"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"response"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"response"},
           Common.getValueByPath(fromObject, new String[] {"response"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
     }
 
     return toObject;
