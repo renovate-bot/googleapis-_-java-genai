@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.EmbedContentAsync"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -46,6 +47,11 @@ import java.util.concurrent.CompletableFuture;
 /** An example of using the Unified Gen AI Java SDK to embed content asynchronously. */
 public final class EmbedContentAsync {
   public static void main(String[] args) {
+    String modelId = "text-embedding-004";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -63,7 +69,7 @@ public final class EmbedContentAsync {
     }
 
     CompletableFuture<EmbedContentResponse> responseFuture =
-        client.async.models.embedContent("text-embedding-004", "Why is the sky blue?", null);
+        client.async.models.embedContent(modelId, "Why is the sky blue?", null);
 
     responseFuture
         .thenAccept(

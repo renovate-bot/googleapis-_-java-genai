@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.LiveTextToTextGenerationAsync"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -73,19 +74,22 @@ public final class LiveTextToTextGenerationAsync {
       System.out.println("Using Gemini Developer API");
     }
 
+    String modelId;
+    if (client.vertexAI()) {
+      modelId = "gemini-2.0-flash-live-preview-04-09";
+    } else {
+      modelId = "gemini-2.0-flash-live-001";
+    }
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     LiveConnectConfig config =
         LiveConnectConfig.builder().responseModalities(Modality.Known.TEXT).build();
 
     CompletableFuture<Void> allDone = new CompletableFuture<>();
 
-    String modelName;
-    if (client.vertexAI()) {
-      modelName = "gemini-2.0-flash-live-preview-04-09";
-    } else {
-      modelName = "gemini-2.0-flash-live-001";
-    }
-
-    CompletableFuture<AsyncSession> futureSession = client.async.live.connect(modelName, config);
+    CompletableFuture<AsyncSession> futureSession = client.async.live.connect(modelId, config);
 
     futureSession
         .thenCompose(

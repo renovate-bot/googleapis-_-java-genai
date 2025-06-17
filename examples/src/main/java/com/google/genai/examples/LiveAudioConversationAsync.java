@@ -39,6 +39,7 @@
  * <p>mvn clean
  *
  * <p>mvn compile exec:java -Dexec.mainClass="com.google.genai.examples.LiveAudioConversationAsync"
+ * -Dexec.args="YOUR_MODEL_ID"
  *
  * <p>3. Speak into the microphone. Press Ctrl+C to exit. Important: This example uses the system
  * default audio input and output, which often won't include echo cancellation. So to prevent the
@@ -134,7 +135,6 @@ public final class LiveAudioConversationAsync {
   }
 
   public static void main(String[] args) throws LineUnavailableException {
-
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -149,6 +149,16 @@ public final class LiveAudioConversationAsync {
       System.out.println("Using Vertex AI");
     } else {
       System.out.println("Using Gemini Developer API");
+    }
+
+    String modelId;
+    if (client.vertexAI()) {
+      modelId = "gemini-2.0-flash-live-preview-04-09";
+    } else {
+      modelId = "gemini-2.0-flash-live-001";
+    }
+    if (args.length != 0) {
+      modelId = args[0];
     }
 
     // --- Audio Line Setup ---
@@ -208,11 +218,7 @@ public final class LiveAudioConversationAsync {
       // --- Connect to Gemini Live API ---
       System.out.println("Connecting to Gemini Live API...");
 
-      if (client.vertexAI()) {
-        session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
-      } else {
-        session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
-      }
+      session = client.async.live.connect(modelId, config).get();
       System.out.println("Connected.");
 
       // --- Start Audio Lines ---

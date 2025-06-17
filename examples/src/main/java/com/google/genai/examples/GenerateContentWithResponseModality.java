@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithResponseModality"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -48,6 +49,11 @@ import com.google.genai.types.GenerateContentResponse;
 /** An example of using the Unified Gen AI Java SDK to generate content with response modality. */
 public final class GenerateContentWithResponseModality {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-preview-image-generation";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -68,10 +74,7 @@ public final class GenerateContentWithResponseModality {
         GenerateContentConfig.builder().responseModalities("TEXT", "IMAGE").build();
 
     GenerateContentResponse response =
-        client.models.generateContent(
-            "gemini-2.0-flash-preview-image-generation",
-            "Generate a cat image and describe it.",
-            config);
+        client.models.generateContent(modelId, "Generate a cat image and describe it.", config);
 
     System.out.println("Response: " + response.toJson());
   }

@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.EmbedContent"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -45,6 +46,11 @@ import com.google.genai.types.EmbedContentResponse;
 /** An example of using the Unified Gen AI Java SDK to embed content. */
 public final class EmbedContent {
   public static void main(String[] args) {
+    String modelId = "text-embedding-004";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -62,7 +68,7 @@ public final class EmbedContent {
     }
 
     EmbedContentResponse response =
-        client.models.embedContent("text-embedding-004", "why is the sky blue?", null);
+        client.models.embedContent(modelId, "why is the sky blue?", null);
 
     System.out.println("Embedding response: " + response);
   }

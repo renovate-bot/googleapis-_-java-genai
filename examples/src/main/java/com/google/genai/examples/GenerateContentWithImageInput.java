@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithImageInput"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -49,6 +50,11 @@ import com.google.genai.types.Part;
 /** An example of using the Unified Gen AI Java SDK to generate content with image input. */
 public final class GenerateContentWithImageInput {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -72,8 +78,7 @@ public final class GenerateContentWithImageInput {
             Part.fromText("describe the image"),
             Part.fromUri("gs://cloud-samples-data/generative-ai/image/scones.jpg", "image/jpeg"));
 
-    GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", content, null);
+    GenerateContentResponse response = client.models.generateContent(modelId, content, null);
 
     System.out.println("Response: " + response.text());
   }

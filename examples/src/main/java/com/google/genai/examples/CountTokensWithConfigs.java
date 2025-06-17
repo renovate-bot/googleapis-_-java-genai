@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.CountTokensWithConfigs"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -53,6 +54,11 @@ import com.google.genai.types.Part;
  */
 public final class CountTokensWithConfigs {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -78,7 +84,7 @@ public final class CountTokensWithConfigs {
             .build();
 
     CountTokensResponse response =
-        client.models.countTokens("gemini-2.0-flash-001", "Tell me the history of LLM", config);
+        client.models.countTokens(modelId, "Tell me the history of LLM", config);
 
     System.out.println("Response: " + response);
   }

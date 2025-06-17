@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.EditImageMaskReference"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -56,6 +57,11 @@ import java.util.ArrayList;
 /** An example of using the Unified Gen AI Java SDK to edit an image (Mask reference). */
 public final class EditImageMaskReference {
   public static void main(String[] args) {
+    String modelId = "imagen-3.0-capability-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -101,10 +107,7 @@ public final class EditImageMaskReference {
 
     EditImageResponse editImageResponse =
         client.models.editImage(
-            "imagen-3.0-capability-001",
-            "Sunlight and clear sky",
-            referenceImages,
-            editImageConfig);
+            modelId, "Sunlight and clear sky", referenceImages, editImageConfig);
 
     Image editedImage = editImageResponse.generatedImages().get().get(0).image().get();
     // Do something with editedImage.

@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.GenerateImages"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -47,6 +48,11 @@ import com.google.genai.types.Image;
 /** An example of using the Unified Gen AI Java SDK to generate images. */
 public final class GenerateImages {
   public static void main(String[] args) {
+    String modelId = "imagen-3.0-generate-002";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -72,7 +78,7 @@ public final class GenerateImages {
 
     GenerateImagesResponse generatedImagesResponse =
         client.models.generateImages(
-            "imagen-3.0-generate-002", "Robot holding a red skateboard", generateImagesConfig);
+            modelId, "Robot holding a red skateboard", generateImagesConfig);
 
     System.out.println(
         "Generated " + generatedImagesResponse.generatedImages().get().size() + " images.");

@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithHistory"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -48,6 +49,11 @@ import com.google.genai.types.GenerateContentResponse;
 /** An example of using the Unified Gen AI Java SDK to create a chat session with history. */
 public final class ChatWithHistory {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -65,7 +71,7 @@ public final class ChatWithHistory {
     }
 
     // Create a chat session.
-    Chat chatSession = client.chats.create("gemini-2.0-flash-001");
+    Chat chatSession = client.chats.create(modelId);
 
     GenerateContentResponse response =
         chatSession.sendMessage("Can you tell me a story about cheese in 100 words?");

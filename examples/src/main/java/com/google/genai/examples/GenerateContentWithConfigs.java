@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithConfigs"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -56,6 +57,11 @@ import com.google.genai.types.Tool;
 /** An example of using the Unified Gen AI Java SDK to generate content with extra configs. */
 public final class GenerateContentWithConfigs {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -100,7 +106,7 @@ public final class GenerateContentWithConfigs {
             .build();
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", "Tell me the history of LLM", config);
+        client.models.generateContent(modelId, "Tell me the history of LLM", config);
 
     System.out.println("Response: " + response.text());
   }

@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.LiveTextConversationResumptionAsync"
+ * -Dexec.args="YOUR_MODEL_ID"
  *
  * <p>to resume a session, you can use the --session_handle argument to provide the session handle
  * returned in the session resumption update from the server.
@@ -45,7 +46,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.LiveTextConversationResumptionAsync"
- * -Dexec.args="--session_handle=..."
+ * -Dexec.args="YOUR_MODEL_ID --session_handle=..."
  */
 package com.google.genai.examples;
 
@@ -68,9 +69,22 @@ import java.util.concurrent.ExecutionException;
 public final class LiveTextConversationResumptionAsync {
 
   public static void main(String[] args) {
+    boolean containsModelId = false;
     // Get the session handle from the command line, if provided
     String sessionHandle = null;
-    if (args.length > 0) {
+    if (args.length > 1) {
+      containsModelId = true;
+      if (args[1].startsWith("--session_handle")) {
+        String[] parts = args[1].split("=", 2);
+        if (parts.length == 2) {
+          sessionHandle = parts[1];
+        } else if (parts.length == 1) {
+          System.err.println("Error: --session_handle requires a value.");
+          System.err.println("Usage: mvn ... --session_handle=<your_handle_value>");
+          System.exit(1);
+        }
+      }
+    } else if (args.length == 1) {
       if (args[0].startsWith("--session_handle")) {
         String[] parts = args[0].split("=", 2);
         if (parts.length == 2) {
@@ -80,6 +94,8 @@ public final class LiveTextConversationResumptionAsync {
           System.err.println("Usage: mvn ... --session_handle=<your_handle_value>");
           System.exit(1);
         }
+      } else {
+        containsModelId = true;
       }
     }
 
@@ -97,6 +113,16 @@ public final class LiveTextConversationResumptionAsync {
       System.out.println("Using Vertex AI");
     } else {
       System.out.println("Using Gemini Developer API");
+    }
+
+    String modelId;
+    if (client.vertexAI()) {
+      modelId = "gemini-2.0-flash-live-preview-04-09";
+    } else {
+      modelId = "gemini-2.0-flash-live-001";
+    }
+    if (containsModelId) {
+      modelId = args[0];
     }
 
     SessionResumptionConfig.Builder sessionResumptionConfigBuilder =
@@ -120,13 +146,7 @@ public final class LiveTextConversationResumptionAsync {
     AsyncSession session;
 
     try {
-      if (client.vertexAI()) {
-        System.out.println("vertex");
-        session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
-      } else {
-        System.out.println("mldev");
-        session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
-      }
+      session = client.async.live.connect(modelId, config).get();
       // Start receiving messages.
       CompletableFuture<Void> receiveFuture =
           session.receive(message -> printLiveServerMessage(message, allDone));

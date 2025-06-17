@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.GenerateVideos"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -48,6 +49,11 @@ import com.google.genai.types.Video;
 /** An example of using the Unified Gen AI Java SDK to generate videos. */
 public final class GenerateVideos {
   public static void main(String[] args) {
+    String modelId = "veo-2.0-generate-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -74,10 +80,7 @@ public final class GenerateVideos {
 
     GenerateVideosOperation generateVideosOperation =
         client.models.generateVideos(
-            "veo-2.0-generate-001",
-            "A neon hologram of a cat driving at top speed",
-            null,
-            generateVideosConfig);
+            modelId, "A neon hologram of a cat driving at top speed", null, generateVideosConfig);
 
     // GenerateVideosOperation.done() is empty if the operation is not done.
     while (!generateVideosOperation.done().filter(Boolean::booleanValue).isPresent()) {

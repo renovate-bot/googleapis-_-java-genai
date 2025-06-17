@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithFunctionCall"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -60,6 +61,11 @@ public final class GenerateContentWithFunctionCall {
   }
 
   public static void main(String[] args) throws NoSuchMethodException {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -89,9 +95,7 @@ public final class GenerateContentWithFunctionCall {
 
     GenerateContentResponse response =
         client.models.generateContent(
-            "gemini-2.0-flash-001",
-            "What is the weather in Vancouver? And can you divide 10 by 0?",
-            config);
+            modelId, "What is the weather in Vancouver? And can you divide 10 by 0?", config);
 
     System.out.println("The response is: " + response.text());
     System.out.println(

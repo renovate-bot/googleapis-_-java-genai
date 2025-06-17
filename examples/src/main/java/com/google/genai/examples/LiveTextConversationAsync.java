@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.LiveTextConversationAsync"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -74,6 +75,16 @@ public final class LiveTextConversationAsync {
       System.out.println("Using Gemini Developer API");
     }
 
+    String modelId;
+    if (client.vertexAI()) {
+      modelId = "gemini-2.0-flash-live-preview-04-09";
+    } else {
+      modelId = "gemini-2.0-flash-live-001";
+    }
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     LiveConnectConfig config =
         LiveConnectConfig.builder()
             .responseModalities(Modality.Known.TEXT)
@@ -86,11 +97,7 @@ public final class LiveTextConversationAsync {
     AsyncSession session;
 
     try {
-      if (client.vertexAI()) {
-        session = client.async.live.connect("gemini-2.0-flash-live-preview-04-09", config).get();
-      } else {
-        session = client.async.live.connect("gemini-2.0-flash-live-001", config).get();
-      }
+      session = client.async.live.connect(modelId, config).get();
       // Start receiving messages.
       CompletableFuture<Void> receiveFuture =
           session.receive(message -> printLiveServerMessage(message, allDone));

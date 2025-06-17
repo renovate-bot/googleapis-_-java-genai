@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.ChatWithFunctionCall"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -59,6 +60,11 @@ public final class ChatWithFunctionCall {
   }
 
   public static void main(String[] args) throws NoSuchMethodException {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -85,7 +91,7 @@ public final class ChatWithFunctionCall {
         GenerateContentConfig.builder().tools(Tool.builder().functions(method1, method2)).build();
 
     // Create a chat session.
-    Chat chatSession = client.chats.create("gemini-2.0-flash-001", config);
+    Chat chatSession = client.chats.create(modelId, config);
 
     GenerateContentResponse response1 =
         chatSession.sendMessage("what is the weather in San Francisco?");

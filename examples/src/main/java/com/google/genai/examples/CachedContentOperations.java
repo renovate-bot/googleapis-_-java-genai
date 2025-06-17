@@ -38,6 +38,7 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.CachedContentOperations"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -60,6 +61,11 @@ import org.jspecify.annotations.Nullable;
 public final class CachedContentOperations {
 
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -89,7 +95,7 @@ public final class CachedContentOperations {
             .contents(content)
             .build();
 
-    CachedContent cachedContent1 = client.caches.create("gemini-2.0-flash-001", config);
+    CachedContent cachedContent1 = client.caches.create(modelId, config);
     System.out.println("Created cached content: " + cachedContent1);
 
     // Get the cached content by name.

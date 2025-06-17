@@ -36,6 +36,7 @@
  * <p>2. Compile the java package and run the sample code.
  *
  * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentStream"
+ * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
@@ -46,6 +47,11 @@ import com.google.genai.types.GenerateContentResponse;
 /** An example of using the Unified GenAI Java SDK to generate stream of content. */
 public final class GenerateContentStream {
   public static void main(String[] args) {
+    String modelId = "gemini-2.0-flash-001";
+    if (args.length != 0) {
+      modelId = args[0];
+    }
+
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
     // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
@@ -63,8 +69,7 @@ public final class GenerateContentStream {
     }
 
     ResponseStream<GenerateContentResponse> responseStream =
-        client.models.generateContentStream(
-            "gemini-2.0-flash-001", "Tell me a story in 300 words.", null);
+        client.models.generateContentStream(modelId, "Tell me a story in 300 words.", null);
 
     System.out.println("Streaming response: ");
     for (GenerateContentResponse res : responseStream) {
