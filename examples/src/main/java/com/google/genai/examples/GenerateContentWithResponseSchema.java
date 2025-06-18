@@ -28,7 +28,7 @@
  *
  * <p>export GOOGLE_GENAI_USE_VERTEXAI=true
  *
- * <p>1b. If you are using Gemini Developer AI, set an API key environment variable. You can find a
+ * <p>1b. If you are using Gemini Developer API, set an API key environment variable. You can find a
  * list of available API keys here: https://aistudio.google.com/app/apikey
  *
  * <p>export GOOGLE_API_KEY=YOUR_API_KEY
