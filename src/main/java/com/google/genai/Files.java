@@ -71,8 +71,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode listFilesConfigToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode listFilesConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     if (Common.getValueByPath(fromObject, new String[] {"pageSize"}) != null) {
@@ -93,15 +92,13 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode listFilesParametersToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode listFilesParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"config"},
           listFilesConfigToMldev(
-              apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
               toObject));
@@ -111,7 +108,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode fileStatusToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode fileStatusToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"details"}) != null) {
       Common.setValueByPath(
@@ -138,7 +135,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode fileToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode fileToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -234,7 +231,6 @@ public final class Files {
           toObject,
           new String[] {"error"},
           fileStatusToMldev(
-              apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"error"})),
               toObject));
@@ -244,15 +240,13 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode createFileParametersToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode createFileParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"file"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"file"},
           fileToMldev(
-              apiClient,
               JsonSerializable.toJsonNode(Common.getValueByPath(fromObject, new String[] {"file"})),
               toObject));
     }
@@ -268,15 +262,13 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode getFileParametersToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode getFileParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"_url", "file"},
-          Transformers.tFileName(
-              this.apiClient, Common.getValueByPath(fromObject, new String[] {"name"})));
+          Transformers.tFileName(Common.getValueByPath(fromObject, new String[] {"name"})));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
@@ -290,15 +282,13 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode deleteFileParametersToMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode deleteFileParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"_url", "file"},
-          Transformers.tFileName(
-              this.apiClient, Common.getValueByPath(fromObject, new String[] {"name"})));
+          Transformers.tFileName(Common.getValueByPath(fromObject, new String[] {"name"})));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
@@ -312,8 +302,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode fileStatusFromMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode fileStatusFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"details"}) != null) {
       Common.setValueByPath(
@@ -340,7 +329,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode fileFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode fileFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -436,7 +425,6 @@ public final class Files {
           toObject,
           new String[] {"error"},
           fileStatusFromMldev(
-              apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"error"})),
               toObject));
@@ -446,8 +434,7 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode listFilesResponseFromMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode listFilesResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -462,7 +449,7 @@ public final class Files {
       ArrayNode result = objectMapper.createArrayNode();
 
       for (JsonNode item : keyArray) {
-        result.add(fileFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+        result.add(fileFromMldev(JsonSerializable.toJsonNode(item), toObject));
       }
       Common.setValueByPath(toObject, new String[] {"files"}, result);
     }
@@ -471,16 +458,14 @@ public final class Files {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode createFileResponseFromMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode createFileResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     return toObject;
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode deleteFileResponseFromMldev(
-      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode deleteFileResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     return toObject;
@@ -506,7 +491,7 @@ public final class Files {
     if (this.apiClient.vertexAI()) {
       throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
     } else {
-      body = listFilesParametersToMldev(this.apiClient, parameterNode, null);
+      body = listFilesParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
         path = Common.formatMap("files", body.get("_url"));
       } else {
@@ -544,7 +529,7 @@ public final class Files {
       if (this.apiClient.vertexAI()) {
         throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
       } else {
-        responseNode = listFilesResponseFromMldev(this.apiClient, responseNode, null);
+        responseNode = listFilesResponseFromMldev(responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, ListFilesResponse.class);
     }
@@ -567,7 +552,7 @@ public final class Files {
     if (this.apiClient.vertexAI()) {
       throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
     } else {
-      body = createFileParametersToMldev(this.apiClient, parameterNode, null);
+      body = createFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
         path = Common.formatMap("upload/v1beta/files", body.get("_url"));
       } else {
@@ -615,7 +600,7 @@ public final class Files {
       if (this.apiClient.vertexAI()) {
         throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
       } else {
-        responseNode = createFileResponseFromMldev(this.apiClient, responseNode, null);
+        responseNode = createFileResponseFromMldev(responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, CreateFileResponse.class);
     }
@@ -645,7 +630,7 @@ public final class Files {
     if (this.apiClient.vertexAI()) {
       throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
     } else {
-      body = getFileParametersToMldev(this.apiClient, parameterNode, null);
+      body = getFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
         path = Common.formatMap("files/{file}", body.get("_url"));
       } else {
@@ -683,7 +668,7 @@ public final class Files {
       if (this.apiClient.vertexAI()) {
         throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
       } else {
-        responseNode = fileFromMldev(this.apiClient, responseNode, null);
+        responseNode = fileFromMldev(responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, File.class);
     }
@@ -713,7 +698,7 @@ public final class Files {
     if (this.apiClient.vertexAI()) {
       throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
     } else {
-      body = deleteFileParametersToMldev(this.apiClient, parameterNode, null);
+      body = deleteFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
         path = Common.formatMap("files/{file}", body.get("_url"));
       } else {
@@ -751,7 +736,7 @@ public final class Files {
       if (this.apiClient.vertexAI()) {
         throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
       } else {
-        responseNode = deleteFileResponseFromMldev(this.apiClient, responseNode, null);
+        responseNode = deleteFileResponseFromMldev(responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, DeleteFileResponse.class);
     }
@@ -830,7 +815,7 @@ public final class Files {
     }
     JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
     responseNode = responseNode.get("file");
-    responseNode = fileFromMldev(this.apiClient, responseNode, null);
+    responseNode = fileFromMldev(responseNode, null);
 
     return JsonSerializable.fromJsonNode(responseNode, File.class);
   }
@@ -908,7 +893,7 @@ public final class Files {
   public void download(String fileName, String downloadPath, DownloadFileConfig config) {
     checkNotNull(fileName);
     checkNotNull(downloadPath);
-    String extractedFileName = Transformers.tFileName(apiClient, fileName);
+    String extractedFileName = Transformers.tFileName(fileName);
     downloadTo(extractedFileName, downloadPath, config);
   }
 
@@ -922,7 +907,7 @@ public final class Files {
   public void download(Video video, String downloadPath, DownloadFileConfig config) {
     checkNotNull(video);
     checkNotNull(downloadPath);
-    String extractedFileName = Transformers.tFileName(apiClient, video);
+    String extractedFileName = Transformers.tFileName(video);
     if (extractedFileName != null) {
       downloadTo(extractedFileName, downloadPath, config);
     } else {
@@ -944,7 +929,7 @@ public final class Files {
   public void download(File file, String downloadPath, DownloadFileConfig config) {
     checkNotNull(file);
     checkNotNull(downloadPath);
-    String extractedFileName = Transformers.tFileName(apiClient, file);
+    String extractedFileName = Transformers.tFileName(file);
     downloadTo(extractedFileName, downloadPath, config);
   }
 
@@ -959,7 +944,7 @@ public final class Files {
       GeneratedVideo generatedVideo, String downloadPath, DownloadFileConfig config) {
     checkNotNull(generatedVideo);
     checkNotNull(downloadPath);
-    String extractedFileName = Transformers.tFileName(apiClient, generatedVideo);
+    String extractedFileName = Transformers.tFileName(generatedVideo);
     if (extractedFileName != null) {
       downloadTo(extractedFileName, downloadPath, config);
     } else {

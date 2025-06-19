@@ -60,9 +60,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       this.obj = obj;
       try {
         this.converter =
-            obj.getClass()
-                .getDeclaredMethod(
-                    converterName, ApiClient.class, JsonNode.class, ObjectNode.class);
+            obj.getClass().getDeclaredMethod(converterName, JsonNode.class, ObjectNode.class);
       } catch (NoSuchMethodException e) {
         throw new IllegalStateException("Failed to find converter method " + converterName, e);
       }
@@ -100,7 +98,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       nextJson = readNextJson();
       try {
         JsonNode currentJsonNode = JsonSerializable.stringToJsonNode(currentJson);
-        currentJsonNode = (JsonNode) converter.invoke(obj, null, currentJsonNode, null);
+        currentJsonNode = (JsonNode) converter.invoke(obj, currentJsonNode, null);
         if (recordingHistory) {
           T response = JsonSerializable.fromJsonNode(currentJsonNode, clazz);
           history.add(response);

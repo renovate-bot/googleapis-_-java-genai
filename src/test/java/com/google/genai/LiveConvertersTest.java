@@ -55,9 +55,7 @@ public class LiveConvertersTest {
     final LiveConverters mldevLiveConverters = new LiveConverters(GEMINI_API_CLIENT);
     ObjectNode transformed =
         mldevLiveConverters.liveClientMessageToMldev(
-            GEMINI_API_CLIENT,
-            JsonSerializable.toJsonNode(message),
-            JsonSerializable.objectMapper.createObjectNode());
+            JsonSerializable.toJsonNode(message), JsonSerializable.objectMapper.createObjectNode());
 
     assertEquals(
         transformed.get("realtime_input").get("mediaChunks").get(0).get("mimeType").asText(),
@@ -67,9 +65,7 @@ public class LiveConvertersTest {
 
     transformed =
         vertexLiveConverters.liveClientMessageToMldev(
-            GEMINI_API_CLIENT,
-            JsonSerializable.toJsonNode(message),
-            JsonSerializable.objectMapper.createObjectNode());
+            JsonSerializable.toJsonNode(message), JsonSerializable.objectMapper.createObjectNode());
 
     assertEquals(
         transformed.get("realtime_input").get("mediaChunks").get(0).get("mimeType").asText(),
@@ -87,9 +83,7 @@ public class LiveConvertersTest {
     final LiveConverters mldevLiveConverters = new LiveConverters(GEMINI_API_CLIENT);
     ObjectNode transformed =
         mldevLiveConverters.liveClientMessageToMldev(
-            GEMINI_API_CLIENT,
-            JsonSerializable.toJsonNode(message),
-            JsonSerializable.objectMapper.createObjectNode());
+            JsonSerializable.toJsonNode(message), JsonSerializable.objectMapper.createObjectNode());
 
     assertEquals(transformed.get("realtime_input").get("text").asText(), "test");
 
@@ -99,7 +93,6 @@ public class LiveConvertersTest {
         IllegalArgumentException.class, // Expected exception type
         () ->
             vertexLiveConverters.liveClientMessageToVertex(
-                VERTEX_AI_CLIENT,
                 JsonSerializable.toJsonNode(message),
                 JsonSerializable.objectMapper
                     .createObjectNode()) // Code that should throw the exception
@@ -122,9 +115,7 @@ public class LiveConvertersTest {
     final LiveConverters mldevLiveConverters = new LiveConverters(GEMINI_API_CLIENT);
     ObjectNode transformed =
         mldevLiveConverters.liveClientMessageToMldev(
-            GEMINI_API_CLIENT,
-            JsonSerializable.toJsonNode(message),
-            JsonSerializable.objectMapper.createObjectNode());
+            JsonSerializable.toJsonNode(message), JsonSerializable.objectMapper.createObjectNode());
 
     assertEquals(
         transformed.get("realtime_input").get("audio").get("mimeType").asText(), "audio/mp3");
@@ -135,7 +126,6 @@ public class LiveConvertersTest {
         IllegalArgumentException.class, // Expected exception type
         () ->
             vertexLiveConverters.liveClientMessageToVertex(
-                VERTEX_AI_CLIENT,
                 JsonSerializable.toJsonNode(message),
                 JsonSerializable.objectMapper
                     .createObjectNode()) // Code that should throw the exception
@@ -161,7 +151,6 @@ public class LiveConvertersTest {
         IllegalArgumentException.class, // Expected exception type
         () ->
             mldevLiveConverters.liveClientMessageToMldev(
-                GEMINI_API_CLIENT,
                 JsonSerializable.toJsonNode(message),
                 JsonSerializable.objectMapper
                     .createObjectNode()) // Code that should throw the exception
@@ -200,7 +189,6 @@ public class LiveConvertersTest {
         IllegalArgumentException.class, // Expected exception type
         () ->
             mldevLiveConverters.liveConnectConfigToMldev(
-                GEMINI_API_CLIENT,
                 JsonSerializable.toJsonNode(message),
                 JsonSerializable.objectMapper
                     .createObjectNode()) // Code that should throw the exception

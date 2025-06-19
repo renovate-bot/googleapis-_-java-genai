@@ -32,13 +32,9 @@ import com.google.genai.types.Schema;
 import com.google.genai.types.Tool;
 import com.google.genai.types.Type;
 import java.lang.reflect.Method;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public final class AfcUtilTest {
-  private static ApiClient mockApiClient;
-
   public static String testFunction1(String input) {
     return input + "testFunction1";
   }
@@ -73,16 +69,10 @@ public final class AfcUtilTest {
                   .required("input2"))
           .build();
 
-  @BeforeEach
-  void setUp() {
-    mockApiClient = Mockito.mock(ApiClient.class);
-  }
-
   @Test
   public void transformGenerateContentConfig_emptyConfig_returnsTransformedConfig() {
     GenerateContentConfig config = GenerateContentConfig.builder().build();
-    GenerateContentConfig transformedConfig =
-        AfcUtil.transformGenerateContentConfig(mockApiClient, config);
+    GenerateContentConfig transformedConfig = AfcUtil.transformGenerateContentConfig(config);
     assertEquals(config, transformedConfig);
   }
 
@@ -92,8 +82,7 @@ public final class AfcUtilTest {
         GenerateContentConfig.builder()
             .tools(Tool.builder().functionDeclarations(testFunctionDeclaration1))
             .build();
-    GenerateContentConfig transformedConfig =
-        AfcUtil.transformGenerateContentConfig(mockApiClient, config);
+    GenerateContentConfig transformedConfig = AfcUtil.transformGenerateContentConfig(config);
     assertEquals(config.toString(), transformedConfig.toString());
   }
 
@@ -114,8 +103,7 @@ public final class AfcUtilTest {
                 Tool.builder()
                     .functionDeclarations(testFunctionDeclaration1, testFunctionDeclaration2))
             .build();
-    GenerateContentConfig transformedConfig =
-        AfcUtil.transformGenerateContentConfig(mockApiClient, config);
+    GenerateContentConfig transformedConfig = AfcUtil.transformGenerateContentConfig(config);
     assertEquals(expectedConfig.toString(), transformedConfig.toString());
   }
 
@@ -327,14 +315,14 @@ public final class AfcUtilTest {
 
   @Test
   public void hasCallableTool_nullConfig_returnsFalse() {
-    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, null);
+    boolean hasCallableTool = AfcUtil.hasCallableTool(null);
     assertEquals(false, hasCallableTool);
   }
 
   @Test
   public void hasCallableTool_emptyTools_returnsFalse() {
     GenerateContentConfig config = GenerateContentConfig.builder().build();
-    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    boolean hasCallableTool = AfcUtil.hasCallableTool(config);
     assertEquals(false, hasCallableTool);
   }
 
@@ -344,7 +332,7 @@ public final class AfcUtilTest {
         GenerateContentConfig.builder()
             .tools(Tool.builder().functionDeclarations(testFunctionDeclaration1))
             .build();
-    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    boolean hasCallableTool = AfcUtil.hasCallableTool(config);
     assertEquals(false, hasCallableTool);
   }
 
@@ -358,7 +346,7 @@ public final class AfcUtilTest {
                     .functionDeclarations(testFunctionDeclaration2)
                     .functions(testMethod1))
             .build();
-    boolean hasCallableTool = AfcUtil.hasCallableTool(mockApiClient, config);
+    boolean hasCallableTool = AfcUtil.hasCallableTool(config);
     assertEquals(true, hasCallableTool);
   }
 }

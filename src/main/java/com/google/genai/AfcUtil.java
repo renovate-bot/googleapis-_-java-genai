@@ -38,7 +38,7 @@ final class AfcUtil {
   private static final Logger logger = Logger.getLogger(AfcUtil.class.getName());
   private static final int DEFAULT_MAX_REMOTE_CALLS_AFC = 10;
 
-  static boolean hasCallableTool(ApiClient apiClient, GenerateContentConfig config) {
+  static boolean hasCallableTool(GenerateContentConfig config) {
     if (config == null) {
       return false;
     }
@@ -53,13 +53,12 @@ final class AfcUtil {
     return false;
   }
 
-  static GenerateContentConfig transformGenerateContentConfig(
-      ApiClient apiClient, GenerateContentConfig config) {
+  static GenerateContentConfig transformGenerateContentConfig(GenerateContentConfig config) {
     GenerateContentConfig transformedConfig;
     if (config != null && config.tools().isPresent() && !config.tools().get().isEmpty()) {
       ImmutableList<Tool> transformedTools =
           config.tools().get().stream()
-              .map(tool -> Transformers.tTool(apiClient, tool))
+              .map(tool -> Transformers.tTool(tool))
               .collect(toImmutableList());
       ObjectNode configNode = JsonSerializable.objectMapper.valueToTree(config);
       configNode.set("tools", JsonSerializable.objectMapper.valueToTree(transformedTools));

@@ -120,7 +120,7 @@ final class Transformers {
    * <p>This is used in the converters.
    */
   @SuppressWarnings("PatternMatchingInstanceof")
-  public static @Nullable JsonNode tExtractModels(ApiClient apiClient, Object origin) {
+  public static @Nullable JsonNode tExtractModels(Object origin) {
     if (origin == null) {
       return null;
     }
@@ -153,7 +153,7 @@ final class Transformers {
    *
    * <p>This is used in the converters.
    */
-  public static Object tContents(ApiClient apiClient, Object origin) {
+  public static Object tContents(Object origin) {
     return origin;
   }
 
@@ -186,12 +186,11 @@ final class Transformers {
   /**
    * Transforms an object to a Content for the API.
    *
-   * @param apiClient the API client to use for transformation
    * @param content the object to transform, can be a string or Content
    * @return the transformed Content
    * @throws IllegalArgumentException if the object is not a supported type
    */
-  public static Content tContent(ApiClient apiClient, Object content) {
+  public static Content tContent(Object content) {
     if (content == null) {
       return null;
     } else if (content instanceof String) {
@@ -206,7 +205,7 @@ final class Transformers {
   }
 
   /** Transforms an object to a Schema for the API. */
-  public static Schema tSchema(ApiClient apiClient, Object origin) {
+  public static Schema tSchema(Object origin) {
     if (origin == null) {
       return null;
     } else if (origin instanceof Schema) {
@@ -217,7 +216,7 @@ final class Transformers {
     throw new IllegalArgumentException("Unsupported schema type: " + origin.getClass());
   }
 
-  public static SpeechConfig tSpeechConfig(ApiClient apiClient, Object speechConfig) {
+  public static SpeechConfig tSpeechConfig(Object speechConfig) {
     if (speechConfig == null) {
       return null;
     } else if (speechConfig instanceof String) {
@@ -240,13 +239,12 @@ final class Transformers {
   /**
    * Transforms a SpeechConfig object for the live API, validating it.
    *
-   * @param apiClient the API client to use for transformation
    * @param origin the object to transform, can be a SpeechConfig or a JsonNode
    * @return the transformed SpeechConfig
    * @throws IllegalArgumentException if the object is not a supported type or if
    *     multiSpeakerVoiceConfig is present.
    */
-  public static @Nullable SpeechConfig tLiveSpeechConfig(ApiClient apiClient, Object origin) {
+  public static @Nullable SpeechConfig tLiveSpeechConfig(Object origin) {
     SpeechConfig speechConfig;
     if (origin == null) {
       return null;
@@ -272,12 +270,12 @@ final class Transformers {
    *
    * <p>This is used in the converters.
    */
-  public static Object tTools(ApiClient apiClient, Object origin) {
+  public static Object tTools(Object origin) {
     return origin;
   }
 
   /** Transforms an object to a Tool for the API. */
-  public static Tool tTool(ApiClient apiClient, Object origin) {
+  public static Tool tTool(Object origin) {
     if (origin == null) {
       return null;
     } else if (origin instanceof Tool) {
@@ -302,7 +300,6 @@ final class Transformers {
       // in case reflectMethods is present in the json node, call tTool to parse it and remove it
       // from the json node.
       return tTool(
-          apiClient,
           JsonSerializable.objectMapper.convertValue(
               (JsonNode) origin, new TypeReference<Tool>() {}));
     }
@@ -311,7 +308,7 @@ final class Transformers {
   }
 
   /** Dummy Blobs transformer. */
-  public static ArrayNode tBlobs(ApiClient apiClient, Object origin) {
+  public static ArrayNode tBlobs(Object origin) {
     // 1. Check if the origin is a JsonNode
     if (!(origin instanceof JsonNode)) {
       // If origin is not a JsonNode, we create one from the object.
@@ -327,11 +324,11 @@ final class Transformers {
 
     // 2. If it's not an array, create a new array and add the input to it.
     ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
-    arrayNode.add(JsonSerializable.toJsonNode(tBlob(apiClient, origin)));
+    arrayNode.add(JsonSerializable.toJsonNode(tBlob(origin)));
     return arrayNode;
   }
 
-  public static Blob tBlob(ApiClient apiClient, Object blob) {
+  public static Blob tBlob(Object blob) {
     if (blob instanceof JsonNode) {
       blob =
           JsonSerializable.objectMapper.convertValue((JsonNode) blob, new TypeReference<Blob>() {});
@@ -347,13 +344,12 @@ final class Transformers {
   /**
    * Transforms a blob to an image blob, validating its mime type.
    *
-   * @param apiClient the API client to use for transformation
    * @param blob the object to transform, can be a Blob or a dictionary.
    * @return the transformed Blob if it is an image.
    * @throws IllegalArgumentException if the blob is not an image.
    */
-  public static Blob tImageBlob(ApiClient apiClient, Object blob) {
-    Blob transformedBlob = tBlob(apiClient, blob);
+  public static Blob tImageBlob(Object blob) {
+    Blob transformedBlob = tBlob(blob);
     if (transformedBlob.mimeType().isPresent()
         && transformedBlob.mimeType().get().startsWith("image/")) {
       return transformedBlob;
@@ -365,13 +361,12 @@ final class Transformers {
   /**
    * Transforms a blob to an audio blob, validating its mime type.
    *
-   * @param apiClient the API client to use for transformation
    * @param blob the object to transform, can be a Blob or a dictionary.
    * @return the transformed Blob if it is an audio.
    * @throws IllegalArgumentException if the blob is not an audio.
    */
-  public static Blob tAudioBlob(ApiClient apiClient, Object blob) {
-    Blob transformedBlob = tBlob(apiClient, blob);
+  public static Blob tAudioBlob(Object blob) {
+    Blob transformedBlob = tBlob(blob);
     if (transformedBlob.mimeType().isPresent()
         && transformedBlob.mimeType().get().startsWith("audio/")) {
       return transformedBlob;
@@ -381,7 +376,7 @@ final class Transformers {
   }
 
   /** Dummy bytes transformer. */
-  public static Object tBytes(ApiClient apiClient, Object origin) {
+  public static Object tBytes(Object origin) {
     // TODO(b/389133914): Remove dummy bytes converter.
     return origin;
   }
@@ -461,7 +456,7 @@ final class Transformers {
     return model;
   }
 
-  public static @Nullable String tFileName(ApiClient apiClient, Object origin) {
+  public static @Nullable String tFileName(Object origin) {
     String name = null;
 
     if (origin instanceof String) {

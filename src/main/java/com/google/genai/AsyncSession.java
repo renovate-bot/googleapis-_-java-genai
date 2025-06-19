@@ -100,9 +100,9 @@ public final class AsyncSession {
 
     ObjectNode body;
     if (this.apiClient.vertexAI()) {
-      body = liveConverters.liveClientMessageToVertex(this.apiClient, parameterNode, null);
+      body = liveConverters.liveClientMessageToVertex(parameterNode, null);
     } else {
-      body = liveConverters.liveClientMessageToMldev(this.apiClient, parameterNode, null);
+      body = liveConverters.liveClientMessageToMldev(parameterNode, null);
     }
 
     return CompletableFuture.runAsync(() -> websocket.send(JsonSerializable.toJsonString(body)));

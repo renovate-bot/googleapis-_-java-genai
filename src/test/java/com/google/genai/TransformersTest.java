@@ -19,7 +19,6 @@ package com.google.genai;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -42,9 +41,6 @@ import org.junit.jupiter.api.Test;
 public class TransformersTest {
   private static final String FILE_NAME = "12tsygtx2";
 
-  ApiClient GEMINI_API_CLIENT = mock(ApiClient.class);
-  ApiClient VERTEX_AI_CLIENT = mock(ApiClient.class);
-
   private class UnsupportedType {}
 
   /** A function (static method) to test fromMethod functionalities. */
@@ -63,7 +59,7 @@ public class TransformersTest {
         Schema.builder()
             .properties(ImmutableMap.of("test", Schema.builder().default_(1).build()))
             .build();
-    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals(schema, transformedSchema);
   }
 
@@ -73,14 +69,14 @@ public class TransformersTest {
         Schema.builder()
             .properties(ImmutableMap.of("test", Schema.builder().default_(1).build()))
             .build();
-    Schema transformedSchema = Transformers.tSchema(VERTEX_AI_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals(schema, transformedSchema);
   }
 
   @Test
   public void testTSchema_GeminiAPI_title_success() {
     Schema schema = Schema.builder().title("test").build();
-    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals(true, transformedSchema.title().isPresent());
   }
 
@@ -91,7 +87,7 @@ public class TransformersTest {
             .type("OBJECT")
             .anyOf(Schema.builder().type("STRING"), Schema.builder().type("NUMBER"))
             .build();
-    Schema transformedSchema = Transformers.tSchema(VERTEX_AI_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals(2, transformedSchema.anyOf().get().size());
     assertEquals("STRING", transformedSchema.anyOf().get().get(0).type().get().toString());
     assertEquals("NUMBER", transformedSchema.anyOf().get().get(1).type().get().toString());
@@ -101,7 +97,7 @@ public class TransformersTest {
   @Test
   public void testTSchema_Items_success() {
     Schema schema = Schema.builder().type("ARRAY").items(Schema.builder().type("STRING")).build();
-    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals("STRING", transformedSchema.items().get().type().get().toString());
     assertEquals("ARRAY", transformedSchema.type().get().toString());
   }
@@ -125,7 +121,7 @@ public class TransformersTest {
                                 .build()))
                     .required("recipe_name", "ingredients"))
             .build();
-    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    Schema transformedSchema = Transformers.tSchema(schema);
     assertEquals(schema, transformedSchema);
   }
 
@@ -152,16 +148,17 @@ public class TransformersTest {
                             .required("recipeName", "ingredients")))
             .googleSearch(GoogleSearch.builder())
             .build();
-    Tool geminiTransformedTool = Transformers.tTool(GEMINI_API_CLIENT, tool);
-    Tool vertexTransformedTool = Transformers.tTool(VERTEX_AI_CLIENT, tool);
+    Tool geminiTransformedTool = Transformers.tTool(tool);
+    Tool vertexTransformedTool = Transformers.tTool(tool);
     assertEquals(tool, geminiTransformedTool);
     assertEquals(tool, vertexTransformedTool);
   }
 
   @Test
   public void testTTool_Functions_success() throws NoSuchMethodException {
-    Method method = TransformersTest.class.getMethod(
-        "functionUnderTest", String.class, int.class, double.class, float.class, boolean.class);
+    Method method =
+        TransformersTest.class.getMethod(
+            "functionUnderTest", String.class, int.class, double.class, float.class, boolean.class);
     Map<String, Schema> properties = new HashMap<>();
     properties.put("stringParam", Schema.builder().type("STRING").title("stringParam").build());
     properties.put("integerParam", Schema.builder().type("INTEGER").title("integerParam").build());
@@ -190,8 +187,8 @@ public class TransformersTest {
             .googleSearch(GoogleSearch.builder())
             .functions(method)
             .build();
-    Tool geminiTransformedTool = Transformers.tTool(GEMINI_API_CLIENT, originalTool);
-    Tool vertexTransformedTool = Transformers.tTool(VERTEX_AI_CLIENT, originalTool);
+    Tool geminiTransformedTool = Transformers.tTool(originalTool);
+    Tool vertexTransformedTool = Transformers.tTool(originalTool);
     Tool expectedTool =
         Tool.builder()
             .functionDeclarations(
@@ -254,8 +251,8 @@ public class TransformersTest {
             .googleSearch(GoogleSearch.builder())
             .functions()
             .build();
-    Tool geminiTransformedTool = Transformers.tTool(GEMINI_API_CLIENT, originalTool);
-    Tool vertexTransformedTool = Transformers.tTool(VERTEX_AI_CLIENT, originalTool);
+    Tool geminiTransformedTool = Transformers.tTool(originalTool);
+    Tool vertexTransformedTool = Transformers.tTool(originalTool);
     Tool expectedTool =
         Tool.builder()
             .functionDeclarations(
@@ -283,14 +280,14 @@ public class TransformersTest {
 
   @Test
   public void tFileName_string_success() {
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, FILE_NAME);
+    String transformedFileName = Transformers.tFileName(FILE_NAME);
     assertEquals(FILE_NAME, transformedFileName);
   }
 
   @Test
   public void tFileName_string_file_success() {
     String fileName = "files/" + FILE_NAME;
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, FILE_NAME);
+    String transformedFileName = Transformers.tFileName(FILE_NAME);
     assertEquals(FILE_NAME, transformedFileName);
   }
 
@@ -298,7 +295,7 @@ public class TransformersTest {
   public void tFileName_textNode_file_success() {
     String fileName = "files/" + FILE_NAME;
     TextNode textNode = JsonNodeFactory.instance.textNode(fileName);
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, FILE_NAME);
+    String transformedFileName = Transformers.tFileName(FILE_NAME);
     assertEquals(FILE_NAME, transformedFileName);
   }
 
@@ -311,7 +308,7 @@ public class TransformersTest {
                     + FILE_NAME
                     + ":download?alt=media")
             .build();
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, video);
+    String transformedFileName = Transformers.tFileName(video);
     assertEquals(FILE_NAME, transformedFileName);
   }
 
@@ -326,49 +323,45 @@ public class TransformersTest {
                             + FILE_NAME
                             + ":download?alt=media"))
             .build();
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, generatedVideo);
+    String transformedFileName = Transformers.tFileName(generatedVideo);
     assertEquals(FILE_NAME, transformedFileName);
   }
 
   @Test
   public void tFileName_generatedVideo_noUri_returnNull() {
     GeneratedVideo generatedVideo = GeneratedVideo.builder().video(Video.builder()).build();
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, generatedVideo);
+    String transformedFileName = Transformers.tFileName(generatedVideo);
     assertEquals(null, transformedFileName);
   }
 
   @Test
   public void tFileName_video_noUri_returnNull() {
     Video video = Video.builder().build();
-    String transformedFileName = Transformers.tFileName(GEMINI_API_CLIENT, video);
+    String transformedFileName = Transformers.tFileName(video);
     assertEquals(null, transformedFileName);
   }
 
   @Test
   public void tFileName_file_noName_throwsException() {
     File file = File.builder().build();
-    assertThrows(
-        IllegalArgumentException.class, () -> Transformers.tFileName(GEMINI_API_CLIENT, file));
+    assertThrows(IllegalArgumentException.class, () -> Transformers.tFileName(file));
   }
 
   @Test
   public void tFileName_generatedVideo_noVideo_throwsException() {
     GeneratedVideo generatedVideo = GeneratedVideo.builder().build();
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> Transformers.tFileName(GEMINI_API_CLIENT, generatedVideo));
+    assertThrows(IllegalArgumentException.class, () -> Transformers.tFileName(generatedVideo));
   }
 
   @Test
   public void tFileName_unsupportedType_throwsException() {
     assertThrows(
-        IllegalArgumentException.class,
-        () -> Transformers.tFileName(GEMINI_API_CLIENT, new UnsupportedType()));
+        IllegalArgumentException.class, () -> Transformers.tFileName(new UnsupportedType()));
   }
 
   @Test
   public void tExtractModels_nullResponse_returnNull() {
-    assertTrue(Transformers.tExtractModels(GEMINI_API_CLIENT, null) == null);
+    assertTrue(Transformers.tExtractModels(null) == null);
   }
 
   @Test
@@ -376,7 +369,7 @@ public class TransformersTest {
     IllegalArgumentException exception =
         assertThrows(
             IllegalArgumentException.class,
-            () -> Transformers.tExtractModels(GEMINI_API_CLIENT, new UnsupportedType()));
+            () -> Transformers.tExtractModels(new UnsupportedType()));
 
     assertTrue(exception.getMessage().contains("Unsupported response type"));
   }
@@ -385,7 +378,7 @@ public class TransformersTest {
   public void tExtractModels_noModels_returnEmptyArrayNode() {
     ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
 
-    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    JsonNode models = Transformers.tExtractModels(origin);
     assertTrue(models.isEmpty());
   }
 
@@ -395,7 +388,7 @@ public class TransformersTest {
     origin.put(
         "models", JsonSerializable.objectMapper.createArrayNode().add("model-1").add("model-2"));
 
-    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    JsonNode models = Transformers.tExtractModels(origin);
     assertTrue(models instanceof ArrayNode);
     assertEquals(2, models.size());
   }
@@ -405,7 +398,7 @@ public class TransformersTest {
     ObjectNode origin = JsonSerializable.objectMapper.createObjectNode();
     origin.put("tunedModels", JsonSerializable.objectMapper.createArrayNode().add("tuned-model-1"));
 
-    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    JsonNode models = Transformers.tExtractModels(origin);
     assertTrue(models instanceof ArrayNode);
     assertEquals(1, models.size());
   }
@@ -417,7 +410,7 @@ public class TransformersTest {
         "publisherModels",
         JsonSerializable.objectMapper.createArrayNode().add("publisher-model-1"));
 
-    JsonNode models = Transformers.tExtractModels(GEMINI_API_CLIENT, origin);
+    JsonNode models = Transformers.tExtractModels(origin);
     assertTrue(models instanceof ArrayNode);
     assertEquals(1, models.size());
   }
