@@ -42,15 +42,11 @@
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
 import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.AudioTranscriptionConfig;
 import com.google.genai.types.Content;
 import com.google.genai.types.GoogleSearch;
-import com.google.genai.types.GroundingChunk;
-import com.google.genai.types.GroundingChunkWeb;
-import com.google.genai.types.GroundingMetadata;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
@@ -60,7 +56,7 @@ import com.google.genai.types.Part;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.Tool;
 import com.google.genai.types.Transcription;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -144,34 +140,8 @@ public final class LiveTextToAudioTranscriptionAsync {
       LiveServerMessage message, CompletableFuture<Void> allDone) {
     if (message.serverContent().isPresent()) {
       LiveServerContent content = message.serverContent().get();
-      if (content.modelTurn().isPresent()) {
-        Content modelTurn = content.modelTurn().get();
-        for (Part part : modelTurn.parts().orElse(ImmutableList.of())) {
-          if (part.inlineData().isPresent()) {
-            // Print some text to indicate that audio is returned.
-            System.out.print("Some audio bytes in inline_data...");
-          }
-        }
-      }
-      if (content.groundingMetadata().isPresent()) {
-        GroundingMetadata groundingMetadata = content.groundingMetadata().get();
-
-        Optional<List<GroundingChunk>> groundingChunksOptional =
-            groundingMetadata.groundingChunks();
-
-        if (groundingChunksOptional.isPresent()) {
-          List<GroundingChunk> groundingChunks = groundingChunksOptional.get();
-          for (GroundingChunk chunk : groundingChunks) {
-            if (chunk.web().isPresent()) {
-              GroundingChunkWeb web = chunk.web().get();
-              if (web.uri().isPresent()) {
-                String uri = web.uri().get();
-                System.out.println("\n\nGrounding URI: " + uri);
-              }
-            }
-          }
-        }
-      }
+      processModelTurn(content);
+      processGroundingMetadata(content);
 
       // Print audio transcription.
       if (content.outputTranscription().isPresent()) {
@@ -185,6 +155,25 @@ public final class LiveTextToAudioTranscriptionAsync {
         allDone.complete(null);
       }
     }
+  }
+
+  private static void processModelTurn(LiveServerContent content) {
+    content.modelTurn().flatMap(Content::parts).stream()
+        .flatMap(Collection::stream)
+        .map(Part::inlineData)
+        .filter(Optional::isPresent)
+        .forEach(inlineData -> System.out.print("Some audio bytes in inline_data..."));
+  }
+
+  private static void processGroundingMetadata(LiveServerContent content) {
+    content.groundingMetadata().stream()
+        .flatMap(metadata -> metadata.groundingChunks().stream())
+        .flatMap(Collection::stream)
+        .map(chunk -> chunk.web())
+        .filter(Optional::isPresent)
+        .map(web -> web.get().uri())
+        .filter(Optional::isPresent)
+        .forEach(uri -> System.out.println("\n\nGrounding URI: " + uri.get()));
   }
 
   private LiveTextToAudioTranscriptionAsync() {}

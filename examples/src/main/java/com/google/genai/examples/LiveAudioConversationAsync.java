@@ -57,6 +57,8 @@ import com.google.genai.types.Modality;
 import com.google.genai.types.PrebuiltVoiceConfig;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.VoiceConfig;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -301,28 +303,24 @@ public final class LiveAudioConversationAsync {
         .ifPresent(
             content -> {
               if (content.turnComplete().orElse(false)) {
-                // when interrupted, Gemini sends a turn_compete with
-                // Stop the speaker if the turn is complete
+                // When interrupted, Gemini sends a turn_complete.
+                // Stop the speaker if the turn is complete.
                 if (speakerLine != null && speakerLine.isOpen()) {
                   speakerLine.flush();
                 }
               } else {
-                content
-                    .modelTurn()
-                    .flatMap(modelTurn -> modelTurn.parts())
-                    .ifPresent(
-                        parts ->
-                            parts.forEach(
-                                part ->
-                                    part.inlineData()
-                                        .flatMap(Blob::data)
-                                        .ifPresent(
-                                            audioBytes -> {
-                                              if (speakerLine != null && speakerLine.isOpen()) {
-                                                // Write audio data to the speaker
-                                                speakerLine.write(audioBytes, 0, audioBytes.length);
-                                              }
-                                            })));
+                content.modelTurn().stream()
+                    .flatMap(modelTurn -> modelTurn.parts().stream())
+                    .flatMap(Collection::stream)
+                    .map(part -> part.inlineData().flatMap(Blob::data))
+                    .flatMap(Optional::stream)
+                    .forEach(
+                        audioBytes -> {
+                          if (speakerLine != null && speakerLine.isOpen()) {
+                            // Write audio data to the speaker
+                            speakerLine.write(audioBytes, 0, audioBytes.length);
+                          }
+                        });
               }
             });
   }

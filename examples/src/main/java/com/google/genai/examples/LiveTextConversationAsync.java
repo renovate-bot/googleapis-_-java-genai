@@ -129,22 +129,14 @@ public final class LiveTextConversationAsync {
 
   public static void printLiveServerMessage(
       LiveServerMessage message, CompletableFuture<Void> allDone) {
-    if (message.serverContent().isPresent()) {
-      LiveServerContent content = message.serverContent().get();
-      content
-          .modelTurn()
-          .ifPresent(
-              modelTurn ->
-                  modelTurn
-                      .parts()
-                      .ifPresent(
-                          parts ->
-                              parts.forEach(part -> part.text().ifPresent(System.out::print))));
+    message.serverContent()
+        .flatMap(LiveServerContent::modelTurn)
+        .flatMap(Content::parts)
+        .ifPresent(parts -> parts.forEach(part -> part.text().ifPresent(System.out::print)));
 
-      if (content.turnComplete().orElse(false)) {
-        System.out.print("\nYour Turn >> ");
-        allDone.complete(null);
-      }
+    if (message.serverContent().flatMap(LiveServerContent::turnComplete).orElse(false)) {
+      System.out.print("\nYour Turn >> ");
+      allDone.complete(null);
     }
   }
 

@@ -42,7 +42,6 @@
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
 import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
@@ -121,20 +120,14 @@ public final class LiveTextToTextGenerationAsync {
 
   public static void printLiveServerMessage(
       LiveServerMessage message, CompletableFuture<Void> allDone) {
-    if (message.serverContent().isPresent()) {
-      LiveServerContent content = message.serverContent().get();
-      if (content.modelTurn().isPresent()) {
-        Content modelTurn = content.modelTurn().get();
-        for (Part part : modelTurn.parts().orElse(ImmutableList.of())) {
-          if (part.text().isPresent()) {
-            System.out.print(part.text().get());
-          }
-        }
-      }
-      if (content.turnComplete().orElse(false)) {
-        System.out.println();
-        allDone.complete(null);
-      }
+    message.serverContent()
+        .flatMap(LiveServerContent::modelTurn)
+        .flatMap(Content::parts)
+        .ifPresent(parts -> parts.forEach(part -> part.text().ifPresent(System.out::print)));
+
+    if (message.serverContent().flatMap(LiveServerContent::turnComplete).orElse(false)) {
+      System.out.println();
+      allDone.complete(null);
     }
   }
 

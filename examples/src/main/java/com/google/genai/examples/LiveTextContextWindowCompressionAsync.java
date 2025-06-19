@@ -129,23 +129,26 @@ public final class LiveTextContextWindowCompressionAsync {
 
   public static void printLiveServerMessage(
       LiveServerMessage message, CompletableFuture<Void> allDone) {
-    if (message.serverContent().isPresent()) {
-      LiveServerContent content = message.serverContent().get();
-      if (content.modelTurn().isPresent()) {
-        Content modelTurn = content.modelTurn().get();
-        for (Part part : modelTurn.parts().orElse(ImmutableList.of())) {
-          if (part.inlineData().isPresent()) {
-            // Print some text to indicate that audio is returned.
-            System.out.print("Some audio bytes in inline_data...");
-          } else if (part.text().isPresent()) {
-            System.out.print(part.text().get());
-          }
+    LiveServerContent content = message.serverContent().orElse(null);
+    if (content == null) {
+      return;
+    }
+
+    Content modelTurn = content.modelTurn().orElse(null);
+    if (modelTurn != null) {
+      for (Part part : modelTurn.parts().orElse(ImmutableList.of())) {
+        if (part.inlineData().isPresent()) {
+          // Print some text to indicate that audio is returned.
+          System.out.print("Some audio bytes in inline_data...");
+        } else if (part.text().isPresent()) {
+          System.out.print(part.text().get());
         }
       }
-      if (content.turnComplete().orElse(false)) {
-        System.out.println();
-        allDone.complete(null);
-      }
+    }
+
+    if (content.turnComplete().orElse(false)) {
+      System.out.println();
+      allDone.complete(null);
     }
   }
 

@@ -62,6 +62,7 @@ import com.google.genai.types.Modality;
 import com.google.genai.types.Part;
 import com.google.genai.types.SessionResumptionConfig;
 import java.io.Console;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -187,14 +188,10 @@ public final class LiveTextConversationResumptionAsync {
 
   private static void printServerContent(
       LiveServerContent content, CompletableFuture<Void> allDone) {
-    content
-        .modelTurn()
-        .ifPresent(
-            modelTurn ->
-                modelTurn
-                    .parts()
-                    .ifPresent(
-                        parts -> parts.forEach(part -> part.text().ifPresent(System.out::print))));
+    content.modelTurn().flatMap(Content::parts).stream()
+        .flatMap(Collection::stream)
+        .map(Part::text)
+        .forEach(text -> text.ifPresent(System.out::print));
 
     if (content.turnComplete().orElse(false)) {
       System.out.println("Your Turn >> ");
