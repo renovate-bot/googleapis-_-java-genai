@@ -36,7 +36,10 @@ public abstract class ThinkingConfig extends JsonSerializable {
   @JsonProperty("includeThoughts")
   public abstract Optional<Boolean> includeThoughts();
 
-  /** Indicates the thinking budget in tokens. */
+  /**
+   * Indicates the thinking budget in tokens. 0 is DISABLED. -1 is AUTOMATIC. The default values and
+   * allowed ranges are model dependent.
+   */
   @JsonProperty("thinkingBudget")
   public abstract Optional<Integer> thinkingBudget();
 
@@ -69,7 +72,8 @@ public abstract class ThinkingConfig extends JsonSerializable {
     /**
      * Setter for thinkingBudget.
      *
-     * <p>thinkingBudget: Indicates the thinking budget in tokens.
+     * <p>thinkingBudget: Indicates the thinking budget in tokens. 0 is DISABLED. -1 is AUTOMATIC.
+     * The default values and allowed ranges are model dependent.
      */
     @JsonProperty("thinkingBudget")
     public abstract Builder thinkingBudget(Integer thinkingBudget);
