@@ -35,6 +35,8 @@ import com.google.genai.types.HttpOptions;
 import com.google.genai.types.ListCachedContentsConfig;
 import com.google.genai.types.ListCachedContentsParameters;
 import com.google.genai.types.ListCachedContentsResponse;
+import com.google.genai.types.UpdateCachedContentConfig;
+import com.google.genai.types.UpdateCachedContentParameters;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Function;
@@ -738,6 +740,52 @@ public final class Caches {
           toObject,
           new String[] {"config"},
           Common.getValueByPath(fromObject, new String[] {"config"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode updateCachedContentConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"ttl"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"ttl"},
+          Common.getValueByPath(fromObject, new String[] {"ttl"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"expireTime"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"expireTime"},
+          Common.getValueByPath(fromObject, new String[] {"expireTime"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode updateCachedContentParametersToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "name"},
+          Transformers.tCachedContentName(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"name"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          updateCachedContentConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
     }
 
     return toObject;
@@ -1507,6 +1555,52 @@ public final class Caches {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode updateCachedContentConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"ttl"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"ttl"},
+          Common.getValueByPath(fromObject, new String[] {"ttl"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"expireTime"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"expireTime"},
+          Common.getValueByPath(fromObject, new String[] {"expireTime"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode updateCachedContentParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "name"},
+          Transformers.tCachedContentName(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"name"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          updateCachedContentConfigToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode listCachedContentsConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1922,6 +2016,76 @@ public final class Caches {
         responseNode = deleteCachedContentResponseFromMldev(responseNode, null);
       }
       return JsonSerializable.fromJsonNode(responseNode, DeleteCachedContentResponse.class);
+    }
+  }
+
+  /**
+   * Updates a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to update.
+   * @param config A {@link UpdateCachedContentConfig} for configuring the update request.
+   * @return A {@link CachedContent} object that contains the info of the updated resource.
+   */
+  public CachedContent update(String name, UpdateCachedContentConfig config) {
+
+    UpdateCachedContentParameters.Builder parameterBuilder =
+        UpdateCachedContentParameters.builder();
+
+    if (!Common.isZero(name)) {
+      parameterBuilder.name(name);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      body = updateCachedContentParametersToVertex(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{name}", body.get("_url"));
+    } else {
+      body = updateCachedContentParametersToMldev(this.apiClient, parameterNode, null);
+      if (body.get("_url") != null) {
+        path = Common.formatMap("{name}", body.get("_url"));
+      } else {
+        path = "{name}";
+      }
+    }
+    body.remove("_url");
+
+    JsonNode queryParams = body.get("_query");
+    if (queryParams != null) {
+      body.remove("_query");
+      path = String.format("%s?%s", path, Common.urlEncode((ObjectNode) queryParams));
+    }
+
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
+
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
+    if (config != null) {
+      requestHttpOptions = config.httpOptions();
+    }
+
+    try (ApiResponse response =
+        this.apiClient.request(
+            "patch", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
+      HttpEntity entity = response.getEntity();
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      if (this.apiClient.vertexAI()) {
+        responseNode = cachedContentFromVertex(responseNode, null);
+      } else {
+        responseNode = cachedContentFromMldev(responseNode, null);
+      }
+      return JsonSerializable.fromJsonNode(responseNode, CachedContent.class);
     }
   }
 

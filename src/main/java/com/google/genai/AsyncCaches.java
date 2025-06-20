@@ -27,6 +27,7 @@ import com.google.genai.types.DeleteCachedContentConfig;
 import com.google.genai.types.DeleteCachedContentResponse;
 import com.google.genai.types.GetCachedContentConfig;
 import com.google.genai.types.ListCachedContentsConfig;
+import com.google.genai.types.UpdateCachedContentConfig;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -69,6 +70,17 @@ public final class AsyncCaches {
   public CompletableFuture<DeleteCachedContentResponse> delete(
       String name, DeleteCachedContentConfig config) {
     return CompletableFuture.supplyAsync(() -> caches.delete(name, config));
+  }
+
+  /**
+   * Asynchronously updates a cached content resource.
+   *
+   * @param name The name(resource id) of the cached content to update.
+   * @param config A {@link UpdateCachedContentConfig} for configuring the update request.
+   * @return A {@link CachedContent} object that contains the info of the updated resource.
+   */
+  public CompletableFuture<CachedContent> update(String name, UpdateCachedContentConfig config) {
+    return CompletableFuture.supplyAsync(() -> caches.update(name, config));
   }
 
   /**

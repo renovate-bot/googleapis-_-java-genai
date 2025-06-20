@@ -49,6 +49,8 @@ import com.google.genai.types.CreateCachedContentConfig;
 import com.google.genai.types.DeleteCachedContentResponse;
 import com.google.genai.types.ListCachedContentsConfig;
 import com.google.genai.types.Part;
+import com.google.genai.types.UpdateCachedContentConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -100,7 +102,13 @@ public final class CachedContentOperations {
 
     // Get the cached content by name.
     CachedContent cachedContent2 = client.caches.get(cachedContent1.name().get(), null);
-    System.out.println("get cached content: " + cachedContent2);
+    System.out.println("Get cached content: " + cachedContent2);
+
+    CachedContent cachedContent3 =
+        client.caches.update(
+            cachedContent1.name().get(),
+            UpdateCachedContentConfig.builder().ttl(Duration.ofMinutes(10)).build());
+    System.out.println("Update cached content: " + cachedContent3);
 
     // List all cached contents.
     System.out.println("List cached contents resrouce names: ");
