@@ -46,7 +46,10 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   @JsonProperty("numberOfImages")
   public abstract Optional<Integer> numberOfImages();
 
-  /** Aspect ratio of the generated images. */
+  /**
+   * Aspect ratio of the generated images. Supported values are "1:1", "3:4", "4:3", "9:16", and
+   * "16:9".
+   */
   @JsonProperty("aspectRatio")
   public abstract Optional<String> aspectRatio();
 
@@ -166,7 +169,8 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
     /**
      * Setter for aspectRatio.
      *
-     * <p>aspectRatio: Aspect ratio of the generated images.
+     * <p>aspectRatio: Aspect ratio of the generated images. Supported values are "1:1", "3:4",
+     * "4:3", "9:16", and "16:9".
      */
     @JsonProperty("aspectRatio")
     public abstract Builder aspectRatio(String aspectRatio);

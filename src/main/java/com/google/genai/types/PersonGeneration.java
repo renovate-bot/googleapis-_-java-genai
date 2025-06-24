@@ -28,10 +28,13 @@ public class PersonGeneration {
 
   /** Enum representing the known values for PersonGeneration. */
   public enum Known {
+    /** Block generation of images of people. */
     DONT_ALLOW,
 
+    /** Generate images of adults, but not children. */
     ALLOW_ADULT,
 
+    /** Generate images that include adults and children. */
     ALLOW_ALL,
 
     PERSON_GENERATION_UNSPECIFIED
