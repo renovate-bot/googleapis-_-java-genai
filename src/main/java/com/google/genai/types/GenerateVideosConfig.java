@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -99,6 +100,10 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
    */
   @JsonProperty("lastFrame")
   public abstract Optional<Image> lastFrame();
+
+  /** Compression quality of the generated videos. */
+  @JsonProperty("compressionQuality")
+  public abstract Optional<VideoCompressionQuality> compressionQuality();
 
   /** Instantiates a builder for GenerateVideosConfig. */
   public static Builder builder() {
@@ -252,6 +257,34 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
      */
     public Builder lastFrame(Image.Builder lastFrameBuilder) {
       return lastFrame(lastFrameBuilder.build());
+    }
+
+    /**
+     * Setter for compressionQuality.
+     *
+     * <p>compressionQuality: Compression quality of the generated videos.
+     */
+    @JsonProperty("compressionQuality")
+    public abstract Builder compressionQuality(VideoCompressionQuality compressionQuality);
+
+    /**
+     * Setter for compressionQuality given a known enum.
+     *
+     * <p>compressionQuality: Compression quality of the generated videos.
+     */
+    @CanIgnoreReturnValue
+    public Builder compressionQuality(VideoCompressionQuality.Known knownType) {
+      return compressionQuality(new VideoCompressionQuality(knownType));
+    }
+
+    /**
+     * Setter for compressionQuality given a string.
+     *
+     * <p>compressionQuality: Compression quality of the generated videos.
+     */
+    @CanIgnoreReturnValue
+    public Builder compressionQuality(String compressionQuality) {
+      return compressionQuality(new VideoCompressionQuality(compressionQuality));
     }
 
     public abstract GenerateVideosConfig build();

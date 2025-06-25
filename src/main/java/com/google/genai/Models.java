@@ -1753,6 +1753,11 @@ public final class Models {
       throw new IllegalArgumentException("lastFrame parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"compressionQuality"}))) {
+      throw new IllegalArgumentException(
+          "compressionQuality parameter is not supported in Gemini API.");
+    }
+
     return toObject;
   }
 
@@ -3986,6 +3991,13 @@ public final class Models {
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"lastFrame"})),
               toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"compressionQuality"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "compressionQuality"},
+          Common.getValueByPath(fromObject, new String[] {"compressionQuality"}));
     }
 
     return toObject;
