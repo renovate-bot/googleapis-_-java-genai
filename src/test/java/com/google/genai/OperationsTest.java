@@ -21,9 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@EnabledIfEnvironmentVariable(
+    named = "GOOGLE_GENAI_REPLAYS_DIRECTORY",
+    matches = ".*genai/replays.*")
 public class OperationsTest {
   private Client createClient(boolean vertexAI, String replayId) {
     // Use the API mode until the replay mode is complete.

@@ -46,7 +46,7 @@ public class ClientTest {
   @Test
   public void testInitClientFromBuilder_mldev() {
     // Act
-    Client client = Client.builder().apiKey(API_KEY).build();
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(false).build();
 
     // Assert
     assertEquals(API_KEY, client.apiKey());
@@ -94,7 +94,8 @@ public class ClientTest {
   @Test
   public void testReplayClient_mldev() {
     // Act
-    Client client = Client.builder().apiKey(API_KEY).debugConfig(DEBUG_CONFIG).build();
+    Client client =
+        Client.builder().apiKey(API_KEY).vertexAI(false).debugConfig(DEBUG_CONFIG).build();
 
     // Assert
     assertEquals(API_KEY, client.apiKey());
@@ -141,7 +142,8 @@ public class ClientTest {
     // Act
     IllegalArgumentException exception =
         assertThrows(
-            IllegalArgumentException.class, () -> Client.builder().project(PROJECT).build());
+            IllegalArgumentException.class,
+            () -> Client.builder().vertexAI(false).project(PROJECT).build());
 
     // Assert
     assertEquals("Gemini API do not support project/location.", exception.getMessage());
@@ -167,7 +169,7 @@ public class ClientTest {
     Client.setDefaultBaseUrls(Optional.of("gemini-base-url"), Optional.of("vertex-base-url"));
     Client vertexClient =
         Client.builder().project(PROJECT).location(LOCATION).vertexAI(true).build();
-    Client mldevClient = Client.builder().apiKey(API_KEY).build();
+    Client mldevClient = Client.builder().apiKey(API_KEY).vertexAI(false).build();
 
     assertEquals("gemini-base-url", mldevClient.baseUrl().orElse(null));
     assertEquals("vertex-base-url", vertexClient.baseUrl().orElse(null));
@@ -183,7 +185,7 @@ public class ClientTest {
     CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
     when(apiClient.httpClient()).thenReturn(httpClient);
 
-    Client client = Client.builder().apiKey(API_KEY).build();
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(false).build();
     Field apiClientField = Client.class.getDeclaredField("apiClient");
     apiClientField.setAccessible(true);
     apiClientField.set(client, apiClient);
@@ -203,7 +205,7 @@ public class ClientTest {
     when(apiClient.httpClient()).thenReturn(httpClient);
     doThrow(new IOException("Failed to close HTTP client.")).when(httpClient).close();
 
-    Client client = Client.builder().apiKey(API_KEY).build();
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(false).build();
     Field apiClientField = Client.class.getDeclaredField("apiClient");
     apiClientField.setAccessible(true);
     apiClientField.set(client, apiClient);

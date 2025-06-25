@@ -52,10 +52,14 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@EnabledIfEnvironmentVariable(
+    named = "GOOGLE_GENAI_REPLAYS_DIRECTORY",
+    matches = ".*genai/replays.*")
 public class ModelsTest {
   private Client createClient(boolean vertexAI, String replayId) {
     // Use the API mode until the replay mode is complete.

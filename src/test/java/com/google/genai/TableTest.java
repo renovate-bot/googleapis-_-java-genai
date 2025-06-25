@@ -17,12 +17,17 @@
 /** Runs the test table. */
 package com.google.genai;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.any;
+import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.google.common.collect.ImmutableSet;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.TestTableFile;
@@ -36,18 +41,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.WireMockServer;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
 /** Sample class to prototype GenAI SDK functionalities. */
 public final class TableTest {
@@ -351,11 +352,11 @@ public final class TableTest {
 
   @TestFactory
   @DisplayName("TableTest")
+  @EnabledIfEnvironmentVariable(
+      named = "GOOGLE_GENAI_REPLAYS_DIRECTORY",
+      matches = ".*genai/replays.*")
   Collection<DynamicTest> createTests() throws IOException {
     String replaysPath = System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY");
-    if (replaysPath == null) {
-      throw new RuntimeException("GOOGLE_GENAI_REPLAYS_DIRECTORY is not set");
-    }
     String testsReplaysPath = replaysPath + "/tests";
     Collection<DynamicTest> dynamicTests = new ArrayList<>();
     Files.walk(Paths.get(testsReplaysPath))
