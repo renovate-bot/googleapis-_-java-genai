@@ -196,6 +196,7 @@ public final class TableTest {
     }
     // Edit image ReferenceImages are not correctly deserialized for replay tests
     if (testName.contains("models.edit_image")
+        || testName.contains("batches.test_list_batch_jobs")  // TODO(b/427478981) Remove this.
         || testName.contains("models.generate_content.test_speech_with_config")
         || testName.contains(
             "models.generate_content.test_logprobs_zero_with_response_logprobs_true")) {

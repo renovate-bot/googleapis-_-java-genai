@@ -21,6 +21,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
@@ -178,6 +179,7 @@ abstract class ApiClient {
   }
 
   /** Sends a Http request given the http method, path, and request json string. */
+  @CanIgnoreReturnValue
   public abstract ApiResponse request(
       String httpMethod, String path, String requestJson, Optional<HttpOptions> httpOptions);
 

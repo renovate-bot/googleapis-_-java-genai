@@ -30,6 +30,7 @@ import com.google.genai.types.Content;
 import com.google.genai.types.File;
 import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GeneratedVideo;
+import com.google.genai.types.JobState;
 import com.google.genai.types.Part;
 import com.google.genai.types.PrebuiltVoiceConfig;
 import com.google.genai.types.Schema;
@@ -524,6 +525,93 @@ final class Transformers {
       } else {
         return String.format("%s/%s", resourcePrefix, resourceName);
       }
+    }
+  }
+
+  public static Object tBatchJobSource(Object src) {
+    return src;
+  }
+
+  public static Object tBatchJobDestination(Object dest) {
+    return dest;
+  }
+
+  /**
+   * It validates and extracts the batch job name based on the backend (Vertex AI or MLDev).
+   *
+   * @param apiClient The ApiClient instance, used to determine the backend.
+   * @param name The batch job name as an Object, expected to be a String.
+   * @return The extracted name (e.g., job ID).
+   * @throws IllegalArgumentException If the input name is not a String or does not match expected
+   *     patterns.
+   */
+  public static String tBatchJobName(ApiClient apiClient, Object name) {
+    String nameStr;
+    if (name instanceof String) {
+      nameStr = (String) name;
+    } else if (name instanceof JsonNode) {
+      nameStr = JsonSerializable.toJsonString((JsonNode) name);
+      nameStr = nameStr.replace("\"", "");
+    } else {
+      throw new IllegalArgumentException("Unsupported batch job name type: " + name.getClass());
+    }
+
+    if (apiClient.vertexAI()) {
+      String fullBatchName = getResourceName(apiClient, nameStr, "batchPredictionJobs");
+      if (fullBatchName != null) {
+        String[] parts = fullBatchName.split("/");
+        String jobId = parts[parts.length - 1];
+        Pattern pattern = Pattern.compile("[0-9]+");
+        Matcher matcher = pattern.matcher(jobId);
+        if (matcher.find() && parts.length == 6) {
+          return jobId;
+        }
+      }
+      throw new IllegalArgumentException(
+          String.format(
+              "Invalid batch job name: %s. Expected format like"
+                  + " 'projects/123/locations/us-central1/batchPredictionJobs/456' or '456'.",
+              nameStr));
+    } else {
+      nameStr = nameStr.replace("\"", "");
+      if (nameStr.startsWith("batches/")) {
+        return nameStr.split("/")[1];
+      }
+      throw new IllegalArgumentException(
+          String.format("Invalid batch job name: %s. Expected format like 'batches/id'", nameStr));
+    }
+  }
+
+  /**
+   * Maps specific batch states to job states, otherwise returns the state as is.
+   *
+   * @param state The input state as an Object, expected to be a String.
+   * @return The mapped or original state string.
+   * @throws IllegalArgumentException If the input state is not a String.
+   */
+  public static Object tJobState(Object state) {
+    String stateStr;
+    if (state instanceof String) {
+      stateStr = (String) state;
+    } else if (state instanceof JsonNode) {
+      stateStr = JsonSerializable.toJsonString(state);
+      stateStr = stateStr.replace("\"", "");
+    } else {
+      throw new IllegalArgumentException("Unsupported job state type: " + state.getClass());
+    }
+    switch (stateStr) {
+      case "BATCH_STATE_UNSPECIFIED":
+        return JobState.Known.JOB_STATE_UNSPECIFIED;
+      case "BATCH_STATE_PENDING":
+        return JobState.Known.JOB_STATE_PENDING;
+      case "BATCH_STATE_SUCCEEDED":
+        return JobState.Known.JOB_STATE_SUCCEEDED;
+      case "BATCH_STATE_FAILED":
+        return JobState.Known.JOB_STATE_FAILED;
+      case "BATCH_STATE_CANCELLED":
+        return JobState.Known.JOB_STATE_CANCELLED;
+      default:
+        return state;
     }
   }
 }
