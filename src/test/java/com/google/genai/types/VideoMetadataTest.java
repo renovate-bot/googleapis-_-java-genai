@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.genai;
+package com.google.genai.types;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.genai.types.VideoMetadata;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
 
