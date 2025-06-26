@@ -355,8 +355,7 @@ public class HttpApiClientTest {
 
     RequestConfig config = getRequestConfig(httpClient);
 
-    // Default timeout is 5 minutes (300000 milliseconds).
-    assertEquals(300000, config.getConnectTimeout());
+    assertEquals(-1, config.getConnectTimeout());
     assertEquals("api-key", client.apiKey());
     assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
@@ -377,8 +376,7 @@ public class HttpApiClientTest {
 
     RequestConfig config = getRequestConfig(httpClient);
 
-    // Default timeout is 5 minutes (300000 milliseconds).
-    assertEquals(300000, config.getConnectTimeout());
+    assertEquals(-1, config.getConnectTimeout());
     assertEquals("project", client.project());
     assertEquals("location", client.location());
     assertTrue(client.vertexAI());

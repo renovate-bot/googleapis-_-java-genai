@@ -291,8 +291,6 @@ abstract class ApiClient {
           .apiVersion("v1beta");
     }
 
-    defaultHttpOptionsBuilder.timeout(Math.toIntExact(Duration.ofMinutes(5).toMillis()));
-
     return defaultHttpOptionsBuilder.build();
   }
 
