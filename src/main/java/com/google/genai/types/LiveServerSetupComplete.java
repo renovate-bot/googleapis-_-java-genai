@@ -19,14 +19,20 @@
 package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.util.Optional;
 
 /** Sent in response to a `LiveGenerateContentSetup` message from the client. */
 @AutoValue
 @JsonDeserialize(builder = LiveServerSetupComplete.Builder.class)
 public abstract class LiveServerSetupComplete extends JsonSerializable {
+  /** The session id of the live session. */
+  @JsonProperty("sessionId")
+  public abstract Optional<String> sessionId();
+
   /** Instantiates a builder for LiveServerSetupComplete. */
   public static Builder builder() {
     return new AutoValue_LiveServerSetupComplete.Builder();
@@ -43,6 +49,14 @@ public abstract class LiveServerSetupComplete extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_LiveServerSetupComplete.Builder();
     }
+
+    /**
+     * Setter for sessionId.
+     *
+     * <p>sessionId: The session id of the live session.
+     */
+    @JsonProperty("sessionId")
+    public abstract Builder sessionId(String sessionId);
 
     public abstract LiveServerSetupComplete build();
   }
