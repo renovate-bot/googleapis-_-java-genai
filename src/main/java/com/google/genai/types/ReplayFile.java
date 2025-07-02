@@ -34,7 +34,7 @@ import java.util.Optional;
 @JsonDeserialize(builder = ReplayFile.Builder.class)
 public abstract class ReplayFile extends JsonSerializable {
   /** */
-  @JsonProperty("replayId")
+  @JsonProperty("replay_id")
   public abstract Optional<String> replayId();
 
   /** */
@@ -63,7 +63,7 @@ public abstract class ReplayFile extends JsonSerializable {
      *
      * <p>replayId:
      */
-    @JsonProperty("replayId")
+    @JsonProperty("replay_id")
     public abstract Builder replayId(String replayId);
 
     /**

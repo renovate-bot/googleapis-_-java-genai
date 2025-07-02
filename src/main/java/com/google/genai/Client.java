@@ -274,9 +274,7 @@ public final class Client implements AutoCloseable {
     this.debugConfig = debugConfig.orElse(new DebugConfig());
     if (this.debugConfig.clientMode().equals("replay")
         || this.debugConfig.clientMode().equals("auto")) {
-      System.out.println("Instantialing a client that will use Replay mode...");
       if (!useVertexAI) {
-        System.out.println("Instantialing a replay client that will use Gemini API...");
         this.apiClient =
             new ReplayApiClient(
                 /* apiKey= */ apiKey,
@@ -286,7 +284,6 @@ public final class Client implements AutoCloseable {
                 this.debugConfig.replayId(),
                 this.debugConfig.clientMode());
       } else {
-        System.out.println("Instantialing a replay client that will use Vertex AI APIs...");
         this.apiClient =
             new ReplayApiClient(
                 /* project= */ project,

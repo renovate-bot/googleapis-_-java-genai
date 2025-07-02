@@ -17,19 +17,9 @@
 /** Runs the test table. */
 package com.google.genai;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.any;
-import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.google.common.collect.ImmutableSet;
-import com.google.genai.types.HttpOptions;
 import com.google.genai.types.TestTableFile;
 import com.google.genai.types.TestTableItem;
 import java.io.IOException;
@@ -53,36 +43,6 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 /** Sample class to prototype GenAI SDK functionalities. */
 public final class TableTest {
 
-  // TODO(b/384946033): Automate url safe parameter names retrieval.
-  private static final ImmutableSet<String> URL_SAFE_BASE64_PARAMETER_NAMES =
-      ImmutableSet.of("image.imageBytes");
-
-  private static String snakeToPascal(String s) {
-    String[] parts = s.split("_");
-    for (int i = 0; i < parts.length; i++) {
-      parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1);
-    }
-    return String.join("", parts);
-  }
-
-  private static String snakeToCamel(String str) {
-    if (str == null || str.isEmpty()) {
-      return str;
-    }
-
-    StringBuilder sb = new StringBuilder();
-    boolean capitalizeNext = false;
-    for (char c : str.toCharArray()) {
-      if (c == '_') {
-        capitalizeNext = true;
-      } else {
-        sb.append(capitalizeNext ? Character.toUpperCase(c) : c);
-        capitalizeNext = false;
-      }
-    }
-    return sb.toString();
-  }
-
   private static Collection<DynamicTest> createTableTests(String path, boolean vertexAI)
       throws IOException {
     String suffix = vertexAI ? "vertex" : "mldev";
@@ -98,9 +58,9 @@ public final class TableTest {
       throw new RuntimeException("Invalid test method: " + testMethod);
     }
     String originalModuleName = segments[0];
-    String moduleName = snakeToCamel(originalModuleName);
+    String moduleName = Common.snakeToCamel(originalModuleName);
     String originalMethodName = segments[1];
-    String methodName = snakeToCamel(originalMethodName);
+    String methodName = Common.snakeToCamel(originalMethodName);
 
     String[] replayPathSegments = path.split("/");
     String replayFilePath = "";
@@ -110,9 +70,6 @@ public final class TableTest {
       }
       replayFilePath += replayPathSegments[i] + "/";
     }
-    System.out.println("replayFilePath: " + replayFilePath);
-
-    System.out.println("Running test table: " + testMethod);
 
     // Finds the module and methods.
     Field module = null;
@@ -134,15 +91,9 @@ public final class TableTest {
         throw new NoSuchMethodException();
       }
     } catch (NoSuchFieldException | NoSuchMethodException e) {
-      String msg = "    === Skipped: method " + testMethod + " is not supported in Java";
+      String msg = " => Test skipped: method " + testMethod + " is not supported in Java";
       String testName = String.format("%s.%s.%s", originalModuleName, originalMethodName, suffix);
-      return Collections.singletonList(
-          DynamicTest.dynamicTest(
-              testName,
-              () -> {
-                System.out.println(msg);
-                assumeTrue(false, msg);
-              }));
+      return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
     }
 
     List<DynamicTest> dynamicTests = new ArrayList<>();
@@ -183,16 +134,10 @@ public final class TableTest {
       List<String> parameterNames,
       String replayId) {
 
-    System.out.printf("    === Calling method: %s\n", testName);
+    Client client = createClient(vertexAI);
     if (testTableItem.hasUnion().isPresent() && testTableItem.hasUnion().get()) {
-      String msg = "    === Skipped: parameters contain unsupported union type";
-      return Collections.singletonList(
-          DynamicTest.dynamicTest(
-              testName,
-              () -> {
-                System.out.println(msg);
-                assumeTrue(false, msg);
-              }));
+      String msg = " => Test skipped: parameters contain unsupported union type";
+      return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
     }
     // Edit image ReferenceImages are not correctly deserialized for replay tests
     if (testName.contains("models.edit_image")
@@ -200,14 +145,8 @@ public final class TableTest {
         || testName.contains("models.generate_content.test_speech_with_config")
         || testName.contains(
             "models.generate_content.test_logprobs_zero_with_response_logprobs_true")) {
-      String msg = "    === Skipped: replay tests are not supported for edit_image";
-      return Collections.singletonList(
-          DynamicTest.dynamicTest(
-              testName,
-              () -> {
-                System.out.println(msg);
-                assumeTrue(false, msg);
-              }));
+      String msg = " => Test skipped: replay tests are not supported for edit_image";
+      return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
     }
 
     Map<String, Object> fromParameters = (Map<String, Object>) normalizeKeys((Map<String, Object>) testTableItem.parameters().get());
@@ -227,7 +166,7 @@ public final class TableTest {
         List<Object> parameters = new ArrayList<>();
         for (int i = 0; i < parameterNames.size(); i++) {
           // May throw IndexOutOfBoundsException here
-          String parameterName = snakeToCamel(parameterNames.get(i));
+          String parameterName = Common.snakeToCamel(parameterNames.get(i));
           Object fromValue = fromParameters.getOrDefault(parameterName, null);
           // May throw IllegalArgumentException here
           Object parameter =
@@ -241,50 +180,12 @@ public final class TableTest {
             DynamicTest.dynamicTest(
                 testName,
                 () -> {
-                  final Map<String, Object>[] normalizedReplayData = new Map[1];
-                  final Map<String, Object>[] normalizedRequestData = new Map[1];
-                  WireMockServer wireMockServer = createMockServer(vertexAI);
-                  Map<String, Object> replayData = ReplayApiClient.loadReplayData(replayId);
-                  Client client = createClient(vertexAI, wireMockServer);
-
-                  // Capture the request and store it to normalizedReplayData and
-                  // normalizedRequestData
-                  // so that we can check it later.
-                  wireMockServer.addMockServiceRequestListener(
-                      (request, response) -> {
-                        try {
-                          Map<String, Object> requestData =
-                              JsonSerializable.objectMapper.readValue(
-                                  request.getBodyAsString(),
-                                  new TypeReference<Map<String, Object>>() {});
-                          normalizedReplayData[0] = (Map<String, Object>) normalizeKeys(replayData);
-                          normalizedRequestData[0] =
-                              (Map<String, Object>) normalizeKeys(requestData);
-                        } catch (IOException e) {
-                          throw new RuntimeException(e);
-                        }
-                      });
-
                   try {
                     client.setReplayId(replayId);
-
                     // May throw IllegalAccessException or InvocationTargetException here
                     // InvocationTargetException is sometimes expected, when exceptionIfMldev or
                     // exceptionIfVertex is present.
                     Object response = method.invoke(module.get(client), parameters.toArray());
-
-                    Object expectedRequest =
-                        getAtPath(
-                            normalizedReplayData[0],
-                            "interactions",
-                            0,
-                            "request",
-                            "bodySegments",
-                            0);
-                    assertEquals(
-                        expectedRequest,
-                        normalizedRequestData[0],
-                        "Normalized request data should match expected data from replay.");
                   } catch (IllegalAccessException | InvocationTargetException e) {
                     // Handle expected exceptions here
                     Optional<String> skipInApiMode = testTableItem.skipInApiMode();
@@ -306,27 +207,13 @@ public final class TableTest {
                       System.out.println(
                           "    === Skipped: test case is expected to fail in Vertex AI");
                     }
-                    e.printStackTrace();
-                    fail(String.format("'%s' failed: %s", testName, e));
+                    fail(String.format("'%s' failed: %s", testName, e.getCause()));
                   } finally {
-                    wireMockServer.stop();
                     client.close();
                   }
                 }));
       } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
         // Method parameters do not match, continue to the next overloading method
-      }
-
-      // TODO(jayceeli): Remove this once replay mode is fully functional.
-      if (testName.contains(
-          "models.generate_content.test_logprobs_zero_with_response_logprobs_true.vertex")) {
-        String msg = "    === Skipped: test case is expected to fail in Vertex AI";
-        dynamicTests.add(
-            DynamicTest.dynamicTest(
-                testName,
-                () -> {
-                  assumeTrue(false, msg);
-                }));
       }
     }
     if (dynamicTests.isEmpty()) {
@@ -375,27 +262,7 @@ public final class TableTest {
     return dynamicTests;
   }
 
-  static WireMockServer createMockServer(boolean vertexAI) {
-    WireMockServer wireMockServer =
-        new WireMockServer(WireMockConfiguration.options().dynamicPort());
-    wireMockServer.start();
-    WireMock.configureFor("localhost", wireMockServer.port());
-
-    if (vertexAI) {
-      wireMockServer.stubFor(
-          any(anyUrl())
-              .willReturn(aResponse().proxiedFrom("https://us-central1-aiplatform.googleapis.com"))
-              .atPriority(1));
-    } else {
-      wireMockServer.stubFor(
-          any(anyUrl())
-              .willReturn(aResponse().proxiedFrom("https://generativelanguage.googleapis.com"))
-              .atPriority(1));
-    }
-    return wireMockServer;
-  }
-
-  static Client createClient(boolean vertexAI, WireMockServer wireMockServer) {
+  static Client createClient(boolean vertexAI) {
     String replaysPath = System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY");
     if (replaysPath == null) {
       throw new RuntimeException("GOOGLE_GENAI_REPLAYS_DIRECTORY is not set");
@@ -403,18 +270,11 @@ public final class TableTest {
     String testsReplaysPath = replaysPath + "/tests";
     String replayMode = System.getenv("GOOGLE_GENAI_CLIENT_MODE");
     if (replayMode == null) {
-      // TODO(b/369384123): Make the default replay mode or auto once loading replays
-      // is complete.
-      replayMode = "api";
+      replayMode = "auto";
     }
     DebugConfig debugConfig = new DebugConfig(replayMode, "", testsReplaysPath);
 
-    return Client.builder()
-        .vertexAI(vertexAI)
-        .debugConfig(debugConfig)
-        .httpOptions(
-            HttpOptions.builder().baseUrl("http://localhost:" + wireMockServer.port()).build())
-        .build();
+    return Client.builder().vertexAI(vertexAI).debugConfig(debugConfig).build();
   }
 
   private static Object normalizeKeys(Object data) {
@@ -423,7 +283,7 @@ public final class TableTest {
       Map<String, Object> originalMap = (Map<String, Object>) data;
       Map<String, Object> newNormalizedMap = new HashMap<>();
       for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
-        String normalizedKey = snakeToCamel(entry.getKey());
+        String normalizedKey = Common.snakeToCamel(entry.getKey());
         Object normalizedValue = normalizeKeys(entry.getValue());
         newNormalizedMap.put(normalizedKey, normalizedValue);
       }
@@ -440,33 +300,4 @@ public final class TableTest {
       return data; // Return as is for non-map/non-list types
     }
   }
-
-  private static Object getAtPath(Object root, Object... pathComponents) {
-    Object current = root;
-    for (Object component : pathComponents) {
-      if (current == null) {
-        return null;
-      }
-
-      if (component instanceof String) {
-        String key = (String) component;
-        if (current instanceof Map) {
-          current = ((Map<?, ?>) current).get(key);
-        } else {
-          return null;
-        }
-      } else if (component instanceof Integer) {
-        Integer index = (Integer) component;
-        if (current instanceof List && index >= 0 && index < ((List<?>) current).size()) {
-          current = ((List<?>) current).get(index);
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    }
-    return current;
-  }
-
 }

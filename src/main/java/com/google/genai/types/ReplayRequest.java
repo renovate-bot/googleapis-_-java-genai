@@ -45,7 +45,7 @@ public abstract class ReplayRequest extends JsonSerializable {
   public abstract Optional<Map<String, String>> headers();
 
   /** */
-  @JsonProperty("bodySegments")
+  @JsonProperty("body_segments")
   public abstract Optional<List<Map<String, Object>>> bodySegments();
 
   /** Instantiates a builder for ReplayRequest. */
@@ -94,7 +94,7 @@ public abstract class ReplayRequest extends JsonSerializable {
      *
      * <p>bodySegments:
      */
-    @JsonProperty("bodySegments")
+    @JsonProperty("body_segments")
     public abstract Builder bodySegments(List<Map<String, Object>> bodySegments);
 
     /**

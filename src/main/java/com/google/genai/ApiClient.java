@@ -20,7 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.base.Ascii;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ClientOptions;
@@ -32,8 +34,12 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import okhttp3.Dispatcher;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.jspecify.annotations.Nullable;
+
 
 /** Interface for an API client which issues HTTP requests to the GenAI APIs. */
 abstract class ApiClient {
@@ -42,6 +48,12 @@ abstract class ApiClient {
   private static final String SDK_VERSION = "1.7.0";
   // {x-version-update-end:google-genai:released}
   private static final Logger logger = Logger.getLogger(ApiClient.class.getName());
+
+  private static final ImmutableSet<String> METHODS_WITH_BODY =
+      ImmutableSet.of("POST", "PATCH", "PUT");
+
+  private static final ImmutableSet<String> VALID_HTTP_METHODS =
+      ImmutableSet.<String>builder().addAll(METHODS_WITH_BODY).add("GET").add("DELETE").build();
 
   final OkHttpClient httpClient;
   HttpOptions httpOptions;
@@ -174,6 +186,120 @@ abstract class ApiClient {
         });
 
     return builder.build();
+  }
+
+  /** Builds a HTTP request given the http method, path, and request json string. */
+  protected Request buildRequest(
+      String httpMethod,
+      String path,
+      String requestJson,
+      Optional<HttpOptions> requestHttpOptions) {
+    String capitalizedHttpMethod = Ascii.toUpperCase(httpMethod);
+    boolean queryBaseModel =
+        capitalizedHttpMethod.equals("GET") && path.startsWith("publishers/google/models");
+    if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
+      path =
+          String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
+              + path;
+    }
+
+    HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
+
+    String requestUrl;
+
+    String baseUrl =
+        mergedHttpOptions
+            .baseUrl()
+            .orElseThrow(() -> new IllegalStateException("baseUrl is required."));
+    if (baseUrl.endsWith("/")) {
+      // Sometimes users set the base URL with a trailing slash, so we need to remove it.
+      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+    }
+    String apiVersion =
+        mergedHttpOptions
+            .apiVersion()
+            .orElseThrow(() -> new IllegalStateException("apiVersion is required."));
+
+    if (apiVersion.isEmpty()) {
+      requestUrl = String.format("%s/%s", baseUrl, path);
+    } else {
+      requestUrl = String.format("%s/%s/%s", baseUrl, apiVersion, path);
+    }
+
+    if (!VALID_HTTP_METHODS.contains(capitalizedHttpMethod)) {
+      throw new IllegalArgumentException("Unsupported HTTP method: " + capitalizedHttpMethod);
+    }
+
+    RequestBody body;
+    if (METHODS_WITH_BODY.contains(capitalizedHttpMethod)) {
+      body = RequestBody.create(requestJson, MediaType.parse("application/json"));
+    } else {
+      body = null;
+    }
+    Request.Builder requestBuilder =
+        new Request.Builder().url(requestUrl).method(capitalizedHttpMethod, body);
+
+    setHeaders(requestBuilder, mergedHttpOptions);
+    return requestBuilder.build();
+  }
+
+  /** Builds a HTTP request given the http method, url, and request bytes. */
+  protected Request buildRequest(
+      String httpMethod,
+      String url,
+      byte[] requestBytes,
+      Optional<HttpOptions> requestHttpOptions) {
+    HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
+    if (httpMethod.equalsIgnoreCase("POST")) {
+      RequestBody body =
+          RequestBody.create(MediaType.get("application/octet-stream"), requestBytes);
+      Request.Builder requestBuilder = new Request.Builder().url(url).post(body);
+      setHeaders(requestBuilder, mergedHttpOptions);
+      return requestBuilder.build();
+    } else {
+      throw new IllegalArgumentException(
+          "The request method with bytes is only supported for POST. Unsupported HTTP method: "
+              + httpMethod);
+    }
+  }
+
+  /** Sets the required headers (including auth) on the request object. */
+  private void setHeaders(Request.Builder request, HttpOptions requestHttpOptions) {
+    for (Map.Entry<String, String> header :
+        requestHttpOptions.headers().orElse(ImmutableMap.of()).entrySet()) {
+      request.header(header.getKey(), header.getValue());
+    }
+
+    if (apiKey.isPresent()) {
+      request.header("x-goog-api-key", apiKey.get());
+    } else {
+      GoogleCredentials cred =
+          credentials.orElseThrow(() -> new IllegalStateException("credentials is required"));
+      try {
+        cred.refreshIfExpired();
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to refresh credentials.", e);
+      }
+      String accessToken;
+      try {
+        accessToken = cred.getAccessToken().getTokenValue();
+      } catch (NullPointerException e) {
+        // For test cases where the access token is not available.
+        if (e.getMessage()
+            .contains(
+                "because the return value of"
+                    + " \"com.google.auth.oauth2.GoogleCredentials.getAccessToken()\" is null")) {
+          accessToken = "";
+        } else {
+          throw e;
+        }
+      }
+      request.header("Authorization", "Bearer " + accessToken);
+
+      if (cred.getQuotaProjectId() != null) {
+        request.header("x-goog-user-project", cred.getQuotaProjectId());
+      }
+    }
   }
 
   /** Sends a Http request given the http method, path, and request json string. */

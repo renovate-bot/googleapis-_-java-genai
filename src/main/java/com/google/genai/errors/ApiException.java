@@ -150,6 +150,34 @@ public class ApiException extends BaseException {
     }
   }
 
+  /** Throws an ApiException from a {@link JsonNode}. This method is for internal use only. */
+  @InternalApi
+  public static void throwFromErrorNode(JsonNode errorNode, int code) {
+    if (code == 200) {
+      return;
+    }
+    if (errorNode == null || !errorNode.isObject()) {
+      return;
+    }
+    String message = "";
+    JsonNode messageNode = errorNode.get("message");
+    if (messageNode != null && messageNode.isTextual()) {
+      message = messageNode.asText();
+    }
+    String status = "UNKNOWN";
+    JsonNode statusNode = errorNode.get("status");
+    if (statusNode != null && statusNode.isTextual()) {
+      status = statusNode.asText();
+    }
+    if (code >= 400 && code < 500) { // Client errors.
+      throw new ClientException(code, status, message);
+    } else if (code >= 500 && code < 600) { // Server errors.
+      throw new ServerException(code, status, message);
+    } else {
+      throw new ApiException(code, status, message);
+    }
+  }
+
   /** Returns the status code from the API response. */
   public int code() {
     return code;

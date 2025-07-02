@@ -16,19 +16,21 @@
 
 package com.google.genai;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.genai.errors.ApiException;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 
-// TODO(b/369384123): Change the replay API response to use the ReplayFile.
 /** Provides a simulated HTTP response from a replay file. */
 @ExcludeFromGeneratedCoverageReport
 final class ReplayApiResponse extends ApiResponse {
 
-  private final ResponseBody body;
+  private final JsonNode body;
   private final int statusCode;
   private final Headers headers;
 
-  public ReplayApiResponse(ResponseBody body, int statusCode, Headers headers) {
+  public ReplayApiResponse(JsonNode body, int statusCode, Headers headers) {
     this.body = body;
     this.statusCode = statusCode;
     this.headers = headers;
@@ -36,7 +38,9 @@ final class ReplayApiResponse extends ApiResponse {
 
   @Override
   public ResponseBody getBody() {
-    return this.body;
+    ApiException.throwFromErrorNode(body, statusCode);
+    return ResponseBody.create(
+        JsonSerializable.toJsonString(body), MediaType.parse("application/json"));
   }
 
   @Override

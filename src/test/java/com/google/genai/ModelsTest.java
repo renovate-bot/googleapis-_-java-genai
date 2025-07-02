@@ -62,7 +62,6 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 public class ModelsTest {
   private Client createClient(boolean vertexAI, String replayId) {
-    // Use the API mode until the replay mode is complete.
     DebugConfig debugConfig =
         new DebugConfig("api", "", System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY"));
     Client client = Client.builder().debugConfig(debugConfig).vertexAI(vertexAI).build();

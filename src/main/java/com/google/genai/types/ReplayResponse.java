@@ -33,7 +33,7 @@ import java.util.Optional;
 @JsonDeserialize(builder = ReplayResponse.Builder.class)
 public abstract class ReplayResponse extends JsonSerializable {
   /** */
-  @JsonProperty("statusCode")
+  @JsonProperty("status_code")
   public abstract Optional<Integer> statusCode();
 
   /** */
@@ -41,11 +41,11 @@ public abstract class ReplayResponse extends JsonSerializable {
   public abstract Optional<Map<String, String>> headers();
 
   /** */
-  @JsonProperty("bodySegments")
+  @JsonProperty("body_segments")
   public abstract Optional<List<Map<String, Object>>> bodySegments();
 
   /** */
-  @JsonProperty("sdkResponseSegments")
+  @JsonProperty("sdk_response_segments")
   public abstract Optional<List<Map<String, Object>>> sdkResponseSegments();
 
   /** Instantiates a builder for ReplayResponse. */
@@ -70,7 +70,7 @@ public abstract class ReplayResponse extends JsonSerializable {
      *
      * <p>statusCode:
      */
-    @JsonProperty("statusCode")
+    @JsonProperty("status_code")
     public abstract Builder statusCode(Integer statusCode);
 
     /**
@@ -86,7 +86,7 @@ public abstract class ReplayResponse extends JsonSerializable {
      *
      * <p>bodySegments:
      */
-    @JsonProperty("bodySegments")
+    @JsonProperty("body_segments")
     public abstract Builder bodySegments(List<Map<String, Object>> bodySegments);
 
     /**
@@ -103,7 +103,7 @@ public abstract class ReplayResponse extends JsonSerializable {
      *
      * <p>sdkResponseSegments:
      */
-    @JsonProperty("sdkResponseSegments")
+    @JsonProperty("sdk_response_segments")
     public abstract Builder sdkResponseSegments(List<Map<String, Object>> sdkResponseSegments);
 
     /**

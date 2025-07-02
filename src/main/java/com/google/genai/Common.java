@@ -231,7 +231,9 @@ final class Common {
         if (valueNode.isNull()) {
           queryBuilder.add(encodedKey + "=");
         } else {
-          String encodedValue = URLEncoder.encode(valueNode.asText(""), utf8);
+          // In python(and replay files), "*" is encoded as "%2A" although it is not required.
+          // So we keep the same behavior here.
+          String encodedValue = URLEncoder.encode(valueNode.asText(""), utf8).replace("*", "%2A");
           queryBuilder.add(encodedKey + "=" + encodedValue);
         }
       }
@@ -239,5 +241,24 @@ final class Common {
       throw new GenAiIOException("UTF-8 encoding not supported", e);
     }
     return queryBuilder.toString();
+  }
+
+  /** Converts a snake_case string to camelCase. */
+  static String snakeToCamel(String str) {
+    if (str == null || str.isEmpty()) {
+      return str;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    boolean capitalizeNext = false;
+    for (char c : str.toCharArray()) {
+      if (c == '_') {
+        capitalizeNext = true;
+      } else {
+        sb.append(capitalizeNext ? Character.toUpperCase(c) : c);
+        capitalizeNext = false;
+      }
+    }
+    return sb.toString();
   }
 }
