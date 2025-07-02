@@ -40,8 +40,7 @@ import com.google.genai.types.UpdateCachedContentParameters;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Function;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
+import okhttp3.ResponseBody;
 
 /**
  * Provides methods for managing the cached content. Instantiating this class is not required. After
@@ -1877,10 +1876,10 @@ public final class Caches {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -1946,10 +1945,10 @@ public final class Caches {
     try (ApiResponse response =
         this.apiClient.request(
             "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -2015,10 +2014,10 @@ public final class Caches {
     try (ApiResponse response =
         this.apiClient.request(
             "delete", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -2085,10 +2084,10 @@ public final class Caches {
     try (ApiResponse response =
         this.apiClient.request(
             "patch", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -2144,10 +2143,10 @@ public final class Caches {
     try (ApiResponse response =
         this.apiClient.request(
             "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }

@@ -77,8 +77,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
+import okhttp3.ResponseBody;
 
 /**
  * Provides methods for interacting with the available GenAI models. Instantiating this class is not
@@ -5882,10 +5881,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6007,10 +6006,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6073,10 +6072,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6141,10 +6140,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6207,10 +6206,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6275,10 +6274,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6334,10 +6333,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "get", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6407,10 +6406,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "patch", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6474,10 +6473,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "delete", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6550,10 +6549,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6622,10 +6621,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }
@@ -6710,10 +6709,10 @@ public final class Models {
     try (ApiResponse response =
         this.apiClient.request(
             "post", path, JsonSerializable.toJsonString(body), requestHttpOptions)) {
-      HttpEntity entity = response.getEntity();
+      ResponseBody responseBody = response.getBody();
       String responseString;
       try {
-        responseString = EntityUtils.toString(entity);
+        responseString = responseBody.string();
       } catch (IOException e) {
         throw new GenAiIOException("Failed to read HTTP response.", e);
       }

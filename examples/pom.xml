@@ -17,7 +17,6 @@
     <!-- {x-version-update-end} -->
   </properties>
   <build>
-    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -29,8 +28,15 @@
             </compilerArgs>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.5.0</version>
+          <configuration>
+            <cleanupDaemonThreads>false</cleanupDaemonThreads>
+          </configuration>
+        </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 
   <dependencies>
