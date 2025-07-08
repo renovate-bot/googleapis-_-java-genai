@@ -348,10 +348,6 @@ public class ModelsTest {
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
   public void testEditImage_withMaskReference(boolean vertexAI) throws Exception {
-    if (!vertexAI) {
-      // EditImage is not supported in MLDev.
-      return;
-    }
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
@@ -396,7 +392,7 @@ public class ModelsTest {
                       config));
       // Assert
       assertEquals(
-          "This method is not supported by the Gemini Developer API.", exception.getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 
@@ -440,7 +436,7 @@ public class ModelsTest {
                       config));
       // Assert
       assertEquals(
-          "This method is not supported by the Gemini Developer API.", exception.getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 
@@ -486,7 +482,7 @@ public class ModelsTest {
                       config));
       // Assert
       assertEquals(
-          "This method is not supported by the Gemini Developer API.", exception.getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 
@@ -534,7 +530,7 @@ public class ModelsTest {
                       config));
       // Assert
       assertEquals(
-          "This method is not supported by the Gemini Developer API.", exception.getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 }

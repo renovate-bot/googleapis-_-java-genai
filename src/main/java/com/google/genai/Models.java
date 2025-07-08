@@ -6119,7 +6119,7 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is not supported by the Gemini Developer API.");
+          "This method is only supported in the Vertex AI client.");
     }
     body.remove("_url");
 
@@ -6153,7 +6153,7 @@ public final class Models {
         responseNode = editImageResponseFromVertex(responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is not supported by the Gemini Developer API.");
+            "This method is only supported in the Vertex AI client.");
       }
       return JsonSerializable.fromJsonNode(responseNode, EditImageResponse.class);
     }
@@ -6185,7 +6185,7 @@ public final class Models {
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is not supported by the Gemini Developer API.");
+          "This method is only supported in the Vertex AI client.");
     }
     body.remove("_url");
 
@@ -6219,7 +6219,7 @@ public final class Models {
         responseNode = upscaleImageResponseFromVertex(responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is not supported by the Gemini Developer API.");
+            "This method is only supported in the Vertex AI client.");
       }
       return JsonSerializable.fromJsonNode(responseNode, UpscaleImageResponse.class);
     }
@@ -6600,7 +6600,7 @@ public final class Models {
       path = Common.formatMap("{model}:computeTokens", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
-          "This method is not supported by the Gemini Developer API.");
+          "This method is only supported in the Vertex AI client.");
     }
     body.remove("_url");
 
@@ -6634,7 +6634,7 @@ public final class Models {
         responseNode = computeTokensResponseFromVertex(responseNode, null);
       } else {
         throw new UnsupportedOperationException(
-            "This method is not supported by the Gemini Developer API.");
+            "This method is only supported in the Vertex AI client.");
       }
       return JsonSerializable.fromJsonNode(responseNode, ComputeTokensResponse.class);
     }

@@ -488,7 +488,8 @@ public final class Files {
     ObjectNode body;
     String path;
     if (this.apiClient.vertexAI()) {
-      throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
     } else {
       body = listFilesParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
@@ -526,7 +527,8 @@ public final class Files {
 
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
-        throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+        throw new UnsupportedOperationException(
+            "This method is only supported in the Gemini Developer client.");
       } else {
         responseNode = listFilesResponseFromMldev(responseNode, null);
       }
@@ -549,7 +551,8 @@ public final class Files {
     ObjectNode body;
     String path;
     if (this.apiClient.vertexAI()) {
-      throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
     } else {
       body = createFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
@@ -598,7 +601,8 @@ public final class Files {
 
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
-        throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+        throw new UnsupportedOperationException(
+            "This method is only supported in the Gemini Developer client.");
       } else {
         responseNode = createFileResponseFromMldev(responseNode, null);
       }
@@ -628,7 +632,8 @@ public final class Files {
     ObjectNode body;
     String path;
     if (this.apiClient.vertexAI()) {
-      throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
     } else {
       body = getFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
@@ -666,7 +671,8 @@ public final class Files {
 
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
-        throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+        throw new UnsupportedOperationException(
+            "This method is only supported in the Gemini Developer client.");
       } else {
         responseNode = fileFromMldev(responseNode, null);
       }
@@ -696,7 +702,8 @@ public final class Files {
     ObjectNode body;
     String path;
     if (this.apiClient.vertexAI()) {
-      throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
     } else {
       body = deleteFileParametersToMldev(parameterNode, null);
       if (body.get("_url") != null) {
@@ -734,7 +741,8 @@ public final class Files {
 
       JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
-        throw new UnsupportedOperationException("This method is not supported by the Vertex AI.");
+        throw new UnsupportedOperationException(
+            "This method is only supported in the Gemini Developer client.");
       } else {
         responseNode = deleteFileResponseFromMldev(responseNode, null);
       }

@@ -62,7 +62,7 @@ final class Transformers {
   public static String tModel(ApiClient apiClient, Object origin) {
     String model;
     if (origin == null) {
-      return null;
+      throw new IllegalArgumentException("model is required.");
     } else if (origin instanceof String) {
       model = (String) origin;
     } else if (origin instanceof JsonNode) {
@@ -70,6 +70,9 @@ final class Transformers {
       model = model.replace("\"", "");
     } else {
       throw new IllegalArgumentException("Unsupported model type: " + origin.getClass());
+    }
+    if (model.isEmpty()) {
+      throw new IllegalArgumentException("model is required.");
     }
     if (apiClient.vertexAI()) {
       if (model.startsWith("publishers/")
