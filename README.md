@@ -9,9 +9,7 @@ Java idiomatic SDK for the
 ## Add dependency
 
 If you're using Maven, add the following to your dependencies:
-
-<!-- {x-version-update-start:google-genai:released} -->
-
+[//]: # ({x-version-update-start:google-genai:released})
 ```xml
 <dependencies>
   <dependency>
@@ -21,8 +19,7 @@ If you're using Maven, add the following to your dependencies:
   </dependency>
 </dependencies>
 ```
-
-<!-- {x-version-update-end} -->
+[//]: # ({x-version-update-end})
 
 ## Getting Started
 
