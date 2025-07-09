@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/googleapis/java-genai/compare/v1.7.0...v1.8.0) (2025-07-09)
+
+
+### Features
+
+* Add new languages for Imagen 4 prompt language ([7e1e6d2](https://github.com/googleapis/java-genai/commit/7e1e6d2ead45c7a0737e4a010fce266fb436d2dd))
+
 ## [1.7.0](https://github.com/googleapis/java-genai/compare/v1.6.0...v1.7.0) (2025-07-01)
 
 
