@@ -435,18 +435,6 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode modelSelectionConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(
-        Common.getValueByPath(fromObject, new String[] {"featureSelectionPreference"}))) {
-      throw new IllegalArgumentException(
-          "featureSelectionPreference parameter is not supported in Gemini API.");
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
   ObjectNode safetySettingToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"method"}))) {
@@ -592,78 +580,6 @@ public final class Models {
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"dynamicRetrievalConfig"})),
               toObject));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode enterpriseWebSearchToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode apiKeyConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"apiKeyString"}))) {
-      throw new IllegalArgumentException("apiKeyString parameter is not supported in Gemini API.");
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode authConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"apiKeyConfig"}))) {
-      throw new IllegalArgumentException("apiKeyConfig parameter is not supported in Gemini API.");
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"authType"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"authType"},
-          Common.getValueByPath(fromObject, new String[] {"authType"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"googleServiceAccountConfig"},
-          Common.getValueByPath(fromObject, new String[] {"googleServiceAccountConfig"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"httpBasicAuthConfig"},
-          Common.getValueByPath(fromObject, new String[] {"httpBasicAuthConfig"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"oauthConfig"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"oauthConfig"},
-          Common.getValueByPath(fromObject, new String[] {"oauthConfig"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"oidcConfig"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"oidcConfig"},
-          Common.getValueByPath(fromObject, new String[] {"oidcConfig"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode googleMapsToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"authConfig"}))) {
-      throw new IllegalArgumentException("authConfig parameter is not supported in Gemini API.");
     }
 
     return toObject;
@@ -1659,33 +1575,6 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode videoToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"uri"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"video", "uri"},
-          Common.getValueByPath(fromObject, new String[] {"uri"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"videoBytes"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"video", "encodedVideo"},
-          Transformers.tBytes(Common.getValueByPath(fromObject, new String[] {"videoBytes"})));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"encoding"},
-          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
   ObjectNode generateVideosConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -2622,31 +2511,6 @@ public final class Models {
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"})),
               toObject));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode speakerVoiceConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"speaker"}))) {
-      throw new IllegalArgumentException("speaker parameter is not supported in Vertex AI.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"voiceConfig"}))) {
-      throw new IllegalArgumentException("voiceConfig parameter is not supported in Vertex AI.");
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode multiSpeakerVoiceConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"speakerVoiceConfigs"}))) {
-      throw new IllegalArgumentException(
-          "speakerVoiceConfigs parameter is not supported in Vertex AI.");
     }
 
     return toObject;
@@ -4416,13 +4280,6 @@ public final class Models {
           new String[] {"usageMetadata"},
           Common.getValueByPath(fromObject, new String[] {"usageMetadata"}));
     }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode contentEmbeddingStatisticsFromMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
     return toObject;
   }
