@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ComputeTokensConfig;
 import com.google.genai.types.ComputeTokensParameters;
@@ -1248,6 +1249,8 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"safetyFilterLevel"}) != null) {
+      safetyFilterLevelMldevEnumValidate(
+          Common.getValueByPath(fromObject, new String[] {"safetyFilterLevel"}));
       Common.setValueByPath(
           parentObject,
           new String[] {"parameters", "safetySetting"},
@@ -1255,6 +1258,8 @@ public final class Models {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"personGeneration"}) != null) {
+      personGenerationMldevEnumValidate(
+          Common.getValueByPath(fromObject, new String[] {"personGeneration"}));
       Common.setValueByPath(
           parentObject,
           new String[] {"parameters", "personGeneration"},
@@ -3930,6 +3935,34 @@ public final class Models {
     }
 
     return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  void safetyFilterLevelMldevEnumValidate(Object enumValue) {
+    ImmutableSet<String> invalidEnumValues = ImmutableSet.of("BLOCK_NONE");
+    if (invalidEnumValues.contains(enumValue.toString().replace("\"", ""))) {
+      throw new IllegalArgumentException(
+          String.format("%s enum value is not supported in Gemini API.", enumValue));
+    }
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  void personGenerationMldevEnumValidate(Object enumValue) {
+    ImmutableSet<String> invalidEnumValues = ImmutableSet.of("ALLOW_ALL");
+    if (invalidEnumValues.contains(enumValue.toString().replace("\"", ""))) {
+      throw new IllegalArgumentException(
+          String.format("%s enum value is not supported in Gemini API.", enumValue));
+    }
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  void behaviorVertexEnumValidate(Object enumValue) {
+    ImmutableSet<String> invalidEnumValues =
+        ImmutableSet.of("UNSPECIFIED", "BLOCKING", "NON_BLOCKING");
+    if (invalidEnumValues.contains(enumValue.toString().replace("\"", ""))) {
+      throw new IllegalArgumentException(
+          String.format("%s enum value is not supported in Vertex AI.", enumValue));
+    }
   }
 
   @ExcludeFromGeneratedCoverageReport

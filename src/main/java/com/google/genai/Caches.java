@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableSet;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.CachedContent;
 import com.google.genai.types.CreateCachedContentConfig;
@@ -1576,6 +1577,16 @@ public final class Caches {
     }
 
     return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  void behaviorVertexEnumValidate(Object enumValue) {
+    ImmutableSet<String> invalidEnumValues =
+        ImmutableSet.of("UNSPECIFIED", "BLOCKING", "NON_BLOCKING");
+    if (invalidEnumValues.contains(enumValue.toString().replace("\"", ""))) {
+      throw new IllegalArgumentException(
+          String.format("%s enum value is not supported in Vertex AI.", enumValue));
+    }
   }
 
   @ExcludeFromGeneratedCoverageReport
