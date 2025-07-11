@@ -60,6 +60,12 @@ public class AsyncLive {
    *     connection.
    */
   public CompletableFuture<AsyncSession> connect(String model, LiveConnectConfig config) {
+    // TODO: b/404946806 - Support per request HTTP options.
+    if (config != null && config.httpOptions().isPresent()) {
+      throw new IllegalArgumentException(
+          "The AsyncLive module does not support httpOptions at request-level in LiveConnectConfig"
+              + " yet. Please use the client-level httpOptions configuration instead.");
+    }
     CompletableFuture<AsyncSession> future = new CompletableFuture<>();
 
     GenAiWebSocketClient websocket =
