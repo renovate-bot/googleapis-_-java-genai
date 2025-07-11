@@ -509,6 +509,9 @@ final class Transformers {
   /** Formats a resource name given the resource name and resource prefix. */
   private static String getResourceName(
       ApiClient apiClient, String resourceName, String resourcePrefix) {
+    boolean shouldPrependCollectionIdentifier =
+        (!resourceName.startsWith(resourcePrefix + "/")
+            && countCharInAString(String.format("%s/%s", resourcePrefix, resourceName), '/') == 1);
     if (apiClient.vertexAI()) {
       if (resourceName.startsWith("projects/")) {
         return resourceName;
@@ -517,18 +520,30 @@ final class Transformers {
       } else if (resourceName.startsWith(resourcePrefix + "/")) {
         return String.format(
             "projects/%s/locations/%s/%s", apiClient.project(), apiClient.location(), resourceName);
-      } else {
+      } else if (shouldPrependCollectionIdentifier) {
         return String.format(
             "projects/%s/locations/%s/%s/%s",
             apiClient.project(), apiClient.location(), resourcePrefix, resourceName);
+      } else {
+        return resourceName;
       }
     } else {
-      if (resourceName.startsWith(resourcePrefix + "/")) {
-        return resourceName;
-      } else {
+      if (shouldPrependCollectionIdentifier) {
         return String.format("%s/%s", resourcePrefix, resourceName);
+      } else {
+        return resourceName;
       }
     }
+  }
+
+  private static int countCharInAString(String string, char charToCount) {
+    int count = 0;
+    for (char c : string.toCharArray()) {
+      if (c == charToCount) {
+        count++;
+      }
+    }
+    return count;
   }
 
   public static Object tBatchJobSource(Object src) {

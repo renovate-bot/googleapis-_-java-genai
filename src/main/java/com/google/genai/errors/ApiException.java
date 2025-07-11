@@ -161,12 +161,12 @@ public class ApiException extends BaseException {
       return;
     }
     String message = "";
-    JsonNode messageNode = errorNode.get(0).get("message");
+    JsonNode messageNode = errorNode.get(0).get("error").get("message");
     if (messageNode != null && messageNode.isTextual()) {
       message = messageNode.asText();
     }
     String status = "UNKNOWN";
-    JsonNode statusNode = errorNode.get("status");
+    JsonNode statusNode = errorNode.get(0).get("error").get("status");
     if (statusNode != null && statusNode.isTextual()) {
       status = statusNode.asText();
     }

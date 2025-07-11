@@ -18,7 +18,6 @@
 package com.google.genai;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import com.google.genai.types.TestTableFile;
 import com.google.genai.types.TestTableItem;
@@ -175,6 +174,13 @@ public final class TableTest {
           }
           parameters.add(parameter);
         }
+        Optional<String> skipInApiMode = testTableItem.skipInApiMode();
+        if (skipInApiMode.isPresent()
+            && (client.clientMode().equals("api") || client.clientMode().isEmpty())) {
+          String msg = " => Test skipped: " + skipInApiMode.get();
+          dynamicTests.add(DynamicTest.dynamicTest(testName + msg, () -> {}));
+          continue;
+        }
         dynamicTests.add(
             DynamicTest.dynamicTest(
                 testName,
@@ -185,28 +191,33 @@ public final class TableTest {
                     // InvocationTargetException is sometimes expected, when exceptionIfMldev or
                     // exceptionIfVertex is present.
                     Object response = method.invoke(module.get(client), parameters.toArray());
-                  } catch (IllegalAccessException | InvocationTargetException e) {
+                  } catch (IllegalAccessException
+                      | InvocationTargetException
+                      | IllegalArgumentException e) {
                     // Handle expected exceptions here
-                    Optional<String> skipInApiMode = testTableItem.skipInApiMode();
                     Optional<String> exceptionIfMldev = testTableItem.exceptionIfMldev();
                     Optional<String> exceptionIfVertex = testTableItem.exceptionIfVertex();
-                    if (skipInApiMode.isPresent()
-                        && (client.clientMode().equals("api") || client.clientMode().isEmpty())) {
-                      System.out.printf("    === Skipped: %s\n", skipInApiMode.get());
-                      assumeTrue(false, String.format("Skipped: %s", skipInApiMode.get()));
-                    }
-                    // TODO(jayceeli): Check if the error message is expected, once we update the
-                    // error
-                    // messages from the ApiClient.
                     if (exceptionIfMldev.isPresent() && !client.vertexAI()) {
-                      assumeTrue(false, "Skipped: test case is expected to fail in MLDev");
-                      System.out.println("    === Skipped: test case is expected to fail in MLDev");
+                      if (!e.getCause().getMessage().contains(exceptionIfMldev.get())) {
+                        fail(
+                            String.format(
+                                "'%s' failed to match expected exception:\n"
+                                    + "Expected exception: %s\n"
+                                    + " Actual exception: %s\n",
+                                testName, exceptionIfMldev.get(), e.getCause().getMessage()));
+                      }
                     } else if (exceptionIfVertex.isPresent() && client.vertexAI()) {
-                      assumeTrue(false, "Skipped: test case is expected to fail in Vertex AI");
-                      System.out.println(
-                          "    === Skipped: test case is expected to fail in Vertex AI");
+                      if (!e.getCause().getMessage().contains(exceptionIfVertex.get())) {
+                        fail(
+                            String.format(
+                                "'%s' failed to match expected exception:\n"
+                                    + "Expected exception: %s\n"
+                                    + " Actual exception: %s\n",
+                                testName, exceptionIfVertex.get(), e.getCause().getMessage()));
+                      }
+                    } else {
+                      fail(String.format("'%s' failed: %s", testName, e.getCause()));
                     }
-                    fail(String.format("'%s' failed: %s", testName, e.getCause()));
                   } finally {
                     client.close();
                   }
