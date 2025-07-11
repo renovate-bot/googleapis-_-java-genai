@@ -64,7 +64,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
   @JsonProperty("aspectRatio")
   public abstract Optional<String> aspectRatio();
 
-  /** The resolution for the generated video. 1280x720, 1920x1080 are supported. */
+  /** The resolution for the generated video. 720p and 1080p are supported. */
   @JsonProperty("resolution")
   public abstract Optional<String> resolution();
 
@@ -193,7 +193,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
     /**
      * Setter for resolution.
      *
-     * <p>resolution: The resolution for the generated video. 1280x720, 1920x1080 are supported.
+     * <p>resolution: The resolution for the generated video. 720p and 1080p are supported.
      */
     @JsonProperty("resolution")
     public abstract Builder resolution(String resolution);
