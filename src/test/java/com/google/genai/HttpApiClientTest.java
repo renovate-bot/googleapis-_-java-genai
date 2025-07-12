@@ -100,12 +100,13 @@ public class HttpApiClientTest {
     credentialsField.setAccessible(true);
     credentialsField.set(client, Optional.of(credentials));
   }
-  
+
   @Test
   public void testRequestPostMethodWithVertexAI() throws Exception {
     // Arrange
     HttpApiClient client =
         new HttpApiClient(
+            Optional.empty(),
             Optional.of(PROJECT),
             Optional.of(LOCATION),
             Optional.empty(),
@@ -249,7 +250,20 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testInitHttpClientVertex() throws Exception {
+  public void testInitHttpClientMldevWithNoApiKey_throwsException() throws Exception {
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new HttpApiClient(Optional.empty(), Optional.empty(), Optional.empty()));
+
+    assertEquals(
+        "API key must either be provided or set in the environment variable"
+            + " GOOGLE_API_KEY or GEMINI_API_KEY. If both are set, GOOGLE_API_KEY will be used.",
+        exception.getMessage());
+  }
+
+  @Test
+  public void testInitHttpClientVertexWithProjectAndLocation() throws Exception {
     HttpOptions httpOptions =
         HttpOptions.builder()
             .baseUrl("https://aiplatform.googleapis.com")
@@ -259,6 +273,7 @@ public class HttpApiClientTest {
             .build();
     HttpApiClient client =
         new HttpApiClient(
+            Optional.empty(),
             Optional.of(PROJECT),
             Optional.of(LOCATION),
             Optional.empty(),
@@ -283,6 +298,63 @@ public class HttpApiClientTest {
   }
 
   @Test
+  public void testInitHttpClientVertexWithApiKey() throws Exception {
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(API_KEY),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertTrue(client.vertexAI());
+    assertEquals(API_KEY, client.apiKey());
+    assertNull(client.project());
+    assertNull(client.location());
+    // Default to global endpoint for easy GCP.
+    assertEquals(Optional.of("https://aiplatform.googleapis.com"), client.httpOptions.baseUrl());
+  }
+
+  @Test
+  public void testInitHttpClientVertexWithBothApiKeyAndProject_throwsException() throws Exception {
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new HttpApiClient(
+                    Optional.of(API_KEY),
+                    Optional.of(PROJECT),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()));
+    assertEquals(
+        "For Vertex AI APIs, API key cannot be set together with project/location. Please provide"
+            + " only one of them.",
+        exception.getMessage());
+  }
+
+  @Test
+  public void testHttpClientVertexWithNoApiKeyOrProject_throwsException() throws Exception {
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new HttpApiClient(
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()));
+    assertEquals(
+        "For Vertex AI APIs, either API key, or project/location must be provided or set in the"
+            + " environment variable.",
+        exception.getMessage());
+  }
+
+  @Test
   public void testInitHttpClientMldevWithPartialHttpOptions() throws Exception {
     HttpOptions httpOptions = HttpOptions.builder().apiVersion("v100").timeout(5000).build();
     HttpApiClient client =
@@ -302,6 +374,7 @@ public class HttpApiClientTest {
     HttpOptions httpOptions = HttpOptions.builder().apiVersion("v100").timeout(5000).build();
     HttpApiClient client =
         new HttpApiClient(
+            Optional.empty(),
             Optional.of(PROJECT),
             Optional.of(LOCATION),
             Optional.empty(),
@@ -321,67 +394,67 @@ public class HttpApiClientTest {
   public void testHttpClientMLDevTimeout() throws Exception {
     HttpOptions httpOptions = HttpOptions.builder().timeout(5000).build();
     HttpApiClient client =
-        new HttpApiClient(Optional.of("api-key"), Optional.of(httpOptions), Optional.empty());
+        new HttpApiClient(Optional.of(API_KEY), Optional.of(httpOptions), Optional.empty());
 
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
     assertEquals(5000, httpClient.connectTimeoutMillis());
-    assertEquals("api-key", client.apiKey());
+    assertEquals(API_KEY, client.apiKey());
     assertFalse(client.vertexAI());
   }
 
   @Test
   public void testHttpClientVertexTimeout() throws Exception {
     HttpOptions httpOptions = HttpOptions.builder().timeout(4999).build();
-    Optional<String> project = Optional.of("project");
-    Optional<String> location = Optional.of("location");
-    Optional<GoogleCredentials> credentials =
-        Optional.of(GoogleCredentials.getApplicationDefault());
     HttpApiClient client =
         new HttpApiClient(
-            project, location, credentials, Optional.of(httpOptions), Optional.empty());
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.empty(),
+            Optional.of(httpOptions),
+            Optional.empty());
 
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
     assertEquals(4999, httpClient.connectTimeoutMillis());
-    assertEquals("project", client.project());
-    assertEquals("location", client.location());
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
     assertTrue(client.vertexAI());
   }
 
   @Test
   public void testHttpClientNoTimeout() throws Exception {
-    HttpOptions httpOptions = HttpOptions.builder().build();
     HttpApiClient client =
-        new HttpApiClient(Optional.of("api-key"), Optional.of(httpOptions), Optional.empty());
+        new HttpApiClient(Optional.of(API_KEY), Optional.empty(), Optional.empty());
 
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
     assertEquals(0, httpClient.connectTimeoutMillis());
-    assertEquals("api-key", client.apiKey());
+    assertEquals(API_KEY, client.apiKey());
     assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
 
   @Test
   public void testHttpClientVertexNoTimeout() throws Exception {
-    HttpOptions httpOptions = HttpOptions.builder().build();
-    Optional<String> project = Optional.of("project");
-    Optional<String> location = Optional.of("location");
-    Optional<GoogleCredentials> credentials =
-        Optional.of(GoogleCredentials.getApplicationDefault());
     HttpApiClient client =
         new HttpApiClient(
-            project, location, credentials, Optional.of(httpOptions), Optional.empty());
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
 
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
     assertEquals(0, httpClient.connectTimeoutMillis());
-    assertEquals("project", client.project());
-    assertEquals("location", client.location());
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
     assertTrue(client.vertexAI());
     assertFalse(client.httpOptions.headers().get().containsKey("X-Server-Timeout"));
   }
@@ -391,11 +464,11 @@ public class HttpApiClientTest {
     ClientOptions clientOptions =
         ClientOptions.builder().maxConnections(64).maxConnectionsPerHost(16).build();
     HttpApiClient client =
-        new HttpApiClient(Optional.of("api-key"), Optional.empty(), Optional.of(clientOptions));
+        new HttpApiClient(Optional.of(API_KEY), Optional.empty(), Optional.of(clientOptions));
 
     Dispatcher dispatcher = client.httpClient().dispatcher();
 
-    assertEquals("api-key", client.apiKey());
+    assertEquals(API_KEY, client.apiKey());
     assertFalse(client.vertexAI());
     assertEquals(64, dispatcher.getMaxRequests());
     assertEquals(16, dispatcher.getMaxRequestsPerHost());
@@ -407,16 +480,17 @@ public class HttpApiClientTest {
         ClientOptions.builder().maxConnections(64).maxConnectionsPerHost(16).build();
     HttpApiClient client =
         new HttpApiClient(
-            Optional.of("project"),
-            Optional.of("location"),
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
             Optional.empty(),
             Optional.empty(),
             Optional.of(clientOptions));
 
     Dispatcher dispatcher = client.httpClient().dispatcher();
 
-    assertEquals("project", client.project());
-    assertEquals("location", client.location());
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
     assertTrue(client.vertexAI());
     assertEquals(64, dispatcher.getMaxRequests());
     assertEquals(16, dispatcher.getMaxRequestsPerHost());
@@ -425,7 +499,7 @@ public class HttpApiClientTest {
   @Test
   public void testHttpClientMldevDefaultClientOptions() throws Exception {
     HttpApiClient client =
-        new HttpApiClient(Optional.of("api-key"), Optional.empty(), Optional.empty());
+        new HttpApiClient(Optional.of(API_KEY), Optional.empty(), Optional.empty());
 
     Dispatcher dispatcher = client.httpClient().dispatcher();
 
@@ -434,20 +508,20 @@ public class HttpApiClientTest {
     // should be equal to 5.
     assertEquals(64, dispatcher.getMaxRequests());
     assertEquals(5, dispatcher.getMaxRequestsPerHost());
-    assertEquals("api-key", client.apiKey());
+    assertEquals(API_KEY, client.apiKey());
     assertFalse(client.vertexAI());
   }
 
   @Test
   public void testHttpClientWithCustomCredentials() throws Exception {
     GoogleCredentials credentials = Mockito.mock(GoogleCredentials.class);
-    HttpOptions httpOptions = HttpOptions.builder().build();
     HttpApiClient client =
         new HttpApiClient(
-            Optional.of("project"),
-            Optional.of("us-central1"),
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
             Optional.of(credentials),
-            Optional.of(httpOptions),
+            Optional.empty(),
             Optional.empty());
     assertEquals(credentials, client.credentials.get());
   }
@@ -457,6 +531,7 @@ public class HttpApiClientTest {
     HttpOptions httpOptions = HttpOptions.builder().build();
     HttpApiClient client =
         new HttpApiClient(
+            Optional.empty(),
             Optional.of(PROJECT),
             Optional.of("global"),
             Optional.empty(),
@@ -472,6 +547,7 @@ public class HttpApiClientTest {
   public void testHttpClientVertexWithNoHttpOptions() throws Exception {
     HttpApiClient client =
         new HttpApiClient(
+            Optional.empty(),
             Optional.of(PROJECT),
             Optional.of("global"),
             Optional.empty(),

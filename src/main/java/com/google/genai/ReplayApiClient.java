@@ -78,6 +78,7 @@ final class ReplayApiClient extends ApiClient {
 
   /** Constructs an ApiClient for Vertex AI APIs. */
   ReplayApiClient(
+      Optional<String> apiKey,
       Optional<String> project,
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
@@ -86,7 +87,7 @@ final class ReplayApiClient extends ApiClient {
       String replaysDirectory,
       String replayId,
       String clientMode) {
-    super(project, location, credentials, httpOptions, clientOptions);
+    super(apiKey, project, location, credentials, httpOptions, clientOptions);
     checkNotNull(replaysDirectory, "replaysDirectory cannot be null");
     checkNotNull(replayId, "replayId cannot be null");
     checkNotNull(clientMode, "clientMode cannot be null");
