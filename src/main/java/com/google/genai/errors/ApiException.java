@@ -58,6 +58,7 @@ public class ApiException extends BaseException {
    * @param response The response from the API call.
    * @deprecated Use {@link #throwFromResponse(Response)} instead.
    */
+  @ExcludeFromGeneratedCoverageReport
   @Deprecated
   public static void throwFromResponse(CloseableHttpResponse response) {
     StatusLine statusLine = response.getStatusLine();
@@ -102,6 +103,8 @@ public class ApiException extends BaseException {
    * Returns the error message from the response, if no error or error message is not found, then
    * returns an empty string.
    */
+  @ExcludeFromGeneratedCoverageReport
+  @Deprecated
   static String getErrorMessageFromResponse(CloseableHttpResponse response) {
     HttpEntity entity = response.getEntity();
     try {
@@ -157,19 +160,27 @@ public class ApiException extends BaseException {
     if (code == 200) {
       return;
     }
-    if (errorNode == null || errorNode.size() == 0) {
-      return;
-    }
+
     String message = "";
-    JsonNode messageNode = errorNode.get(0).get("error").get("message");
-    if (messageNode != null && messageNode.isTextual()) {
-      message = messageNode.asText();
+    try {
+      JsonNode messageNode = errorNode.get(0).get("error").get("message");
+      if (messageNode != null && messageNode.isTextual()) {
+        message = messageNode.asText();
+      }
+    } catch (NullPointerException | IndexOutOfBoundsException ignored) {
+      // If message is not found, do nothing and fallback to default message "".
     }
+
     String status = "UNKNOWN";
-    JsonNode statusNode = errorNode.get(0).get("error").get("status");
-    if (statusNode != null && statusNode.isTextual()) {
-      status = statusNode.asText();
+    try {
+      JsonNode statusNode = errorNode.get(0).get("error").get("status");
+      if (statusNode != null && statusNode.isTextual()) {
+        status = statusNode.asText();
+      }
+    } catch (NullPointerException | IndexOutOfBoundsException ignored) {
+      // If status is not found, do nothing and fallback to default value "UNKNOWN".
     }
+
     if (code >= 400 && code < 500) { // Client errors.
       throw new ClientException(code, status, message);
     } else if (code >= 500 && code < 600) { // Server errors.
