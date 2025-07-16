@@ -100,49 +100,42 @@ abstract class ApiClient {
   }
 
   ApiClient(
-      Optional<String> apiKey,
       Optional<String> project,
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
       Optional<HttpOptions> customHttpOptions,
       Optional<ClientOptions> clientOptions) {
-    checkNotNull(apiKey, "API Key cannot be null");
     checkNotNull(project, "project cannot be null");
     checkNotNull(location, "location cannot be null");
     checkNotNull(credentials, "credentials cannot be null");
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
     checkNotNull(clientOptions, "clientOptions cannot be null");
 
-    String apiKeyValue = apiKey.orElseGet(() -> getApiKeyFromEnv());
-    String projectValue = project.orElseGet(() -> System.getenv("GOOGLE_CLOUD_PROJECT"));
-    String locationValue = location.orElseGet(() -> System.getenv("GOOGLE_CLOUD_LOCATION"));
-
-    boolean hasApiKey = apiKeyValue != null && !apiKeyValue.isEmpty();
-    boolean hasProjectOrLocation =
-        (projectValue != null && !projectValue.isEmpty())
-            || (locationValue != null && !locationValue.isEmpty());
-
-    if (!hasApiKey && !hasProjectOrLocation) {
+    try {
+      this.project = Optional.of(project.orElse(System.getenv("GOOGLE_CLOUD_PROJECT")));
+    } catch (NullPointerException e) {
       throw new IllegalArgumentException(
-          "For Vertex AI APIs, either API key, or project/location must be provided or set in the"
-              + " environment variable.");
+          "Project must either be provided or set in the environment variable"
+              + " GOOGLE_CLOUD_PROJECT.",
+          e);
+    }
+    if (this.project.get().isEmpty()) {
+      throw new IllegalArgumentException("Project must not be empty.");
     }
 
-    if (hasApiKey && hasProjectOrLocation) {
+    try {
+      this.location = Optional.of(location.orElse(System.getenv("GOOGLE_CLOUD_LOCATION")));
+    } catch (NullPointerException e) {
       throw new IllegalArgumentException(
-          "For Vertex AI APIs, API key cannot be set together with project/location. Please provide"
-              + " only one of them.");
+          "Location must either be provided or set in the environment variable"
+              + " GOOGLE_CLOUD_LOCATION.",
+          e);
+    }
+    if (this.location.get().isEmpty()) {
+      throw new IllegalArgumentException("Location must not be empty.");
     }
 
-    this.apiKey = Optional.ofNullable(apiKeyValue);
-    this.project = Optional.ofNullable(projectValue);
-    this.location = Optional.ofNullable(locationValue);
-
-    // Only set credentials if using project/location.
-    this.credentials =
-        projectValue == null
-            ? Optional.empty()
-            : Optional.of(credentials.orElseGet(() -> defaultCredentials()));
+    this.credentials = Optional.of(credentials.orElseGet(() -> defaultCredentials()));
 
     this.clientOptions = clientOptions;
 
@@ -151,6 +144,7 @@ abstract class ApiClient {
     if (customHttpOptions.isPresent()) {
       this.httpOptions = mergeHttpOptions(customHttpOptions.get());
     }
+    this.apiKey = Optional.empty();
     this.vertexAI = true;
     this.httpClient = createHttpClient(httpOptions.timeout(), clientOptions);
   }
@@ -406,14 +400,15 @@ abstract class ApiClient {
     HttpOptions.Builder defaultHttpOptionsBuilder =
         HttpOptions.builder().headers(defaultHeaders.build());
 
-    if (vertexAI) {
-      defaultHttpOptionsBuilder.apiVersion("v1beta1");
-      if (!location.isPresent() || location.get().equalsIgnoreCase("global")) {
-        defaultHttpOptionsBuilder.baseUrl("https://aiplatform.googleapis.com");
-      } else {
-        defaultHttpOptionsBuilder.baseUrl(
-            String.format("https://%s-aiplatform.googleapis.com", location.get()));
-      }
+    if (vertexAI && location.isPresent()) {
+      defaultHttpOptionsBuilder
+          .baseUrl(
+              location.get().equalsIgnoreCase("global")
+                  ? "https://aiplatform.googleapis.com"
+                  : String.format("https://%s-aiplatform.googleapis.com", location.get()))
+          .apiVersion("v1beta1");
+    } else if (vertexAI && !location.isPresent()) {
+      throw new IllegalArgumentException("Location must be provided for Vertex AI APIs.");
     } else {
       defaultHttpOptionsBuilder
           .baseUrl("https://generativelanguage.googleapis.com")

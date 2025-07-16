@@ -285,7 +285,6 @@ public final class Client implements AutoCloseable {
       } else {
         this.apiClient =
             new ReplayApiClient(
-                /* apiKey= */ apiKey,
                 /* project= */ project,
                 /* location= */ location,
                 /* credentials= */ credentials,
@@ -305,7 +304,6 @@ public final class Client implements AutoCloseable {
       } else {
         this.apiClient =
             new HttpApiClient(
-                /* apiKey= */ apiKey,
                 /* project= */ project,
                 /* location= */ location,
                 /* credentials= */ credentials,
