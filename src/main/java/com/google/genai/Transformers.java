@@ -506,6 +506,30 @@ final class Transformers {
     return name;
   }
 
+  public static JobState tTuningJobStatus(Object origin) {
+    String status;
+    if (origin instanceof String) {
+      status = (String) origin;
+    } else if (origin instanceof TextNode) {
+      status = ((TextNode) origin).textValue();
+    } else {
+      throw new IllegalArgumentException("Unsupported status type: " + origin.getClass());
+    }
+
+    switch (status) {
+      case "STATE_UNSPECIFIED":
+        return new JobState(JobState.Known.JOB_STATE_UNSPECIFIED);
+      case "CREATING":
+        return new JobState(JobState.Known.JOB_STATE_RUNNING);
+      case "ACTIVE":
+        return new JobState(JobState.Known.JOB_STATE_SUCCEEDED);
+      case "FAILED":
+        return new JobState(JobState.Known.JOB_STATE_FAILED);
+      default:
+        return new JobState(status);
+    }
+  }
+
   /** Formats a resource name given the resource name and resource prefix. */
   private static String getResourceName(
       ApiClient apiClient, String resourceName, String resourcePrefix) {
@@ -631,5 +655,69 @@ final class Transformers {
       default:
         return state;
     }
+  }
+
+  /**
+   * Updates a JSON node with a new value, handling potential conflicts.
+   *
+   * @param currentObject The ObjectNode to update.
+   * @param keyToSet The key to set in the ObjectNode.
+   * @param valueNode The new JsonNode value.
+   * @throws IllegalArgumentException if a value cannot be set for an existing key.
+   */
+  public static void updateJsonNode(ObjectNode currentObject, String keyToSet, JsonNode valueNode) {
+    JsonNode existingData = currentObject.get(keyToSet);
+
+    if (existingData != null) {
+      // Don't overwrite existing non-empty value with new empty value.
+      if (valueNode == null || valueNode.isNull() || valueNode.isEmpty()) {
+        return;
+      }
+
+      // Don't fail when overwriting value with same value
+      if (valueNode.equals(existingData)) {
+        return;
+      }
+
+      // Instead of overwriting dictionary with another dictionary, merge them.
+      if (existingData.isObject() && valueNode.isObject()) {
+        ((ObjectNode) existingData).setAll((ObjectNode) valueNode);
+      } else {
+        throw new IllegalArgumentException(
+            "Cannot set value for an existing key. Key: "
+                + keyToSet
+                + "; Existing value: "
+                + existingData
+                + "; New value: "
+                + valueNode);
+      }
+    } else {
+      currentObject.set(keyToSet, valueNode);
+    }
+  }
+
+  /**
+   * Converts a camelCase string to snake_case.
+   *
+   * @param str The input string to convert.
+   * @return The converted string in snake_case.
+   */
+  public static String camelToSnake(String str) {
+    if (str == null || str.isEmpty()) {
+      return str;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if (Character.isUpperCase(c)) {
+        if (i > 0) {
+          sb.append('_');
+        }
+      }
+      sb.append(Character.toLowerCase(c));
+    }
+
+    return sb.toString();
   }
 }

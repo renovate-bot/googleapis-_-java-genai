@@ -61,6 +61,10 @@ public final class TableTest {
     String originalMethodName = segments[1];
     String methodName = Common.snakeToCamel(originalMethodName);
 
+    if (methodName.equals("privateTune") && !vertexAI) {
+      methodName = "privateTuneMldev";
+    }
+
     String[] replayPathSegments = path.split("/");
     String replayFilePath = "";
     for (int i = 0; i < replayPathSegments.length; i++) {
@@ -199,7 +203,21 @@ public final class TableTest {
                     Optional<String> exceptionIfMldev = testTableItem.exceptionIfMldev();
                     Optional<String> exceptionIfVertex = testTableItem.exceptionIfVertex();
                     if (exceptionIfMldev.isPresent() && !client.vertexAI()) {
-                      if (!e.getCause().getMessage().contains(exceptionIfMldev.get())) {
+                      String exceptionMessage = e.getCause().getMessage();
+
+                      // TODO(fix in future): hack for camelCase variable name mismatch with
+                      // expected snake_case name in exception messages.
+                      String geminiParameterException =
+                          " parameter is not supported in Gemini API.";
+                      if (exceptionMessage.endsWith(geminiParameterException)) {
+                        // camel to snake case the variable name in the exception message.
+                        String camelCaseVariable = exceptionMessage.split(" ")[0];
+                        String snakeCaseVariable = Transformers.camelToSnake(camelCaseVariable);
+                        exceptionMessage =
+                            exceptionMessage.replace(camelCaseVariable, snakeCaseVariable);
+                      }
+
+                      if (!exceptionMessage.contains(exceptionIfMldev.get())) {
                         fail(
                             String.format(
                                 "'%s' failed to match expected exception:\n"
@@ -208,7 +226,20 @@ public final class TableTest {
                                 testName, exceptionIfMldev.get(), e.getCause().getMessage()));
                       }
                     } else if (exceptionIfVertex.isPresent() && client.vertexAI()) {
-                      if (!e.getCause().getMessage().contains(exceptionIfVertex.get())) {
+                      String exceptionMessage = e.getCause().getMessage();
+
+                      // TODO(fix in future): hack for camelCase variable name mismatch with
+                      // expected snake_case name in exception messages.
+                      String vertexParameterException = " parameter is not supported in Vertex AI.";
+                      if (exceptionMessage.endsWith(vertexParameterException)) {
+                        // camel to snake case the variable name in the exception message.
+                        String camelCaseVariable = exceptionMessage.split(" ")[0];
+                        String snakeCaseVariable = Transformers.camelToSnake(camelCaseVariable);
+                        exceptionMessage =
+                            exceptionMessage.replace(camelCaseVariable, snakeCaseVariable);
+                      }
+
+                      if (!exceptionMessage.contains(exceptionIfVertex.get())) {
                         fail(
                             String.format(
                                 "'%s' failed to match expected exception:\n"
