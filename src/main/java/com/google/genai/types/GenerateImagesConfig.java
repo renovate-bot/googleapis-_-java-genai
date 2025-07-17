@@ -104,6 +104,13 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   @JsonProperty("addWatermark")
   public abstract Optional<Boolean> addWatermark();
 
+  /**
+   * The size of the largest dimension of the generated image. Supported sizes are 1K and 2K (not
+   * supported for Imagen 3 models).
+   */
+  @JsonProperty("imageSize")
+  public abstract Optional<String> imageSize();
+
   /** Whether to use the prompt rewriting logic. */
   @JsonProperty("enhancePrompt")
   public abstract Optional<Boolean> enhancePrompt();
@@ -319,6 +326,15 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
      */
     @JsonProperty("addWatermark")
     public abstract Builder addWatermark(boolean addWatermark);
+
+    /**
+     * Setter for imageSize.
+     *
+     * <p>imageSize: The size of the largest dimension of the generated image. Supported sizes are
+     * 1K and 2K (not supported for Imagen 3 models).
+     */
+    @JsonProperty("imageSize")
+    public abstract Builder imageSize(String imageSize);
 
     /**
      * Setter for enhancePrompt.
