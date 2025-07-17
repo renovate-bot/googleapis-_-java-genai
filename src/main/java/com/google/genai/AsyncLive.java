@@ -101,10 +101,8 @@ public class AsyncLive {
       if (!apiClient.vertexAI()) {
         return new URI(
             String.format(
-                "%s/ws/google.ai.generativelanguage.%s.GenerativeService.BidiGenerateContent?key=%s",
-                wsBaseUrl,
-                apiClient.httpOptions.apiVersion().orElse("v1beta"),
-                apiClient.apiKey()));
+                "%s/ws/google.ai.generativelanguage.%s.GenerativeService.BidiGenerateContent",
+                wsBaseUrl, apiClient.httpOptions.apiVersion().orElse("v1beta")));
       } else {
         return new URI(
             String.format(
@@ -130,6 +128,12 @@ public class AsyncLive {
       } catch (IOException e) {
         throw new GenAiIOException("Failed to refresh credentials for Vertex AI.", e);
       }
+    } else {
+      String apiKey = apiClient.apiKey();
+      if (apiKey == null || apiKey.isEmpty()) {
+        throw new IllegalArgumentException("Missing API key in the client.");
+      }
+      headers.put("x-goog-api-key", apiKey);
     }
     return headers;
   }
