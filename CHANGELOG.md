@@ -6,7 +6,6 @@
 ### Features
 
 * Add `addWatermark` parameter to the edit image configuration. ([c4598da](https://github.com/googleapis/java-genai/commit/c4598da0903d5dacb0c7bb4462aec1226ba259bf))
-* add tests for the async Operations module ([14c008a](https://github.com/googleapis/java-genai/commit/14c008a8fc40f712f922526dc00e2596705dc134))
 * add Tuning support for Java ([0ab209d](https://github.com/googleapis/java-genai/commit/0ab209db99bf98b58f7273fb12843984c42cb910))
 
 
