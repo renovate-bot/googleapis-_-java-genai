@@ -24,17 +24,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.HttpOptions;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class ClientTest {
   private static final String API_KEY = "api-key";
   private static final String PROJECT = "project";
@@ -42,22 +39,6 @@ public class ClientTest {
   private static final HttpOptions HTTP_OPTIONS = HttpOptions.builder().baseUrl("test-url").build();
   private static final DebugConfig DEBUG_CONFIG =
       new DebugConfig("replay", "replay-id", "replay-dir");
-
-  private MockedStatic<ApiClient> mockedStaticApiClient;
-
-  @BeforeEach
-  public void setUp() {
-    mockedStaticApiClient = Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
-    // Mock the default environment variables to avoid reading the environment variables.
-    mockedStaticApiClient
-        .when(ApiClient::defaultEnvironmentVariables)
-        .thenReturn(ImmutableMap.of());
-  }
-
-  @AfterEach
-  public void tearDown() {
-    mockedStaticApiClient.close();
-  }
 
   @Test
   public void testInitClientFromBuilder_mldev() {

@@ -51,66 +51,20 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 @EnabledIfEnvironmentVariable(
     named = "GOOGLE_GENAI_REPLAYS_DIRECTORY",
     matches = ".*genai/replays.*")
+@ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class ModelsTest {
 
   private static final String GEMINI_MODEL_NAME = "gemini-1.5-flash";
   private static final String EMBEDDING_MODEL_NAME = "text-embedding-004";
   private static final String IMAGEN_CAPABILITY_MODEL_NAME = "imagen-3.0-capability-001";
-
-  private MockedStatic<ApiClient> mockedStaticApiClient;
-
-  private Client createClient(boolean vertexAI, String replayId) {
-    String clientMode = System.getenv("GOOGLE_GENAI_CLIENT_MODE");
-    DebugConfig debugConfig =
-        new DebugConfig(
-            clientMode == null ? "replay" : clientMode,
-            "",
-            System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY"));
-
-    Client client = Client.builder().vertexAI(vertexAI).debugConfig(debugConfig).build();
-
-    if (client.clientMode().equals("replay")) {
-      client.setReplayId(replayId);
-    }
-    return client;
-  }
-
-  @BeforeEach
-  public void setUp() {
-    String clientMode = System.getenv("GOOGLE_GENAI_CLIENT_MODE");
-    if (clientMode != null && clientMode.equals("api")) {
-      // Don't mock the environment variables for the API test.
-      return;
-    }
-    mockedStaticApiClient = Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
-    // Mock the default environment variables to avoid reading the actual environment variables.
-    mockedStaticApiClient
-        .when(ApiClient::defaultEnvironmentVariables)
-        .thenReturn(
-            ImmutableMap.builder()
-                .put("apiKey", "api-key")
-                .put("project", "project")
-                .put("location", "location")
-                .build());
-  }
-
-  @AfterEach
-  public void tearDown() {
-    if (mockedStaticApiClient != null) {
-      mockedStaticApiClient.close();
-    }
-  }
 
   /** Creates a raw reference image for edit image tests. */
   private RawReferenceImage createRawReferenceImage() throws Exception {
@@ -176,7 +130,8 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(vertexAI, "tests/models/generate_content/test_sync." + suffix + ".json");
+        TestUtils.createClient(
+            vertexAI, "tests/models/generate_content/test_sync." + suffix + ".json");
 
     // Act
     GenerateContentResponse response =
@@ -195,7 +150,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI, "tests/models/generate_content/test_sync_stream." + suffix + ".json");
 
     // Act
@@ -223,7 +178,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/generate_content/test_simple_shared_generation_config_stream."
                 + suffix
@@ -262,7 +217,8 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(vertexAI, "tests/models/embed_content/test_single_text." + suffix + ".json");
+        TestUtils.createClient(
+            vertexAI, "tests/models/embed_content/test_single_text." + suffix + ".json");
 
     // Act
     EmbedContentResponse response =
@@ -279,7 +235,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/embed_content/test_multi_texts_with_config." + suffix + ".json");
 
@@ -306,7 +262,8 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(vertexAI, "tests/models/count_tokens/test_count_tokens." + suffix + ".json");
+        TestUtils.createClient(
+            vertexAI, "tests/models/count_tokens/test_count_tokens." + suffix + ".json");
 
     // Act
     CountTokensResponse response =
@@ -326,7 +283,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI, "tests/models/compute_tokens/test_compute_tokens." + suffix + ".json");
 
     // Act
@@ -343,7 +300,8 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
+        TestUtils.createClient(
+            vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
 
     // Act
     Pager<Model> pager =
@@ -366,7 +324,8 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
+        TestUtils.createClient(
+            vertexAI, "tests/models/list/test_base_models_pager." + suffix + ".json");
 
     // Act
     IllegalArgumentException exception =
@@ -384,7 +343,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI, "tests/models/edit_image/test_edit_mask_inpaint_insert." + suffix + ".json");
 
     EditImageConfig config =
@@ -436,7 +395,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/edit_image/test_edit_control_user_provided." + suffix + ".json");
 
@@ -480,7 +439,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/edit_image/test_edit_subject_image_customization." + suffix + ".json");
 
@@ -526,7 +485,7 @@ public class ModelsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/edit_image/test_edit_style_reference_image_customization."
                 + suffix

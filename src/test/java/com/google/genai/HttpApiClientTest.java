@@ -52,14 +52,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+@ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class HttpApiClientTest {
 
   private static final String API_KEY = "api-key";
@@ -79,24 +79,8 @@ public class HttpApiClientTest {
   private static final String TEST_PATH = "test-path";
   private static final String TEST_REQUEST_JSON = "{\"test\": \"request-json\"}";
 
-  private MockedStatic<ApiClient> mockedStaticApiClient;
-
   @Mock OkHttpClient mockHttpClient;
   @Mock Call mockCall;
-
-  @BeforeEach
-  public void setUp() {
-    mockedStaticApiClient = Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
-    // Mock the default environment variables to avoid reading the environment variables.
-    mockedStaticApiClient
-        .when(ApiClient::defaultEnvironmentVariables)
-        .thenReturn(ImmutableMap.of());
-  }
-
-  @AfterEach
-  public void tearDown() {
-    mockedStaticApiClient.close();
-  }
 
   private void setMockClient(HttpApiClient client) throws Exception {
     mockHttpClient = Mockito.mock(OkHttpClient.class);
@@ -667,8 +651,8 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testGeminiClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
-      throws Exception {
+  public void testGeminiClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("geminiBaseUrl", "https://gemini-base-url.googleapis.com/"));
@@ -683,8 +667,8 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testVertexClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
-      throws Exception {
+  public void testVertexClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("vertexBaseUrl", "https://vertex-base-url.googleapis.com/"));
@@ -699,7 +683,8 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testGeminiClientInitializationWithBaseUrlFromEnvironment() throws Exception {
+  public void testGeminiClientInitializationWithBaseUrlFromEnvironment(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("geminiBaseUrl", "https://custom-base-url.googleapis.com/"));
@@ -710,7 +695,8 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testVertexClientInitializationWithBaseUrlFromEnvironment() throws Exception {
+  public void testVertexClientInitializationWithBaseUrlFromEnvironment(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("vertexBaseUrl", "https://custom-base-url.googleapis.com/"));

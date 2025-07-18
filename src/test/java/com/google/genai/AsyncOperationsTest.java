@@ -19,66 +19,19 @@ package com.google.genai;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import java.util.concurrent.ExecutionException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 @EnabledIfEnvironmentVariable(
     named = "GOOGLE_GENAI_REPLAYS_DIRECTORY",
     matches = ".*genai/replays.*")
+@ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncOperationsTest {
-
-  private MockedStatic<ApiClient> mockedStaticApiClient;
-
-  private Client createClient(boolean vertexAI, String replayId) {
-    String clientMode = System.getenv("GOOGLE_GENAI_CLIENT_MODE");
-    DebugConfig debugConfig =
-        new DebugConfig(
-            clientMode == null ? "replay" : clientMode,
-            "",
-            System.getenv("GOOGLE_GENAI_REPLAYS_DIRECTORY"));
-
-    Client client = Client.builder().vertexAI(vertexAI).debugConfig(debugConfig).build();
-
-    if (client.clientMode().equals("replay")) {
-      client.setReplayId(replayId);
-    }
-    return client;
-  }
-
-  @BeforeEach
-  public void setUp() {
-    String clientMode = System.getenv("GOOGLE_GENAI_CLIENT_MODE");
-    if (clientMode != null && clientMode.equals("api")) {
-      // Don't mock the environment variables for the API test.
-      return;
-    }
-    mockedStaticApiClient = Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
-    // Mock the default environment variables to avoid reading the actual environment variables.
-    mockedStaticApiClient
-        .when(ApiClient::defaultEnvironmentVariables)
-        .thenReturn(
-            ImmutableMap.builder()
-                .put("apiKey", "api-key")
-                .put("project", "project")
-                .put("location", "location")
-                .build());
-  }
-
-  @AfterEach
-  public void tearDown() {
-    if (mockedStaticApiClient != null) {
-      mockedStaticApiClient.close();
-    }
-  }
 
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
@@ -87,7 +40,7 @@ public class AsyncOperationsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/generate_videos/test_create_operation_to_poll." + suffix + ".json");
 
@@ -132,7 +85,7 @@ public class AsyncOperationsTest {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
-        createClient(
+        TestUtils.createClient(
             vertexAI,
             "tests/models/generate_videos/test_text_to_video_poll_async." + suffix + ".json");
 
