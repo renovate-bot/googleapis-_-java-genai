@@ -39,12 +39,13 @@ public class HttpApiClient extends ApiClient {
 
   /** Constructs an ApiClient for Vertex AI APIs. */
   HttpApiClient(
+      Optional<String> apiKey,
       Optional<String> project,
       Optional<String> location,
       Optional<GoogleCredentials> credentials,
       Optional<HttpOptions> httpOptions,
       Optional<ClientOptions> clientOptions) {
-    super(project, location, credentials, httpOptions, clientOptions);
+    super(apiKey, project, location, credentials, httpOptions, clientOptions);
   }
 
   /**
