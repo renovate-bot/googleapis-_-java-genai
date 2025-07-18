@@ -52,7 +52,6 @@
     <auto-value.version>1.11.0</auto-value.version>
     <jackson.version>2.17.2</jackson.version>
     <junit.version>5.11.4</junit.version>
-    <mockito.version>3.12.4</mockito.version>
     <java-websocket.version>1.6.0</java-websocket.version>
     <okhttp.version>4.12.0</okhttp.version>
   </properties>
@@ -154,13 +153,6 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- Mockito -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- jspecify -->
@@ -341,4 +333,35 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>jdk8-build</id>
+      <activation>
+        <jdk>[1.8,1.9)</jdk>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-inline</artifactId>
+          <version>3.12.4</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>modern-jdk-build</id>
+      <activation>
+        <jdk>[11,)</jdk>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>5.12.0</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

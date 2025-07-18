@@ -52,9 +52,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 public class HttpApiClientTest {
@@ -76,8 +79,24 @@ public class HttpApiClientTest {
   private static final String TEST_PATH = "test-path";
   private static final String TEST_REQUEST_JSON = "{\"test\": \"request-json\"}";
 
+  private MockedStatic<ApiClient> mockedStaticApiClient;
+
   @Mock OkHttpClient mockHttpClient;
   @Mock Call mockCall;
+
+  @BeforeEach
+  public void setUp() {
+    mockedStaticApiClient = Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
+    // Mock the default environment variables to avoid reading the environment variables.
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of());
+  }
+
+  @AfterEach
+  public void tearDown() {
+    mockedStaticApiClient.close();
+  }
 
   private void setMockClient(HttpApiClient client) throws Exception {
     mockHttpClient = Mockito.mock(OkHttpClient.class);
@@ -648,18 +667,14 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
+  public void testGeminiClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
       throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("geminiBaseUrl", "https://gemini-base-url.googleapis.com/"));
     Client.setDefaultBaseUrls(
         Optional.of("https://custom-base-url.googleapis.com/"), Optional.empty());
-    Client client =
-        Client.builder()
-            .apiKey(API_KEY)
-            .vertexAI(false)
-            .environmentVariables(
-                ImmutableMap.of(
-                    "GOOGLE_GEMINI_BASE_URL", "https://gemini-base-url.googleapis.com/"))
-            .build();
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(false).build();
 
     assertTrue(client.baseUrl().isPresent());
     assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
@@ -668,15 +683,38 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testClientInitializationWithBaseUrlFromEnvironment() throws Exception {
-    Client client =
-        Client.builder()
-            .apiKey(API_KEY)
-            .vertexAI(false)
-            .environmentVariables(
-                ImmutableMap.of(
-                    "GOOGLE_GEMINI_BASE_URL", "https://custom-base-url.googleapis.com/"))
-            .build();
+  public void testVertexClientInitializationWithBaseUrlFromSetBaseUrlsOverridesEnvironment()
+      throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("vertexBaseUrl", "https://vertex-base-url.googleapis.com/"));
+    Client.setDefaultBaseUrls(
+        Optional.empty(), Optional.of("https://custom-base-url.googleapis.com/"));
+    Client client = Client.builder().project(PROJECT).location(LOCATION).vertexAI(true).build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+
+    Client.setDefaultBaseUrls(Optional.empty(), Optional.empty());
+  }
+
+  @Test
+  public void testGeminiClientInitializationWithBaseUrlFromEnvironment() throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("geminiBaseUrl", "https://custom-base-url.googleapis.com/"));
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(false).build();
+
+    assertTrue(client.baseUrl().isPresent());
+    assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+  }
+
+  @Test
+  public void testVertexClientInitializationWithBaseUrlFromEnvironment() throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("vertexBaseUrl", "https://custom-base-url.googleapis.com/"));
+    Client client = Client.builder().project(PROJECT).location(LOCATION).vertexAI(true).build();
 
     assertTrue(client.baseUrl().isPresent());
     assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");

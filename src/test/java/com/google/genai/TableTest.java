@@ -19,6 +19,7 @@ package com.google.genai;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.TestTableFile;
 import com.google.genai.types.TestTableItem;
 import java.io.IOException;
@@ -38,6 +39,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 /** Sample class to prototype GenAI SDK functionalities. */
 public final class TableTest {
@@ -144,9 +147,6 @@ public final class TableTest {
     }
     // Edit image ReferenceImages are not correctly deserialized for replay tests
     if (testName.contains("models.edit_image")
-        || testName.contains("models.generate_content.test_speech_with_config")
-        || testName.contains(
-            "models.generate_content.test_logprobs_zero_with_response_logprobs_true")
         || testName.contains("batches.create.test_with_image_blob")) { // TODO(b/431798111)
       String msg = " => Test skipped: replay tests are not supported for edit_image";
       return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
@@ -315,19 +315,28 @@ public final class TableTest {
       replayMode = "replay";
     }
     DebugConfig debugConfig = new DebugConfig(replayMode, "", testsReplaysPath);
-    String apiKey = Optional.ofNullable(ApiClient.getApiKeyFromEnv()).orElse("api-key");
-    String project = Optional.ofNullable(System.getenv("GOOGLE_GENAI_PROJECT")).orElse("project");
-    String location =
-        Optional.ofNullable(System.getenv("GOOGLE_GENAI_LOCATION")).orElse("location");
 
-    Client.Builder clientBuilder = Client.builder().vertexAI(vertexAI).debugConfig(debugConfig);
+    if (replayMode.equals("replay")) {
+      // Mock the default environment variables to avoid reading the actual environment variables in
+      // replay mode.
+      MockedStatic<ApiClient> mockedStaticApiClient =
+          Mockito.mockStatic(ApiClient.class, Mockito.CALLS_REAL_METHODS);
+      // Mock the default environment variables to avoid reading the actual environment variables.
+      mockedStaticApiClient
+          .when(ApiClient::defaultEnvironmentVariables)
+          .thenReturn(
+              ImmutableMap.builder()
+                  .put("apiKey", "api-key")
+                  .put("project", "project")
+                  .put("location", "location")
+                  .build());
 
-    if (vertexAI) {
-      clientBuilder.project(project).location(location);
-    } else {
-      clientBuilder.apiKey(apiKey);
+      Client client = Client.builder().vertexAI(vertexAI).debugConfig(debugConfig).build();
+      mockedStaticApiClient.close();
+      return client;
     }
-    return clientBuilder.build();
+
+    return Client.builder().vertexAI(vertexAI).debugConfig(debugConfig).build();
   }
 
   private static Object normalizeKeys(Object data) {

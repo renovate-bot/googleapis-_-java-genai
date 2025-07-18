@@ -55,6 +55,9 @@ abstract class ApiClient {
   private static final ImmutableSet<String> VALID_HTTP_METHODS =
       ImmutableSet.<String>builder().addAll(METHODS_WITH_BODY).add("GET").add("DELETE").build();
 
+  private static Optional<String> geminiBaseUrl = Optional.empty();
+  private static Optional<String> vertexBaseUrl = Optional.empty();
+
   final OkHttpClient httpClient;
   HttpOptions httpOptions;
   final boolean vertexAI;
@@ -75,8 +78,10 @@ abstract class ApiClient {
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
     checkNotNull(clientOptions, "clientOptions cannot be null");
 
+    ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
+
     try {
-      this.apiKey = Optional.of(apiKey.orElse(getApiKeyFromEnv()));
+      this.apiKey = Optional.of(apiKey.orElse(environmentVariables.get("apiKey")));
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "API key must either be provided or set in the environment variable"
@@ -113,9 +118,11 @@ abstract class ApiClient {
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
     checkNotNull(clientOptions, "clientOptions cannot be null");
 
-    String apiKeyValue = apiKey.orElseGet(() -> getApiKeyFromEnv());
-    String projectValue = project.orElseGet(() -> System.getenv("GOOGLE_CLOUD_PROJECT"));
-    String locationValue = location.orElseGet(() -> System.getenv("GOOGLE_CLOUD_LOCATION"));
+    ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
+
+    String apiKeyValue = apiKey.orElseGet(() -> environmentVariables.get("apiKey"));
+    String projectValue = project.orElseGet(() -> environmentVariables.get("project"));
+    String locationValue = location.orElseGet(() -> environmentVariables.get("location"));
 
     boolean hasApiKey = apiKeyValue != null && !apiKeyValue.isEmpty();
     boolean hasProjectAndLocation =
@@ -128,7 +135,7 @@ abstract class ApiClient {
               + " environment variable.");
     }
 
-    this.apiKey = Optional.ofNullable(apiKeyValue);
+    this.apiKey = Optional.ofNullable(projectValue == null ? apiKeyValue : null);
     this.project = Optional.ofNullable(projectValue);
     this.location = Optional.ofNullable(locationValue);
 
@@ -147,24 +154,6 @@ abstract class ApiClient {
     }
     this.vertexAI = true;
     this.httpClient = createHttpClient(httpOptions.timeout(), clientOptions);
-  }
-
-  static String getApiKeyFromEnv() {
-    String googleApiKey = System.getenv("GOOGLE_API_KEY");
-    if (googleApiKey != null && googleApiKey.isEmpty()) {
-      googleApiKey = null;
-    }
-    String geminiApiKey = System.getenv("GEMINI_API_KEY");
-    if (geminiApiKey != null && geminiApiKey.isEmpty()) {
-      geminiApiKey = null;
-    }
-    if (googleApiKey != null && geminiApiKey != null) {
-      logger.warning("Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.");
-    }
-    if (googleApiKey != null) {
-      return googleApiKey;
-    }
-    return geminiApiKey;
   }
 
   private OkHttpClient createHttpClient(
@@ -401,18 +390,28 @@ abstract class ApiClient {
     HttpOptions.Builder defaultHttpOptionsBuilder =
         HttpOptions.builder().headers(defaultHeaders.build());
 
+    ImmutableMap<String, String> defaultEnvironmentVariables = defaultEnvironmentVariables();
     if (vertexAI) {
       defaultHttpOptionsBuilder.apiVersion("v1beta1");
-      if (apiKey.isPresent() || location.get().equalsIgnoreCase("global")) {
+      String defaultBaseUrl =
+          vertexBaseUrl.orElseGet(() -> defaultEnvironmentVariables.get("vertexBaseUrl"));
+      if (defaultBaseUrl != null) {
+        defaultHttpOptionsBuilder.baseUrl(defaultBaseUrl);
+      } else if (apiKey.isPresent() || location.get().equalsIgnoreCase("global")) {
         defaultHttpOptionsBuilder.baseUrl("https://aiplatform.googleapis.com");
       } else {
         defaultHttpOptionsBuilder.baseUrl(
             String.format("https://%s-aiplatform.googleapis.com", location.get()));
       }
     } else {
-      defaultHttpOptionsBuilder
-          .baseUrl("https://generativelanguage.googleapis.com")
-          .apiVersion("v1beta");
+      defaultHttpOptionsBuilder.apiVersion("v1beta");
+      String defaultBaseUrl =
+          geminiBaseUrl.orElseGet(() -> defaultEnvironmentVariables.get("geminiBaseUrl"));
+      if (defaultBaseUrl != null) {
+        defaultHttpOptionsBuilder.baseUrl(defaultBaseUrl);
+      } else {
+        defaultHttpOptionsBuilder.baseUrl("https://generativelanguage.googleapis.com");
+      }
     }
 
     return defaultHttpOptionsBuilder.build();
@@ -427,5 +426,72 @@ abstract class ApiClient {
           "Failed to get application default credentials, please explicitly provide credentials.",
           e);
     }
+  }
+
+  /** Returns the API key from the environment variables. */
+  static String getApiKeyFromEnv() {
+    String googleApiKey = System.getenv("GOOGLE_API_KEY");
+    if (googleApiKey != null && googleApiKey.isEmpty()) {
+      googleApiKey = null;
+    }
+    String geminiApiKey = System.getenv("GEMINI_API_KEY");
+    if (geminiApiKey != null && geminiApiKey.isEmpty()) {
+      geminiApiKey = null;
+    }
+    if (googleApiKey != null && geminiApiKey != null) {
+      logger.warning("Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.");
+    }
+    if (googleApiKey != null) {
+      return googleApiKey;
+    }
+    return geminiApiKey;
+  }
+
+  /**
+   * Returns the default environment variables for the client. Supported environment variables:
+   *
+   * <ul>
+   *   <li>apiKey -> GOOGLE_API_KEY or GEMINI_API_KEY: API key for Gemini APIs or Vertex AI APIs.
+   *   <li>project -> GOOGLE_CLOUD_PROJECT: Project ID for Vertex AI APIs.
+   *   <li>location -> GOOGLE_CLOUD_LOCATION: Location for Vertex AI APIs.
+   *   <li>vertexAI -> GOOGLE_GENAI_USE_VERTEXAI: Whether to use Vertex AI APIs(true or false).
+   *   <li>geminiBaseUrl -> GOOGLE_GEMINI_BASE_URL: Base URL for Gemini APIs.
+   *   <li>vertexBaseUrl -> GOOGLE_VERTEX_BASE_URL: Base URL for Vertex AI APIs.
+   * </ul>
+   */
+  static ImmutableMap<String, String> defaultEnvironmentVariables() {
+    ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap.builder();
+    String value;
+    value = getApiKeyFromEnv();
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("apiKey", value);
+    }
+    value = System.getenv("GOOGLE_CLOUD_PROJECT");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("project", value);
+    }
+    value = System.getenv("GOOGLE_CLOUD_LOCATION");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("location", value);
+    }
+    value = System.getenv("GOOGLE_GENAI_USE_VERTEXAI");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("vertexAI", value);
+    }
+    value = System.getenv("GOOGLE_GEMINI_BASE_URL");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("geminiBaseUrl", value);
+    }
+    value = System.getenv("GOOGLE_VERTEX_BASE_URL");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("vertexBaseUrl", value);
+    }
+    return mapBuilder.buildOrThrow();
+  }
+
+  /** Overrides the base URLs for the Gemini API and/or Vertex AI API. */
+  static void setDefaultBaseUrls(Optional<String> geminiBaseUrl, Optional<String> vertexBaseUrl) {
+    ApiClient.geminiBaseUrl = geminiBaseUrl;
+    ApiClient.vertexBaseUrl = vertexBaseUrl;
   }
 }
