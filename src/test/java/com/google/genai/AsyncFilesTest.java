@@ -78,18 +78,9 @@ public class AsyncFilesTest {
       AsyncPager<File> pager = client.async.files.list(config).get();
 
       // Assert
-      final int[] count = {0};
       ExecutionException exception =
           assertThrows(
-              ExecutionException.class,
-              () ->
-                  pager
-                      .forEach(
-                          file -> {
-                            assertNotNull(file);
-                            count[0]++;
-                          })
-                      .get());
+              ExecutionException.class, () -> pager.forEach(file -> assertNotNull(file)).get());
       assertTrue(exception.getCause() instanceof GenAiIOException);
       assertTrue(
           exception
@@ -101,15 +92,9 @@ public class AsyncFilesTest {
 
       // Assert
       assertNotNull(pager);
-      final int[] count = {0};
-      pager
-          .forEach(
-              file -> {
-                assertNotNull(file);
-                count[0]++;
-              })
-          .get();
-      assertTrue(count[0] > 0);
+      assertEquals(pager.pageSize().get(), 2);
+      assertTrue(pager.size().get() > 0);
+      pager.forEach(item -> assertNotNull(item)).get();
     }
   }
 

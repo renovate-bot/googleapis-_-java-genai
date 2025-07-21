@@ -54,7 +54,7 @@ public class AsyncTuningsTest {
     // Assert
     assertNotNull(pager);
     assertEquals(pager.pageSize().get(), 2);
-    pager.forEach(item -> assertNotNull(item));
+    pager.forEach(item -> assertNotNull(item)).get();
   }
 
   @ParameterizedTest
