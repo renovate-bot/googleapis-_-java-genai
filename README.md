@@ -42,6 +42,9 @@ Client client = Client.builder().apiKey("your-api-key").build();
 ```
 
 #### Instantiate a client that uses Vertex AI API
+
+##### Using project and location
+
 ```java
 import com.google.genai.Client;
 
@@ -54,31 +57,124 @@ Client client = Client.builder()
   .build();
 ```
 
+##### Using API key on Vertex AI (GCP Express Mode)
+
+```java
+import com.google.genai.Client;
+
+// Explicitly set the `apiKey` and `vertexAI(true)` to use Vertex AI backend
+// in express mode.
+Client client = Client.builder()
+  .apiKey("your-api-key")
+  .vertexAI(true)
+  .build();
+```
+
 #### (Optional) Using environment variables:
 
 You can create a client by configuring the necessary environment variables.
 Configuration setup instructions depends on whether you're using the Gemini
 Developer API or the Gemini API in Vertex AI.
 
-**Gemini Developer API:** Set `GOOGLE_API_KEY` as shown below:
+**Gemini Developer API:** Set the `GOOGLE_API_KEY`. It will automatically be
+picked up by the client. Note that `GEMINI_API_KEY` is a legacy environment
+variable, it's recommended to use `GOOGLE_API_KEY` only. But if both are set,
+`GOOGLE_API_KEY` takes precedence.
 
 ```bash
 export GOOGLE_API_KEY='your-api-key'
 ```
 
 **Gemini API on Vertex AI:** Set `GOOGLE_GENAI_USE_VERTEXAI`,
-`GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`, as shown below:
+`GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`, or `GOOGLE_API_KEY` for
+Vertex AI express mode. It's recommended that you set only project & location,
+or API key. But if both are set, project & location takes precedence.
 
 ```bash
 export GOOGLE_GENAI_USE_VERTEXAI=true
+
+// Set project and location for Vertex AI authentication
 export GOOGLE_CLOUD_PROJECT='your-project-id'
 export GOOGLE_CLOUD_LOCATION='us-central1'
+// or API key for express mode
+export GOOGLE_API_KEY='your-api-key'
 ```
+
+After configuring the environment variables, you can instantiate a client
+without passing any variables.
 
 ```java
 import com.google.genai.Client;
 
 Client client = new Client();
+```
+
+### API Selection
+
+By default, the SDK uses the beta API endpoints provided by Google to support
+preview features in the APIs. The stable API endpoints can be selected by
+setting the API version to `v1`.
+
+To set the API version use `HttpOptions`. For example, to set the API version to
+`v1` for Vertex AI:
+
+```java
+import com.google.genai.Client;
+import com.google.genai.types.HttpOptions;
+
+Client client = Client.builder()
+  .project("your-project")
+  .location("your-location")
+  .vertexAI(true)
+  .httpOptions(HttpOptions.builder().apiVersion("v1"))
+  .build();
+```
+
+To set the API version to `v1alpha` for the Gemini Developer API:
+
+```java
+import com.google.genai.Client;
+import com.google.genai.types.HttpOptions;
+
+Client client = Client.builder()
+  .apiKey("your-api-key")
+  .httpOptions(HttpOptions.builder().apiVersion("v1alpha"))
+  .build();
+```
+
+### HttpOptions
+
+Besides `apiVersion`, [HttpOptions](https://github.com/googleapis/java-genai/blob/main/src/main/java/com/google/genai/types/HttpOptions.java)
+also allows for flexible customization of HTTP request parameters such as
+`baseUrl`, `headers`, and `timeout`:
+
+```java
+HttpOptions httpOptions = HttpOptions.builder()
+  .baseUrl("your-own-endpoint.com")
+  .headers(ImmutableMap.of("key", "value"))
+  .timeout(600)
+  .build();
+```
+
+Beyond client-level configuration, `HttpOptions` can also be set on a
+per-request basis, providing maximum flexibility for diverse API call settings.
+See [this example](https://github.com/googleapis/java-genai/blob/main/examples/src/main/java/com/google/genai/examples/RequestLevelHttpOptions.java)
+for more details.
+
+### ClientOptions
+[ClientOptions](https://github.com/googleapis/java-genai/blob/main/src/main/java/com/google/genai/types/ClientOptions.java)
+enables you to customize the behavior of the HTTP client. It currently supports
+configuring the connection pool via `maxConnections` (total maximum connections)
+and `maxConnectionsPerHost` (maximum connections to a single host).
+
+```java
+import com.google.genai.Client;
+import com.google.genai.types.ClientOptions;
+
+Client client = Client.builder()
+  .apiKey("your-api-key")
+  .clientOptions(ClientOptions.builder().maxConnections(64).maxConnectionsPerHost(16))
+  .build();
 ```
 
 ### Interact with models
