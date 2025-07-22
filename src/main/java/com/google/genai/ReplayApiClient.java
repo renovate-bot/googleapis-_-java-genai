@@ -213,7 +213,7 @@ final class ReplayApiClient extends ApiClient {
 
   /**
    * Redact all the url parts before the resource name, so the test can work against any project,
-   * location, version, or whether it's EasyGCP.
+   * location, version, or whether it's GCP Express (API keys on Vertex AI).
    */
   private static String redactRequestUrl(String requestUrl) {
     String result =

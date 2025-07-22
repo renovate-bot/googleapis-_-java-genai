@@ -131,15 +131,16 @@ public class ClientTest {
   }
 
   @Test
-  public void testInitClientFromBuilder_setApiKeyInVertex_throwsException() {
+  public void testInitClientFromBuilder_setApiKeyInVertex() {
     // Act
-    IllegalArgumentException exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> Client.builder().apiKey(API_KEY).vertexAI(true).build());
+    Client client = Client.builder().apiKey(API_KEY).vertexAI(true).build();
 
     // Assert
-    assertEquals("Vertex AI APIs do not support API key.", exception.getMessage());
+    assertEquals(API_KEY, client.apiKey());
+    assertEquals(null, client.project());
+    assertEquals(null, client.location());
+    assertTrue(client.vertexAI());
+    assertEquals("https://aiplatform.googleapis.com", client.baseUrl().orElse(null));
   }
 
   @Test

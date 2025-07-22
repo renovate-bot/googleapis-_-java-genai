@@ -120,28 +120,88 @@ abstract class ApiClient {
 
     ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
 
-    String apiKeyValue = apiKey.orElseGet(() -> environmentVariables.get("apiKey"));
-    String projectValue = project.orElseGet(() -> environmentVariables.get("project"));
-    String locationValue = location.orElseGet(() -> environmentVariables.get("location"));
+    // Retrieve implicitly set values from the environment.
+    String envApiKeyValue = environmentVariables.get("apiKey");
+    String envProjectValue = environmentVariables.get("project");
+    String envLocationValue = environmentVariables.get("location");
 
-    boolean hasApiKey = apiKeyValue != null && !apiKeyValue.isEmpty();
-    boolean hasProjectAndLocation =
-        (projectValue != null && !projectValue.isEmpty())
-            && (locationValue != null && !locationValue.isEmpty());
+    // Constructor arguments take priority over environment variables.
+    String apiKeyValue = apiKey.orElse(envApiKeyValue);
+    String projectValue = project.orElse(envProjectValue);
+    String locationValue = location.orElse(envLocationValue);
 
-    if (!hasApiKey && !hasProjectAndLocation) {
+    // Has environment variable values.
+    boolean hasEnvApiKeyValue = envApiKeyValue != null && !envApiKeyValue.isEmpty();
+    boolean hasEnvProjectValue = envProjectValue != null && !envProjectValue.isEmpty();
+    boolean hasEnvLocationValue = envLocationValue != null && !envLocationValue.isEmpty();
+
+    // Constructor arguments.
+    boolean hasApiKey = apiKey != null && apiKey.isPresent();
+    boolean hasCredentials = credentials != null && credentials.isPresent();
+    boolean hasProject = project != null && project.isPresent();
+    boolean hasLocation = location != null && location.isPresent();
+
+    // Validate constructor arguments combinations.
+    if (hasProject && hasApiKey) {
       throw new IllegalArgumentException(
-          "For Vertex AI APIs, either API key, or project/location must be provided or set in the"
-              + " environment variable.");
+          "For Vertex AI APIs, project and API key are mutually exclusive in the client"
+              + " initializer. Please provide only one of them.");
     }
 
-    this.apiKey = Optional.ofNullable(projectValue == null ? apiKeyValue : null);
+    if (hasLocation && hasApiKey) {
+      throw new IllegalArgumentException(
+          "For Vertex AI APIs, location and API key are mutually exclusive in the client"
+              + " initializer. Please provide only one of them.");
+    }
+
+    if (hasCredentials && hasApiKey) {
+      throw new IllegalArgumentException(
+          "For Vertex AI APIs, API key cannot be set together with credentials. Please provide"
+              + " only one of them.");
+    }
+
+    // Handle when to use Vertex AI in express mode (api key).
+    // Explicit initializer arguments are already validated above.
+    if (hasCredentials && hasEnvApiKeyValue) {
+      logger.warning(
+          "Warning: The user provided Google Cloud credentials will take precedence over the API"
+              + " key from the environment variable.");
+      apiKeyValue = null;
+    }
+    if (hasApiKey && (hasEnvProjectValue || hasEnvLocationValue)) {
+      // Explicit API key takes precedence over implicit project/location.
+      logger.warning(
+          "Warning: The user provided Vertex AI API key will take precedence over the"
+              + " project/location from the environment variables.");
+      projectValue = null;
+      locationValue = null;
+    } else if ((hasProject || hasLocation) && hasEnvApiKeyValue) {
+      // Explicit project/location takes precedence over implicit API key.
+      logger.warning(
+          "Warning: The user provided project/location will take precedence over the API key from"
+              + " the environment variable.");
+      apiKeyValue = null;
+    } else if ((hasEnvProjectValue || hasEnvLocationValue) && hasEnvApiKeyValue) {
+      // Implicit project/location takes precedence over implicit API key.
+      logger.warning(
+          "Warning: The project/location from the environment variables will take precedence over"
+              + " the API key from the environment variable.");
+      apiKeyValue = null;
+    }
+
+    this.apiKey = Optional.ofNullable(apiKeyValue);
     this.project = Optional.ofNullable(projectValue);
     this.location = Optional.ofNullable(locationValue);
 
+    // Validate that either project and location or API key is set.
+    if (!((this.project.isPresent() && this.location.isPresent()) || this.apiKey.isPresent())) {
+      throw new IllegalArgumentException(
+          "For Vertex AI APIs, either project/location or API key must be set.");
+    }
+
     // Only set credentials if using project/location.
     this.credentials =
-        projectValue == null
+        !this.project.isPresent()
             ? Optional.empty()
             : Optional.of(credentials.orElseGet(() -> defaultCredentials()));
 
@@ -186,7 +246,10 @@ abstract class ApiClient {
     String capitalizedHttpMethod = Ascii.toUpperCase(httpMethod);
     boolean queryBaseModel =
         capitalizedHttpMethod.equals("GET") && path.startsWith("publishers/google/models");
-    if (this.vertexAI() && !path.startsWith("projects/") && !queryBaseModel) {
+    if (this.vertexAI()
+        && !this.apiKey.isPresent()
+        && !path.startsWith("projects/")
+        && !queryBaseModel) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
               + path;
@@ -260,6 +323,7 @@ abstract class ApiClient {
     }
 
     if (apiKey.isPresent()) {
+      // Sets API key for Gemini Developer API or Vertex AI Express mode
       request.header("x-goog-api-key", apiKey.get());
     } else {
       GoogleCredentials cred =

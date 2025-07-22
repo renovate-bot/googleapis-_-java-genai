@@ -207,7 +207,7 @@ public final class Client implements AutoCloseable {
     if (vertexAI.isPresent()) {
       useVertexAI = vertexAI.get();
     } else {
-      String envVar = ApiClient.defaultEnvironmentVariables().get("GOOGLE_GENAI_USE_VERTEXAI");
+      String envVar = ApiClient.defaultEnvironmentVariables().get("vertexAI");
       useVertexAI = envVar != null && envVar.equalsIgnoreCase("true");
     }
 
@@ -219,11 +219,6 @@ public final class Client implements AutoCloseable {
       if (!useVertexAI) {
         throw new IllegalArgumentException("Gemini API do not support project/location.");
       }
-    }
-
-    // TODO(jayceeli): Remove this check once we support EasyGCP.
-    if (apiKey.isPresent() && useVertexAI) {
-      throw new IllegalArgumentException("Vertex AI APIs do not support API key.");
     }
 
     this.debugConfig = debugConfig.orElse(new DebugConfig());

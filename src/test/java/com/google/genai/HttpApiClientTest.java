@@ -316,7 +316,7 @@ public class HttpApiClientTest {
     assertEquals(API_KEY, client.apiKey());
     assertNull(client.project());
     assertNull(client.location());
-    // Default to global endpoint for easy GCP.
+    // GCP Express mode uses global endpoint.
     assertEquals(Optional.of("https://aiplatform.googleapis.com"), client.httpOptions.baseUrl());
   }
 
@@ -334,9 +334,145 @@ public class HttpApiClientTest {
                     Optional.empty(),
                     Optional.empty()));
     assertEquals(
-        "For Vertex AI APIs, either API key, or project/location must be provided or set in the"
-            + " environment variable.",
+        "For Vertex AI APIs, either project/location or API key must be set.",
         exception.getMessage());
+  }
+
+  @Test
+  public void testInitHttpClientWithCustomCredentialsAndApiKey_throwsException() throws Exception {
+    GoogleCredentials credentials = Mockito.mock(GoogleCredentials.class);
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new HttpApiClient(
+                    Optional.of(API_KEY),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.of(credentials),
+                    Optional.empty(),
+                    Optional.empty()));
+    assertEquals(
+        "For Vertex AI APIs, API key cannot be set together with credentials. Please provide"
+            + " only one of them.",
+        exception.getMessage());
+  }
+
+  @Test
+  public void testInitHttpClientVertexWithProjectLocationAndApiKey_throwsException()
+      throws Exception {
+    // Explicit proj/location and API key are not allowed.
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new HttpApiClient(
+                    Optional.of(API_KEY),
+                    Optional.of(PROJECT),
+                    Optional.of(LOCATION),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()));
+    assertEquals(
+        "For Vertex AI APIs, project and API key are mutually exclusive in the client initializer."
+            + " Please provide only one of them.",
+        exception.getMessage());
+  }
+
+  @Test
+  public void testInitHttpClientVertexExplicitArgPrecedence1(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    // Explicit Vertex project and location takes precedence over project and location from
+    // environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("project", "env-project-id", "location", "env-location"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+    assertEquals("https://location-aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
+  }
+
+  @Test
+  public void testInitHttpClientVertexApiKeyCombo1(MockedStatic<ApiClient> mockedStaticApiClient)
+      throws Exception {
+    // API key from constructor takes precedence over project/location from environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("project", "env-project-id", "location", "env-location"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(API_KEY),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertNull(client.project());
+    assertNull(client.location());
+    assertEquals(API_KEY, client.apiKey());
+    assertTrue(client.vertexAI());
+    assertEquals("https://aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
+  }
+
+  @Test
+  public void testInitHttpClientVertexApiKeyCombo2(MockedStatic<ApiClient> mockedStaticApiClient)
+      throws Exception {
+    // Proj/location from constructor takes precedence over API key from environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("apiKey", "env-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+    assertEquals("https://location-aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
+  }
+
+  @Test
+  public void testInitHttpClientVertexApiKeyCombo3(MockedStatic<ApiClient> mockedStaticApiClient)
+      throws Exception {
+    // Proj/location from environment takes precedence over API key from environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(
+            ImmutableMap.of(
+                "project", "env-project-id", "location", "env-location", "apiKey", "env-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("env-project-id", client.project());
+    assertEquals("env-location", client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+    assertEquals(
+        "https://env-location-aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
   }
 
   @Test
@@ -353,8 +489,7 @@ public class HttpApiClientTest {
                     Optional.empty(),
                     Optional.empty()));
     assertEquals(
-        "For Vertex AI APIs, either API key, or project/location must be provided or set in the"
-            + " environment variable.",
+        "For Vertex AI APIs, either project/location or API key must be set.",
         exception.getMessage());
   }
 
