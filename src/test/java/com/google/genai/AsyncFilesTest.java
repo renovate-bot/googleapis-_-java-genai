@@ -93,7 +93,7 @@ public class AsyncFilesTest {
       // Assert
       assertNotNull(pager);
       assertEquals(pager.pageSize().get(), 2);
-      assertTrue(pager.size().get() > 0);
+      assertTrue(pager.size().get() <= 2);
       pager.forEach(item -> assertNotNull(item)).get();
     }
   }

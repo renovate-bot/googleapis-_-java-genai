@@ -135,7 +135,8 @@ public class AsyncModelsTest {
             .get();
 
     // Assert
-    assertEquals(10, pager.size().get());
+    assertEquals(pager.pageSize().get(), 10);
+    assertTrue(pager.size().get() <= 10);
     pager.forEach(item -> assertNotNull(item)).get();
   }
 

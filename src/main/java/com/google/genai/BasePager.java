@@ -19,7 +19,6 @@ package com.google.genai;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
-import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.BatchJob;
 import com.google.genai.types.CachedContent;
 import com.google.genai.types.File;
@@ -99,17 +98,16 @@ abstract class BasePager<T extends JsonSerializable> {
       throw new IllegalArgumentException("Response cannot be null.");
     }
     JsonNode responseList = response.get(pagedItem.fieldName());
-    if (responseList == null) {
-      throw new GenAiIOException(
-          "Response does not contain the requested item. Raw response: "
-              + JsonSerializable.toJsonString(response));
-    }
     // Sets the page.
-    List<T> page = new ArrayList<>();
-    for (JsonNode responseItem : responseList) {
-      page.add((T) JsonSerializable.fromJsonNode(responseItem, pagedItem.itemClass()));
+    if (responseList == null) {
+      this.page = ImmutableList.of();
+    } else {
+      List<T> page = new ArrayList<>();
+      for (JsonNode responseItem : responseList) {
+        page.add((T) JsonSerializable.fromJsonNode(responseItem, pagedItem.itemClass()));
+      }
+      this.page = ImmutableList.copyOf(page);
     }
-    this.page = ImmutableList.copyOf(page);
 
     // Sets the page size.
     if (requestConfig.get("pageSize") != null) {
