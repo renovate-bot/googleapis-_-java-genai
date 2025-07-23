@@ -55,6 +55,7 @@ import com.google.genai.types.GeneratedImage;
 import com.google.genai.types.GetModelConfig;
 import com.google.genai.types.GetModelParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.HttpResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.ListModelsParameters;
@@ -74,10 +75,13 @@ import com.google.genai.types.Video;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 /**
@@ -4312,6 +4316,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generateContentResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"candidates"}) != null) {
       ArrayNode keyArray =
@@ -5106,6 +5116,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generateContentResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"candidates"}) != null) {
       ArrayNode keyArray =
@@ -5805,7 +5821,20 @@ public final class Models {
       } else {
         responseNode = generateContentResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, GenerateContentResponse.class);
+
+      GenerateContentResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, GenerateContentResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

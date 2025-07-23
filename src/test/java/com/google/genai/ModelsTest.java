@@ -142,6 +142,7 @@ public class ModelsTest {
 
     // Assert
     assertNotNull(response.text());
+    assertNotNull(response.sdkHttpResponse().get().headers());
   }
 
   @ParameterizedTest

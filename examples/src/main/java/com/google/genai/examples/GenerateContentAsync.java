@@ -74,7 +74,15 @@ public final class GenerateContentAsync {
     responseFuture
         .thenAccept(
             response -> {
+              // Gets the text string from the response
               System.out.println("Async response: " + response.text());
+              // Gets the http headers from the response.
+              response
+                  .sdkHttpResponse()
+                  .ifPresent(
+                      httpResponse ->
+                          System.out.println(
+                              "Response headers: " + httpResponse.headers().orElse(null)));
             })
         .join();
   }

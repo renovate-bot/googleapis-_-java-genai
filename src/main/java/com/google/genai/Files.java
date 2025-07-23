@@ -596,13 +596,18 @@ public final class Files {
       }
 
       if (config.shouldReturnHttpResponse().orElse(false)) {
-        Map<String, String> headers = new HashMap<>();
         Headers responseHeaders = response.getHeaders();
+        if (responseHeaders == null) {
+          return CreateFileResponse.builder()
+              .sdkHttpResponse(HttpResponse.builder().body(responseString))
+              .build();
+        }
+        Map<String, String> headers = new HashMap<>();
         for (String headerName : responseHeaders.names()) {
           headers.put(headerName, responseHeaders.get(headerName));
         }
         return CreateFileResponse.builder()
-            .sdkHttpResponse(HttpResponse.builder().headers(headers).body(responseString).build())
+            .sdkHttpResponse(HttpResponse.builder().headers(headers).body(responseString))
             .build();
       }
 

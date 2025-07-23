@@ -72,6 +72,13 @@ public final class GenerateContent {
 
     // Gets the text string from the response by the quick accessor method `text()`.
     System.out.println("Unary response: " + response.text());
+
+    // Gets the http headers from the response.
+    response
+        .sdkHttpResponse()
+        .ifPresent(
+            httpResponse ->
+                System.out.println("Response headers: " + httpResponse.headers().orElse(null)));
   }
 
   private GenerateContent() {}
