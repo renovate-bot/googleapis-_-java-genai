@@ -482,6 +482,7 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningJobFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -636,6 +637,7 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningOperationFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -736,6 +738,7 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningJobFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
