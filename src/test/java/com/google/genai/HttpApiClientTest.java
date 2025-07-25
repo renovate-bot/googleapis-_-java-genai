@@ -382,8 +382,6 @@ public class HttpApiClientTest {
   @Test
   public void testOnlyGoogleAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient)
       throws Exception {
-    // Explicit Vertex project and location takes precedence over project and location from
-    // environment
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("googleApiKey", "google-api-key"));
@@ -402,8 +400,6 @@ public class HttpApiClientTest {
   @Test
   public void testOnlyGeminiAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient)
       throws Exception {
-    // Explicit Vertex project and location takes precedence over project and location from
-    // environment
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(ImmutableMap.of("geminiApiKey", "gemini-api-key"));
@@ -421,8 +417,6 @@ public class HttpApiClientTest {
 
   @Test
   public void testBothAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
-    // Explicit Vertex project and location takes precedence over project and location from
-    // environment
     mockedStaticApiClient
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(
