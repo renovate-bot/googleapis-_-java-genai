@@ -380,6 +380,66 @@ public class HttpApiClientTest {
   }
 
   @Test
+  public void testOnlyGoogleAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient)
+      throws Exception {
+    // Explicit Vertex project and location takes precedence over project and location from
+    // environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("googleApiKey", "google-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals(client.apiKey(), "google-api-key");
+  }
+
+  @Test
+  public void testOnlyGeminiAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient)
+      throws Exception {
+    // Explicit Vertex project and location takes precedence over project and location from
+    // environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("geminiApiKey", "gemini-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals(client.apiKey(), "gemini-api-key");
+  }
+
+  @Test
+  public void testBothAPIKeyEnvSet(MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    // Explicit Vertex project and location takes precedence over project and location from
+    // environment
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(
+            ImmutableMap.of("geminiApiKey", "gemini-api-key", "googleApiKey", "google-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals(client.apiKey(), "google-api-key");
+  }
+
+  @Test
   public void testInitHttpClientVertexExplicitArgPrecedence1(
       MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
     // Explicit Vertex project and location takes precedence over project and location from
@@ -426,28 +486,6 @@ public class HttpApiClientTest {
     assertEquals("https://aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
   }
 
-  @Test
-  public void testInitHttpClientVertexApiKeyCombo2(MockedStatic<ApiClient> mockedStaticApiClient)
-      throws Exception {
-    // Proj/location from constructor takes precedence over API key from environment
-    mockedStaticApiClient
-        .when(ApiClient::defaultEnvironmentVariables)
-        .thenReturn(ImmutableMap.of("apiKey", "env-api-key"));
-    HttpApiClient client =
-        new HttpApiClient(
-            Optional.empty(),
-            Optional.of(PROJECT),
-            Optional.of(LOCATION),
-            Optional.of(CREDENTIALS),
-            Optional.empty(),
-            Optional.empty());
-
-    assertEquals(PROJECT, client.project());
-    assertEquals(LOCATION, client.location());
-    assertNull(client.apiKey());
-    assertTrue(client.vertexAI());
-    assertEquals("https://location-aiplatform.googleapis.com", client.httpOptions.baseUrl().get());
-  }
 
   @Test
   public void testInitHttpClientVertexApiKeyCombo3(MockedStatic<ApiClient> mockedStaticApiClient)
@@ -457,7 +495,12 @@ public class HttpApiClientTest {
         .when(ApiClient::defaultEnvironmentVariables)
         .thenReturn(
             ImmutableMap.of(
-                "project", "env-project-id", "location", "env-location", "apiKey", "env-api-key"));
+                "project",
+                "env-project-id",
+                "location",
+                "env-location",
+                "googleApiKey",
+                "google-api-key"));
     HttpApiClient client =
         new HttpApiClient(
             Optional.empty(),

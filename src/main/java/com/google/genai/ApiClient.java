@@ -78,10 +78,8 @@ abstract class ApiClient {
     checkNotNull(customHttpOptions, "customHttpOptions cannot be null");
     checkNotNull(clientOptions, "clientOptions cannot be null");
 
-    ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
-
     try {
-      this.apiKey = Optional.of(apiKey.orElse(environmentVariables.get("apiKey")));
+      this.apiKey = Optional.of(apiKey.orElse(getApiKeyFromEnv()));
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "API key must either be provided or set in the environment variable"
@@ -121,7 +119,7 @@ abstract class ApiClient {
     ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
 
     // Retrieve implicitly set values from the environment.
-    String envApiKeyValue = environmentVariables.get("apiKey");
+    String envApiKeyValue = getApiKeyFromEnv();
     String envProjectValue = environmentVariables.get("project");
     String envLocationValue = environmentVariables.get("location");
 
@@ -479,13 +477,16 @@ abstract class ApiClient {
     }
   }
 
-  /** Returns the API key from the environment variables. */
+  /** Returns the API key from defaultEnvironmentVariables. */
   static String getApiKeyFromEnv() {
-    String googleApiKey = System.getenv("GOOGLE_API_KEY");
+
+    ImmutableMap<String, String> environmentVariables = defaultEnvironmentVariables();
+
+    String googleApiKey = environmentVariables.get("googleApiKey");
     if (googleApiKey != null && googleApiKey.isEmpty()) {
       googleApiKey = null;
     }
-    String geminiApiKey = System.getenv("GEMINI_API_KEY");
+    String geminiApiKey = environmentVariables.get("geminiApiKey");
     if (geminiApiKey != null && geminiApiKey.isEmpty()) {
       geminiApiKey = null;
     }
@@ -502,7 +503,8 @@ abstract class ApiClient {
    * Returns the default environment variables for the client. Supported environment variables:
    *
    * <ul>
-   *   <li>apiKey -> GOOGLE_API_KEY or GEMINI_API_KEY: API key for Gemini APIs or Vertex AI APIs.
+   *   <li>googleApiKey -> GOOGLE_API_KEY environment variable.
+   *   <li>geminiApiKey -> GEMINI_API_KEY environment variable.
    *   <li>project -> GOOGLE_CLOUD_PROJECT: Project ID for Vertex AI APIs.
    *   <li>location -> GOOGLE_CLOUD_LOCATION: Location for Vertex AI APIs.
    *   <li>vertexAI -> GOOGLE_GENAI_USE_VERTEXAI: Whether to use Vertex AI APIs(true or false).
@@ -513,9 +515,13 @@ abstract class ApiClient {
   static ImmutableMap<String, String> defaultEnvironmentVariables() {
     ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap.builder();
     String value;
-    value = getApiKeyFromEnv();
+    value = System.getenv("GOOGLE_API_KEY");
     if (value != null && !value.isEmpty()) {
-      mapBuilder.put("apiKey", value);
+      mapBuilder.put("googleApiKey", value);
+    }
+    value = System.getenv("GEMINI_API_KEY");
+    if (value != null && !value.isEmpty()) {
+      mapBuilder.put("geminiApiKey", value);
     }
     value = System.getenv("GOOGLE_CLOUD_PROJECT");
     if (value != null && !value.isEmpty()) {

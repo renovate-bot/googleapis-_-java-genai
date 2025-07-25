@@ -326,7 +326,7 @@ public final class TableTest {
           .when(ApiClient::defaultEnvironmentVariables)
           .thenReturn(
               ImmutableMap.builder()
-                  .put("apiKey", "api-key")
+                  .put("googleApiKey", "google-api-key")
                   .put("project", "project")
                   .put("location", "location")
                   .build());
