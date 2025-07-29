@@ -65,6 +65,8 @@ public class ModelsTest {
   private static final String GEMINI_MODEL_NAME = "gemini-1.5-flash";
   private static final String EMBEDDING_MODEL_NAME = "text-embedding-004";
   private static final String IMAGEN_CAPABILITY_MODEL_NAME = "imagen-3.0-capability-001";
+  private static final String GEMINI_IMAGE_MODALITY_MODEL_NAME =
+      "gemini-2.0-flash-preview-image-generation";
 
   /** Creates a raw reference image for edit image tests. */
   private RawReferenceImage createRawReferenceImage() throws Exception {
@@ -207,6 +209,38 @@ public class ModelsTest {
     for (GenerateContentResponse response : responseStream) {
       chunks++;
       assertNotNull(response.text());
+    }
+    assertTrue(chunks > 2);
+    assertTrue(responseStream.isConsumed());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testGenerateContentStream_withImageModality(boolean vertexAI) throws Exception {
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        TestUtils.createClient(
+            vertexAI,
+            "tests/models/generate_content/test_sync_stream_with_non_text_modality."
+                + suffix
+                + ".json");
+
+    // Act
+    GenerateContentConfig config =
+        GenerateContentConfig.builder().responseModalities("IMAGE", "TEXT").build();
+    ResponseStream<GenerateContentResponse> responseStream =
+        client.models.generateContentStream(
+            GEMINI_IMAGE_MODALITY_MODEL_NAME,
+            Content.fromParts(
+                Part.fromText(
+                    "Generate an image of the Eiffel tower with fireworks in the background.")),
+            config);
+
+    // Assert
+    int chunks = 0;
+    for (GenerateContentResponse response : responseStream) {
+      chunks++;
     }
     assertTrue(chunks > 2);
     assertTrue(responseStream.isConsumed());

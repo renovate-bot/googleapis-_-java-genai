@@ -245,6 +245,37 @@ public class AsyncModelsTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
+  public void testGenerateContentStream_withImageModalityAsync(boolean vertexAI) throws Exception {
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        TestUtils.createClient(
+            vertexAI,
+            "tests/models/generate_content/test_async_stream_with_non_text_modality."
+                + suffix
+                + ".json");
+
+    // Act
+    GenerateContentConfig config =
+        GenerateContentConfig.builder().responseModalities("IMAGE", "TEXT").build();
+    CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
+        client.async.models.generateContentStream(
+            "gemini-2.0-flash-preview-image-generation",
+            "Generate an image of the Eiffel tower with fireworks in the background.",
+            config);
+    ResponseStream<GenerateContentResponse> responseStream = responseStreamFuture.join();
+
+    // Assert
+    int chunks = 0;
+    for (GenerateContentResponse response : responseStream) {
+      chunks++;
+    }
+    assertTrue(chunks > 2);
+    assertTrue(responseStream.isConsumed());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
   public void testGenerateContent_withContentAndConfigAsync(boolean vertexAI) throws Exception {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
