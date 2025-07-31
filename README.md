@@ -178,11 +178,11 @@ Client client = Client.builder()
 ```
 
 ### Interact with models
-The Gen AI Java SDK allows you to access the service programmatically.
+The Google Gen AI Java SDK allows you to access the service programmatically.
 The following code snippets are some basic usages of model inferencing.
 
 #### Generate Content
-Use `generateContent` method for the most basic text generation.
+Use `generateContent` method for the most basic content generation.
 
 ##### with text input
 
@@ -199,10 +199,17 @@ public class GenerateContentWithTextInput {
     Client client = new Client();
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", "What is your name?", null);
+        client.models.generateContent("gemini-2.5-flash", "What is your name?", null);
 
     // Gets the text string from the response by the quick accessor method `text()`.
     System.out.println("Unary response: " + response.text());
+
+    // Gets the http headers from the response.
+    response
+        .sdkHttpResponse()
+        .ifPresent(
+            httpResponse ->
+                System.out.println("Response headers: " + httpResponse.headers().orElse(null)));
   }
 }
 ```
@@ -232,7 +239,68 @@ public class GenerateContentWithImageInput {
             Part.fromUri("gs://path/to/image.jpg", "image/jpeg"));
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", content, null);
+        client.models.generateContent("gemini-2.5-flash", content, null);
+
+    System.out.println("Response: " + response.text());
+  }
+}
+```
+
+##### Generate Content with extra configs
+To set configurations like System Instructions and Safety Settings, you can pass
+a `GenerateContentConfig` to the `GenerateContent` method.
+
+```java
+package <your package name>;
+
+import com.google.common.collect.ImmutableList;
+import com.google.genai.Client;
+import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.HarmBlockThreshold;
+import com.google.genai.types.HarmCategory;
+import com.google.genai.types.Part;
+import com.google.genai.types.SafetySetting;
+import com.google.genai.types.ThinkingConfig;
+import com.google.genai.types.Tool;
+
+public class GenerateContentWithConfigs {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    // Sets the safety settings in the config.
+    ImmutableList<SafetySetting> safetySettings =
+        ImmutableList.of(
+            SafetySetting.builder()
+                .category(HarmCategory.Known.HARM_CATEGORY_HATE_SPEECH)
+                .threshold(HarmBlockThreshold.Known.BLOCK_ONLY_HIGH)
+                .build(),
+            SafetySetting.builder()
+                .category(HarmCategory.Known.HARM_CATEGORY_DANGEROUS_CONTENT)
+                .threshold(HarmBlockThreshold.Known.BLOCK_LOW_AND_ABOVE)
+                .build());
+
+    // Sets the system instruction in the config.
+    Content systemInstruction = Content.fromParts(Part.fromText("You are a history teacher."));
+
+    // Sets the Google Search tool in the config.
+    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder()).build();
+
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            // Sets the thinking budget to 0 to disable thinking mode
+            .thinkingConfig(ThinkingConfig.builder().thinkingBudget(0))
+            .candidateCount(1)
+            .maxOutputTokens(1024)
+            .safetySettings(safetySettings)
+            .systemInstruction(systemInstruction)
+            .tools(googleSearchTool)
+            .build();
+
+    GenerateContentResponse response =
+        client.models.generateContent("gemini-2.5-flash", "Tell me the history of LLM", config);
 
     System.out.println("Response: " + response.text());
   }
@@ -287,14 +355,12 @@ public class GenerateContentWithFunctionCall {
 
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .tools(
-                ImmutableList.of(
-                    Tool.builder().functions(ImmutableList.of(method)).build()))
+            .tools(Tool.builder().functions(method))
             .build();
 
     GenerateContentResponse response =
         client.models.generateContent(
-            "gemini-2.0-flash-001",
+            "gemini-2.5-flash",
             "What is the weather in Vancouver?",
             config);
 
@@ -306,7 +372,7 @@ public class GenerateContentWithFunctionCall {
 }
 ```
 
-#### Stream Generated Content
+##### Stream Generated Content
 To get a streamed response, you can use the `generateContentStream` method:
 
 ```java
@@ -318,13 +384,11 @@ import com.google.genai.types.GenerateContentResponse;
 
 public class StreamGeneration {
   public static void main(String[] args) {
-    // Instantiate the client using Vertex API. The client gets the project and location from the
-    // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
-    Client client = Client.builder().vertexAI(true).build();
+    Client client = new Client();
 
     ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(
-            "gemini-2.0-flash-001", "Tell me a story in 300 words.", null);
+            "gemini-2.5-flash", "Tell me a story in 300 words.", null);
 
     System.out.println("Streaming response: ");
     for (GenerateContentResponse res : responseStream) {
@@ -338,7 +402,7 @@ public class StreamGeneration {
 }
 ```
 
-#### Async Generate Content
+##### Async Generate Content
 To get a response asynchronously, you can use the `generateContent` method from
 the `client.async.models` namespace.
 
@@ -351,12 +415,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class GenerateContentAsync {
   public static void main(String[] args) {
-    // Instantiates the client using Gemini API, and sets the API key in the builder.
-    Client client = Client.builder().apiKey("your-api-key").build();
+    Client client = new Client();
 
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.0-flash-001", "Introduce Google AI Studio.", null);
+            "gemini-2.5-flash", "Introduce Google AI Studio.", null);
 
     responseFuture
         .thenAccept(
@@ -368,65 +431,7 @@ public class GenerateContentAsync {
 }
 ```
 
-#### Generate Content with extra configs
-To set configurations like System Instructions and Safety Settings, you can pass
-a `GenerateContentConfig` to the `GenerateContent` method.
-
-```java
-package <your package name>;
-
-import com.google.common.collect.ImmutableList;
-import com.google.genai.Client;
-import com.google.genai.types.Content;
-import com.google.genai.types.GenerateContentConfig;
-import com.google.genai.types.GenerateContentResponse;
-import com.google.genai.types.GoogleSearch;
-import com.google.genai.types.HarmBlockThreshold;
-import com.google.genai.types.HarmCategory;
-import com.google.genai.types.Part;
-import com.google.genai.types.SafetySetting;
-import com.google.genai.types.Tool;
-
-public class GenerateContentWithConfigs {
-  public static void main(String[] args) {
-    Client client = new Client();
-
-    // Sets the safety settings in the config.
-    ImmutableList<SafetySetting> safetySettings =
-        ImmutableList.of(
-            SafetySetting.builder()
-                .category(HarmCategory.Known.HARM_CATEGORY_HATE_SPEECH)
-                .threshold(HarmBlockThreshold.Known.BLOCK_ONLY_HIGH)
-                .build(),
-            SafetySetting.builder()
-                .category(HarmCategory.Known.HARM_CATEGORY_DANGEROUS_CONTENT)
-                .threshold(HarmBlockThreshold.Known.BLOCK_LOW_AND_ABOVE)
-                .build());
-
-    // Sets the system instruction in the config.
-    Content systemInstruction = Content.fromParts(Part.fromText("You are a history teacher."));
-
-    // Sets the Google Search tool in the config.
-    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder().build()).build();
-
-    GenerateContentConfig config =
-        GenerateContentConfig.builder()
-            .candidateCount(1)
-            .maxOutputTokens(1024)
-            .safetySettings(safetySettings)
-            .systemInstruction(systemInstruction)
-            .tools(ImmutableList.of(googleSearchTool))
-            .build();
-
-    GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", "Tell me the history of LLM", config);
-
-    System.out.println("Response: " + response.text());
-  }
-}
-```
-
-#### Generate Content with JSON response schema
+##### Generate Content with JSON response schema
 To get a response in JSON by passing in a response schema to the
 `GenerateContent` API.
 
@@ -465,9 +470,77 @@ public class GenerateContentWithSchema {
             .build();
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", "Tell me your name", config);
+        client.models.generateContent("gemini-2.5-flash", "Tell me your name", config);
 
     System.out.println("Response: " + response.text());
+  }
+}
+```
+
+#### Count Tokens and Compute Tokens
+
+The `countTokens` method allows you to calculate the number of tokens your
+prompt will use before sending it to the model, helping you manage costs and
+stay within the context window.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.CountTokensResponse;
+
+public class CountTokens {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    CountTokensResponse response =
+        client.models.countTokens("gemini-2.5-flash", "What is your name?", null);
+
+    System.out.println("Count tokens response: " + response);
+  }
+}
+```
+
+The `computeTokens` method returns the Tokens Info that contains tokens and
+token IDs given your prompt. This method is only supported in Vertex AI.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.ComputeTokensResponse;
+
+public class ComputeTokens {
+  public static void main(String[] args) {
+    Client client = Client.builder().vertexAI(true).build();
+
+    ComputeTokensResponse response =
+        client.models.computeTokens("gemini-2.5-flash", "What is your name?", null);
+
+    System.out.println("Compute tokens response: " + response);
+  }
+}
+```
+
+#### Embed Content
+
+The `embedContent` method allows you to generate embeddings for words, phrases,
+sentences, and code. Note that only text embedding is supported in this method.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.EmbedContentResponse;
+
+public class EmbedContent {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    EmbedContentResponse response =
+        client.models.embedContent("gemini-embedding-001", "why is the sky blue?", null);
+
+    System.out.println("Embedding response: " + response);
   }
 }
 ```
