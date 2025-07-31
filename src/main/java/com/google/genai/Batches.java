@@ -2076,6 +2076,7 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteResourceJobFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -2307,6 +2308,7 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteResourceJobFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
           toObject,
