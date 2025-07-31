@@ -1889,6 +1889,13 @@ public final class Batches {
           Common.getValueByPath(fromObject, new String[] {"promptFeedback"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"responseId"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseId"},
+          Common.getValueByPath(fromObject, new String[] {"responseId"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"usageMetadata"}) != null) {
       Common.setValueByPath(
           toObject,
