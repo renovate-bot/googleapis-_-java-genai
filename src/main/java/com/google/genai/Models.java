@@ -1313,8 +1313,11 @@ public final class Models {
       throw new IllegalArgumentException("addWatermark parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"imageSize"}))) {
-      throw new IllegalArgumentException("imageSize parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"imageSize"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "sampleImageSize"},
+          Common.getValueByPath(fromObject, new String[] {"imageSize"}));
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}))) {
