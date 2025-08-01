@@ -545,6 +545,274 @@ public class EmbedContent {
 }
 ```
 
+### Imagen
+
+Imagen is a text-to-image GenAI service.
+
+#### Generate Images
+
+The `generateImages` method helps you create high-quality, unique images given a
+text prompt.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.GenerateImagesConfig;
+import com.google.genai.types.GenerateImagesResponse;
+import com.google.genai.types.Image;
+
+public class GenerateImages {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    GenerateImagesConfig config =
+        GenerateImagesConfig.builder()
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .includeSafetyAttributes(true)
+            .build();
+
+    GenerateImagesResponse response =
+        client.models.generateImages(
+            "imagen-3.0-generate-002", "Robot holding a red skateboard", config);
+
+    response.generatedImages().ifPresent(
+        images -> {
+            System.out.println("Generated " + images.size() + " images.");
+            Image image = images.get(0).image().orElse(null);
+            // Do something with the image.
+        }
+    );
+  }
+}
+```
+
+#### Upscale Image
+
+The `upscaleImage` method allows you to upscale an image. This feature is only
+supported in Vertex AI.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.Image;
+import com.google.genai.types.UpscaleImageConfig;
+import com.google.genai.types.UpscaleImageResponse;
+
+public class UpscaleImage {
+  public static void main(String[] args) {
+    Client client = Client.builder().vertexAI(true).build();
+
+    Image image = Image.fromFile("path/to/your/image");
+
+    UpscaleImageConfig config =
+        UpscaleImageConfig.builder()
+            .outputMimeType("image/jpeg")
+            .enhanceInputImage(true)
+            .imagePreservationFactor(0.6f)
+            .build();
+
+    UpscaleImageResponse response =
+        client.models.upscaleImage("imagen-3.0-generate-002", image, "x2", config);
+
+    response.generatedImages().ifPresent(
+        images -> {
+            Image upscaledImage = images.get(0).image().orElse(null);
+            // Do something with the upscaled image.
+        }
+    );
+  }
+}
+```
+
+#### Edit Image
+
+The `editImage` method lets you edit an image. You can input reference images
+(ex. mask reference for inpainting, or style reference for style transfer) in
+addition to a text prompt to guide the editing.
+
+This feature uses a different model than `generateImages` and `upscaleImage`. It
+is only supported in Vertex AI.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.EditImageConfig;
+import com.google.genai.types.EditImageResponse;
+import com.google.genai.types.EditMode;
+import com.google.genai.types.Image;
+import com.google.genai.types.MaskReferenceConfig;
+import com.google.genai.types.MaskReferenceImage;
+import com.google.genai.types.MaskReferenceMode;
+import com.google.genai.types.RawReferenceImage;
+import com.google.genai.types.ReferenceImage;
+import java.util.ArrayList;
+
+public class EditImage {
+  public static void main(String[] args) {
+    Client client = Client.builder().vertexAI(true).build();
+
+    Image image = Image.fromFile("path/to/your/image");
+
+    // Edit image with a mask.
+    EditImageConfig config =
+        EditImageConfig.builder()
+            .editMode(EditMode.Known.EDIT_MODE_INPAINT_INSERTION)
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .build();
+
+    ArrayList<ReferenceImage> referenceImages = new ArrayList<>();
+    RawReferenceImage rawReferenceImage =
+        RawReferenceImage.builder().referenceImage(image).referenceId(1).build();
+    referenceImages.add(rawReferenceImage);
+
+    MaskReferenceImage maskReferenceImage =
+        MaskReferenceImage.builder()
+            .referenceId(2)
+            .config(
+                MaskReferenceConfig.builder()
+                    .maskMode(MaskReferenceMode.Known.MASK_MODE_BACKGROUND)
+                    .maskDilation(0.0f))
+            .build();
+    referenceImages.add(maskReferenceImage);
+
+    EditImageResponse response =
+        client.models.editImage(
+            "imagen-3.0-capability-001", "Sunlight and clear sky", referenceImages, config);
+
+    response.generatedImages().ifPresent(
+        images -> {
+            Image editedImage = images.get(0).image().orElse(null);
+            // Do something with the edited image.
+        }
+    );
+  }
+}
+```
+
+### Veo
+
+Veo is a video generation GenAI service.
+
+#### Generate Videos (Text to Video)
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.GenerateVideosConfig;
+import com.google.genai.types.GenerateVideosOperation;
+import com.google.genai.types.Video;
+
+public class GenerateVideosWithText {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    GenerateVideosConfig config =
+        GenerateVideosConfig.builder()
+            .numberOfVideos(1)
+            .enhancePrompt(true)
+            .durationSeconds(5)
+            .build();
+
+    // generateVideos returns an operation
+    GenerateVideosOperation operation =
+        client.models.generateVideos(
+            "veo-2.0-generate-001", "A neon hologram of a cat driving at top speed", null, config);
+
+    // When the operation hasn't been finished, operation.done() is empty
+    while (!operation.done().isPresent()) {
+        try {
+            System.out.println("Waiting for operation to complete...");
+            Thread.sleep(10000);
+            // Sleep for 10 seconds and check the operation again
+            operation = client.operations.getVideosOperation(operation, null);
+        } catch (InterruptedException e) {
+            System.out.println("Thread was interrupted while sleeping.");
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    operation.response().ifPresent(
+        response -> {
+            response.generatedVideos().ifPresent(
+                videos -> {
+                    System.out.println("Generated " + videos.size() + " videos.");
+                    Video video = videos.get(0).video().orElse(null);
+                    // Do something with the generated video
+                }
+            );
+        }
+    );
+  }
+}
+```
+
+#### Generate Videos (Image to Video)
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.GenerateVideosConfig;
+import com.google.genai.types.GenerateVideosOperation;
+import com.google.genai.types.Image;
+import com.google.genai.types.Video;
+
+public class GenerateVideosWithImage {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    Image image = Image.fromFile("path/to/your/image");
+
+    GenerateVideosConfig config =
+        GenerateVideosConfig.builder()
+            .numberOfVideos(1)
+            .enhancePrompt(true)
+            .durationSeconds(5)
+            .build();
+
+    // generateVideos returns an operation
+    GenerateVideosOperation operation =
+        client.models.generateVideos(
+            "veo-2.0-generate-001",
+            "Night sky",
+            image,
+            config);
+
+    // When the operation hasn't been finished, operation.done() is empty
+    while (!operation.done().isPresent()) {
+        try {
+            System.out.println("Waiting for operation to complete...");
+            Thread.sleep(10000);
+            // Sleep for 10 seconds and check the operation again
+            operation = client.operations.getVideosOperation(operation, null);
+        } catch (InterruptedException e) {
+            System.out.println("Thread was interrupted while sleeping.");
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    operation.response().ifPresent(
+        response -> {
+            response.generatedVideos().ifPresent(
+                videos -> {
+                    System.out.println("Generated " + videos.size() + " videos.");
+                    Video video = videos.get(0).video().orElse(null);
+                    // Do something with the generated video
+                }
+            );
+        }
+    );
+  }
+}
+```
+
+
 ## Versioning
 
 This library follows [Semantic Versioning](http://semver.org/).
