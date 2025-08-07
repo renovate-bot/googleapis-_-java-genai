@@ -549,6 +549,13 @@ public final class Tunings {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"customBaseModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"customBaseModel"},
+          Common.getValueByPath(fromObject, new String[] {"customBaseModel"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"distillationSpec"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -570,11 +577,32 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"labels"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"outputUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"outputUri"},
+          Common.getValueByPath(fromObject, new String[] {"outputUri"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"pipelineJob"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"pipelineJob"},
           Common.getValueByPath(fromObject, new String[] {"pipelineJob"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preferenceOptimizationSpec"},
+          Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"satisfiesPzi"}) != null) {
@@ -603,6 +631,13 @@ public final class Tunings {
           toObject,
           new String[] {"tunedModelDisplayName"},
           Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"veoTuningSpec"},
+          Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}));
     }
 
     return toObject;
@@ -840,6 +875,13 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"partnerModelTuningSpec"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"customBaseModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"customBaseModel"},
+          Common.getValueByPath(fromObject, new String[] {"customBaseModel"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"distillationSpec"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -861,11 +903,32 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"labels"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"outputUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"outputUri"},
+          Common.getValueByPath(fromObject, new String[] {"outputUri"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"pipelineJob"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"pipelineJob"},
           Common.getValueByPath(fromObject, new String[] {"pipelineJob"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preferenceOptimizationSpec"},
+          Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"satisfiesPzi"}) != null) {
@@ -894,6 +957,13 @@ public final class Tunings {
           toObject,
           new String[] {"tunedModelDisplayName"},
           Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"veoTuningSpec"},
+          Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}));
     }
 
     return toObject;

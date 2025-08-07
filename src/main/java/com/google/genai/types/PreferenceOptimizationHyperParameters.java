@@ -27,18 +27,18 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Hyperparameters for SFT. */
+/** Hyperparameters for Preference Optimization. */
 @AutoValue
 @InternalApi
-@JsonDeserialize(builder = SupervisedHyperParameters.Builder.class)
-public abstract class SupervisedHyperParameters extends JsonSerializable {
-  /** Optional. Adapter size for tuning. */
+@JsonDeserialize(builder = PreferenceOptimizationHyperParameters.Builder.class)
+public abstract class PreferenceOptimizationHyperParameters extends JsonSerializable {
+  /** Optional. Adapter size for preference optimization. */
   @JsonProperty("adapterSize")
   public abstract Optional<AdapterSize> adapterSize();
 
-  /** Optional. Batch size for tuning. This feature is only available for open source models. */
-  @JsonProperty("batchSize")
-  public abstract Optional<Long> batchSize();
+  /** Optional. Weight for KL Divergence regularization. */
+  @JsonProperty("beta")
+  public abstract Optional<Double> beta();
 
   /**
    * Optional. Number of complete passes the model makes over the entire training dataset during
@@ -47,41 +47,34 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
   @JsonProperty("epochCount")
   public abstract Optional<Long> epochCount();
 
-  /**
-   * Optional. Learning rate for tuning. Mutually exclusive with `learning_rate_multiplier`. This
-   * feature is only available for open source models.
-   */
-  @JsonProperty("learningRate")
-  public abstract Optional<Double> learningRate();
-
-  /**
-   * Optional. Multiplier for adjusting the default learning rate. Mutually exclusive with
-   * `learning_rate`. This feature is only available for 1P models.
-   */
+  /** Optional. Multiplier for adjusting the default learning rate. */
   @JsonProperty("learningRateMultiplier")
   public abstract Optional<Double> learningRateMultiplier();
 
-  /** Instantiates a builder for SupervisedHyperParameters. */
+  /** Instantiates a builder for PreferenceOptimizationHyperParameters. */
   public static Builder builder() {
-    return new AutoValue_SupervisedHyperParameters.Builder();
+    return new AutoValue_PreferenceOptimizationHyperParameters.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for SupervisedHyperParameters. */
+  /** Builder for PreferenceOptimizationHyperParameters. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `SupervisedHyperParameters.builder()` for instantiation. */
+    /**
+     * For internal usage. Please use `PreferenceOptimizationHyperParameters.builder()` for
+     * instantiation.
+     */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_SupervisedHyperParameters.Builder();
+      return new AutoValue_PreferenceOptimizationHyperParameters.Builder();
     }
 
     /**
      * Setter for adapterSize.
      *
-     * <p>adapterSize: Optional. Adapter size for tuning.
+     * <p>adapterSize: Optional. Adapter size for preference optimization.
      */
     @JsonProperty("adapterSize")
     public abstract Builder adapterSize(AdapterSize adapterSize);
@@ -89,7 +82,7 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
     /**
      * Setter for adapterSize given a known enum.
      *
-     * <p>adapterSize: Optional. Adapter size for tuning.
+     * <p>adapterSize: Optional. Adapter size for preference optimization.
      */
     @CanIgnoreReturnValue
     public Builder adapterSize(AdapterSize.Known knownType) {
@@ -99,7 +92,7 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
     /**
      * Setter for adapterSize given a string.
      *
-     * <p>adapterSize: Optional. Adapter size for tuning.
+     * <p>adapterSize: Optional. Adapter size for preference optimization.
      */
     @CanIgnoreReturnValue
     public Builder adapterSize(String adapterSize) {
@@ -107,13 +100,12 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
     }
 
     /**
-     * Setter for batchSize.
+     * Setter for beta.
      *
-     * <p>batchSize: Optional. Batch size for tuning. This feature is only available for open source
-     * models.
+     * <p>beta: Optional. Weight for KL Divergence regularization.
      */
-    @JsonProperty("batchSize")
-    public abstract Builder batchSize(Long batchSize);
+    @JsonProperty("beta")
+    public abstract Builder beta(Double beta);
 
     /**
      * Setter for epochCount.
@@ -125,28 +117,18 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
     public abstract Builder epochCount(Long epochCount);
 
     /**
-     * Setter for learningRate.
-     *
-     * <p>learningRate: Optional. Learning rate for tuning. Mutually exclusive with
-     * `learning_rate_multiplier`. This feature is only available for open source models.
-     */
-    @JsonProperty("learningRate")
-    public abstract Builder learningRate(Double learningRate);
-
-    /**
      * Setter for learningRateMultiplier.
      *
      * <p>learningRateMultiplier: Optional. Multiplier for adjusting the default learning rate.
-     * Mutually exclusive with `learning_rate`. This feature is only available for 1P models.
      */
     @JsonProperty("learningRateMultiplier")
     public abstract Builder learningRateMultiplier(Double learningRateMultiplier);
 
-    public abstract SupervisedHyperParameters build();
+    public abstract PreferenceOptimizationHyperParameters build();
   }
 
-  /** Deserializes a JSON string to a SupervisedHyperParameters object. */
-  public static SupervisedHyperParameters fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, SupervisedHyperParameters.class);
+  /** Deserializes a JSON string to a PreferenceOptimizationHyperParameters object. */
+  public static PreferenceOptimizationHyperParameters fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, PreferenceOptimizationHyperParameters.class);
   }
 }

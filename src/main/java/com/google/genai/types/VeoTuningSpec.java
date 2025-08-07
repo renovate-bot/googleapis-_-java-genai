@@ -22,24 +22,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Tuning Spec for Supervised Tuning for first party models. */
+/** Tuning Spec for Veo Model Tuning. */
 @AutoValue
-@JsonDeserialize(builder = SupervisedTuningSpec.Builder.class)
-public abstract class SupervisedTuningSpec extends JsonSerializable {
-  /**
-   * Optional. If set to true, disable intermediate checkpoints for SFT and only the last checkpoint
-   * will be exported. Otherwise, enable intermediate checkpoints for SFT. Default is false.
-   */
-  @JsonProperty("exportLastCheckpointOnly")
-  public abstract Optional<Boolean> exportLastCheckpointOnly();
-
-  /** Optional. Hyperparameters for SFT. */
+@JsonDeserialize(builder = VeoTuningSpec.Builder.class)
+public abstract class VeoTuningSpec extends JsonSerializable {
+  /** Optional. Hyperparameters for Veo. */
   @JsonProperty("hyperParameters")
-  public abstract Optional<SupervisedHyperParameters> hyperParameters();
+  public abstract Optional<VeoHyperParameters> hyperParameters();
 
   /**
    * Required. Training dataset used for tuning. The dataset can be specified as either a Cloud
@@ -48,10 +40,6 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
   @JsonProperty("trainingDatasetUri")
   public abstract Optional<String> trainingDatasetUri();
 
-  /** Tuning mode. */
-  @JsonProperty("tuningMode")
-  public abstract Optional<TuningMode> tuningMode();
-
   /**
    * Optional. Validation dataset used for tuning. The dataset can be specified as either a Cloud
    * Storage path to a JSONL file or as the resource name of a Vertex Multimodal Dataset.
@@ -59,47 +47,37 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
   @JsonProperty("validationDatasetUri")
   public abstract Optional<String> validationDatasetUri();
 
-  /** Instantiates a builder for SupervisedTuningSpec. */
+  /** Instantiates a builder for VeoTuningSpec. */
   public static Builder builder() {
-    return new AutoValue_SupervisedTuningSpec.Builder();
+    return new AutoValue_VeoTuningSpec.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for SupervisedTuningSpec. */
+  /** Builder for VeoTuningSpec. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `SupervisedTuningSpec.builder()` for instantiation. */
+    /** For internal usage. Please use `VeoTuningSpec.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_SupervisedTuningSpec.Builder();
+      return new AutoValue_VeoTuningSpec.Builder();
     }
-
-    /**
-     * Setter for exportLastCheckpointOnly.
-     *
-     * <p>exportLastCheckpointOnly: Optional. If set to true, disable intermediate checkpoints for
-     * SFT and only the last checkpoint will be exported. Otherwise, enable intermediate checkpoints
-     * for SFT. Default is false.
-     */
-    @JsonProperty("exportLastCheckpointOnly")
-    public abstract Builder exportLastCheckpointOnly(boolean exportLastCheckpointOnly);
 
     /**
      * Setter for hyperParameters.
      *
-     * <p>hyperParameters: Optional. Hyperparameters for SFT.
+     * <p>hyperParameters: Optional. Hyperparameters for Veo.
      */
     @JsonProperty("hyperParameters")
-    public abstract Builder hyperParameters(SupervisedHyperParameters hyperParameters);
+    public abstract Builder hyperParameters(VeoHyperParameters hyperParameters);
 
     /**
      * Setter for hyperParameters builder.
      *
-     * <p>hyperParameters: Optional. Hyperparameters for SFT.
+     * <p>hyperParameters: Optional. Hyperparameters for Veo.
      */
-    public Builder hyperParameters(SupervisedHyperParameters.Builder hyperParametersBuilder) {
+    public Builder hyperParameters(VeoHyperParameters.Builder hyperParametersBuilder) {
       return hyperParameters(hyperParametersBuilder.build());
     }
 
@@ -114,34 +92,6 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
     public abstract Builder trainingDatasetUri(String trainingDatasetUri);
 
     /**
-     * Setter for tuningMode.
-     *
-     * <p>tuningMode: Tuning mode.
-     */
-    @JsonProperty("tuningMode")
-    public abstract Builder tuningMode(TuningMode tuningMode);
-
-    /**
-     * Setter for tuningMode given a known enum.
-     *
-     * <p>tuningMode: Tuning mode.
-     */
-    @CanIgnoreReturnValue
-    public Builder tuningMode(TuningMode.Known knownType) {
-      return tuningMode(new TuningMode(knownType));
-    }
-
-    /**
-     * Setter for tuningMode given a string.
-     *
-     * <p>tuningMode: Tuning mode.
-     */
-    @CanIgnoreReturnValue
-    public Builder tuningMode(String tuningMode) {
-      return tuningMode(new TuningMode(tuningMode));
-    }
-
-    /**
      * Setter for validationDatasetUri.
      *
      * <p>validationDatasetUri: Optional. Validation dataset used for tuning. The dataset can be
@@ -151,11 +101,11 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
     @JsonProperty("validationDatasetUri")
     public abstract Builder validationDatasetUri(String validationDatasetUri);
 
-    public abstract SupervisedTuningSpec build();
+    public abstract VeoTuningSpec build();
   }
 
-  /** Deserializes a JSON string to a SupervisedTuningSpec object. */
-  public static SupervisedTuningSpec fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, SupervisedTuningSpec.class);
+  /** Deserializes a JSON string to a VeoTuningSpec object. */
+  public static VeoTuningSpec fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, VeoTuningSpec.class);
   }
 }

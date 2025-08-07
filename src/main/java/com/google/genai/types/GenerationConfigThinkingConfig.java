@@ -36,10 +36,7 @@ public abstract class GenerationConfigThinkingConfig extends JsonSerializable {
   @JsonProperty("includeThoughts")
   public abstract Optional<Boolean> includeThoughts();
 
-  /**
-   * Optional. Indicates the thinking budget in tokens. This is only applied when enable_thinking is
-   * true.
-   */
+  /** Optional. Indicates the thinking budget in tokens. */
   @JsonProperty("thinkingBudget")
   public abstract Optional<Integer> thinkingBudget();
 
@@ -74,8 +71,7 @@ public abstract class GenerationConfigThinkingConfig extends JsonSerializable {
     /**
      * Setter for thinkingBudget.
      *
-     * <p>thinkingBudget: Optional. Indicates the thinking budget in tokens. This is only applied
-     * when enable_thinking is true.
+     * <p>thinkingBudget: Optional. Indicates the thinking budget in tokens.
      */
     @JsonProperty("thinkingBudget")
     public abstract Builder thinkingBudget(Integer thinkingBudget);

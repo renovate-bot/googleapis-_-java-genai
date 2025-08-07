@@ -33,6 +33,10 @@ public abstract class TuningDataStats extends JsonSerializable {
   @JsonProperty("distillationDataStats")
   public abstract Optional<DistillationDataStats> distillationDataStats();
 
+  /** Output only. Statistics for preference optimization. */
+  @JsonProperty("preferenceOptimizationDataStats")
+  public abstract Optional<PreferenceOptimizationDataStats> preferenceOptimizationDataStats();
+
   /** The SFT Tuning data stats. */
   @JsonProperty("supervisedTuningDataStats")
   public abstract Optional<SupervisedTuningDataStats> supervisedTuningDataStats();
@@ -70,6 +74,25 @@ public abstract class TuningDataStats extends JsonSerializable {
     public Builder distillationDataStats(
         DistillationDataStats.Builder distillationDataStatsBuilder) {
       return distillationDataStats(distillationDataStatsBuilder.build());
+    }
+
+    /**
+     * Setter for preferenceOptimizationDataStats.
+     *
+     * <p>preferenceOptimizationDataStats: Output only. Statistics for preference optimization.
+     */
+    @JsonProperty("preferenceOptimizationDataStats")
+    public abstract Builder preferenceOptimizationDataStats(
+        PreferenceOptimizationDataStats preferenceOptimizationDataStats);
+
+    /**
+     * Setter for preferenceOptimizationDataStats builder.
+     *
+     * <p>preferenceOptimizationDataStats: Output only. Statistics for preference optimization.
+     */
+    public Builder preferenceOptimizationDataStats(
+        PreferenceOptimizationDataStats.Builder preferenceOptimizationDataStatsBuilder) {
+      return preferenceOptimizationDataStats(preferenceOptimizationDataStatsBuilder.build());
     }
 
     /**

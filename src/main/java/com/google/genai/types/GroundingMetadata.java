@@ -33,6 +33,14 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GroundingMetadata.Builder.class)
 public abstract class GroundingMetadata extends JsonSerializable {
+  /**
+   * Optional. Output only. Resource name of the Google Maps widget context token to be used with
+   * the PlacesContextElement widget to render contextual data. This is populated only for Google
+   * Maps grounding.
+   */
+  @JsonProperty("googleMapsWidgetContextToken")
+  public abstract Optional<String> googleMapsWidgetContextToken();
+
   /** List of supporting references retrieved from specified grounding source. */
   @JsonProperty("groundingChunks")
   public abstract Optional<List<GroundingChunk>> groundingChunks();
@@ -73,6 +81,16 @@ public abstract class GroundingMetadata extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GroundingMetadata.Builder();
     }
+
+    /**
+     * Setter for googleMapsWidgetContextToken.
+     *
+     * <p>googleMapsWidgetContextToken: Optional. Output only. Resource name of the Google Maps
+     * widget context token to be used with the PlacesContextElement widget to render contextual
+     * data. This is populated only for Google Maps grounding.
+     */
+    @JsonProperty("googleMapsWidgetContextToken")
+    public abstract Builder googleMapsWidgetContextToken(String googleMapsWidgetContextToken);
 
     /**
      * Setter for groundingChunks.
