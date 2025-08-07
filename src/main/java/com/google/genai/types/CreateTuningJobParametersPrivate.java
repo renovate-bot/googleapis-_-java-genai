@@ -29,8 +29,8 @@ import java.util.Optional;
 /** Supervised fine-tuning job creation parameters - optional fields. */
 @AutoValue
 @InternalApi
-@JsonDeserialize(builder = CreateTuningJobParameters.Builder.class)
-public abstract class CreateTuningJobParameters extends JsonSerializable {
+@JsonDeserialize(builder = CreateTuningJobParametersPrivate.Builder.class)
+public abstract class CreateTuningJobParametersPrivate extends JsonSerializable {
   /** The base model that is being tuned, e.g., "gemini-2.5-flash". */
   @JsonProperty("baseModel")
   public abstract Optional<String> baseModel();
@@ -46,21 +46,24 @@ public abstract class CreateTuningJobParameters extends JsonSerializable {
   @JsonProperty("config")
   public abstract Optional<CreateTuningJobConfig> config();
 
-  /** Instantiates a builder for CreateTuningJobParameters. */
+  /** Instantiates a builder for CreateTuningJobParametersPrivate. */
   public static Builder builder() {
-    return new AutoValue_CreateTuningJobParameters.Builder();
+    return new AutoValue_CreateTuningJobParametersPrivate.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for CreateTuningJobParameters. */
+  /** Builder for CreateTuningJobParametersPrivate. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `CreateTuningJobParameters.builder()` for instantiation. */
+    /**
+     * For internal usage. Please use `CreateTuningJobParametersPrivate.builder()` for
+     * instantiation.
+     */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_CreateTuningJobParameters.Builder();
+      return new AutoValue_CreateTuningJobParametersPrivate.Builder();
     }
 
     /**
@@ -107,11 +110,11 @@ public abstract class CreateTuningJobParameters extends JsonSerializable {
       return config(configBuilder.build());
     }
 
-    public abstract CreateTuningJobParameters build();
+    public abstract CreateTuningJobParametersPrivate build();
   }
 
-  /** Deserializes a JSON string to a CreateTuningJobParameters object. */
-  public static CreateTuningJobParameters fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, CreateTuningJobParameters.class);
+  /** Deserializes a JSON string to a CreateTuningJobParametersPrivate object. */
+  public static CreateTuningJobParametersPrivate fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, CreateTuningJobParametersPrivate.class);
   }
 }

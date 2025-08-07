@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.CreateTuningJobConfig;
-import com.google.genai.types.CreateTuningJobParameters;
+import com.google.genai.types.CreateTuningJobParametersPrivate;
 import com.google.genai.types.GetTuningJobConfig;
 import com.google.genai.types.GetTuningJobParameters;
 import com.google.genai.types.HttpOptions;
@@ -219,7 +219,7 @@ public final class Tunings {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode createTuningJobParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode createTuningJobParametersPrivateToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"baseModel"}) != null) {
       Common.setValueByPath(
@@ -427,7 +427,8 @@ public final class Tunings {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode createTuningJobParametersToVertex(JsonNode fromObject, ObjectNode parentObject) {
+  ObjectNode createTuningJobParametersPrivateToVertex(
+      JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"baseModel"}) != null) {
       Common.setValueByPath(
@@ -589,13 +590,6 @@ public final class Tunings {
           toObject,
           new String[] {"pipelineJob"},
           Common.getValueByPath(fromObject, new String[] {"pipelineJob"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"preTunedModel"},
-          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}) != null) {
@@ -847,6 +841,13 @@ public final class Tunings {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"supervisedTuningSpec"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -915,13 +916,6 @@ public final class Tunings {
           toObject,
           new String[] {"pipelineJob"},
           Common.getValueByPath(fromObject, new String[] {"pipelineJob"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"preTunedModel"},
-          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"preferenceOptimizationSpec"}) != null) {
@@ -1119,7 +1113,8 @@ public final class Tunings {
   TuningJob privateTune(
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
 
-    CreateTuningJobParameters.Builder parameterBuilder = CreateTuningJobParameters.builder();
+    CreateTuningJobParametersPrivate.Builder parameterBuilder =
+        CreateTuningJobParametersPrivate.builder();
 
     if (!Common.isZero(baseModel)) {
       parameterBuilder.baseModel(baseModel);
@@ -1135,7 +1130,7 @@ public final class Tunings {
     ObjectNode body;
     String path;
     if (this.apiClient.vertexAI()) {
-      body = createTuningJobParametersToVertex(parameterNode, null);
+      body = createTuningJobParametersPrivateToVertex(parameterNode, null);
       path = Common.formatMap("tuningJobs", body.get("_url"));
     } else {
       throw new UnsupportedOperationException(
@@ -1182,7 +1177,8 @@ public final class Tunings {
   TuningOperation privateTuneMldev(
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
 
-    CreateTuningJobParameters.Builder parameterBuilder = CreateTuningJobParameters.builder();
+    CreateTuningJobParametersPrivate.Builder parameterBuilder =
+        CreateTuningJobParametersPrivate.builder();
 
     if (!Common.isZero(baseModel)) {
       parameterBuilder.baseModel(baseModel);
@@ -1201,7 +1197,7 @@ public final class Tunings {
       throw new UnsupportedOperationException(
           "This method is only supported in the Gemini Developer client.");
     } else {
-      body = createTuningJobParametersToMldev(parameterNode, null);
+      body = createTuningJobParametersPrivateToMldev(parameterNode, null);
       if (body.get("_url") != null) {
         path = Common.formatMap("tunedModels", body.get("_url"));
       } else {
