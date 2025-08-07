@@ -349,6 +349,8 @@ public class GenerateContentWithFunctionCall {
   public static void main(String[] args) throws NoSuchMethodException {
     Client client = new Client();
 
+    // Load the method as a reflected Method object so that it can be
+    // automatically executed on the client side.
     Method method =
         GenerateContentWithFunctionCall.class.getMethod(
             "getCurrentWeather", String.class, String.class);
@@ -450,6 +452,7 @@ public class GenerateContentWithSchema {
   public static void main(String[] args) {
     Client client = new Client();
 
+    // Define the schema for the response, in Json format.
     ImmutableMap<String, Object> schema = ImmutableMap.of(
         "type", "object",
         "properties", ImmutableMap.of(
@@ -462,6 +465,7 @@ public class GenerateContentWithSchema {
         "required", ImmutableList.of("recipe_name", "ingredients")
     );
 
+    // Set the response schema in GenerateContentConfig
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .responseMimeType("application/json")

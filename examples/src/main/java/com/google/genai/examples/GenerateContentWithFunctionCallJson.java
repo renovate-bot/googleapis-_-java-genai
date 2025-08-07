@@ -45,11 +45,10 @@ package com.google.genai.examples;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
+import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Tool;
-import com.google.genai.types.FunctionDeclaration;
-
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
 public final class GenerateContentWithFunctionCallJson {
@@ -76,28 +75,26 @@ public final class GenerateContentWithFunctionCallJson {
       System.out.println("Using Gemini Developer API");
     }
 
+    // Define the schema for the function declaration, in Json format.
     ImmutableMap<String, Object> schema =
         ImmutableMap.of(
             "type", "object",
             "properties", ImmutableMap.of("location", ImmutableMap.of("type", "string")),
             "required", ImmutableList.of("location"));
 
+    // Define the tool with the function declaration.
     Tool toolWithFunctionDeclarations =
         Tool.builder()
             .functionDeclarations(
-                ImmutableList.of(
-                    FunctionDeclaration.builder()
-                        .name("get_weather")
-                        .description("Returns the weather in a given location.")
-                        .parametersJsonSchema(schema)
-                        .build()))
+                FunctionDeclaration.builder()
+                    .name("get_weather")
+                    .description("Returns the weather in a given location.")
+                    .parametersJsonSchema(schema))
             .build();
 
-    // Add the two methods as callable functions to the list of tools.
+    // Add the tool to the GenerateContentConfig.
     GenerateContentConfig config =
-        GenerateContentConfig.builder()
-            .tools(ImmutableList.of(toolWithFunctionDeclarations))
-            .build();
+        GenerateContentConfig.builder().tools(toolWithFunctionDeclarations).build();
 
     GenerateContentResponse response =
         client.models.generateContent(modelId, "What is the weather in Vancouver?", config);

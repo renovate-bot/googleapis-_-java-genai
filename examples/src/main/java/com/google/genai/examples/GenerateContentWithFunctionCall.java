@@ -56,7 +56,7 @@ public final class GenerateContentWithFunctionCall {
   }
 
   /** A callable function to divide two integers. */
-  public static Integer divideTwoIntegers(Integer numerator, Integer denominator) {
+  public static Integer divideTwoIntegers(int numerator, int denominator) {
     return numerator / denominator;
   }
 
@@ -82,6 +82,8 @@ public final class GenerateContentWithFunctionCall {
       System.out.println("Using Gemini Developer API");
     }
 
+    // Load the two methods as reflected Method objects so that they can be automatically executed
+    // on the client side.
     Method method1 =
         GenerateContentWithFunctionCall.class.getMethod(
             "getCurrentWeather", String.class, String.class);
