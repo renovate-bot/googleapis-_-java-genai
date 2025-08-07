@@ -6,9 +6,6 @@
 ### Features
 
 * Add image_size field for Gemini Developer API Imagen 4 generation ([c50c755](https://github.com/googleapis/java-genai/commit/c50c755c08efbed5a62e1006890b1d0bd9956702))
-* allow methods in batch to return headers in sdk_http_response by default ([f937dd1](https://github.com/googleapis/java-genai/commit/f937dd1752e8a774e06d9afc6953211bd569fc35))
-* allow methods in models to return headers in sdk_http_response by default. ([7415e88](https://github.com/googleapis/java-genai/commit/7415e88f7520c695afc63f937b8b547c2877f4f6))
-* allow methods in tuning to return headers in sdk_http_response by default ([1b1205b](https://github.com/googleapis/java-genai/commit/1b1205b052a6d1d6782c6cdc190afdb48113ee9c))
 * enable responseId for Gemini Developer API ([4912ff4](https://github.com/googleapis/java-genai/commit/4912ff421d6d3bc40edd70a939f71f5f33f58597))
 * support extraBody in HttpOptions class ([036bac8](https://github.com/googleapis/java-genai/commit/036bac89fda15022ec4d9c5c73ba81ad0a6cc9be))
 * Support image recontext on Vertex ([e7de8c8](https://github.com/googleapis/java-genai/commit/e7de8c83bbd2e7e37c2198c3501e2d5bee58c0a2))
