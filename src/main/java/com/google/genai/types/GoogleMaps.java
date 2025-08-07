@@ -34,6 +34,7 @@ public abstract class GoogleMaps extends JsonSerializable {
   public abstract Optional<AuthConfig> authConfig();
 
   /** Instantiates a builder for GoogleMaps. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GoogleMaps.Builder();
   }
@@ -71,6 +72,7 @@ public abstract class GoogleMaps extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GoogleMaps object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GoogleMaps fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GoogleMaps.class);
   }

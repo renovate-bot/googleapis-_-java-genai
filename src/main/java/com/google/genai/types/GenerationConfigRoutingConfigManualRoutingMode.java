@@ -37,6 +37,7 @@ public abstract class GenerationConfigRoutingConfigManualRoutingMode extends Jso
   public abstract Optional<String> modelName();
 
   /** Instantiates a builder for GenerationConfigRoutingConfigManualRoutingMode. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerationConfigRoutingConfigManualRoutingMode.Builder();
   }
@@ -69,6 +70,7 @@ public abstract class GenerationConfigRoutingConfigManualRoutingMode extends Jso
   }
 
   /** Deserializes a JSON string to a GenerationConfigRoutingConfigManualRoutingMode object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerationConfigRoutingConfigManualRoutingMode fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(
         jsonString, GenerationConfigRoutingConfigManualRoutingMode.class);

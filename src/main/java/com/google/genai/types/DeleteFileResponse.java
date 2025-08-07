@@ -28,6 +28,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = DeleteFileResponse.Builder.class)
 public abstract class DeleteFileResponse extends JsonSerializable {
   /** Instantiates a builder for DeleteFileResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DeleteFileResponse.Builder();
   }
@@ -48,6 +49,7 @@ public abstract class DeleteFileResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DeleteFileResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DeleteFileResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DeleteFileResponse.class);
   }

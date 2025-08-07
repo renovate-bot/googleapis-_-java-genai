@@ -38,6 +38,7 @@ public abstract class CountTokensResponse extends JsonSerializable {
   public abstract Optional<Integer> cachedContentTokenCount();
 
   /** Instantiates a builder for CountTokensResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_CountTokensResponse.Builder();
   }
@@ -75,6 +76,7 @@ public abstract class CountTokensResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a CountTokensResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static CountTokensResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, CountTokensResponse.class);
   }

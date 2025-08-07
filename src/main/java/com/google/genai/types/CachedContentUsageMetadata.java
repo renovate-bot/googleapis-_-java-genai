@@ -50,6 +50,7 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
   public abstract Optional<Integer> videoDurationSeconds();
 
   /** Instantiates a builder for CachedContentUsageMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_CachedContentUsageMetadata.Builder();
   }
@@ -110,6 +111,7 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a CachedContentUsageMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static CachedContentUsageMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, CachedContentUsageMetadata.class);
   }

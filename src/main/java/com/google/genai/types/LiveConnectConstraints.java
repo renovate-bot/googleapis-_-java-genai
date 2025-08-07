@@ -41,6 +41,7 @@ public abstract class LiveConnectConstraints extends JsonSerializable {
   public abstract Optional<LiveConnectConfig> config();
 
   /** Instantiates a builder for LiveConnectConstraints. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_LiveConnectConstraints.Builder();
   }
@@ -87,6 +88,7 @@ public abstract class LiveConnectConstraints extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a LiveConnectConstraints object. */
+  @ExcludeFromGeneratedCoverageReport
   public static LiveConnectConstraints fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, LiveConnectConstraints.class);
   }

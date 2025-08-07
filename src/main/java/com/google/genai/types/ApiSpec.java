@@ -60,12 +60,14 @@ public class ApiSpec {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -92,6 +94,7 @@ public class ApiSpec {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.apiSpecEnum != Known.API_SPEC_UNSPECIFIED) {
@@ -101,6 +104,7 @@ public class ApiSpec {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.apiSpecEnum;
   }

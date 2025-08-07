@@ -47,6 +47,7 @@ public abstract class RecontextImageParameters extends JsonSerializable {
   public abstract Optional<RecontextImageConfig> config();
 
   /** Instantiates a builder for RecontextImageParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RecontextImageParameters.Builder();
   }
@@ -110,6 +111,7 @@ public abstract class RecontextImageParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RecontextImageParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RecontextImageParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RecontextImageParameters.class);
   }

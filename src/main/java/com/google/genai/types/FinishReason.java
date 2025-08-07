@@ -100,12 +100,14 @@ public class FinishReason {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -132,6 +134,7 @@ public class FinishReason {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.finishReasonEnum != Known.FINISH_REASON_UNSPECIFIED) {
@@ -141,6 +144,7 @@ public class FinishReason {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.finishReasonEnum;
   }

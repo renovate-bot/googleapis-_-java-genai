@@ -75,12 +75,14 @@ public class FunctionCallingConfigMode {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -107,6 +109,7 @@ public class FunctionCallingConfigMode {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.functionCallingConfigModeEnum != Known.FUNCTION_CALLING_CONFIG_MODE_UNSPECIFIED) {
@@ -116,6 +119,7 @@ public class FunctionCallingConfigMode {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.functionCallingConfigModeEnum;
   }

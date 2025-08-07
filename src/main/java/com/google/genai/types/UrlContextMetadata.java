@@ -38,6 +38,7 @@ public abstract class UrlContextMetadata extends JsonSerializable {
   public abstract Optional<List<UrlMetadata>> urlMetadata();
 
   /** Instantiates a builder for UrlContextMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_UrlContextMetadata.Builder();
   }
@@ -87,6 +88,7 @@ public abstract class UrlContextMetadata extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a UrlContextMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static UrlContextMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, UrlContextMetadata.class);
   }

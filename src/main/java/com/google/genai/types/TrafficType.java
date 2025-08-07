@@ -63,12 +63,14 @@ public class TrafficType {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -95,6 +97,7 @@ public class TrafficType {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.trafficTypeEnum != Known.TRAFFIC_TYPE_UNSPECIFIED) {
@@ -104,6 +107,7 @@ public class TrafficType {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.trafficTypeEnum;
   }

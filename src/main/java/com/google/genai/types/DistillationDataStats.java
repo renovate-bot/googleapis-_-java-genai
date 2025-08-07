@@ -34,6 +34,7 @@ public abstract class DistillationDataStats extends JsonSerializable {
   public abstract Optional<DatasetStats> trainingDatasetStats();
 
   /** Instantiates a builder for DistillationDataStats. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DistillationDataStats.Builder();
   }
@@ -71,6 +72,7 @@ public abstract class DistillationDataStats extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DistillationDataStats object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DistillationDataStats fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DistillationDataStats.class);
   }

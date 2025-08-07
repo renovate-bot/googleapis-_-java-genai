@@ -44,6 +44,7 @@ public abstract class TokensInfo extends JsonSerializable {
   public abstract Optional<List<byte[]>> tokens();
 
   /** Instantiates a builder for TokensInfo. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TokensInfo.Builder();
   }
@@ -106,6 +107,7 @@ public abstract class TokensInfo extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TokensInfo object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TokensInfo fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TokensInfo.class);
   }

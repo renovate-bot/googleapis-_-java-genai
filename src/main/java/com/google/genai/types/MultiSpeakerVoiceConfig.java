@@ -38,6 +38,7 @@ public abstract class MultiSpeakerVoiceConfig extends JsonSerializable {
   public abstract Optional<List<SpeakerVoiceConfig>> speakerVoiceConfigs();
 
   /** Instantiates a builder for MultiSpeakerVoiceConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_MultiSpeakerVoiceConfig.Builder();
   }
@@ -87,6 +88,7 @@ public abstract class MultiSpeakerVoiceConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a MultiSpeakerVoiceConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static MultiSpeakerVoiceConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, MultiSpeakerVoiceConfig.class);
   }

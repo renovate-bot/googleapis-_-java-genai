@@ -38,6 +38,7 @@ public abstract class RagChunk extends JsonSerializable {
   public abstract Optional<String> text();
 
   /** Instantiates a builder for RagChunk. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RagChunk.Builder();
   }
@@ -83,6 +84,7 @@ public abstract class RagChunk extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RagChunk object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RagChunk fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RagChunk.class);
   }

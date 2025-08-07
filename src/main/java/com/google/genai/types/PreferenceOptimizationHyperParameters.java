@@ -52,6 +52,7 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
   public abstract Optional<Double> learningRateMultiplier();
 
   /** Instantiates a builder for PreferenceOptimizationHyperParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_PreferenceOptimizationHyperParameters.Builder();
   }
@@ -128,6 +129,7 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
   }
 
   /** Deserializes a JSON string to a PreferenceOptimizationHyperParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static PreferenceOptimizationHyperParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, PreferenceOptimizationHyperParameters.class);
   }

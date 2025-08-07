@@ -58,6 +58,7 @@ public abstract class GoogleRpcStatus extends JsonSerializable {
   public abstract Optional<String> message();
 
   /** Instantiates a builder for GoogleRpcStatus. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GoogleRpcStatus.Builder();
   }
@@ -115,6 +116,7 @@ public abstract class GoogleRpcStatus extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GoogleRpcStatus object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GoogleRpcStatus fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GoogleRpcStatus.class);
   }

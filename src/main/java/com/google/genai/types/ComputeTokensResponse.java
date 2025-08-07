@@ -42,6 +42,7 @@ public abstract class ComputeTokensResponse extends JsonSerializable {
   public abstract Optional<List<TokensInfo>> tokensInfo();
 
   /** Instantiates a builder for ComputeTokensResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ComputeTokensResponse.Builder();
   }
@@ -97,6 +98,7 @@ public abstract class ComputeTokensResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ComputeTokensResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ComputeTokensResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ComputeTokensResponse.class);
   }

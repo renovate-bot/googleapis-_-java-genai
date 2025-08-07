@@ -32,6 +32,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = ToolCodeExecution.Builder.class)
 public abstract class ToolCodeExecution extends JsonSerializable {
   /** Instantiates a builder for ToolCodeExecution. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ToolCodeExecution.Builder();
   }
@@ -52,6 +53,7 @@ public abstract class ToolCodeExecution extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ToolCodeExecution object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ToolCodeExecution fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ToolCodeExecution.class);
   }

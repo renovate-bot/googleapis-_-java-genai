@@ -41,6 +41,7 @@ public abstract class EncryptionSpec extends JsonSerializable {
   public abstract Optional<String> kmsKeyName();
 
   /** Instantiates a builder for EncryptionSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EncryptionSpec.Builder();
   }
@@ -72,6 +73,7 @@ public abstract class EncryptionSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EncryptionSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EncryptionSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EncryptionSpec.class);
   }

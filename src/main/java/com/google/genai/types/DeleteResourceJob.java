@@ -42,6 +42,7 @@ public abstract class DeleteResourceJob extends JsonSerializable {
   public abstract Optional<JobError> error();
 
   /** Instantiates a builder for DeleteResourceJob. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DeleteResourceJob.Builder();
   }
@@ -95,6 +96,7 @@ public abstract class DeleteResourceJob extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DeleteResourceJob object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DeleteResourceJob fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DeleteResourceJob.class);
   }

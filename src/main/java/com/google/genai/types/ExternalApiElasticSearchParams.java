@@ -45,6 +45,7 @@ public abstract class ExternalApiElasticSearchParams extends JsonSerializable {
   public abstract Optional<String> searchTemplate();
 
   /** Instantiates a builder for ExternalApiElasticSearchParams. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ExternalApiElasticSearchParams.Builder();
   }
@@ -92,6 +93,7 @@ public abstract class ExternalApiElasticSearchParams extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ExternalApiElasticSearchParams object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ExternalApiElasticSearchParams fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ExternalApiElasticSearchParams.class);
   }

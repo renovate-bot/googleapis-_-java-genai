@@ -72,6 +72,7 @@ public abstract class FunctionResponse extends JsonSerializable {
   public abstract Optional<Map<String, Object>> response();
 
   /** Instantiates a builder for FunctionResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_FunctionResponse.Builder();
   }
@@ -165,6 +166,7 @@ public abstract class FunctionResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a FunctionResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static FunctionResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, FunctionResponse.class);
   }

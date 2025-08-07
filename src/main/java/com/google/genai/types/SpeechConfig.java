@@ -47,6 +47,7 @@ public abstract class SpeechConfig extends JsonSerializable {
   public abstract Optional<String> languageCode();
 
   /** Instantiates a builder for SpeechConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SpeechConfig.Builder();
   }
@@ -114,6 +115,7 @@ public abstract class SpeechConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SpeechConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SpeechConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SpeechConfig.class);
   }

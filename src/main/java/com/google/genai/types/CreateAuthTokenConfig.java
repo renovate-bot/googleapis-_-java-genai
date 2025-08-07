@@ -72,6 +72,7 @@ public abstract class CreateAuthTokenConfig extends JsonSerializable {
   public abstract Optional<List<String>> lockAdditionalFields();
 
   /** Instantiates a builder for CreateAuthTokenConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_CreateAuthTokenConfig.Builder();
   }
@@ -179,6 +180,7 @@ public abstract class CreateAuthTokenConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a CreateAuthTokenConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static CreateAuthTokenConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, CreateAuthTokenConfig.class);
   }

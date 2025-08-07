@@ -66,6 +66,7 @@ public abstract class GroundingMetadata extends JsonSerializable {
   public abstract Optional<List<String>> webSearchQueries();
 
   /** Instantiates a builder for GroundingMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingMetadata.Builder();
   }
@@ -222,6 +223,7 @@ public abstract class GroundingMetadata extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GroundingMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GroundingMetadata.class);
   }

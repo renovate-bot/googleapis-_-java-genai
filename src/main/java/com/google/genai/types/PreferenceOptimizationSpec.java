@@ -48,6 +48,7 @@ public abstract class PreferenceOptimizationSpec extends JsonSerializable {
   public abstract Optional<String> validationDatasetUri();
 
   /** Instantiates a builder for PreferenceOptimizationSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_PreferenceOptimizationSpec.Builder();
   }
@@ -104,6 +105,7 @@ public abstract class PreferenceOptimizationSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a PreferenceOptimizationSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static PreferenceOptimizationSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, PreferenceOptimizationSpec.class);
   }

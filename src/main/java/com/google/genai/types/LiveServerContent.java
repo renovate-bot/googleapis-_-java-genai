@@ -88,6 +88,7 @@ public abstract class LiveServerContent extends JsonSerializable {
   public abstract Optional<UrlContextMetadata> urlContextMetadata();
 
   /** Instantiates a builder for LiveServerContent. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_LiveServerContent.Builder();
   }
@@ -232,6 +233,7 @@ public abstract class LiveServerContent extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a LiveServerContent object. */
+  @ExcludeFromGeneratedCoverageReport
   public static LiveServerContent fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, LiveServerContent.class);
   }

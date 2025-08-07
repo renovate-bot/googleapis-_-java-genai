@@ -42,6 +42,7 @@ public abstract class GeminiPreferenceExample extends JsonSerializable {
   public abstract Optional<List<Content>> contents();
 
   /** Instantiates a builder for GeminiPreferenceExample. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GeminiPreferenceExample.Builder();
   }
@@ -120,6 +121,7 @@ public abstract class GeminiPreferenceExample extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GeminiPreferenceExample object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GeminiPreferenceExample fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GeminiPreferenceExample.class);
   }

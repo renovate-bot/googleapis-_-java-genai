@@ -38,6 +38,7 @@ public abstract class UpscaleImageResponse extends JsonSerializable {
   public abstract Optional<List<GeneratedImage>> generatedImages();
 
   /** Instantiates a builder for UpscaleImageResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_UpscaleImageResponse.Builder();
   }
@@ -87,6 +88,7 @@ public abstract class UpscaleImageResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a UpscaleImageResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static UpscaleImageResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, UpscaleImageResponse.class);
   }

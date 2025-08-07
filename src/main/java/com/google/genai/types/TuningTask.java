@@ -60,12 +60,14 @@ public class TuningTask {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -92,6 +94,7 @@ public class TuningTask {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.tuningTaskEnum != Known.TUNING_TASK_UNSPECIFIED) {
@@ -101,6 +104,7 @@ public class TuningTask {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.tuningTaskEnum;
   }

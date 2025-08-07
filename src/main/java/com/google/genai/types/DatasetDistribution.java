@@ -66,6 +66,7 @@ public abstract class DatasetDistribution extends JsonSerializable {
   public abstract Optional<Double> sum();
 
   /** Instantiates a builder for DatasetDistribution. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DatasetDistribution.Builder();
   }
@@ -171,6 +172,7 @@ public abstract class DatasetDistribution extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DatasetDistribution object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DatasetDistribution fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DatasetDistribution.class);
   }

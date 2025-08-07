@@ -48,6 +48,7 @@ public abstract class VeoTuningSpec extends JsonSerializable {
   public abstract Optional<String> validationDatasetUri();
 
   /** Instantiates a builder for VeoTuningSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VeoTuningSpec.Builder();
   }
@@ -105,6 +106,7 @@ public abstract class VeoTuningSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VeoTuningSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VeoTuningSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VeoTuningSpec.class);
   }

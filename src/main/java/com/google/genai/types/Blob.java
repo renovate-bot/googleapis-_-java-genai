@@ -45,6 +45,7 @@ public abstract class Blob extends JsonSerializable {
   public abstract Optional<String> mimeType();
 
   /** Instantiates a builder for Blob. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Blob.Builder();
   }
@@ -90,6 +91,7 @@ public abstract class Blob extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Blob object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Blob fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Blob.class);
   }

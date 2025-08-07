@@ -66,12 +66,14 @@ public class UrlRetrievalStatus {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -98,6 +100,7 @@ public class UrlRetrievalStatus {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.urlRetrievalStatusEnum != Known.URL_RETRIEVAL_STATUS_UNSPECIFIED) {
@@ -107,6 +110,7 @@ public class UrlRetrievalStatus {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.urlRetrievalStatusEnum;
   }

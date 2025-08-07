@@ -42,6 +42,7 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
   public abstract Optional<String> uri();
 
   /** Instantiates a builder for GroundingChunkWeb. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingChunkWeb.Builder();
   }
@@ -86,6 +87,7 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GroundingChunkWeb object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingChunkWeb fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GroundingChunkWeb.class);
   }

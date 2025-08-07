@@ -150,6 +150,7 @@ public abstract class GenerationConfig extends JsonSerializable {
   public abstract Optional<Float> topP();
 
   /** Instantiates a builder for GenerationConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerationConfig.Builder();
   }
@@ -499,6 +500,7 @@ public abstract class GenerationConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerationConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerationConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerationConfig.class);
   }

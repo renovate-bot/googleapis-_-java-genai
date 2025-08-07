@@ -42,6 +42,7 @@ public abstract class ListFilesResponse extends JsonSerializable {
   public abstract Optional<List<File>> files();
 
   /** Instantiates a builder for ListFilesResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ListFilesResponse.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class ListFilesResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ListFilesResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ListFilesResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ListFilesResponse.class);
   }

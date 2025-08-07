@@ -83,6 +83,7 @@ public abstract class Part extends JsonSerializable {
   public abstract Optional<String> text();
 
   /** Instantiates a builder for Part. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Part.Builder();
   }
@@ -253,6 +254,7 @@ public abstract class Part extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Part object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Part fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Part.class);
   }

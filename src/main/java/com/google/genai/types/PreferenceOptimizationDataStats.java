@@ -66,6 +66,7 @@ public abstract class PreferenceOptimizationDataStats extends JsonSerializable {
   public abstract Optional<DatasetDistribution> userOutputTokenDistribution();
 
   /** Instantiates a builder for PreferenceOptimizationDataStats. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_PreferenceOptimizationDataStats.Builder();
   }
@@ -221,6 +222,7 @@ public abstract class PreferenceOptimizationDataStats extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a PreferenceOptimizationDataStats object. */
+  @ExcludeFromGeneratedCoverageReport
   public static PreferenceOptimizationDataStats fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, PreferenceOptimizationDataStats.class);
   }

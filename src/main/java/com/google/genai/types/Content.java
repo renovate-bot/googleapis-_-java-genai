@@ -51,6 +51,7 @@ public abstract class Content extends JsonSerializable {
   public abstract Optional<String> role();
 
   /** Instantiates a builder for Content. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Content.Builder();
   }
@@ -113,6 +114,7 @@ public abstract class Content extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Content object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Content fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Content.class);
   }

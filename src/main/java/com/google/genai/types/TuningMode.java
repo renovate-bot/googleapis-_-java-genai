@@ -60,12 +60,14 @@ public class TuningMode {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -92,6 +94,7 @@ public class TuningMode {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.tuningModeEnum != Known.TUNING_MODE_UNSPECIFIED) {
@@ -101,6 +104,7 @@ public class TuningMode {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.tuningModeEnum;
   }

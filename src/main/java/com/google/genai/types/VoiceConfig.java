@@ -34,6 +34,7 @@ public abstract class VoiceConfig extends JsonSerializable {
   public abstract Optional<PrebuiltVoiceConfig> prebuiltVoiceConfig();
 
   /** Instantiates a builder for VoiceConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VoiceConfig.Builder();
   }
@@ -71,6 +72,7 @@ public abstract class VoiceConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VoiceConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VoiceConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VoiceConfig.class);
   }

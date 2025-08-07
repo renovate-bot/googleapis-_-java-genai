@@ -85,6 +85,7 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
   public abstract Optional<TrafficType> trafficType();
 
   /** Instantiates a builder for GenerateContentResponseUsageMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateContentResponseUsageMetadata.Builder();
   }
@@ -323,6 +324,7 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
   }
 
   /** Deserializes a JSON string to a GenerateContentResponseUsageMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateContentResponseUsageMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateContentResponseUsageMetadata.class);
   }

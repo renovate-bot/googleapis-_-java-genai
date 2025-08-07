@@ -42,6 +42,7 @@ public abstract class ListCachedContentsResponse extends JsonSerializable {
   public abstract Optional<List<CachedContent>> cachedContents();
 
   /** Instantiates a builder for ListCachedContentsResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ListCachedContentsResponse.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class ListCachedContentsResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ListCachedContentsResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ListCachedContentsResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ListCachedContentsResponse.class);
   }

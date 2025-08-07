@@ -87,6 +87,7 @@ public abstract class Tool extends JsonSerializable {
   public abstract Optional<ToolCodeExecution> codeExecution();
 
   /** Instantiates a builder for Tool. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Tool.Builder();
   }
@@ -290,6 +291,7 @@ public abstract class Tool extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Tool object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Tool fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Tool.class);
   }

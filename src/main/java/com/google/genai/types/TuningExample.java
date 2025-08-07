@@ -38,6 +38,7 @@ public abstract class TuningExample extends JsonSerializable {
   public abstract Optional<String> output();
 
   /** Instantiates a builder for TuningExample. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TuningExample.Builder();
   }
@@ -74,6 +75,7 @@ public abstract class TuningExample extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TuningExample object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TuningExample fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TuningExample.class);
   }

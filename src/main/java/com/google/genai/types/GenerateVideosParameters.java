@@ -55,6 +55,7 @@ public abstract class GenerateVideosParameters extends JsonSerializable {
   public abstract Optional<GenerateVideosConfig> config();
 
   /** Instantiates a builder for GenerateVideosParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateVideosParameters.Builder();
   }
@@ -145,6 +146,7 @@ public abstract class GenerateVideosParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateVideosParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateVideosParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateVideosParameters.class);
   }

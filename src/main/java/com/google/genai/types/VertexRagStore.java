@@ -67,6 +67,7 @@ public abstract class VertexRagStore extends JsonSerializable {
   public abstract Optional<Double> vectorDistanceThreshold();
 
   /** Instantiates a builder for VertexRagStore. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VertexRagStore.Builder();
   }
@@ -184,6 +185,7 @@ public abstract class VertexRagStore extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VertexRagStore object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VertexRagStore fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VertexRagStore.class);
   }

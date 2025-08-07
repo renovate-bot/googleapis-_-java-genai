@@ -38,6 +38,7 @@ public abstract class EditImageResponse extends JsonSerializable {
   public abstract Optional<List<GeneratedImage>> generatedImages();
 
   /** Instantiates a builder for EditImageResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EditImageResponse.Builder();
   }
@@ -87,6 +88,7 @@ public abstract class EditImageResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EditImageResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EditImageResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EditImageResponse.class);
   }

@@ -45,6 +45,7 @@ public abstract class ListTuningJobsResponse extends JsonSerializable {
   public abstract Optional<List<TuningJob>> tuningJobs();
 
   /** Instantiates a builder for ListTuningJobsResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ListTuningJobsResponse.Builder();
   }
@@ -103,6 +104,7 @@ public abstract class ListTuningJobsResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ListTuningJobsResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ListTuningJobsResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ListTuningJobsResponse.class);
   }

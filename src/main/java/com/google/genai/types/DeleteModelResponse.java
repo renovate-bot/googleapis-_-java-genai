@@ -28,6 +28,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = DeleteModelResponse.Builder.class)
 public abstract class DeleteModelResponse extends JsonSerializable {
   /** Instantiates a builder for DeleteModelResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DeleteModelResponse.Builder();
   }
@@ -48,6 +49,7 @@ public abstract class DeleteModelResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DeleteModelResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DeleteModelResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DeleteModelResponse.class);
   }

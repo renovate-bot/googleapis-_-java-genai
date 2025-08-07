@@ -86,6 +86,7 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   public abstract Optional<Float> learningRate();
 
   /** Instantiates a builder for CreateTuningJobConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_CreateTuningJobConfig.Builder();
   }
@@ -232,6 +233,7 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a CreateTuningJobConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static CreateTuningJobConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, CreateTuningJobConfig.class);
   }

@@ -49,6 +49,7 @@ public abstract class Retrieval extends JsonSerializable {
   public abstract Optional<VertexRagStore> vertexRagStore();
 
   /** Instantiates a builder for Retrieval. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Retrieval.Builder();
   }
@@ -130,6 +131,7 @@ public abstract class Retrieval extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Retrieval object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Retrieval fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Retrieval.class);
   }

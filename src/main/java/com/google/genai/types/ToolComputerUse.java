@@ -35,6 +35,7 @@ public abstract class ToolComputerUse extends JsonSerializable {
   public abstract Optional<Environment> environment();
 
   /** Instantiates a builder for ToolComputerUse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ToolComputerUse.Builder();
   }
@@ -83,6 +84,7 @@ public abstract class ToolComputerUse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ToolComputerUse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ToolComputerUse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ToolComputerUse.class);
   }

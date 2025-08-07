@@ -63,6 +63,7 @@ public abstract class SafetyRating extends JsonSerializable {
   public abstract Optional<Float> severityScore();
 
   /** Instantiates a builder for SafetyRating. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SafetyRating.Builder();
   }
@@ -226,6 +227,7 @@ public abstract class SafetyRating extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SafetyRating object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SafetyRating fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SafetyRating.class);
   }

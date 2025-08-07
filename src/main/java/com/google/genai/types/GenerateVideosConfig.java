@@ -106,6 +106,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
   public abstract Optional<VideoCompressionQuality> compressionQuality();
 
   /** Instantiates a builder for GenerateVideosConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateVideosConfig.Builder();
   }
@@ -291,6 +292,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateVideosConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateVideosConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateVideosConfig.class);
   }

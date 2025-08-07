@@ -52,6 +52,7 @@ public abstract class PartnerModelTuningSpec extends JsonSerializable {
   public abstract Optional<String> validationDatasetUri();
 
   /** Instantiates a builder for PartnerModelTuningSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_PartnerModelTuningSpec.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class PartnerModelTuningSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a PartnerModelTuningSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static PartnerModelTuningSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, PartnerModelTuningSpec.class);
   }

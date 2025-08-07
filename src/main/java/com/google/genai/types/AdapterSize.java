@@ -72,12 +72,14 @@ public class AdapterSize {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -104,6 +106,7 @@ public class AdapterSize {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.adapterSizeEnum != Known.ADAPTER_SIZE_UNSPECIFIED) {
@@ -113,6 +116,7 @@ public class AdapterSize {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.adapterSizeEnum;
   }

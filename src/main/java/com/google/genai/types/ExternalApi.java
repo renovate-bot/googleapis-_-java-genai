@@ -61,6 +61,7 @@ public abstract class ExternalApi extends JsonSerializable {
   public abstract Optional<ExternalApiSimpleSearchParams> simpleSearchParams();
 
   /** Instantiates a builder for ExternalApi. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ExternalApi.Builder();
   }
@@ -190,6 +191,7 @@ public abstract class ExternalApi extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ExternalApi object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ExternalApi fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ExternalApi.class);
   }

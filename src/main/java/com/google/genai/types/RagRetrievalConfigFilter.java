@@ -42,6 +42,7 @@ public abstract class RagRetrievalConfigFilter extends JsonSerializable {
   public abstract Optional<Double> vectorSimilarityThreshold();
 
   /** Instantiates a builder for RagRetrievalConfigFilter. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RagRetrievalConfigFilter.Builder();
   }
@@ -88,6 +89,7 @@ public abstract class RagRetrievalConfigFilter extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RagRetrievalConfigFilter object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RagRetrievalConfigFilter fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RagRetrievalConfigFilter.class);
   }

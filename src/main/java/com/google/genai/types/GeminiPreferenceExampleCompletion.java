@@ -38,6 +38,7 @@ public abstract class GeminiPreferenceExampleCompletion extends JsonSerializable
   public abstract Optional<Float> score();
 
   /** Instantiates a builder for GeminiPreferenceExampleCompletion. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GeminiPreferenceExampleCompletion.Builder();
   }
@@ -86,6 +87,7 @@ public abstract class GeminiPreferenceExampleCompletion extends JsonSerializable
   }
 
   /** Deserializes a JSON string to a GeminiPreferenceExampleCompletion object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GeminiPreferenceExampleCompletion fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GeminiPreferenceExampleCompletion.class);
   }

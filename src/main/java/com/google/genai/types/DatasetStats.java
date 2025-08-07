@@ -66,6 +66,7 @@ public abstract class DatasetStats extends JsonSerializable {
   public abstract Optional<DatasetDistribution> userOutputTokenDistribution();
 
   /** Instantiates a builder for DatasetStats. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DatasetStats.Builder();
   }
@@ -209,6 +210,7 @@ public abstract class DatasetStats extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DatasetStats object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DatasetStats fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DatasetStats.class);
   }

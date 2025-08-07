@@ -42,6 +42,7 @@ public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends J
   public abstract Optional<Double> right();
 
   /** Instantiates a builder for SupervisedTuningDatasetDistributionDatasetBucket. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SupervisedTuningDatasetDistributionDatasetBucket.Builder();
   }
@@ -89,6 +90,7 @@ public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends J
   }
 
   /** Deserializes a JSON string to a SupervisedTuningDatasetDistributionDatasetBucket object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SupervisedTuningDatasetDistributionDatasetBucket fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(
         jsonString, SupervisedTuningDatasetDistributionDatasetBucket.class);

@@ -70,6 +70,7 @@ public abstract class VertexAISearch extends JsonSerializable {
   public abstract Optional<Integer> maxResults();
 
   /** Instantiates a builder for VertexAISearch. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VertexAISearch.Builder();
   }
@@ -160,6 +161,7 @@ public abstract class VertexAISearch extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VertexAISearch object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VertexAISearch fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VertexAISearch.class);
   }

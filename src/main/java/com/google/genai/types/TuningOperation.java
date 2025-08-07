@@ -59,6 +59,7 @@ public abstract class TuningOperation extends JsonSerializable {
   public abstract Optional<Map<String, Object>> error();
 
   /** Instantiates a builder for TuningOperation. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TuningOperation.Builder();
   }
@@ -117,6 +118,7 @@ public abstract class TuningOperation extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TuningOperation object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TuningOperation fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TuningOperation.class);
   }

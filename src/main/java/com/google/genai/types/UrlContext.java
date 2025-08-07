@@ -28,6 +28,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = UrlContext.Builder.class)
 public abstract class UrlContext extends JsonSerializable {
   /** Instantiates a builder for UrlContext. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_UrlContext.Builder();
   }
@@ -48,6 +49,7 @@ public abstract class UrlContext extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a UrlContext object. */
+  @ExcludeFromGeneratedCoverageReport
   public static UrlContext fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, UrlContext.class);
   }

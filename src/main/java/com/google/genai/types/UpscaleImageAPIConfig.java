@@ -76,6 +76,7 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
   public abstract Optional<String> mode();
 
   /** Instantiates a builder for UpscaleImageAPIConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_UpscaleImageAPIConfig.Builder();
   }
@@ -173,6 +174,7 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a UpscaleImageAPIConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static UpscaleImageAPIConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, UpscaleImageAPIConfig.class);
   }

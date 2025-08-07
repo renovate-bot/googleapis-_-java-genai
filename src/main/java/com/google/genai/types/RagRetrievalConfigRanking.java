@@ -38,6 +38,7 @@ public abstract class RagRetrievalConfigRanking extends JsonSerializable {
   public abstract Optional<RagRetrievalConfigRankingRankService> rankService();
 
   /** Instantiates a builder for RagRetrievalConfigRanking. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RagRetrievalConfigRanking.Builder();
   }
@@ -92,6 +93,7 @@ public abstract class RagRetrievalConfigRanking extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RagRetrievalConfigRanking object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RagRetrievalConfigRanking fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RagRetrievalConfigRanking.class);
   }

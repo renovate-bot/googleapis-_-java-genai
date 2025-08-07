@@ -148,6 +148,7 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   public abstract Optional<ProactivityConfig> proactivity();
 
   /** Instantiates a builder for LiveConnectConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_LiveConnectConfig.Builder();
   }
@@ -533,6 +534,7 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a LiveConnectConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static LiveConnectConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, LiveConnectConfig.class);
   }

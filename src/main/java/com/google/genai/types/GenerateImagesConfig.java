@@ -116,6 +116,7 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   public abstract Optional<Boolean> enhancePrompt();
 
   /** Instantiates a builder for GenerateImagesConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateImagesConfig.Builder();
   }
@@ -348,6 +349,7 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateImagesConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateImagesConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateImagesConfig.class);
   }

@@ -49,6 +49,7 @@ public abstract class RecontextImageSource extends JsonSerializable {
   public abstract Optional<List<ProductImage>> productImages();
 
   /** Instantiates a builder for RecontextImageSource. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RecontextImageSource.Builder();
   }
@@ -124,6 +125,7 @@ public abstract class RecontextImageSource extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RecontextImageSource object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RecontextImageSource fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RecontextImageSource.class);
   }

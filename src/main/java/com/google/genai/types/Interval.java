@@ -45,6 +45,7 @@ public abstract class Interval extends JsonSerializable {
   public abstract Optional<Instant> endTime();
 
   /** Instantiates a builder for Interval. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Interval.Builder();
   }
@@ -81,6 +82,7 @@ public abstract class Interval extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Interval object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Interval fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Interval.class);
   }

@@ -47,6 +47,7 @@ public abstract class PreTunedModel extends JsonSerializable {
   public abstract Optional<String> tunedModelName();
 
   /** Instantiates a builder for PreTunedModel. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_PreTunedModel.Builder();
   }
@@ -96,6 +97,7 @@ public abstract class PreTunedModel extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a PreTunedModel object. */
+  @ExcludeFromGeneratedCoverageReport
   public static PreTunedModel fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, PreTunedModel.class);
   }

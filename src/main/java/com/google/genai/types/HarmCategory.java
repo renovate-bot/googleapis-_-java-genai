@@ -83,12 +83,14 @@ public class HarmCategory {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -115,6 +117,7 @@ public class HarmCategory {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.harmCategoryEnum != Known.HARM_CATEGORY_UNSPECIFIED) {
@@ -124,6 +127,7 @@ public class HarmCategory {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.harmCategoryEnum;
   }

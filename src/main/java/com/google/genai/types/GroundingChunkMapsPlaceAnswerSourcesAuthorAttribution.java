@@ -43,6 +43,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution
   public abstract Optional<String> uri();
 
   /** Instantiates a builder for GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution.Builder();
   }
@@ -92,6 +93,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution
   /**
    * Deserializes a JSON string to a GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution object.
    */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(
         jsonString, GroundingChunkMapsPlaceAnswerSourcesAuthorAttribution.class);

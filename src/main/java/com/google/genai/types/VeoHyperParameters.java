@@ -48,6 +48,7 @@ public abstract class VeoHyperParameters extends JsonSerializable {
   public abstract Optional<TuningTask> tuningTask();
 
   /** Instantiates a builder for VeoHyperParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VeoHyperParameters.Builder();
   }
@@ -113,6 +114,7 @@ public abstract class VeoHyperParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VeoHyperParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VeoHyperParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VeoHyperParameters.class);
   }

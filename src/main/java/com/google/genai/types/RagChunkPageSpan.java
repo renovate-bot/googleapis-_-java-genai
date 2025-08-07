@@ -38,6 +38,7 @@ public abstract class RagChunkPageSpan extends JsonSerializable {
   public abstract Optional<Integer> lastPage();
 
   /** Instantiates a builder for RagChunkPageSpan. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RagChunkPageSpan.Builder();
   }
@@ -74,6 +75,7 @@ public abstract class RagChunkPageSpan extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a RagChunkPageSpan object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RagChunkPageSpan fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RagChunkPageSpan.class);
   }

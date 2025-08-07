@@ -53,6 +53,7 @@ public abstract class GoogleTypeDate extends JsonSerializable {
   public abstract Optional<Integer> year();
 
   /** Instantiates a builder for GoogleTypeDate. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GoogleTypeDate.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class GoogleTypeDate extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GoogleTypeDate object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GoogleTypeDate fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GoogleTypeDate.class);
   }

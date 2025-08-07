@@ -41,6 +41,7 @@ public abstract class ApiAuthApiKeyConfig extends JsonSerializable {
   public abstract Optional<String> apiKeyString();
 
   /** Instantiates a builder for ApiAuthApiKeyConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ApiAuthApiKeyConfig.Builder();
   }
@@ -78,6 +79,7 @@ public abstract class ApiAuthApiKeyConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ApiAuthApiKeyConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ApiAuthApiKeyConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ApiAuthApiKeyConfig.class);
   }

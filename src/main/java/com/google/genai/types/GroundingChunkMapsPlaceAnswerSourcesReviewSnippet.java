@@ -57,6 +57,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesReviewSnippet extends 
   public abstract Optional<String> review();
 
   /** Instantiates a builder for GroundingChunkMapsPlaceAnswerSourcesReviewSnippet. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingChunkMapsPlaceAnswerSourcesReviewSnippet.Builder();
   }
@@ -133,6 +134,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesReviewSnippet extends 
   }
 
   /** Deserializes a JSON string to a GroundingChunkMapsPlaceAnswerSourcesReviewSnippet object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingChunkMapsPlaceAnswerSourcesReviewSnippet fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(
         jsonString, GroundingChunkMapsPlaceAnswerSourcesReviewSnippet.class);

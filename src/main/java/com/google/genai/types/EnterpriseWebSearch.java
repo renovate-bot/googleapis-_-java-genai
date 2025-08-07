@@ -28,6 +28,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = EnterpriseWebSearch.Builder.class)
 public abstract class EnterpriseWebSearch extends JsonSerializable {
   /** Instantiates a builder for EnterpriseWebSearch. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EnterpriseWebSearch.Builder();
   }
@@ -48,6 +49,7 @@ public abstract class EnterpriseWebSearch extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EnterpriseWebSearch object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EnterpriseWebSearch fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EnterpriseWebSearch.class);
   }

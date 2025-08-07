@@ -77,6 +77,7 @@ public abstract class DistillationSpec extends JsonSerializable {
   public abstract Optional<String> validationDatasetUri();
 
   /** Instantiates a builder for DistillationSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DistillationSpec.Builder();
   }
@@ -169,6 +170,7 @@ public abstract class DistillationSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DistillationSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DistillationSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DistillationSpec.class);
   }

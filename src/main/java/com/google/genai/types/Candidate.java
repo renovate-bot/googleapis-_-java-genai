@@ -85,6 +85,7 @@ public abstract class Candidate extends JsonSerializable {
   public abstract Optional<List<SafetyRating>> safetyRatings();
 
   /** Instantiates a builder for Candidate. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Candidate.Builder();
   }
@@ -287,6 +288,7 @@ public abstract class Candidate extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Candidate object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Candidate fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Candidate.class);
   }

@@ -62,6 +62,7 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
   public abstract Optional<Double> learningRateMultiplier();
 
   /** Instantiates a builder for SupervisedHyperParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SupervisedHyperParameters.Builder();
   }
@@ -146,6 +147,7 @@ public abstract class SupervisedHyperParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SupervisedHyperParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SupervisedHyperParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SupervisedHyperParameters.class);
   }

@@ -34,6 +34,7 @@ public abstract class RagRetrievalConfigRankingRankService extends JsonSerializa
   public abstract Optional<String> modelName();
 
   /** Instantiates a builder for RagRetrievalConfigRankingRankService. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_RagRetrievalConfigRankingRankService.Builder();
   }
@@ -66,6 +67,7 @@ public abstract class RagRetrievalConfigRankingRankService extends JsonSerializa
   }
 
   /** Deserializes a JSON string to a RagRetrievalConfigRankingRankService object. */
+  @ExcludeFromGeneratedCoverageReport
   public static RagRetrievalConfigRankingRankService fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, RagRetrievalConfigRankingRankService.class);
   }

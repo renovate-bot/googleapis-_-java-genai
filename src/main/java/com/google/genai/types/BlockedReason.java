@@ -69,12 +69,14 @@ public class BlockedReason {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -101,6 +103,7 @@ public class BlockedReason {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.blockedReasonEnum != Known.BLOCKED_REASON_UNSPECIFIED) {
@@ -110,6 +113,7 @@ public class BlockedReason {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.blockedReasonEnum;
   }

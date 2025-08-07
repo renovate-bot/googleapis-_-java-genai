@@ -55,6 +55,7 @@ public abstract class HttpOptions extends JsonSerializable {
   public abstract Optional<Map<String, Object>> extraBody();
 
   /** Instantiates a builder for HttpOptions. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_HttpOptions.Builder();
   }
@@ -118,6 +119,7 @@ public abstract class HttpOptions extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a HttpOptions object. */
+  @ExcludeFromGeneratedCoverageReport
   public static HttpOptions fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, HttpOptions.class);
   }

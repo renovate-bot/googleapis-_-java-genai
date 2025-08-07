@@ -216,6 +216,7 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   public abstract Optional<ThinkingConfig> thinkingConfig();
 
   /** Instantiates a builder for GenerateContentConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateContentConfig.Builder();
   }
@@ -674,6 +675,7 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateContentConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateContentConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateContentConfig.class);
   }

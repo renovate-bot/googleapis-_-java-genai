@@ -70,6 +70,7 @@ public abstract class SupervisedTuningDatasetDistribution extends JsonSerializab
   public abstract Optional<Long> sum();
 
   /** Instantiates a builder for SupervisedTuningDatasetDistribution. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SupervisedTuningDatasetDistribution.Builder();
   }
@@ -187,6 +188,7 @@ public abstract class SupervisedTuningDatasetDistribution extends JsonSerializab
   }
 
   /** Deserializes a JSON string to a SupervisedTuningDatasetDistribution object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SupervisedTuningDatasetDistribution fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SupervisedTuningDatasetDistribution.class);
   }

@@ -41,6 +41,7 @@ public abstract class AuthConfigGoogleServiceAccountConfig extends JsonSerializa
   public abstract Optional<String> serviceAccount();
 
   /** Instantiates a builder for AuthConfigGoogleServiceAccountConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_AuthConfigGoogleServiceAccountConfig.Builder();
   }
@@ -77,6 +78,7 @@ public abstract class AuthConfigGoogleServiceAccountConfig extends JsonSerializa
   }
 
   /** Deserializes a JSON string to a AuthConfigGoogleServiceAccountConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static AuthConfigGoogleServiceAccountConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, AuthConfigGoogleServiceAccountConfig.class);
   }

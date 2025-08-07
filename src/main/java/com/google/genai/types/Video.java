@@ -42,6 +42,7 @@ public abstract class Video extends JsonSerializable {
   public abstract Optional<String> mimeType();
 
   /** Instantiates a builder for Video. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_Video.Builder();
   }
@@ -86,6 +87,7 @@ public abstract class Video extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a Video object. */
+  @ExcludeFromGeneratedCoverageReport
   public static Video fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, Video.class);
   }

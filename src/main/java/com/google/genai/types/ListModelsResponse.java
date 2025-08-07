@@ -42,6 +42,7 @@ public abstract class ListModelsResponse extends JsonSerializable {
   public abstract Optional<List<Model>> models();
 
   /** Instantiates a builder for ListModelsResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ListModelsResponse.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class ListModelsResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ListModelsResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ListModelsResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ListModelsResponse.class);
   }

@@ -63,12 +63,14 @@ public class HarmBlockMethod {
     this.value = knownValue.toString();
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   @JsonValue
   public String toString() {
     return this.value;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @SuppressWarnings("PatternMatchingInstanceof")
   @Override
   public boolean equals(Object o) {
@@ -95,6 +97,7 @@ public class HarmBlockMethod {
     return false;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   @Override
   public int hashCode() {
     if (this.harmBlockMethodEnum != Known.HARM_BLOCK_METHOD_UNSPECIFIED) {
@@ -104,6 +107,7 @@ public class HarmBlockMethod {
     }
   }
 
+  @ExcludeFromGeneratedCoverageReport
   public Known knownEnum() {
     return this.harmBlockMethodEnum;
   }

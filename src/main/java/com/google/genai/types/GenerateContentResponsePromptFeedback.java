@@ -47,6 +47,7 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
   public abstract Optional<List<SafetyRating>> safetyRatings();
 
   /** Instantiates a builder for GenerateContentResponsePromptFeedback. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateContentResponsePromptFeedback.Builder();
   }
@@ -135,6 +136,7 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
   }
 
   /** Deserializes a JSON string to a GenerateContentResponsePromptFeedback object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateContentResponsePromptFeedback fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateContentResponsePromptFeedback.class);
   }

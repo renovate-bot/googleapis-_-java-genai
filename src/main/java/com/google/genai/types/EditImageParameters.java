@@ -50,6 +50,7 @@ public abstract class EditImageParameters extends JsonSerializable {
   public abstract Optional<EditImageConfig> config();
 
   /** Instantiates a builder for EditImageParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EditImageParameters.Builder();
   }
@@ -120,6 +121,7 @@ public abstract class EditImageParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EditImageParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EditImageParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EditImageParameters.class);
   }

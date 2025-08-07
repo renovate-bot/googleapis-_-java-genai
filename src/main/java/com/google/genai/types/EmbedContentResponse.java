@@ -42,6 +42,7 @@ public abstract class EmbedContentResponse extends JsonSerializable {
   public abstract Optional<EmbedContentMetadata> metadata();
 
   /** Instantiates a builder for EmbedContentResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EmbedContentResponse.Builder();
   }
@@ -111,6 +112,7 @@ public abstract class EmbedContentResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EmbedContentResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EmbedContentResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EmbedContentResponse.class);
   }

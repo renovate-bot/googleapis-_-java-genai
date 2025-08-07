@@ -48,6 +48,7 @@ public abstract class DistillationHyperParameters extends JsonSerializable {
   public abstract Optional<Double> learningRateMultiplier();
 
   /** Instantiates a builder for DistillationHyperParameters. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DistillationHyperParameters.Builder();
   }
@@ -113,6 +114,7 @@ public abstract class DistillationHyperParameters extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DistillationHyperParameters object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DistillationHyperParameters fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DistillationHyperParameters.class);
   }

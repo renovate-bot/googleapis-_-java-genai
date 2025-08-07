@@ -116,6 +116,7 @@ public abstract class EditImageConfig extends JsonSerializable {
   public abstract Optional<Integer> baseSteps();
 
   /** Instantiates a builder for EditImageConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_EditImageConfig.Builder();
   }
@@ -368,6 +369,7 @@ public abstract class EditImageConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a EditImageConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static EditImageConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, EditImageConfig.class);
   }

@@ -41,6 +41,7 @@ public abstract class TuningValidationDataset extends JsonSerializable {
   public abstract Optional<String> vertexDatasetResource();
 
   /** Instantiates a builder for TuningValidationDataset. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TuningValidationDataset.Builder();
   }
@@ -79,6 +80,7 @@ public abstract class TuningValidationDataset extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TuningValidationDataset object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TuningValidationDataset fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TuningValidationDataset.class);
   }

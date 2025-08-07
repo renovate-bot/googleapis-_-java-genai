@@ -37,6 +37,7 @@ public abstract class GoogleSearch extends JsonSerializable {
   public abstract Optional<Interval> timeRangeFilter();
 
   /** Instantiates a builder for GoogleSearch. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GoogleSearch.Builder();
   }
@@ -76,6 +77,7 @@ public abstract class GoogleSearch extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GoogleSearch object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GoogleSearch fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GoogleSearch.class);
   }

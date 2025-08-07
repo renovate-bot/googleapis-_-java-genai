@@ -49,6 +49,7 @@ public abstract class VertexAISearchDataStoreSpec extends JsonSerializable {
   public abstract Optional<String> filter();
 
   /** Instantiates a builder for VertexAISearchDataStoreSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VertexAISearchDataStoreSpec.Builder();
   }
@@ -88,6 +89,7 @@ public abstract class VertexAISearchDataStoreSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VertexAISearchDataStoreSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VertexAISearchDataStoreSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VertexAISearchDataStoreSpec.class);
   }

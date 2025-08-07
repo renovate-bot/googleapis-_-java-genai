@@ -46,6 +46,7 @@ public abstract class VideoMetadata extends JsonSerializable {
   public abstract Optional<Duration> startOffset();
 
   /** Instantiates a builder for VideoMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VideoMetadata.Builder();
   }
@@ -91,6 +92,7 @@ public abstract class VideoMetadata extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VideoMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VideoMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VideoMetadata.class);
   }

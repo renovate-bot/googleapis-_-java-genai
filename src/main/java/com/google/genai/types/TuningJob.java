@@ -184,6 +184,7 @@ public abstract class TuningJob extends JsonSerializable {
   public abstract Optional<VeoTuningSpec> veoTuningSpec();
 
   /** Instantiates a builder for TuningJob. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TuningJob.Builder();
   }
@@ -558,6 +559,7 @@ public abstract class TuningJob extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TuningJob object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TuningJob fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TuningJob.class);
   }

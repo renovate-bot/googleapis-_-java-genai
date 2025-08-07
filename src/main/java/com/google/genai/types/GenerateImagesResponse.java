@@ -45,6 +45,7 @@ public abstract class GenerateImagesResponse extends JsonSerializable {
   public abstract Optional<SafetyAttributes> positivePromptSafetyAttributes();
 
   /** Instantiates a builder for GenerateImagesResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateImagesResponse.Builder();
   }
@@ -115,6 +116,7 @@ public abstract class GenerateImagesResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateImagesResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateImagesResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateImagesResponse.class);
   }

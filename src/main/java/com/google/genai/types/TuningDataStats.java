@@ -42,6 +42,7 @@ public abstract class TuningDataStats extends JsonSerializable {
   public abstract Optional<SupervisedTuningDataStats> supervisedTuningDataStats();
 
   /** Instantiates a builder for TuningDataStats. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_TuningDataStats.Builder();
   }
@@ -118,6 +119,7 @@ public abstract class TuningDataStats extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a TuningDataStats object. */
+  @ExcludeFromGeneratedCoverageReport
   public static TuningDataStats fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, TuningDataStats.class);
   }

@@ -41,6 +41,7 @@ public abstract class GenerationConfigThinkingConfig extends JsonSerializable {
   public abstract Optional<Integer> thinkingBudget();
 
   /** Instantiates a builder for GenerationConfigThinkingConfig. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerationConfigThinkingConfig.Builder();
   }
@@ -80,6 +81,7 @@ public abstract class GenerationConfigThinkingConfig extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerationConfigThinkingConfig object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerationConfigThinkingConfig fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerationConfigThinkingConfig.class);
   }

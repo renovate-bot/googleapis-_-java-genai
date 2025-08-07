@@ -43,6 +43,7 @@ public abstract class SafetySetting extends JsonSerializable {
   public abstract Optional<HarmBlockThreshold> threshold();
 
   /** Instantiates a builder for SafetySetting. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SafetySetting.Builder();
   }
@@ -150,6 +151,7 @@ public abstract class SafetySetting extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SafetySetting object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SafetySetting fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SafetySetting.class);
   }

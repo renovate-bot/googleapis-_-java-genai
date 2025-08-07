@@ -39,6 +39,7 @@ public abstract class UrlMetadata extends JsonSerializable {
   public abstract Optional<UrlRetrievalStatus> urlRetrievalStatus();
 
   /** Instantiates a builder for UrlMetadata. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_UrlMetadata.Builder();
   }
@@ -95,6 +96,7 @@ public abstract class UrlMetadata extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a UrlMetadata object. */
+  @ExcludeFromGeneratedCoverageReport
   public static UrlMetadata fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, UrlMetadata.class);
   }

@@ -49,6 +49,7 @@ public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
   public abstract Optional<String> uri();
 
   /** Instantiates a builder for GroundingChunkRetrievedContext. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingChunkRetrievedContext.Builder();
   }
@@ -114,6 +115,7 @@ public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GroundingChunkRetrievedContext object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingChunkRetrievedContext fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GroundingChunkRetrievedContext.class);
   }

@@ -60,6 +60,7 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
   public abstract Optional<String> validationDatasetUri();
 
   /** Instantiates a builder for SupervisedTuningSpec. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SupervisedTuningSpec.Builder();
   }
@@ -155,6 +156,7 @@ public abstract class SupervisedTuningSpec extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SupervisedTuningSpec object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SupervisedTuningSpec fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SupervisedTuningSpec.class);
   }

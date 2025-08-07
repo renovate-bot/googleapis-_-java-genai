@@ -79,6 +79,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   public abstract Optional<GenerateContentResponseUsageMetadata> usageMetadata();
 
   /** Instantiates a builder for GenerateContentResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GenerateContentResponse.Builder();
   }
@@ -241,6 +242,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a GenerateContentResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GenerateContentResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateContentResponse.class);
   }

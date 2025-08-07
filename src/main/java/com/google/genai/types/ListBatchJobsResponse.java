@@ -42,6 +42,7 @@ public abstract class ListBatchJobsResponse extends JsonSerializable {
   public abstract Optional<List<BatchJob>> batchJobs();
 
   /** Instantiates a builder for ListBatchJobsResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ListBatchJobsResponse.Builder();
   }
@@ -99,6 +100,7 @@ public abstract class ListBatchJobsResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ListBatchJobsResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ListBatchJobsResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ListBatchJobsResponse.class);
   }

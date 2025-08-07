@@ -43,6 +43,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSources extends JsonSerializa
       reviewSnippets();
 
   /** Instantiates a builder for GroundingChunkMapsPlaceAnswerSources. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_GroundingChunkMapsPlaceAnswerSources.Builder();
   }
@@ -106,6 +107,7 @@ public abstract class GroundingChunkMapsPlaceAnswerSources extends JsonSerializa
   }
 
   /** Deserializes a JSON string to a GroundingChunkMapsPlaceAnswerSources object. */
+  @ExcludeFromGeneratedCoverageReport
   public static GroundingChunkMapsPlaceAnswerSources fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GroundingChunkMapsPlaceAnswerSources.class);
   }

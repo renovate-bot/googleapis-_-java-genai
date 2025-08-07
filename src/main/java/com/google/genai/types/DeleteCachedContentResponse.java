@@ -28,6 +28,7 @@ import com.google.genai.JsonSerializable;
 @JsonDeserialize(builder = DeleteCachedContentResponse.Builder.class)
 public abstract class DeleteCachedContentResponse extends JsonSerializable {
   /** Instantiates a builder for DeleteCachedContentResponse. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_DeleteCachedContentResponse.Builder();
   }
@@ -48,6 +49,7 @@ public abstract class DeleteCachedContentResponse extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a DeleteCachedContentResponse object. */
+  @ExcludeFromGeneratedCoverageReport
   public static DeleteCachedContentResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, DeleteCachedContentResponse.class);
   }

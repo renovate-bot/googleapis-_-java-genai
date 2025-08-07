@@ -34,6 +34,7 @@ public abstract class ProductImage extends JsonSerializable {
   public abstract Optional<Image> productImage();
 
   /** Instantiates a builder for ProductImage. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_ProductImage.Builder();
   }
@@ -71,6 +72,7 @@ public abstract class ProductImage extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a ProductImage object. */
+  @ExcludeFromGeneratedCoverageReport
   public static ProductImage fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, ProductImage.class);
   }

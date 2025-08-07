@@ -45,6 +45,7 @@ public abstract class FileData extends JsonSerializable {
   public abstract Optional<String> mimeType();
 
   /** Instantiates a builder for FileData. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_FileData.Builder();
   }
@@ -90,6 +91,7 @@ public abstract class FileData extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a FileData object. */
+  @ExcludeFromGeneratedCoverageReport
   public static FileData fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, FileData.class);
   }

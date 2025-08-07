@@ -43,6 +43,7 @@ public abstract class VertexRagStoreRagResource extends JsonSerializable {
   public abstract Optional<List<String>> ragFileIds();
 
   /** Instantiates a builder for VertexRagStoreRagResource. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_VertexRagStoreRagResource.Builder();
   }
@@ -91,6 +92,7 @@ public abstract class VertexRagStoreRagResource extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a VertexRagStoreRagResource object. */
+  @ExcludeFromGeneratedCoverageReport
   public static VertexRagStoreRagResource fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, VertexRagStoreRagResource.class);
   }

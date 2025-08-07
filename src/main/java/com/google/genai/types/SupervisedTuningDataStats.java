@@ -89,6 +89,7 @@ public abstract class SupervisedTuningDataStats extends JsonSerializable {
   public abstract Optional<SupervisedTuningDatasetDistribution> userOutputTokenDistribution();
 
   /** Instantiates a builder for SupervisedTuningDataStats. */
+  @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
     return new AutoValue_SupervisedTuningDataStats.Builder();
   }
@@ -288,6 +289,7 @@ public abstract class SupervisedTuningDataStats extends JsonSerializable {
   }
 
   /** Deserializes a JSON string to a SupervisedTuningDataStats object. */
+  @ExcludeFromGeneratedCoverageReport
   public static SupervisedTuningDataStats fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, SupervisedTuningDataStats.class);
   }
