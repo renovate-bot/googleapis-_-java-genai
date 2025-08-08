@@ -82,6 +82,13 @@ public abstract class Tool extends JsonSerializable {
   @JsonIgnore
   public abstract Optional<List<Method>> functions();
 
+  /**
+   * Optional. Tool to support the model interacting directly with the computer. If enabled, it
+   * automatically populates computer-use specific Function Declarations.
+   */
+  @JsonProperty("computerUse")
+  public abstract Optional<ToolComputerUse> computerUse();
+
   /** Optional. CodeExecution tool type. Enables the model to execute code as part of generation. */
   @JsonProperty("codeExecution")
   public abstract Optional<ToolCodeExecution> codeExecution();
@@ -266,6 +273,25 @@ public abstract class Tool extends JsonSerializable {
      */
     public Builder functions(Method... functions) {
       return functions(Arrays.asList(functions));
+    }
+
+    /**
+     * Setter for computerUse.
+     *
+     * <p>computerUse: Optional. Tool to support the model interacting directly with the computer.
+     * If enabled, it automatically populates computer-use specific Function Declarations.
+     */
+    @JsonProperty("computerUse")
+    public abstract Builder computerUse(ToolComputerUse computerUse);
+
+    /**
+     * Setter for computerUse builder.
+     *
+     * <p>computerUse: Optional. Tool to support the model interacting directly with the computer.
+     * If enabled, it automatically populates computer-use specific Function Declarations.
+     */
+    public Builder computerUse(ToolComputerUse.Builder computerUseBuilder) {
+      return computerUse(computerUseBuilder.build());
     }
 
     /**

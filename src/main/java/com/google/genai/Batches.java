@@ -556,6 +556,19 @@ public final class Batches {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode toolComputerUseToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"environment"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"environment"},
+          Common.getValueByPath(fromObject, new String[] {"environment"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode toolToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
@@ -610,6 +623,16 @@ public final class Batches {
           urlContextToMldev(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"urlContext"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"computerUse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"computerUse"},
+          toolComputerUseToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"computerUse"})),
               toObject));
     }
 

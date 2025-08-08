@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Ascii;
 import java.util.Objects;
 
-/** Required. The environment being operated. */
+/** The environment being operated. */
 public class Environment {
 
   /** Enum representing the known values for Environment. */
