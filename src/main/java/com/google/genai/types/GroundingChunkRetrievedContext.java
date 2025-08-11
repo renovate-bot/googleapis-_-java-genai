@@ -29,6 +29,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkRetrievedContext.Builder.class)
 public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
+  /** Output only. The full document name for the referenced Vertex AI Search document. */
+  @JsonProperty("documentName")
+  public abstract Optional<String> documentName();
+
   /**
    * Additional context for the RAG retrieval result. This is only populated when using the RAG
    * retrieval tool.
@@ -67,6 +71,15 @@ public abstract class GroundingChunkRetrievedContext extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GroundingChunkRetrievedContext.Builder();
     }
+
+    /**
+     * Setter for documentName.
+     *
+     * <p>documentName: Output only. The full document name for the referenced Vertex AI Search
+     * document.
+     */
+    @JsonProperty("documentName")
+    public abstract Builder documentName(String documentName);
 
     /**
      * Setter for ragChunk.
