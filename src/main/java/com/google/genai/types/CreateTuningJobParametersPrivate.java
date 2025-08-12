@@ -35,6 +35,10 @@ public abstract class CreateTuningJobParametersPrivate extends JsonSerializable 
   @JsonProperty("baseModel")
   public abstract Optional<String> baseModel();
 
+  /** The PreTunedModel that is being tuned. */
+  @JsonProperty("preTunedModel")
+  public abstract Optional<PreTunedModel> preTunedModel();
+
   /**
    * Cloud Storage path to file containing training dataset for tuning. The dataset must be
    * formatted as a JSONL file.
@@ -74,6 +78,23 @@ public abstract class CreateTuningJobParametersPrivate extends JsonSerializable 
      */
     @JsonProperty("baseModel")
     public abstract Builder baseModel(String baseModel);
+
+    /**
+     * Setter for preTunedModel.
+     *
+     * <p>preTunedModel: The PreTunedModel that is being tuned.
+     */
+    @JsonProperty("preTunedModel")
+    public abstract Builder preTunedModel(PreTunedModel preTunedModel);
+
+    /**
+     * Setter for preTunedModel builder.
+     *
+     * <p>preTunedModel: The PreTunedModel that is being tuned.
+     */
+    public Builder preTunedModel(PreTunedModel.Builder preTunedModelBuilder) {
+      return preTunedModel(preTunedModelBuilder.build());
+    }
 
     /**
      * Setter for trainingDataset.

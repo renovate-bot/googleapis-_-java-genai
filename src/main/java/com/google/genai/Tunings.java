@@ -32,6 +32,7 @@ import com.google.genai.types.JobState;
 import com.google.genai.types.ListTuningJobsConfig;
 import com.google.genai.types.ListTuningJobsParameters;
 import com.google.genai.types.ListTuningJobsResponse;
+import com.google.genai.types.PreTunedModel;
 import com.google.genai.types.TuningDataset;
 import com.google.genai.types.TuningJob;
 import com.google.genai.types.TuningOperation;
@@ -197,6 +198,12 @@ public final class Tunings {
           "exportLastCheckpointOnly parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(
+        Common.getValueByPath(fromObject, new String[] {"preTunedModelCheckpointId"}))) {
+      throw new IllegalArgumentException(
+          "preTunedModelCheckpointId parameter is not supported in Gemini API.");
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"adapterSize"}))) {
       throw new IllegalArgumentException("adapterSize parameter is not supported in Gemini API.");
     }
@@ -226,6 +233,13 @@ public final class Tunings {
           toObject,
           new String[] {"baseModel"},
           Common.getValueByPath(fromObject, new String[] {"baseModel"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"trainingDataset"}) != null) {
@@ -408,6 +422,13 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"exportLastCheckpointOnly"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModelCheckpointId"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel", "checkpointId"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModelCheckpointId"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"adapterSize"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -435,6 +456,13 @@ public final class Tunings {
           toObject,
           new String[] {"baseModel"},
           Common.getValueByPath(fromObject, new String[] {"baseModel"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"preTunedModel"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"preTunedModel"},
+          Common.getValueByPath(fromObject, new String[] {"preTunedModel"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"trainingDataset"}) != null) {
@@ -1111,13 +1139,19 @@ public final class Tunings {
   }
 
   TuningJob privateTune(
-      String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
+      String baseModel,
+      PreTunedModel preTunedModel,
+      TuningDataset trainingDataset,
+      CreateTuningJobConfig config) {
 
     CreateTuningJobParametersPrivate.Builder parameterBuilder =
         CreateTuningJobParametersPrivate.builder();
 
     if (!Common.isZero(baseModel)) {
       parameterBuilder.baseModel(baseModel);
+    }
+    if (!Common.isZero(preTunedModel)) {
+      parameterBuilder.preTunedModel(preTunedModel);
     }
     if (!Common.isZero(trainingDataset)) {
       parameterBuilder.trainingDataset(trainingDataset);
@@ -1175,13 +1209,19 @@ public final class Tunings {
   }
 
   TuningOperation privateTuneMldev(
-      String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
+      String baseModel,
+      PreTunedModel preTunedModel,
+      TuningDataset trainingDataset,
+      CreateTuningJobConfig config) {
 
     CreateTuningJobParametersPrivate.Builder parameterBuilder =
         CreateTuningJobParametersPrivate.builder();
 
     if (!Common.isZero(baseModel)) {
       parameterBuilder.baseModel(baseModel);
+    }
+    if (!Common.isZero(preTunedModel)) {
+      parameterBuilder.preTunedModel(preTunedModel);
     }
     if (!Common.isZero(trainingDataset)) {
       parameterBuilder.trainingDataset(trainingDataset);
@@ -1294,9 +1334,14 @@ public final class Tunings {
   public TuningJob tune(
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
     if (this.apiClient.vertexAI()) {
-      return this.privateTune(baseModel, trainingDataset, config);
+      if (baseModel.startsWith("projects/")) {
+        PreTunedModel preTunedModel = PreTunedModel.builder().tunedModelName(baseModel).build();
+        return this.privateTune(null, preTunedModel, trainingDataset, config);
+      } else {
+        return this.privateTune(baseModel, null, trainingDataset, config);
+      }
     } else {
-      TuningOperation operation = this.privateTuneMldev(baseModel, trainingDataset, config);
+      TuningOperation operation = this.privateTuneMldev(baseModel, null, trainingDataset, config);
       String tunedModelName = "";
       if (operation.metadata().isPresent()
           && operation.metadata().get().containsKey("tunedModel")) {
