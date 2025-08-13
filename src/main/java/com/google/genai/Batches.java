@@ -509,6 +509,11 @@ public final class Batches {
               toObject));
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"excludeDomains"}))) {
+      throw new IllegalArgumentException(
+          "excludeDomains parameter is not supported in Gemini API.");
+    }
+
     return toObject;
   }
 

@@ -403,6 +403,11 @@ final class LiveConverters {
               toObject));
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"excludeDomains"}))) {
+      throw new IllegalArgumentException(
+          "excludeDomains parameter is not supported in Gemini API.");
+    }
+
     return toObject;
   }
 
@@ -1575,6 +1580,13 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"excludeDomains"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludeDomains"},
+          Common.getValueByPath(fromObject, new String[] {"excludeDomains"}));
+    }
+
     return toObject;
   }
 
@@ -1617,6 +1629,12 @@ final class LiveConverters {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode enterpriseWebSearchToVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"excludeDomains"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludeDomains"},
+          Common.getValueByPath(fromObject, new String[] {"excludeDomains"}));
+    }
 
     return toObject;
   }
