@@ -38,14 +38,13 @@
  * <p>mvn clean compile
  *
  * <p>mvn exec:java
- * -Dexec.mainClass="com.google.genai.examples.GenerateContentWithResponseJsonSchema"
+ * -Dexec.mainClass="com.google.genai.examples.GenerateContentWithResponseJsonSchemaString"
  * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
+import com.google.genai.JsonSerializable;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 
@@ -53,7 +52,7 @@ import com.google.genai.types.GenerateContentResponse;
  * GenerateContentWithResponseJsonSchema generates a content and returns a json object by passing a
  * schema.
  */
-public final class GenerateContentWithResponseJsonSchema {
+public final class GenerateContentWithResponseJsonSchemaString {
   public static void main(String[] args) {
     String modelId = "gemini-2.0-flash-001";
     if (args.length != 0) {
@@ -75,23 +74,33 @@ public final class GenerateContentWithResponseJsonSchema {
     } else {
       System.out.println("Using Gemini Developer API");
     }
+    // Note if you have java 15 or above, you can use the following string block instead:
+    // String schema = """{
+    //   "type": "object",
+    //   "properties": {
+    //     "recipe_name": {
+    //       "type": "string"
+    //     },
+    //     "ingredients": {
+    //       "type": "array",
+    //       "items": {
+    //         "type": "string"
+    //       }
+    //     }
+    //   },
+    //   "required": [
+    //     "recipe_name",
+    //     "ingredients"
+    //   ]
+    // }""";
+    String schema =
+        "{\"type\":\"object\",\"properties\":{\"recipe_name\":{\"type\":\"string\"},\"ingredients\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"recipe_name\",\"ingredients\"]}";
 
-    ImmutableMap<String, Object> schema = ImmutableMap.of(
-        "type", "object",
-        "properties", ImmutableMap.of(
-            "recipe_name", ImmutableMap.of("type", "string"),
-            "ingredients", ImmutableMap.of(
-                "type", "array",
-                "items", ImmutableMap.of("type", "string")
-            )
-        ),
-        "required", ImmutableList.of("recipe_name", "ingredients")
-    );
     GenerateContentConfig config =
         GenerateContentConfig.builder()
             .responseMimeType("application/json")
             .candidateCount(1)
-            .responseJsonSchema(schema)
+            .responseJsonSchema(JsonSerializable.stringToJsonNode(schema))
             .build();
 
     GenerateContentResponse response =
@@ -100,5 +109,5 @@ public final class GenerateContentWithResponseJsonSchema {
     System.out.println("Response: " + response.text());
   }
 
-  private GenerateContentWithResponseJsonSchema() {}
+  private GenerateContentWithResponseJsonSchemaString() {}
 }

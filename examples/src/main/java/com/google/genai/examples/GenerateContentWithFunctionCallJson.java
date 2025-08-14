@@ -76,11 +76,17 @@ public final class GenerateContentWithFunctionCallJson {
     }
 
     // Define the schema for the function declaration, in Json format.
-    ImmutableMap<String, Object> schema =
+    ImmutableMap<String, Object> parametersSchema =
         ImmutableMap.of(
             "type", "object",
             "properties", ImmutableMap.of("location", ImmutableMap.of("type", "string")),
             "required", ImmutableList.of("location"));
+
+    ImmutableMap<String, Object> responseSchema =
+        ImmutableMap.of(
+            "type", "object",
+            "properties", ImmutableMap.of("weather", ImmutableMap.of("type", "string")),
+            "required", ImmutableList.of("weather"));
 
     // Define the tool with the function declaration.
     Tool toolWithFunctionDeclarations =
@@ -89,7 +95,9 @@ public final class GenerateContentWithFunctionCallJson {
                 FunctionDeclaration.builder()
                     .name("get_weather")
                     .description("Returns the weather in a given location.")
-                    .parametersJsonSchema(schema))
+                    .parametersJsonSchema(parametersSchema)
+                    .responseJsonSchema(responseSchema)
+                    .build())
             .build();
 
     // Add the tool to the GenerateContentConfig.

@@ -37,23 +37,21 @@
  *
  * <p>mvn clean compile
  *
- * <p>mvn exec:java
- * -Dexec.mainClass="com.google.genai.examples.GenerateContentWithResponseJsonSchema"
+ * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithFunctionCallJsonString"
  * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
+import com.google.genai.JsonSerializable;
+import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Tool;
 
-/**
- * GenerateContentWithResponseJsonSchema generates a content and returns a json object by passing a
- * schema.
- */
-public final class GenerateContentWithResponseJsonSchema {
+/** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
+public final class GenerateContentWithFunctionCallJsonString {
+  /** A callable function to get the weather. */
   public static void main(String[] args) {
     String modelId = "gemini-2.0-flash-001";
     if (args.length != 0) {
@@ -76,29 +74,56 @@ public final class GenerateContentWithResponseJsonSchema {
       System.out.println("Using Gemini Developer API");
     }
 
-    ImmutableMap<String, Object> schema = ImmutableMap.of(
-        "type", "object",
-        "properties", ImmutableMap.of(
-            "recipe_name", ImmutableMap.of("type", "string"),
-            "ingredients", ImmutableMap.of(
-                "type", "array",
-                "items", ImmutableMap.of("type", "string")
-            )
-        ),
-        "required", ImmutableList.of("recipe_name", "ingredients")
-    );
-    GenerateContentConfig config =
-        GenerateContentConfig.builder()
-            .responseMimeType("application/json")
-            .candidateCount(1)
-            .responseJsonSchema(schema)
+    // Define the schema for the function declaration, in Json format. Note if you have java 15 or
+    // above, you can use the following string block instead:
+    // String parametersSchemaString =
+    // """{
+    //   "type": "object",
+    //   "properties": {
+    //     "location": {
+    //       "type": "string"
+    //     }
+    //   },
+    //   "required": [
+    //     "location"
+    //   ]
+    // }""";
+    // String responseSchemaString =
+    // """{
+    //   "type": "object",
+    //   "properties": {
+    //     "weather": {
+    //       "type": "string"
+    //     }
+    //   },
+    //   "required": [
+    //     "weather"
+    //   ]
+    // }""";
+    String parametersSchemaString = "{\"type\":\"object\",\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"]}";
+    String responseSchemaString = "{\"type\":\"object\",\"properties\":{\"weather\":{\"type\":\"string\"}},\"required\":[\"weather\"]}";
+
+    // Define the tool with the function declaration.
+    Tool toolWithFunctionDeclarations =
+        Tool.builder()
+            .functionDeclarations(
+                FunctionDeclaration.builder()
+                    .name("get_weather")
+                    .description("Returns the weather in a given location.")
+                    .parametersJsonSchema(JsonSerializable.stringToJsonNode(parametersSchemaString))
+                    .responseJsonSchema(JsonSerializable.stringToJsonNode(responseSchemaString))
+                    .build())
             .build();
 
-    GenerateContentResponse response =
-        client.models.generateContent(modelId, "List a few popular cookie recipes.", config);
+    // Add the tool to the GenerateContentConfig.
+    GenerateContentConfig config =
+        GenerateContentConfig.builder().tools(toolWithFunctionDeclarations).build();
 
-    System.out.println("Response: " + response.text());
+    GenerateContentResponse response =
+        client.models.generateContent(modelId, "What is the weather in Vancouver?", config);
+
+    System.out.println("The response is: " + response.functionCalls());
   }
 
-  private GenerateContentWithResponseJsonSchema() {}
+  private GenerateContentWithFunctionCallJsonString() {}
 }

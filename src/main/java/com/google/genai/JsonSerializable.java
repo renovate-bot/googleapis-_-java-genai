@@ -71,11 +71,15 @@ public abstract class JsonSerializable {
           long seconds = Long.parseLong(secondsPart);
           return java.time.Duration.ofSeconds(seconds);
         } catch (NumberFormatException e) {
-          throw ctxt.weirdStringException(value, java.time.Duration.class, "Cannot parse duration from string: " + value + ". Expected format 'Xs'.");
+          throw ctxt.weirdStringException(
+              value,
+              java.time.Duration.class,
+              "Cannot parse duration from string: " + value + ". Expected format 'Xs'.");
         }
       } else {
         // If it doesn't end with 's', delegate to the default deserializer.
-        throw ctxt.weirdStringException(value, java.time.Duration.class, "Expected duration in format 'Xs', but got: " + value);
+        throw ctxt.weirdStringException(
+            value, java.time.Duration.class, "Expected duration in format 'Xs', but got: " + value);
       }
     }
   }
@@ -139,7 +143,7 @@ public abstract class JsonSerializable {
   }
 
   /** Converts a Json string to a JsonNode. */
-  static JsonNode stringToJsonNode(String string) {
+  public static JsonNode stringToJsonNode(String string) {
     try {
       return objectMapper.readTree(string);
     } catch (JsonProcessingException e) {
