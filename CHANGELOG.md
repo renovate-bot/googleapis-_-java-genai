@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.12.0](https://github.com/googleapis/java-genai/compare/v1.11.0...v1.12.0) (2025-08-13)
+
+
+### Features
+
+* enable continuous fine-tuning on a pre-tuned model in the SDK. ([e49d350](https://github.com/googleapis/java-genai/commit/e49d3509355f717d391a88b6ff1a6f4f6d83fddc))
+* support document name in grounding metadata ([8273922](https://github.com/googleapis/java-genai/commit/8273922ebfbce4ffafa8993bcc6928b47b5ff821))
+* Support exclude_domains in Google Search and Enterprise Web Search ([e975d28](https://github.com/googleapis/java-genai/commit/e975d284f78e0c9a3cd2199d304b4739bad36fe1))
+
 ## [1.11.0](https://github.com/googleapis/java-genai/compare/v1.10.0...v1.11.0) (2025-08-06)
 
 
