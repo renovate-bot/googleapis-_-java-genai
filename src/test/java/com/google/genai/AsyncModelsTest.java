@@ -138,6 +138,7 @@ public class AsyncModelsTest {
     assertEquals(pager.pageSize().get(), 10);
     assertTrue(pager.size().get() <= 10);
     pager.forEach(item -> assertNotNull(item)).get();
+    assertNotNull(pager.sdkHttpResponse().get().get().headers().get());
   }
 
   @ParameterizedTest
@@ -160,6 +161,7 @@ public class AsyncModelsTest {
     // Assert
     assertEquals(10, pager.size().get());
     pager.forEach(item -> assertNotNull(item)).get();
+    assertNotNull(pager.sdkHttpResponse().get().get().headers().get());
   }
 
   @ParameterizedTest

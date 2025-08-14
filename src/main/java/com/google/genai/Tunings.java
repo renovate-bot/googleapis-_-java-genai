@@ -28,6 +28,7 @@ import com.google.genai.types.CreateTuningJobParametersPrivate;
 import com.google.genai.types.GetTuningJobConfig;
 import com.google.genai.types.GetTuningJobParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.HttpResponse;
 import com.google.genai.types.JobState;
 import com.google.genai.types.ListTuningJobsConfig;
 import com.google.genai.types.ListTuningJobsParameters;
@@ -37,8 +38,11 @@ import com.google.genai.types.TuningDataset;
 import com.google.genai.types.TuningJob;
 import com.google.genai.types.TuningOperation;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 public final class Tunings {
@@ -511,6 +515,12 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningJobFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -633,6 +643,12 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listTuningJobsResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -659,6 +675,12 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningOperationFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -760,6 +782,12 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode tuningJobFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -924,6 +952,12 @@ public final class Tunings {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listTuningJobsResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -1005,7 +1039,19 @@ public final class Tunings {
       } else {
         responseNode = tuningJobFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, TuningJob.class);
+
+      TuningJob sdkResponse = JsonSerializable.fromJsonNode(responseNode, TuningJob.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -1064,7 +1110,20 @@ public final class Tunings {
       } else {
         responseNode = listTuningJobsResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, ListTuningJobsResponse.class);
+
+      ListTuningJobsResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, ListTuningJobsResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -1134,7 +1193,19 @@ public final class Tunings {
         throw new UnsupportedOperationException(
             "This method is only supported in the Vertex AI client.");
       }
-      return JsonSerializable.fromJsonNode(responseNode, TuningJob.class);
+
+      TuningJob sdkResponse = JsonSerializable.fromJsonNode(responseNode, TuningJob.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -1208,7 +1279,20 @@ public final class Tunings {
       } else {
         responseNode = tuningOperationFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, TuningOperation.class);
+
+      TuningOperation sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, TuningOperation.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

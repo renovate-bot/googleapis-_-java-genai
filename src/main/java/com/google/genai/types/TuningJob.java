@@ -32,6 +32,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = TuningJob.Builder.class)
 public abstract class TuningJob extends JsonSerializable {
+  /** Used to retain the full HTTP response. */
+  @JsonProperty("sdkHttpResponse")
+  public abstract Optional<HttpResponse> sdkHttpResponse();
+
   /**
    * Output only. Identifier. Resource name of a TuningJob. Format:
    * `projects/{project}/locations/{location}/tuningJobs/{tuning_job}`
@@ -179,6 +183,23 @@ public abstract class TuningJob extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_TuningJob.Builder();
+    }
+
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @JsonProperty("sdkHttpResponse")
+    public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
     }
 
     /**

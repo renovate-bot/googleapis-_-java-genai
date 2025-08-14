@@ -35,12 +35,16 @@ import com.google.genai.types.DeleteResourceJob;
 import com.google.genai.types.GetBatchJobConfig;
 import com.google.genai.types.GetBatchJobParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.HttpResponse;
 import com.google.genai.types.ListBatchJobsConfig;
 import com.google.genai.types.ListBatchJobsParameters;
 import com.google.genai.types.ListBatchJobsResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 /**
@@ -2078,6 +2082,12 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listBatchJobsResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -2104,6 +2114,12 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteResourceJobFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -2310,6 +2326,12 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listBatchJobsResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -2336,6 +2358,12 @@ public final class Batches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteResourceJobFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"name"}) != null) {
       Common.setValueByPath(
@@ -2607,7 +2635,20 @@ public final class Batches {
       } else {
         responseNode = listBatchJobsResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, ListBatchJobsResponse.class);
+
+      ListBatchJobsResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, ListBatchJobsResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -2677,7 +2718,20 @@ public final class Batches {
       } else {
         responseNode = deleteResourceJobFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, DeleteResourceJob.class);
+
+      DeleteResourceJob sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, DeleteResourceJob.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

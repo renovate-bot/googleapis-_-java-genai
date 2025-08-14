@@ -29,6 +29,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = CountTokensResponse.Builder.class)
 public abstract class CountTokensResponse extends JsonSerializable {
+  /** Used to retain the full HTTP response. */
+  @JsonProperty("sdkHttpResponse")
+  public abstract Optional<HttpResponse> sdkHttpResponse();
+
   /** Total number of tokens. */
   @JsonProperty("totalTokens")
   public abstract Optional<Integer> totalTokens();
@@ -53,6 +57,23 @@ public abstract class CountTokensResponse extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_CountTokensResponse.Builder();
+    }
+
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @JsonProperty("sdkHttpResponse")
+    public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
     }
 
     /**

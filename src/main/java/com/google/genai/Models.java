@@ -4588,6 +4588,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode embedContentResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"embeddings"}) != null) {
       ArrayNode keyArray =
@@ -4700,6 +4706,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generateImagesResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"predictions"}) != null) {
       ArrayNode keyArray =
@@ -4823,6 +4835,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listModelsResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -4858,6 +4876,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode countTokensResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"totalTokens"}) != null) {
       Common.setValueByPath(
@@ -5441,6 +5465,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode embedContentResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"predictions[]", "embeddings"}) != null) {
       ArrayNode keyArray =
@@ -5567,6 +5597,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generateImagesResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"predictions"}) != null) {
       ArrayNode keyArray =
@@ -5598,6 +5634,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode editImageResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"predictions"}) != null) {
       ArrayNode keyArray =
@@ -5617,6 +5659,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode upscaleImageResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"predictions"}) != null) {
       ArrayNode keyArray =
@@ -5813,6 +5861,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listModelsResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -5848,6 +5902,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode countTokensResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"totalTokens"}) != null) {
       Common.setValueByPath(
@@ -5862,6 +5922,12 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode computeTokensResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"tokensInfo"}) != null) {
       Common.setValueByPath(
@@ -6192,7 +6258,20 @@ public final class Models {
       } else {
         responseNode = embedContentResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, EmbedContentResponse.class);
+
+      EmbedContentResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, EmbedContentResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6258,7 +6337,20 @@ public final class Models {
       } else {
         responseNode = generateImagesResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, GenerateImagesResponse.class);
+
+      GenerateImagesResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, GenerateImagesResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6327,7 +6419,20 @@ public final class Models {
         throw new UnsupportedOperationException(
             "This method is only supported in the Vertex AI client.");
       }
-      return JsonSerializable.fromJsonNode(responseNode, EditImageResponse.class);
+
+      EditImageResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, EditImageResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6393,7 +6498,20 @@ public final class Models {
         throw new UnsupportedOperationException(
             "This method is only supported in the Vertex AI client.");
       }
-      return JsonSerializable.fromJsonNode(responseNode, UpscaleImageResponse.class);
+
+      UpscaleImageResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, UpscaleImageResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6602,7 +6720,20 @@ public final class Models {
       } else {
         responseNode = listModelsResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, ListModelsResponse.class);
+
+      ListModelsResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, ListModelsResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6818,7 +6949,20 @@ public final class Models {
       } else {
         responseNode = countTokensResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, CountTokensResponse.class);
+
+      CountTokensResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, CountTokensResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 
@@ -6891,7 +7035,20 @@ public final class Models {
         throw new UnsupportedOperationException(
             "This method is only supported in the Vertex AI client.");
       }
-      return JsonSerializable.fromJsonNode(responseNode, ComputeTokensResponse.class);
+
+      ComputeTokensResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, ComputeTokensResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

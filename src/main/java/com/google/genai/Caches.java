@@ -33,14 +33,18 @@ import com.google.genai.types.DeleteCachedContentResponse;
 import com.google.genai.types.GetCachedContentConfig;
 import com.google.genai.types.GetCachedContentParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.HttpResponse;
 import com.google.genai.types.ListCachedContentsConfig;
 import com.google.genai.types.ListCachedContentsParameters;
 import com.google.genai.types.ListCachedContentsResponse;
 import com.google.genai.types.UpdateCachedContentConfig;
 import com.google.genai.types.UpdateCachedContentParameters;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 /**
@@ -1704,6 +1708,12 @@ public final class Caches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listCachedContentsResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -1792,6 +1802,12 @@ public final class Caches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode listCachedContentsResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"nextPageToken"}) != null) {
       Common.setValueByPath(
@@ -2148,7 +2164,20 @@ public final class Caches {
       } else {
         responseNode = listCachedContentsResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, ListCachedContentsResponse.class);
+
+      ListCachedContentsResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, ListCachedContentsResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

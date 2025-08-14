@@ -30,6 +30,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = TuningOperation.Builder.class)
 public abstract class TuningOperation extends JsonSerializable {
+  /** Used to retain the full HTTP response. */
+  @JsonProperty("sdkHttpResponse")
+  public abstract Optional<HttpResponse> sdkHttpResponse();
+
   /**
    * The server-assigned name, which is only unique within the same service that originally returns
    * it. If you use the default HTTP mapping, the `name` should be a resource name ending with
@@ -74,6 +78,23 @@ public abstract class TuningOperation extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_TuningOperation.Builder();
+    }
+
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @JsonProperty("sdkHttpResponse")
+    public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
     }
 
     /**

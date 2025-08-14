@@ -278,5 +278,6 @@ public class AsyncBatchesTest {
     assertNotNull(pager);
     assertEquals(pager.pageSize().get(), 10);
     pager.page().get().forEach(item -> assertNotNull(item));
+    assertNotNull(pager.sdkHttpResponse().get().get().headers().get());
   }
 }
