@@ -155,6 +155,13 @@ public final class TableTest {
     Map<String, Object> fromParameters = (Map<String, Object>) normalizeKeys((Map<String, Object>) testTableItem.parameters().get());
     ReplaySanitizer.sanitizeMapByPath(
         fromParameters, "image.imageBytes", new ReplayBase64Sanitizer(), false);
+    ReplaySanitizer.sanitizeMapByPath(
+        fromParameters, "source.image.imageBytes", new ReplayBase64Sanitizer(), false);
+    ReplaySanitizer.sanitizeMapByPath(
+        fromParameters,
+        "source.scribbleImage.image.imageBytes",
+        new ReplayBase64Sanitizer(),
+        false);
     // TODO(b/403368643): Support interface param types in Java replay tests.
     // ReplaySanitizer.sanitizeMapByPath(
     // fromParameters,
