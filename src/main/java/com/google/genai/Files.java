@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Ascii;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.CreateFileConfig;
 import com.google.genai.types.CreateFileParameters;
@@ -907,19 +908,20 @@ public final class Files {
                 .shouldReturnHttpResponse(true)
                 .build());
 
-    if (!createFileResponse.sdkHttpResponse().isPresent()
-        || !createFileResponse.sdkHttpResponse().get().headers().isPresent()
-        || !createFileResponse
-            .sdkHttpResponse()
-            .get()
-            .headers()
-            .get()
-            .containsKey("X-Goog-Upload-URL")) {
-      throw new IllegalStateException(
-          "Failed to create file. Upload URL was not returned in the create file response.");
-    }
-
-    return createFileResponse.sdkHttpResponse().get().headers().get().get("X-Goog-Upload-URL");
+    return createFileResponse
+        .sdkHttpResponse()
+        .flatMap(HttpResponse::headers)
+        .flatMap(
+            headers ->
+                headers.entrySet().stream()
+                    .filter(entry -> Ascii.equalsIgnoreCase("x-goog-upload-url", entry.getKey()))
+                    .map(entry -> entry.getValue())
+                    .findFirst())
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    "Failed to create file. Upload URL was not returned in the create file"
+                        + " response."));
   }
 
   /**
