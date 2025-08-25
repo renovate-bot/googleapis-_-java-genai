@@ -480,6 +480,12 @@ public final class Files {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteFileResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     return toObject;
   }
@@ -778,7 +784,20 @@ public final class Files {
       } else {
         responseNode = deleteFileResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, DeleteFileResponse.class);
+
+      DeleteFileResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, DeleteFileResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

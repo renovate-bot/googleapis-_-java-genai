@@ -1701,6 +1701,12 @@ public final class Caches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteCachedContentResponseFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     return toObject;
   }
@@ -1795,6 +1801,12 @@ public final class Caches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode deleteCachedContentResponseFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
+    }
 
     return toObject;
   }
@@ -2035,7 +2047,20 @@ public final class Caches {
       } else {
         responseNode = deleteCachedContentResponseFromMldev(responseNode, null);
       }
-      return JsonSerializable.fromJsonNode(responseNode, DeleteCachedContentResponse.class);
+
+      DeleteCachedContentResponse sdkResponse =
+          JsonSerializable.fromJsonNode(responseNode, DeleteCachedContentResponse.class);
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return sdkResponse;
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return sdkResponse.toBuilder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers))
+          .build();
     }
   }
 

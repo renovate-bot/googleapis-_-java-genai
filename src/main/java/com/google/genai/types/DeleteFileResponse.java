@@ -19,14 +19,20 @@
 package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
+import java.util.Optional;
 
 /** Response for the delete file method. */
 @AutoValue
 @JsonDeserialize(builder = DeleteFileResponse.Builder.class)
 public abstract class DeleteFileResponse extends JsonSerializable {
+  /** Used to retain the full HTTP response. */
+  @JsonProperty("sdkHttpResponse")
+  public abstract Optional<HttpResponse> sdkHttpResponse();
+
   /** Instantiates a builder for DeleteFileResponse. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -43,6 +49,23 @@ public abstract class DeleteFileResponse extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_DeleteFileResponse.Builder();
+    }
+
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @JsonProperty("sdkHttpResponse")
+    public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
     }
 
     public abstract DeleteFileResponse build();
