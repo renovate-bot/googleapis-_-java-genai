@@ -91,6 +91,10 @@ public final class TableTest {
             && candidate.getName().equals("privateEmbedContent")) {
           candidate.setAccessible(true);
           methods.add(candidate);
+        } else if (methodName.equals("generateVideos")
+            && candidate.getName().equals("privateGenerateVideos")) {
+          candidate.setAccessible(true);
+          methods.add(candidate);
         }
       }
       if (methods.isEmpty()) {

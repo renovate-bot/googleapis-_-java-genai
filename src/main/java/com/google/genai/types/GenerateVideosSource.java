@@ -21,24 +21,15 @@ package com.google.genai.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.api.core.InternalApi;
 import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Class that represents the parameters for generating videos. */
+/** A set of source input(s) for video generation. */
 @AutoValue
-@InternalApi
-@JsonDeserialize(builder = GenerateVideosParameters.Builder.class)
-public abstract class GenerateVideosParameters extends JsonSerializable {
-  /**
-   * ID of the model to use. For a list of models, see `Google models
-   * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
-   */
-  @JsonProperty("model")
-  public abstract Optional<String> model();
-
-  /** The text prompt for generating the videos. Optional for image to video use cases. */
+@JsonDeserialize(builder = GenerateVideosSource.Builder.class)
+public abstract class GenerateVideosSource extends JsonSerializable {
+  /** The text prompt for generating the videos. Optional if image or video is provided. */
   @JsonProperty("prompt")
   public abstract Optional<String> prompt();
 
@@ -50,45 +41,28 @@ public abstract class GenerateVideosParameters extends JsonSerializable {
   @JsonProperty("video")
   public abstract Optional<Video> video();
 
-  /** A set of source input(s) for video generation. */
-  @JsonProperty("source")
-  public abstract Optional<GenerateVideosSource> source();
-
-  /** Configuration for generating videos. */
-  @JsonProperty("config")
-  public abstract Optional<GenerateVideosConfig> config();
-
-  /** Instantiates a builder for GenerateVideosParameters. */
+  /** Instantiates a builder for GenerateVideosSource. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
-    return new AutoValue_GenerateVideosParameters.Builder();
+    return new AutoValue_GenerateVideosSource.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for GenerateVideosParameters. */
+  /** Builder for GenerateVideosSource. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `GenerateVideosParameters.builder()` for instantiation. */
+    /** For internal usage. Please use `GenerateVideosSource.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_GenerateVideosParameters.Builder();
+      return new AutoValue_GenerateVideosSource.Builder();
     }
-
-    /**
-     * Setter for model.
-     *
-     * <p>model: ID of the model to use. For a list of models, see `Google models
-     * <https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models>`_.
-     */
-    @JsonProperty("model")
-    public abstract Builder model(String model);
 
     /**
      * Setter for prompt.
      *
-     * <p>prompt: The text prompt for generating the videos. Optional for image to video use cases.
+     * <p>prompt: The text prompt for generating the videos. Optional if image or video is provided.
      */
     @JsonProperty("prompt")
     public abstract Builder prompt(String prompt);
@@ -129,46 +103,12 @@ public abstract class GenerateVideosParameters extends JsonSerializable {
       return video(videoBuilder.build());
     }
 
-    /**
-     * Setter for source.
-     *
-     * <p>source: A set of source input(s) for video generation.
-     */
-    @JsonProperty("source")
-    public abstract Builder source(GenerateVideosSource source);
-
-    /**
-     * Setter for source builder.
-     *
-     * <p>source: A set of source input(s) for video generation.
-     */
-    public Builder source(GenerateVideosSource.Builder sourceBuilder) {
-      return source(sourceBuilder.build());
-    }
-
-    /**
-     * Setter for config.
-     *
-     * <p>config: Configuration for generating videos.
-     */
-    @JsonProperty("config")
-    public abstract Builder config(GenerateVideosConfig config);
-
-    /**
-     * Setter for config builder.
-     *
-     * <p>config: Configuration for generating videos.
-     */
-    public Builder config(GenerateVideosConfig.Builder configBuilder) {
-      return config(configBuilder.build());
-    }
-
-    public abstract GenerateVideosParameters build();
+    public abstract GenerateVideosSource build();
   }
 
-  /** Deserializes a JSON string to a GenerateVideosParameters object. */
+  /** Deserializes a JSON string to a GenerateVideosSource object. */
   @ExcludeFromGeneratedCoverageReport
-  public static GenerateVideosParameters fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, GenerateVideosParameters.class);
+  public static GenerateVideosSource fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, GenerateVideosSource.class);
   }
 }

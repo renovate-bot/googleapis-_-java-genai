@@ -43,6 +43,7 @@ package com.google.genai.examples;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
+import com.google.genai.types.GenerateVideosSource;
 import com.google.genai.types.Video;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -78,10 +79,13 @@ public final class GenerateVideosAsync {
       generateVideosConfigBuilder.outputGcsUri("gs://genai-sdk-tests/tmp/videos");
     }
     GenerateVideosConfig generateVideosConfig = generateVideosConfigBuilder.build();
+    GenerateVideosSource generateVideosSource =
+        GenerateVideosSource.builder()
+            .prompt("A neon hologram of a cat driving at top speed")
+            .build();
 
     CompletableFuture<GenerateVideosOperation> generateVideosOperationFuture =
-        client.async.models.generateVideos(
-            modelId, "A neon hologram of a cat driving at top speed", null, generateVideosConfig);
+        client.async.models.generateVideos(modelId, generateVideosSource, generateVideosConfig);
 
     generateVideosOperationFuture
         .thenAccept(

@@ -51,6 +51,7 @@ import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GenerateVideosParameters;
+import com.google.genai.types.GenerateVideosSource;
 import com.google.genai.types.GeneratedImage;
 import com.google.genai.types.GetModelConfig;
 import com.google.genai.types.GetModelParameters;
@@ -1620,6 +1621,33 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode generateVideosSourceToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"prompt"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[0]", "prompt"},
+          Common.getValueByPath(fromObject, new String[] {"prompt"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"image"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[0]", "image"},
+          imageToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"image"})),
+              toObject));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"video"}))) {
+      throw new IllegalArgumentException("video parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode generateVideosConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -1737,6 +1765,16 @@ public final class Models {
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"video"}))) {
       throw new IllegalArgumentException("video parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"source"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          generateVideosSourceToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"source"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
@@ -4155,6 +4193,39 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode generateVideosSourceToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"prompt"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[0]", "prompt"},
+          Common.getValueByPath(fromObject, new String[] {"prompt"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"image"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[0]", "image"},
+          imageToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"image"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"video"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[0]", "video"},
+          videoToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"video"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode videoGenerationReferenceImageToVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"image"}) != null) {
@@ -4334,6 +4405,16 @@ public final class Models {
           videoToVertex(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"video"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"source"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          generateVideosSourceToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"source"})),
               toObject));
     }
 
@@ -7388,7 +7469,12 @@ public final class Models {
    *     generated videos.
    */
   GenerateVideosOperation privateGenerateVideos(
-      String model, String prompt, Image image, Video video, GenerateVideosConfig config) {
+      String model,
+      String prompt,
+      Image image,
+      Video video,
+      GenerateVideosSource source,
+      GenerateVideosConfig config) {
 
     GenerateVideosParameters.Builder parameterBuilder = GenerateVideosParameters.builder();
 
@@ -7403,6 +7489,9 @@ public final class Models {
     }
     if (!Common.isZero(video)) {
       parameterBuilder.video(video);
+    }
+    if (!Common.isZero(source)) {
+      parameterBuilder.source(source);
     }
     if (!Common.isZero(config)) {
       parameterBuilder.config(config);
@@ -7755,6 +7844,24 @@ public final class Models {
   }
 
   /**
+   * Generates videos given a GenAI model, and a GenerateVideosSource source.
+   *
+   * <p>This method is experimental.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param source a {@link com.google.genai.types.GenerateVideosSource} that specifies the inputs
+   *     (prompt, image, and/or video) to generate videos.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
+  public GenerateVideosOperation generateVideos(
+      String model, GenerateVideosSource source, GenerateVideosConfig config) {
+    return privateGenerateVideos(model, null, null, null, source, config);
+  }
+
+  /**
    * Generates videos given a GenAI model, and an input (text, image, or video).
    *
    * <p>This method is experimental.
@@ -7772,7 +7879,7 @@ public final class Models {
    */
   public GenerateVideosOperation generateVideos(
       String model, String prompt, Image image, Video video, GenerateVideosConfig config) {
-    return privateGenerateVideos(model, prompt, image, video, config);
+    return privateGenerateVideos(model, prompt, image, video, null, config);
   }
 
   /**

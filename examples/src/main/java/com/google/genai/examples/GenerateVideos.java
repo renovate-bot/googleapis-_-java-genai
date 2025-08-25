@@ -44,6 +44,7 @@ import com.google.genai.Client;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
+import com.google.genai.types.GenerateVideosSource;
 import com.google.genai.types.Video;
 
 /** An example of using the Unified Gen AI Java SDK to generate videos. */
@@ -77,10 +78,13 @@ public final class GenerateVideos {
       generateVideosConfigBuilder.outputGcsUri("gs://genai-sdk-tests/tmp/videos");
     }
     GenerateVideosConfig generateVideosConfig = generateVideosConfigBuilder.build();
+    GenerateVideosSource generateVideosSource =
+        GenerateVideosSource.builder()
+            .prompt("A neon hologram of a cat driving at top speed")
+            .build();
 
     GenerateVideosOperation generateVideosOperation =
-        client.models.generateVideos(
-            modelId, "A neon hologram of a cat driving at top speed", null, generateVideosConfig);
+        client.models.generateVideos(modelId, generateVideosSource, generateVideosConfig);
 
     // GenerateVideosOperation.done() is empty if the operation is not done.
     while (!generateVideosOperation.done().filter(Boolean::booleanValue).isPresent()) {

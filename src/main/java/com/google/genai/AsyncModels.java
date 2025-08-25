@@ -38,6 +38,7 @@ import com.google.genai.types.GenerateImagesConfig;
 import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
+import com.google.genai.types.GenerateVideosSource;
 import com.google.genai.types.GetModelConfig;
 import com.google.genai.types.Image;
 import com.google.genai.types.ListModelsConfig;
@@ -351,6 +352,24 @@ public final class AsyncModels {
   }
 
   /**
+   * Asynchronously generates videos given a GenAI model, and a GenerateVideosSource source.
+   *
+   * <p>This method is experimental.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param source a {@link com.google.genai.types.GenerateVideosSource} that specifies the inputs
+   *     (prompt, image, and/or video) to generate videos.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
+  public CompletableFuture<GenerateVideosOperation> generateVideos(
+      String model, GenerateVideosSource source, GenerateVideosConfig config) {
+    return CompletableFuture.supplyAsync(() -> models.generateVideos(model, source, config));
+  }
+
+  /**
    * Asynchronously generates videos given a GenAI model, and an input (text, image, or video).
    *
    * <p>This method is experimental.
@@ -369,7 +388,7 @@ public final class AsyncModels {
   public CompletableFuture<GenerateVideosOperation> generateVideos(
       String model, String prompt, Image image, Video video, GenerateVideosConfig config) {
     return CompletableFuture.supplyAsync(
-        () -> models.privateGenerateVideos(model, prompt, image, video, config));
+        () -> models.generateVideos(model, prompt, image, video, config));
   }
 
   /**
@@ -387,8 +406,7 @@ public final class AsyncModels {
    */
   public CompletableFuture<GenerateVideosOperation> generateVideos(
       String model, String prompt, Image image, GenerateVideosConfig config) {
-    return CompletableFuture.supplyAsync(
-        () -> models.privateGenerateVideos(model, prompt, image, null, config));
+    return CompletableFuture.supplyAsync(() -> models.generateVideos(model, prompt, image, config));
   }
 
   /**
