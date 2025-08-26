@@ -74,7 +74,10 @@ public final class CountTokensWithConfigs {
     if (client.vertexAI()) {
       System.out.println("Using Vertex AI");
     } else {
-      System.out.println("Using Gemini Developer API");
+      System.out.println(
+          "Gemini Developer API is not supported for this example since system instruction is not"
+              + " supported.");
+      System.exit(0);
     }
 
     // Sets the system instruction in the config.

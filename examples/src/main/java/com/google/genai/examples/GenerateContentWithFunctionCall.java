@@ -90,8 +90,7 @@ public final class GenerateContentWithFunctionCall {
         GenerateContentWithFunctionCall.class.getMethod(
             "getCurrentWeather", String.class, String.class);
     Method method2 =
-        GenerateContentWithFunctionCall.class.getMethod(
-            "divideTwoIntegers", Integer.class, Integer.class);
+        GenerateContentWithFunctionCall.class.getMethod("divideTwoIntegers", int.class, int.class);
 
     // Add the two methods as callable functions to the list of tools.
     GenerateContentConfig config =

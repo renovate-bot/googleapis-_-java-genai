@@ -73,7 +73,8 @@ public final class RecontextImageVirtualTryOn {
     if (client.vertexAI()) {
       System.out.println("Using Vertex AI");
     } else {
-      System.out.println("Using Gemini Developer API");
+      System.out.println("Gemini Developer API is not supported for this example.");
+      System.exit(0);
     }
 
     Image productImagePants =
