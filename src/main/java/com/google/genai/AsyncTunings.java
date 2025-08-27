@@ -21,6 +21,7 @@ package com.google.genai;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.CancelTuningJobConfig;
 import com.google.genai.types.CreateTuningJobConfig;
 import com.google.genai.types.GetTuningJobConfig;
 import com.google.genai.types.JobState;
@@ -38,6 +39,17 @@ public final class AsyncTunings {
 
   public AsyncTunings(ApiClient apiClient) {
     this.tunings = new Tunings(apiClient);
+  }
+
+  /**
+   * Asynchronously cancels a tuning job resource.
+   *
+   * @param name The resource name of the tuning job. For Vertex, this is the full resource name.
+   *     For Gemini API, this is `tunedModels/{id}`.
+   * @param config A {@link CancelTuningJobConfig} for configuring the cancel request.
+   */
+  public CompletableFuture<Void> cancel(String name, CancelTuningJobConfig config) {
+    return CompletableFuture.runAsync(() -> tunings.cancel(name, config));
   }
 
   /**
