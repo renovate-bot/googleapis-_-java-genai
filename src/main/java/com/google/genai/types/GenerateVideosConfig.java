@@ -83,10 +83,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
   @JsonProperty("pubsubTopic")
   public abstract Optional<String> pubsubTopic();
 
-  /**
-   * Optional field in addition to the text content. Negative prompts can be explicitly stated here
-   * to help generate the video.
-   */
+  /** Explicitly state what should not be included in the generated videos. */
   @JsonProperty("negativePrompt")
   public abstract Optional<String> negativePrompt();
 
@@ -232,8 +229,7 @@ public abstract class GenerateVideosConfig extends JsonSerializable {
     /**
      * Setter for negativePrompt.
      *
-     * <p>negativePrompt: Optional field in addition to the text content. Negative prompts can be
-     * explicitly stated here to help generate the video.
+     * <p>negativePrompt: Explicitly state what should not be included in the generated videos.
      */
     @JsonProperty("negativePrompt")
     public abstract Builder negativePrompt(String negativePrompt);

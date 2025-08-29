@@ -93,7 +93,7 @@ public class AsyncOperationsTest {
     String prompt = "A neon hologram of a cat driving at top speed";
     GenerateVideosConfig.Builder configBuilder = GenerateVideosConfig.builder();
     if (vertexAI) {
-      configBuilder.outputGcsUri("gs://unified-genai-tests/tmp/genai/video/outputs");
+      configBuilder.outputGcsUri("gs://genai-sdk-tests/temp/videos/");
     }
     GenerateVideosConfig config = configBuilder.build();
 

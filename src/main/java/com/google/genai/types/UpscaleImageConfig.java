@@ -50,7 +50,7 @@ public abstract class UpscaleImageConfig extends JsonSerializable {
   @JsonProperty("outputMimeType")
   public abstract Optional<String> outputMimeType();
 
-  /** The level of compression if the ``output_mime_type`` is ``image/jpeg``. */
+  /** The level of compression. Only applicable if the ``output_mime_type`` is ``image/jpeg``. */
   @JsonProperty("outputCompressionQuality")
   public abstract Optional<Integer> outputCompressionQuality();
 
@@ -131,8 +131,8 @@ public abstract class UpscaleImageConfig extends JsonSerializable {
     /**
      * Setter for outputCompressionQuality.
      *
-     * <p>outputCompressionQuality: The level of compression if the ``output_mime_type`` is
-     * ``image/jpeg``.
+     * <p>outputCompressionQuality: The level of compression. Only applicable if the
+     * ``output_mime_type`` is ``image/jpeg``.
      */
     @JsonProperty("outputCompressionQuality")
     public abstract Builder outputCompressionQuality(Integer outputCompressionQuality);

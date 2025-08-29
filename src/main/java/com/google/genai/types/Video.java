@@ -37,7 +37,7 @@ public abstract class Video extends JsonSerializable {
   @JsonProperty("videoBytes")
   public abstract Optional<byte[]> videoBytes();
 
-  /** Video encoding, for example "video/mp4". */
+  /** Video encoding, for example ``video/mp4``. */
   @JsonProperty("mimeType")
   public abstract Optional<String> mimeType();
 
@@ -78,7 +78,7 @@ public abstract class Video extends JsonSerializable {
     /**
      * Setter for mimeType.
      *
-     * <p>mimeType: Video encoding, for example "video/mp4".
+     * <p>mimeType: Video encoding, for example ``video/mp4``.
      */
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);

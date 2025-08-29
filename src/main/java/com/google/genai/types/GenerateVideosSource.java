@@ -33,11 +33,17 @@ public abstract class GenerateVideosSource extends JsonSerializable {
   @JsonProperty("prompt")
   public abstract Optional<String> prompt();
 
-  /** The input image for generating the videos. Optional if prompt or video is provided. */
+  /**
+   * The input image for generating the videos. Optional if prompt is provided. Not allowed if video
+   * is provided.
+   */
   @JsonProperty("image")
   public abstract Optional<Image> image();
 
-  /** The input video for video extension use cases. Optional if prompt or image is provided. */
+  /**
+   * The input video for video extension use cases. Optional if prompt is provided. Not allowed if
+   * image is provided.
+   */
   @JsonProperty("video")
   public abstract Optional<Video> video();
 
@@ -70,7 +76,8 @@ public abstract class GenerateVideosSource extends JsonSerializable {
     /**
      * Setter for image.
      *
-     * <p>image: The input image for generating the videos. Optional if prompt or video is provided.
+     * <p>image: The input image for generating the videos. Optional if prompt is provided. Not
+     * allowed if video is provided.
      */
     @JsonProperty("image")
     public abstract Builder image(Image image);
@@ -78,7 +85,8 @@ public abstract class GenerateVideosSource extends JsonSerializable {
     /**
      * Setter for image builder.
      *
-     * <p>image: The input image for generating the videos. Optional if prompt or video is provided.
+     * <p>image: The input image for generating the videos. Optional if prompt is provided. Not
+     * allowed if video is provided.
      */
     public Builder image(Image.Builder imageBuilder) {
       return image(imageBuilder.build());
@@ -87,8 +95,8 @@ public abstract class GenerateVideosSource extends JsonSerializable {
     /**
      * Setter for video.
      *
-     * <p>video: The input video for video extension use cases. Optional if prompt or image is
-     * provided.
+     * <p>video: The input video for video extension use cases. Optional if prompt is provided. Not
+     * allowed if image is provided.
      */
     @JsonProperty("video")
     public abstract Builder video(Video video);
@@ -96,8 +104,8 @@ public abstract class GenerateVideosSource extends JsonSerializable {
     /**
      * Setter for video builder.
      *
-     * <p>video: The input video for video extension use cases. Optional if prompt or image is
-     * provided.
+     * <p>video: The input video for video extension use cases. Optional if prompt is provided. Not
+     * allowed if image is provided.
      */
     public Builder video(Video.Builder videoBuilder) {
       return video(videoBuilder.build());

@@ -668,7 +668,7 @@ public class AsyncModelsTest {
 
     GenerateVideosConfig.Builder configBuilder = GenerateVideosConfig.builder();
     if (vertexAI) {
-      configBuilder.outputGcsUri("gs://unified-genai-tests/tmp/genai/video/outputs");
+      configBuilder.outputGcsUri("gs://genai-sdk-tests/temp/videos/");
     }
     GenerateVideosConfig config = configBuilder.build();
 

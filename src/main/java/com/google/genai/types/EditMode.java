@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Ascii;
 import java.util.Objects;
 
-/** Enum representing the Imagen 3 Edit mode. */
+/** Enum representing the editing mode. */
 public class EditMode {
 
   /** Enum representing the known values for EditMode. */

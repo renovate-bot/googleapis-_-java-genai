@@ -6634,6 +6634,7 @@ public final class Models {
     }
   }
 
+  /** Private method for generating images. */
   GenerateImagesResponse privateGenerateImages(
       String model, String prompt, GenerateImagesConfig config) {
 
@@ -6713,6 +6714,7 @@ public final class Models {
     }
   }
 
+  /** Private method for editing an image. */
   EditImageResponse privateEditImage(
       String model,
       String prompt,
@@ -6795,6 +6797,7 @@ public final class Models {
     }
   }
 
+  /** Private method for upscaling an image. */
   UpscaleImageResponse privateUpscaleImage(
       String model, Image image, String upscaleFactor, UpscaleImageAPIConfig config) {
 
@@ -7500,22 +7503,7 @@ public final class Models {
     }
   }
 
-  /**
-   * Generates videos given a GenAI model, and an input (text, image, or video).
-   *
-   * <p>This method is experimental.
-   *
-   * @param model the name of the GenAI model to use for generating videos
-   * @param prompt the text prompt for generating the videos. Optional for image to video and video
-   *     extension use cases.
-   * @param image the input image for generating the videos. Optional if prompt is provided.
-   * @param video the input video for video extension use cases. Optional if prompt or image is
-   *     provided.
-   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
-   *     optional configurations
-   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
-   *     generated videos.
-   */
+  /** Private method for generating videos. */
   GenerateVideosOperation privateGenerateVideos(
       String model,
       String prompt,
