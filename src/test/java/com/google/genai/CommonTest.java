@@ -73,6 +73,19 @@ public class CommonTest {
   }
 
   @Test
+  public void testSetValueByPath_selfKey() {
+    ObjectNode data = JsonSerializable.objectMapper.createObjectNode();
+    data.putObject("a").putObject("b");
+    ObjectNode value = JsonSerializable.objectMapper.createObjectNode();
+    value.put("c", "v");
+    Common.setValueByPath(data, new String[] {"_self"}, value);
+
+    // expected output: {a: {b: {}}, c: "v"}
+    assertEquals("", data.get("a").get("b").asText());
+    assertEquals("v", data.get("c").asText());
+  }
+
+  @Test
   public void testGetValueByPath_simpleObject() {
     ObjectNode data = JsonSerializable.objectMapper.createObjectNode();
     data.putObject("a").put("b", "v");
