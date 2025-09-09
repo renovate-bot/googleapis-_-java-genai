@@ -104,7 +104,7 @@ public class AsyncBatchesTest {
       // Assert
       assertTrue(exception.getCause() instanceof GenAiIOException);
       assertEquals(
-          exception.getCause().getMessage(), "One of fileName and InlinedRequests must be set.");
+          exception.getCause().getMessage(), "one of fileName and InlinedRequests must be set.");
     }
   }
 
@@ -180,7 +180,7 @@ public class AsyncBatchesTest {
       // Assert
       assertTrue(exception.getCause() instanceof GenAiIOException);
       assertEquals(
-          exception.getCause().getMessage(), "One of fileName and InlinedRequests must be set.");
+          exception.getCause().getMessage(), "one of fileName and InlinedRequests must be set.");
     }
   }
 

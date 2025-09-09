@@ -578,6 +578,10 @@ final class Transformers {
     return dest;
   }
 
+  public static Object tRecvBatchJobDestination(Object dest) {
+    return dest;
+  }
+
   /**
    * It validates and extracts the batch job name based on the backend (Vertex AI or MLDev).
    *
