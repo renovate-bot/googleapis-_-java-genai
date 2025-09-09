@@ -1417,8 +1417,9 @@ final class LiveConverters {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode functionCallToVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"id"}))) {
-      throw new IllegalArgumentException("id parameter is not supported in Vertex AI.");
+    if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"id"}, Common.getValueByPath(fromObject, new String[] {"id"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"args"}) != null) {
@@ -3286,6 +3287,10 @@ final class LiveConverters {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode functionCallFromVertex(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
+      Common.setValueByPath(
+          toObject, new String[] {"id"}, Common.getValueByPath(fromObject, new String[] {"id"}));
+    }
 
     if (Common.getValueByPath(fromObject, new String[] {"args"}) != null) {
       Common.setValueByPath(
