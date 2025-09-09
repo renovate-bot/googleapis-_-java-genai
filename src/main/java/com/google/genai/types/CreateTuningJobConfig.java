@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
+import java.util.Map;
 import java.util.Optional;
 
 /** Supervised fine-tuning job creation request - optional fields. */
@@ -88,6 +89,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
    */
   @JsonProperty("learningRate")
   public abstract Optional<Float> learningRate();
+
+  /**
+   * Optional. The labels with user-defined metadata to organize TuningJob and generated resources
+   * such as Model and Endpoint. Label keys and values can be no longer than 64 characters (Unicode
+   * codepoints), can only contain lowercase letters, numeric characters, underscores and dashes.
+   * International characters are allowed. See https://goo.gl/xmQnxf for more information and
+   * examples of labels.
+   */
+  @JsonProperty("labels")
+  public abstract Optional<Map<String, String>> labels();
 
   /** Instantiates a builder for CreateTuningJobConfig. */
   @ExcludeFromGeneratedCoverageReport
@@ -241,6 +252,18 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("learningRate")
     public abstract Builder learningRate(Float learningRate);
+
+    /**
+     * Setter for labels.
+     *
+     * <p>labels: Optional. The labels with user-defined metadata to organize TuningJob and
+     * generated resources such as Model and Endpoint. Label keys and values can be no longer than
+     * 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters,
+     * underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for
+     * more information and examples of labels.
+     */
+    @JsonProperty("labels")
+    public abstract Builder labels(Map<String, String> labels);
 
     public abstract CreateTuningJobConfig build();
   }
