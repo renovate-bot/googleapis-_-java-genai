@@ -40,6 +40,9 @@ public final class Constants {
   /** The name of the Imagen model to be used for image editing in the examples. */
   public static final String IMAGEN_CAPABILITY_MODEL_NAME = "imagen-3.0-capability-001";
 
+  /** The name of the Imagen ingredients model to be used in the examples. */
+  public static final String IMAGEN_INGREDIENTS_MODEL_NAME = "imagen-4.0-ingredients-preview";
+
   /** The name of the Imagen product recontext model to be used in the examples. */
   public static final String IMAGEN_RECONTEXT_MODEL_NAME = "imagen-product-recontext-preview-06-30";
 
