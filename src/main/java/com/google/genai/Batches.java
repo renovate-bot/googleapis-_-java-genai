@@ -2295,6 +2295,13 @@ public final class Batches {
           Common.getValueByPath(fromObject, new String[] {"environment"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
+    }
+
     return toObject;
   }
 

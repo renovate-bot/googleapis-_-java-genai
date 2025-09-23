@@ -819,6 +819,138 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponseBlobToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"data"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"data"},
+          Common.getValueByPath(fromObject, new String[] {"data"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponseBlobToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"data"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"data"},
+          Common.getValueByPath(fromObject, new String[] {"data"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponseFileDataToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponseFileDataToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fileUri"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileUri"},
+          Common.getValueByPath(fromObject, new String[] {"fileUri"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponsePartToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"inlineData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"inlineData"},
+          functionResponseBlobToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inlineData"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          functionResponseFileDataToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode functionResponsePartToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"inlineData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"inlineData"},
+          functionResponseBlobToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inlineData"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"fileData"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileData"},
+          functionResponseFileDataToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"fileData"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode functionResponseToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"willContinue"}) != null) {
@@ -833,6 +965,17 @@ final class LiveConverters {
           toObject,
           new String[] {"scheduling"},
           Common.getValueByPath(fromObject, new String[] {"scheduling"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(functionResponsePartToMldev(JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
@@ -866,6 +1009,17 @@ final class LiveConverters {
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"scheduling"}))) {
       throw new IllegalArgumentException("scheduling parameter is not supported in Vertex AI.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
+      ArrayNode keyArray = (ArrayNode) Common.getValueByPath(fromObject, new String[] {"parts"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      for (JsonNode item : keyArray) {
+        result.add(functionResponsePartToVertex(JsonSerializable.toJsonNode(item), toObject));
+      }
+      Common.setValueByPath(toObject, new String[] {"parts"}, result);
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"id"}) != null) {
@@ -3206,6 +3360,13 @@ final class LiveConverters {
           Common.getValueByPath(fromObject, new String[] {"environment"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
+    }
+
     return toObject;
   }
 
@@ -3217,6 +3378,13 @@ final class LiveConverters {
           toObject,
           new String[] {"environment"},
           Common.getValueByPath(fromObject, new String[] {"environment"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
     }
 
     return toObject;
