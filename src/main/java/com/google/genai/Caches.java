@@ -1506,13 +1506,6 @@ public final class Caches {
           Common.getValueByPath(fromObject, new String[] {"environment"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"excludedPredefinedFunctions"},
-          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
-    }
-
     return toObject;
   }
 
@@ -1524,13 +1517,6 @@ public final class Caches {
           toObject,
           new String[] {"environment"},
           Common.getValueByPath(fromObject, new String[] {"environment"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"excludedPredefinedFunctions"},
-          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
     }
 
     return toObject;
