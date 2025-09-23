@@ -83,13 +83,6 @@ public final class Files {
               toObject));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"config"},
-          Common.getValueByPath(fromObject, new String[] {"config"}));
-    }
-
     return toObject;
   }
 
@@ -114,13 +107,6 @@ public final class Files {
           toObject,
           new String[] {"_url", "file"},
           Transformers.tFileName(Common.getValueByPath(fromObject, new String[] {"name"})));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"config"},
-          Common.getValueByPath(fromObject, new String[] {"config"}));
     }
 
     return toObject;
@@ -413,13 +399,6 @@ public final class Files {
           Transformers.tFileName(Common.getValueByPath(fromObject, new String[] {"name"})));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"config"},
-          Common.getValueByPath(fromObject, new String[] {"config"}));
-    }
-
     return toObject;
   }
 
@@ -448,13 +427,11 @@ public final class Files {
   ObjectNode listFilesParametersToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"config"},
+      JsonNode unused =
           listFilesConfigToMldev(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
-              toObject));
+              toObject);
     }
 
     return toObject;
@@ -523,8 +500,6 @@ public final class Files {
     }
 
     // TODO: Remove the hack that removes config.
-    body.remove("config");
-
     Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
       requestHttpOptions = config.httpOptions();
@@ -615,8 +590,6 @@ public final class Files {
     }
 
     // TODO: Remove the hack that removes config.
-    body.remove("config");
-
     Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
       requestHttpOptions = config.httpOptions();
@@ -708,8 +681,6 @@ public final class Files {
     }
 
     // TODO: Remove the hack that removes config.
-    body.remove("config");
-
     Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
       requestHttpOptions = config.httpOptions();
@@ -791,8 +762,6 @@ public final class Files {
     }
 
     // TODO: Remove the hack that removes config.
-    body.remove("config");
-
     Optional<HttpOptions> requestHttpOptions = Optional.empty();
     if (config != null) {
       requestHttpOptions = config.httpOptions();
