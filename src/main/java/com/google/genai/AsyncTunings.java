@@ -179,9 +179,13 @@ public final class AsyncTunings {
         () -> {
           if (tunings.apiClient.vertexAI()) {
             if (baseModel.startsWith("projects/")) {
-              PreTunedModel preTunedModel =
-                  PreTunedModel.builder().tunedModelName(baseModel).build();
-              return tunings.privateTune(null, preTunedModel, trainingDataset, config);
+              PreTunedModel.Builder preTunedModelBuilder =
+                  PreTunedModel.builder().tunedModelName(baseModel);
+              if (config != null && config.preTunedModelCheckpointId().isPresent()) {
+                preTunedModelBuilder.checkpointId(config.preTunedModelCheckpointId().get());
+              }
+              return tunings.privateTune(
+                  null, preTunedModelBuilder.build(), trainingDataset, config);
             } else {
               return tunings.privateTune(baseModel, null, trainingDataset, config);
             }

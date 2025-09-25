@@ -201,13 +201,6 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"exportLastCheckpointOnly"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"preTunedModelCheckpointId"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"preTunedModel", "checkpointId"},
-          Common.getValueByPath(fromObject, new String[] {"preTunedModelCheckpointId"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"adapterSize"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1471,8 +1464,12 @@ public final class Tunings {
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
     if (this.apiClient.vertexAI()) {
       if (baseModel.startsWith("projects/")) {
-        PreTunedModel preTunedModel = PreTunedModel.builder().tunedModelName(baseModel).build();
-        return this.privateTune(null, preTunedModel, trainingDataset, config);
+        PreTunedModel.Builder preTunedModelBuilder =
+            PreTunedModel.builder().tunedModelName(baseModel);
+        if (config != null && config.preTunedModelCheckpointId().isPresent()) {
+          preTunedModelBuilder.checkpointId(config.preTunedModelCheckpointId().get());
+        }
+        return this.privateTune(null, preTunedModelBuilder.build(), trainingDataset, config);
       } else {
         return this.privateTune(baseModel, null, trainingDataset, config);
       }
