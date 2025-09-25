@@ -14,7 +14,8 @@ jobs:
     strategy:
       matrix:
         java: [8, 11, 17, 21]
-        testgroup: ['**/*']
+        # Only run unit tests.
+        testgroup: ["**/*Test"]
       fail-fast: false
     name: unit-test (${{matrix.java}})
     steps:
