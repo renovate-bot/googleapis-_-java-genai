@@ -650,12 +650,16 @@ final class Transformers {
         return JobState.Known.JOB_STATE_UNSPECIFIED;
       case "BATCH_STATE_PENDING":
         return JobState.Known.JOB_STATE_PENDING;
+      case "BATCH_STATE_RUNNING":
+        return JobState.Known.JOB_STATE_RUNNING;
       case "BATCH_STATE_SUCCEEDED":
         return JobState.Known.JOB_STATE_SUCCEEDED;
       case "BATCH_STATE_FAILED":
         return JobState.Known.JOB_STATE_FAILED;
       case "BATCH_STATE_CANCELLED":
         return JobState.Known.JOB_STATE_CANCELLED;
+      case "BATCH_STATE_EXPIRED":
+        return JobState.Known.JOB_STATE_EXPIRED;
       default:
         return state;
     }
