@@ -5602,6 +5602,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"environment"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
+    }
+
     return toObject;
   }
 
@@ -5613,6 +5620,13 @@ public final class Models {
           toObject,
           new String[] {"environment"},
           Common.getValueByPath(fromObject, new String[] {"environment"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
     }
 
     return toObject;

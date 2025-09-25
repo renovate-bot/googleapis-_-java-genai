@@ -24,6 +24,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /** Tool to support computer use. */
@@ -33,6 +35,15 @@ public abstract class ToolComputerUse extends JsonSerializable {
   /** Required. The environment being operated. */
   @JsonProperty("environment")
   public abstract Optional<Environment> environment();
+
+  /**
+   * By default, predefined functions are included in the final model call. Some of them can be
+   * explicitly excluded from being automatically included. This can serve two purposes: 1. Using a
+   * more restricted / different action space. 2. Improving the definitions / instructions of
+   * predefined functions.
+   */
+  @JsonProperty("excludedPredefinedFunctions")
+  public abstract Optional<List<String>> excludedPredefinedFunctions();
 
   /** Instantiates a builder for ToolComputerUse. */
   @ExcludeFromGeneratedCoverageReport
@@ -78,6 +89,29 @@ public abstract class ToolComputerUse extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder environment(String environment) {
       return environment(new Environment(environment));
+    }
+
+    /**
+     * Setter for excludedPredefinedFunctions.
+     *
+     * <p>excludedPredefinedFunctions: By default, predefined functions are included in the final
+     * model call. Some of them can be explicitly excluded from being automatically included. This
+     * can serve two purposes: 1. Using a more restricted / different action space. 2. Improving the
+     * definitions / instructions of predefined functions.
+     */
+    @JsonProperty("excludedPredefinedFunctions")
+    public abstract Builder excludedPredefinedFunctions(List<String> excludedPredefinedFunctions);
+
+    /**
+     * Setter for excludedPredefinedFunctions.
+     *
+     * <p>excludedPredefinedFunctions: By default, predefined functions are included in the final
+     * model call. Some of them can be explicitly excluded from being automatically included. This
+     * can serve two purposes: 1. Using a more restricted / different action space. 2. Improving the
+     * definitions / instructions of predefined functions.
+     */
+    public Builder excludedPredefinedFunctions(String... excludedPredefinedFunctions) {
+      return excludedPredefinedFunctions(Arrays.asList(excludedPredefinedFunctions));
     }
 
     public abstract ToolComputerUse build();
