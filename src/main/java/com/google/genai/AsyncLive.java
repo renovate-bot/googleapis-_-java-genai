@@ -240,7 +240,24 @@ public class AsyncLive {
       if (!sessionFuture.isDone()) {
         // For the first message, we know it's the setup response.
         // We just complete the future and don't handle the message.
-        sessionFuture.complete(new AsyncSession(apiClient, this));
+        try {
+          LiveServerMessage initialResponse = LiveServerMessage.fromJson(message);
+          if (initialResponse.setupComplete().isPresent()) {
+            sessionFuture.complete(
+                new AsyncSession(
+                    apiClient,
+                    this,
+                    initialResponse.setupComplete().get().sessionId().orElse(null)));
+          } else {
+            sessionFuture.completeExceptionally(
+                new GenAiIOException(
+                    "Initial message from WebSocket did not contain setupComplete: " + message));
+          }
+        } catch (RuntimeException e) {
+          System.err.println("Error deserializing message: " + e.getMessage());
+          e.printStackTrace();
+          sessionFuture.completeExceptionally(e);
+        }
         return;
       }
 
