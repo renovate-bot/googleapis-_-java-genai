@@ -569,6 +569,46 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode computerUseToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"environment"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"environment"},
+          Common.getValueByPath(fromObject, new String[] {"environment"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode computerUseToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"environment"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"environment"},
+          Common.getValueByPath(fromObject, new String[] {"environment"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"excludedPredefinedFunctions"},
+          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode contentEmbeddingFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"values"}) != null) {
@@ -5593,46 +5633,6 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
-  ObjectNode toolComputerUseToMldev(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"environment"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"environment"},
-          Common.getValueByPath(fromObject, new String[] {"environment"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"excludedPredefinedFunctions"},
-          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
-  ObjectNode toolComputerUseToVertex(JsonNode fromObject, ObjectNode parentObject) {
-    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"environment"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"environment"},
-          Common.getValueByPath(fromObject, new String[] {"environment"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"excludedPredefinedFunctions"},
-          Common.getValueByPath(fromObject, new String[] {"excludedPredefinedFunctions"}));
-    }
-
-    return toObject;
-  }
-
-  @ExcludeFromGeneratedCoverageReport
   ObjectNode toolConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionCallingConfig"}) != null) {
@@ -5746,7 +5746,7 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"computerUse"},
-          toolComputerUseToMldev(
+          computerUseToMldev(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"computerUse"})),
               toObject));
@@ -5838,7 +5838,7 @@ public final class Models {
       Common.setValueByPath(
           toObject,
           new String[] {"computerUse"},
-          toolComputerUseToVertex(
+          computerUseToVertex(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"computerUse"})),
               toObject));

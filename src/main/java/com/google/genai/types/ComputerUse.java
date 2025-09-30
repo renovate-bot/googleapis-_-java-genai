@@ -30,8 +30,8 @@ import java.util.Optional;
 
 /** Tool to support computer use. */
 @AutoValue
-@JsonDeserialize(builder = ToolComputerUse.Builder.class)
-public abstract class ToolComputerUse extends JsonSerializable {
+@JsonDeserialize(builder = ComputerUse.Builder.class)
+public abstract class ComputerUse extends JsonSerializable {
   /** Required. The environment being operated. */
   @JsonProperty("environment")
   public abstract Optional<Environment> environment();
@@ -45,22 +45,22 @@ public abstract class ToolComputerUse extends JsonSerializable {
   @JsonProperty("excludedPredefinedFunctions")
   public abstract Optional<List<String>> excludedPredefinedFunctions();
 
-  /** Instantiates a builder for ToolComputerUse. */
+  /** Instantiates a builder for ComputerUse. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
-    return new AutoValue_ToolComputerUse.Builder();
+    return new AutoValue_ComputerUse.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for ToolComputerUse. */
+  /** Builder for ComputerUse. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `ToolComputerUse.builder()` for instantiation. */
+    /** For internal usage. Please use `ComputerUse.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_ToolComputerUse.Builder();
+      return new AutoValue_ComputerUse.Builder();
     }
 
     /**
@@ -114,12 +114,12 @@ public abstract class ToolComputerUse extends JsonSerializable {
       return excludedPredefinedFunctions(Arrays.asList(excludedPredefinedFunctions));
     }
 
-    public abstract ToolComputerUse build();
+    public abstract ComputerUse build();
   }
 
-  /** Deserializes a JSON string to a ToolComputerUse object. */
+  /** Deserializes a JSON string to a ComputerUse object. */
   @ExcludeFromGeneratedCoverageReport
-  public static ToolComputerUse fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, ToolComputerUse.class);
+  public static ComputerUse fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, ComputerUse.class);
   }
 }
