@@ -1450,7 +1450,11 @@ public final class Batches {
               apiClient,
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"config"})),
-              toObject));
+              (ObjectNode)
+                  Common.getValueByPath(
+                      toObject,
+                      new String[] {"request"},
+                      (new ObjectMapper()).createObjectNode())));
     }
 
     return toObject;
