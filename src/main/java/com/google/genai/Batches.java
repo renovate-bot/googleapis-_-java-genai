@@ -1288,6 +1288,16 @@ public final class Batches {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"imageConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"imageConfig"},
+          imageConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"imageConfig"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -1406,6 +1416,19 @@ public final class Batches {
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"excludeDomains"}))) {
       throw new IllegalArgumentException(
           "excludeDomains parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode imageConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"aspectRatio"},
+          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
     }
 
     return toObject;

@@ -219,6 +219,10 @@ public abstract class GenerateContentConfig extends JsonSerializable {
   @JsonProperty("thinkingConfig")
   public abstract Optional<ThinkingConfig> thinkingConfig();
 
+  /** The image generation configuration. */
+  @JsonProperty("imageConfig")
+  public abstract Optional<ImageConfig> imageConfig();
+
   /** Instantiates a builder for GenerateContentConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -682,6 +686,23 @@ public abstract class GenerateContentConfig extends JsonSerializable {
      */
     public Builder thinkingConfig(ThinkingConfig.Builder thinkingConfigBuilder) {
       return thinkingConfig(thinkingConfigBuilder.build());
+    }
+
+    /**
+     * Setter for imageConfig.
+     *
+     * <p>imageConfig: The image generation configuration.
+     */
+    @JsonProperty("imageConfig")
+    public abstract Builder imageConfig(ImageConfig imageConfig);
+
+    /**
+     * Setter for imageConfig builder.
+     *
+     * <p>imageConfig: The image generation configuration.
+     */
+    public Builder imageConfig(ImageConfig.Builder imageConfigBuilder) {
+      return imageConfig(imageConfigBuilder.build());
     }
 
     public abstract GenerateContentConfig build();

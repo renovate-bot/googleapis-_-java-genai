@@ -2087,6 +2087,16 @@ public final class Models {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"imageConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"imageConfig"},
+          imageConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"imageConfig"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -2314,6 +2324,16 @@ public final class Models {
           thinkingConfigToVertex(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"thinkingConfig"})),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"imageConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"imageConfig"},
+          imageConfigToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"imageConfig"})),
               toObject));
     }
 
@@ -3669,6 +3689,32 @@ public final class Models {
           toObject,
           new String[] {"excludeDomains"},
           Common.getValueByPath(fromObject, new String[] {"excludeDomains"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode imageConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"aspectRatio"},
+          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode imageConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"aspectRatio"},
+          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
     }
 
     return toObject;
