@@ -263,7 +263,13 @@ public class AsyncLive {
 
       if (messageCallback != null) {
         try {
-          LiveServerMessage serverMessage = LiveServerMessage.fromJson(message);
+          LiveConverters liveConverters = new LiveConverters(this.apiClient);
+          JsonNode responseNode = JsonSerializable.stringToJsonNode(message);
+          if (this.apiClient.vertexAI()) {
+            responseNode = liveConverters.liveServerMessageFromVertex(responseNode, null);
+          }
+          LiveServerMessage serverMessage =
+              JsonSerializable.fromJsonNode(responseNode, LiveServerMessage.class);
           messageCallback.accept(serverMessage);
         } catch (RuntimeException e) {
           System.err.println("Error deserializing message: " + e.getMessage());
