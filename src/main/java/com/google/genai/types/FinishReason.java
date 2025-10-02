@@ -78,7 +78,10 @@ public class FinishReason {
     UNEXPECTED_TOOL_CALL,
 
     /** Image generation stopped because the generated images have prohibited content. */
-    IMAGE_PROHIBITED_CONTENT
+    IMAGE_PROHIBITED_CONTENT,
+
+    /** The model was expected to generate an image, but none was generated. */
+    NO_IMAGE
   }
 
   private Known finishReasonEnum;
