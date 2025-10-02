@@ -90,6 +90,13 @@ public abstract class LiveConnectConfig extends JsonSerializable {
   @JsonProperty("speechConfig")
   public abstract Optional<SpeechConfig> speechConfig();
 
+  /**
+   * Config for thinking features. An error will be returned if this field is set for models that
+   * don't support thinking.
+   */
+  @JsonProperty("thinkingConfig")
+  public abstract Optional<ThinkingConfig> thinkingConfig();
+
   /** If enabled, the model will detect emotions and adapt its responses accordingly. */
   @JsonProperty("enableAffectiveDialog")
   public abstract Optional<Boolean> enableAffectiveDialog();
@@ -340,6 +347,25 @@ public abstract class LiveConnectConfig extends JsonSerializable {
      */
     public Builder speechConfig(SpeechConfig.Builder speechConfigBuilder) {
       return speechConfig(speechConfigBuilder.build());
+    }
+
+    /**
+     * Setter for thinkingConfig.
+     *
+     * <p>thinkingConfig: Config for thinking features. An error will be returned if this field is
+     * set for models that don't support thinking.
+     */
+    @JsonProperty("thinkingConfig")
+    public abstract Builder thinkingConfig(ThinkingConfig thinkingConfig);
+
+    /**
+     * Setter for thinkingConfig builder.
+     *
+     * <p>thinkingConfig: Config for thinking features. An error will be returned if this field is
+     * set for models that don't support thinking.
+     */
+    public Builder thinkingConfig(ThinkingConfig.Builder thinkingConfigBuilder) {
+      return thinkingConfig(thinkingConfigBuilder.build());
     }
 
     /**

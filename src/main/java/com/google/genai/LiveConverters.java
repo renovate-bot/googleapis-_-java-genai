@@ -1803,6 +1803,16 @@ final class LiveConverters {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "generationConfig", "thinkingConfig"},
+          thinkingConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"thinkingConfig"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1958,6 +1968,16 @@ final class LiveConverters {
               JsonSerializable.toJsonNode(
                   Transformers.tLiveSpeechConfig(
                       Common.getValueByPath(fromObject, new String[] {"speechConfig"}))),
+              toObject));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"setup", "generationConfig", "thinkingConfig"},
+          thinkingConfigToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"thinkingConfig"})),
               toObject));
     }
 
@@ -3385,6 +3405,46 @@ final class LiveConverters {
           toObject,
           new String[] {"languageCode"},
           Common.getValueByPath(fromObject, new String[] {"languageCode"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode thinkingConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"includeThoughts"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"includeThoughts"},
+          Common.getValueByPath(fromObject, new String[] {"includeThoughts"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingBudget"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"thinkingBudget"},
+          Common.getValueByPath(fromObject, new String[] {"thinkingBudget"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode thinkingConfigToVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"includeThoughts"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"includeThoughts"},
+          Common.getValueByPath(fromObject, new String[] {"includeThoughts"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingBudget"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"thinkingBudget"},
+          Common.getValueByPath(fromObject, new String[] {"thinkingBudget"}));
     }
 
     return toObject;
