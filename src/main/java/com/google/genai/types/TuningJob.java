@@ -167,6 +167,10 @@ public abstract class TuningJob extends JsonSerializable {
   @JsonProperty("tunedModelDisplayName")
   public abstract Optional<String> tunedModelDisplayName();
 
+  /** Tuning Spec for Veo Tuning. */
+  @JsonProperty("veoTuningSpec")
+  public abstract Optional<VeoTuningSpec> veoTuningSpec();
+
   /** Instantiates a builder for TuningJob. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -486,6 +490,23 @@ public abstract class TuningJob extends JsonSerializable {
      */
     @JsonProperty("tunedModelDisplayName")
     public abstract Builder tunedModelDisplayName(String tunedModelDisplayName);
+
+    /**
+     * Setter for veoTuningSpec.
+     *
+     * <p>veoTuningSpec: Tuning Spec for Veo Tuning.
+     */
+    @JsonProperty("veoTuningSpec")
+    public abstract Builder veoTuningSpec(VeoTuningSpec veoTuningSpec);
+
+    /**
+     * Setter for veoTuningSpec builder.
+     *
+     * <p>veoTuningSpec: Tuning Spec for Veo Tuning.
+     */
+    public Builder veoTuningSpec(VeoTuningSpec.Builder veoTuningSpecBuilder) {
+      return veoTuningSpec(veoTuningSpecBuilder.build());
+    }
 
     public abstract TuningJob build();
   }

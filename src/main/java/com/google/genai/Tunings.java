@@ -758,6 +758,13 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"veoTuningSpec"},
+          Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}));
+    }
+
     return toObject;
   }
 
@@ -926,6 +933,13 @@ public final class Tunings {
           toObject,
           new String[] {"tunedModelDisplayName"},
           Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"veoTuningSpec"},
+          Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}));
     }
 
     return toObject;
