@@ -706,6 +706,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"addWatermark"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"labels"},
+          Common.getValueByPath(fromObject, new String[] {"labels"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"editMode"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1793,6 +1800,10 @@ public final class Models {
       throw new IllegalArgumentException("addWatermark parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"labels"}))) {
+      throw new IllegalArgumentException("labels parameter is not supported in Gemini API.");
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"imageSize"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1907,6 +1918,13 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "addWatermark"},
           Common.getValueByPath(fromObject, new String[] {"addWatermark"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"labels"},
+          Common.getValueByPath(fromObject, new String[] {"labels"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"imageSize"}) != null) {
@@ -3585,6 +3603,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"labels"},
+          Common.getValueByPath(fromObject, new String[] {"labels"}));
+    }
+
     return toObject;
   }
 
@@ -3869,6 +3894,13 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "binaryColorThreshold"},
           Common.getValueByPath(fromObject, new String[] {"binaryColorThreshold"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"labels"},
+          Common.getValueByPath(fromObject, new String[] {"labels"}));
     }
 
     return toObject;
@@ -4296,6 +4328,13 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "upscaleConfig", "imagePreservationFactor"},
           Common.getValueByPath(fromObject, new String[] {"imagePreservationFactor"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"labels"},
+          Common.getValueByPath(fromObject, new String[] {"labels"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"numberOfImages"}) != null) {
@@ -6245,6 +6284,9 @@ public final class Models {
       }
       if (config.imagePreservationFactor().isPresent()) {
         builder = builder.imagePreservationFactor(config.imagePreservationFactor().get());
+      }
+      if (config.labels().isPresent()) {
+        builder = builder.labels(config.labels().get());
       }
     }
 
