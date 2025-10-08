@@ -105,4 +105,22 @@ public abstract class FunctionResponsePart extends JsonSerializable {
   public static FunctionResponsePart fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, FunctionResponsePart.class);
   }
+
+  /**
+   * Constructs a FunctionResponsePart with FunctionResponseBlob from a byte array and MIME type.
+   */
+  public static FunctionResponsePart fromBytes(byte[] bytes, String mimeType) {
+    return builder()
+        .inlineData(FunctionResponseBlob.builder().data(bytes).mimeType(mimeType))
+        .build();
+  }
+
+  /**
+   * Constructs a FunctionResponsePart with FunctionResponseFileData from a file URI and MIME type.
+   */
+  public static FunctionResponsePart fromUri(String fileUri, String mimeType) {
+    return builder()
+        .fileData(FunctionResponseFileData.builder().fileUri(fileUri).mimeType(mimeType))
+        .build();
+  }
 }

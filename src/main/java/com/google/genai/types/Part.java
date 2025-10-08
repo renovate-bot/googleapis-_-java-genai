@@ -284,10 +284,14 @@ public abstract class Part extends JsonSerializable {
     return builder().functionCall(FunctionCall.builder().name(name).args(args).build()).build();
   }
 
-  /** Constructs a FunctionResponse Part from a function name and response. */
-  public static Part fromFunctionResponse(String name, Map<String, Object> response) {
+  /**
+   * Constructs a FunctionResponse Part from a function name, response and function response parts.
+   */
+  public static Part fromFunctionResponse(
+      String name, Map<String, Object> response, FunctionResponsePart... functionResponseParts) {
     return builder()
-        .functionResponse(FunctionResponse.builder().name(name).response(response).build())
+        .functionResponse(
+            FunctionResponse.builder().name(name).response(response).parts(functionResponseParts))
         .build();
   }
 }
