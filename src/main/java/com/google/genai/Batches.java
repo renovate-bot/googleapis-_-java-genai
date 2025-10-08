@@ -53,6 +53,7 @@ import okhttp3.ResponseBody;
  * instantiating a {@link Client}, access methods through `client.batches.methodName(...)` directly.
  */
 public final class Batches {
+
   final ApiClient apiClient;
 
   public Batches(ApiClient apiClient) {

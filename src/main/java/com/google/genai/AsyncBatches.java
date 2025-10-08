@@ -41,8 +41,8 @@ public final class AsyncBatches {
   ApiClient apiClient;
 
   public AsyncBatches(ApiClient apiClient) {
-    this.batches = new Batches(apiClient);
     this.apiClient = apiClient;
+    this.batches = new Batches(apiClient);
   }
 
   CompletableFuture<BatchJob> privateCreate(

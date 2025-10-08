@@ -52,6 +52,7 @@ import okhttp3.ResponseBody;
  * instantiating a {@link Client}, access methods through `client.caches.methodName(...)` directly.
  */
 public final class Caches {
+
   final ApiClient apiClient;
 
   public Caches(ApiClient apiClient) {

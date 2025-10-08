@@ -45,8 +45,8 @@ public final class AsyncFiles {
   ApiClient apiClient;
 
   public AsyncFiles(ApiClient apiClient) {
-    this.files = new Files(apiClient);
     this.apiClient = apiClient;
+    this.files = new Files(apiClient);
   }
 
   /**

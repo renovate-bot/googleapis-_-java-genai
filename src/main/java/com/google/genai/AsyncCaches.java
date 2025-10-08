@@ -40,8 +40,8 @@ public final class AsyncCaches {
   ApiClient apiClient;
 
   public AsyncCaches(ApiClient apiClient) {
-    this.caches = new Caches(apiClient);
     this.apiClient = apiClient;
+    this.caches = new Caches(apiClient);
   }
 
   /**

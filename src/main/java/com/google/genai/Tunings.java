@@ -49,6 +49,7 @@ import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 public final class Tunings {
+
   final ApiClient apiClient;
 
   public Tunings(ApiClient apiClient) {

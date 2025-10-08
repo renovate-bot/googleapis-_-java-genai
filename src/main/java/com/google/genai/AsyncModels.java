@@ -75,8 +75,8 @@ public final class AsyncModels {
   ApiClient apiClient;
 
   public AsyncModels(ApiClient apiClient) {
-    this.models = new Models(apiClient);
     this.apiClient = apiClient;
+    this.models = new Models(apiClient);
   }
 
   CompletableFuture<GenerateContentResponse> privateGenerateContent(

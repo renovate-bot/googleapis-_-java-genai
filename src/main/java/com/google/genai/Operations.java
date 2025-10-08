@@ -42,6 +42,7 @@ import okhttp3.ResponseBody;
  * <p>This module is experimental.
  */
 public final class Operations {
+
   final ApiClient apiClient;
 
   public Operations(ApiClient apiClient) {

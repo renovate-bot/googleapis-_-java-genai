@@ -42,8 +42,8 @@ public final class AsyncTunings {
   ApiClient apiClient;
 
   public AsyncTunings(ApiClient apiClient) {
-    this.tunings = new Tunings(apiClient);
     this.apiClient = apiClient;
+    this.tunings = new Tunings(apiClient);
   }
 
   CompletableFuture<TuningJob> privateGet(String name, GetTuningJobConfig config) {

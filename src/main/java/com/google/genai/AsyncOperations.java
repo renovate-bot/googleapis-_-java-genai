@@ -31,8 +31,8 @@ public final class AsyncOperations {
   ApiClient apiClient;
 
   public AsyncOperations(ApiClient apiClient) {
-    this.operations = new Operations(apiClient);
     this.apiClient = apiClient;
+    this.operations = new Operations(apiClient);
   }
 
   CompletableFuture<GenerateVideosOperation> privateGetVideosOperation(

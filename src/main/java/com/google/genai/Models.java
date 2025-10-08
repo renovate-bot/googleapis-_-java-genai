@@ -100,6 +100,7 @@ import okhttp3.ResponseBody;
  * `client.models.methodName(...)` directly.
  */
 public final class Models {
+
   final ApiClient apiClient;
 
   public Models(ApiClient apiClient) {

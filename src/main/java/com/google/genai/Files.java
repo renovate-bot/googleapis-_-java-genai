@@ -60,6 +60,7 @@ import okhttp3.ResponseBody;
  * `client.files.methodName(...)` directly.
  */
 public final class Files {
+
   final ApiClient apiClient;
 
   private final UploadClient uploadClient;
