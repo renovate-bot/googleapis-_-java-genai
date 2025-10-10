@@ -56,6 +56,14 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesReviewSnippet extends 
   @JsonProperty("review")
   public abstract Optional<String> review();
 
+  /** Id of the review referencing the place. */
+  @JsonProperty("reviewId")
+  public abstract Optional<String> reviewId();
+
+  /** Title of the review. */
+  @JsonProperty("title")
+  public abstract Optional<String> title();
+
   /** Instantiates a builder for GroundingChunkMapsPlaceAnswerSourcesReviewSnippet. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -129,6 +137,22 @@ public abstract class GroundingChunkMapsPlaceAnswerSourcesReviewSnippet extends 
      */
     @JsonProperty("review")
     public abstract Builder review(String review);
+
+    /**
+     * Setter for reviewId.
+     *
+     * <p>reviewId: Id of the review referencing the place.
+     */
+    @JsonProperty("reviewId")
+    public abstract Builder reviewId(String reviewId);
+
+    /**
+     * Setter for title.
+     *
+     * <p>title: Title of the review.
+     */
+    @JsonProperty("title")
+    public abstract Builder title(String title);
 
     public abstract GroundingChunkMapsPlaceAnswerSourcesReviewSnippet build();
   }

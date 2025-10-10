@@ -324,6 +324,13 @@ final class LiveConverters {
       throw new IllegalArgumentException("authConfig parameter is not supported in Gemini API.");
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"enableWidget"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"enableWidget"},
+          Common.getValueByPath(fromObject, new String[] {"enableWidget"}));
+    }
+
     return toObject;
   }
 

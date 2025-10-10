@@ -61,6 +61,13 @@ public abstract class GroundingMetadata extends JsonSerializable {
   @JsonProperty("searchEntryPoint")
   public abstract Optional<SearchEntryPoint> searchEntryPoint();
 
+  /**
+   * Optional. Output only. List of source flagging uris. This is currently populated only for
+   * Google Maps grounding.
+   */
+  @JsonProperty("sourceFlaggingUris")
+  public abstract Optional<List<GroundingMetadataSourceFlaggingUri>> sourceFlaggingUris();
+
   /** Optional. Web search queries for the following-up web search. */
   @JsonProperty("webSearchQueries")
   public abstract Optional<List<String>> webSearchQueries();
@@ -200,6 +207,40 @@ public abstract class GroundingMetadata extends JsonSerializable {
      */
     public Builder searchEntryPoint(SearchEntryPoint.Builder searchEntryPointBuilder) {
       return searchEntryPoint(searchEntryPointBuilder.build());
+    }
+
+    /**
+     * Setter for sourceFlaggingUris.
+     *
+     * <p>sourceFlaggingUris: Optional. Output only. List of source flagging uris. This is currently
+     * populated only for Google Maps grounding.
+     */
+    @JsonProperty("sourceFlaggingUris")
+    public abstract Builder sourceFlaggingUris(
+        List<GroundingMetadataSourceFlaggingUri> sourceFlaggingUris);
+
+    /**
+     * Setter for sourceFlaggingUris.
+     *
+     * <p>sourceFlaggingUris: Optional. Output only. List of source flagging uris. This is currently
+     * populated only for Google Maps grounding.
+     */
+    public Builder sourceFlaggingUris(GroundingMetadataSourceFlaggingUri... sourceFlaggingUris) {
+      return sourceFlaggingUris(Arrays.asList(sourceFlaggingUris));
+    }
+
+    /**
+     * Setter for sourceFlaggingUris builder.
+     *
+     * <p>sourceFlaggingUris: Optional. Output only. List of source flagging uris. This is currently
+     * populated only for Google Maps grounding.
+     */
+    public Builder sourceFlaggingUris(
+        GroundingMetadataSourceFlaggingUri.Builder... sourceFlaggingUrisBuilders) {
+      return sourceFlaggingUris(
+          Arrays.asList(sourceFlaggingUrisBuilders).stream()
+              .map(GroundingMetadataSourceFlaggingUri.Builder::build)
+              .collect(toImmutableList()));
     }
 
     /**
