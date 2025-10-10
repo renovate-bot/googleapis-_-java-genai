@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.BatchJob;
 import com.google.genai.types.BatchJobDestination;
@@ -28,9 +30,14 @@ import com.google.genai.types.BatchJobSource;
 import com.google.genai.types.Content;
 import com.google.genai.types.CreateBatchJobConfig;
 import com.google.genai.types.DeleteResourceJob;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.HarmBlockThreshold;
+import com.google.genai.types.HarmCategory;
 import com.google.genai.types.InlinedRequest;
 import com.google.genai.types.ListBatchJobsConfig;
 import com.google.genai.types.Part;
+import com.google.genai.types.SafetySetting;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -195,11 +202,23 @@ public class AsyncBatchesTest {
             vertexAI,
             "tests/batches/create_with_inlined_requests/test_async_create." + suffix + ".json");
 
+    List<SafetySetting> safetySettings =
+        ImmutableList.of(
+            (SafetySetting.builder()
+                .category(new HarmCategory("HARM_CATEGORY_HATE_SPEECH"))
+                .threshold(new HarmBlockThreshold("BLOCK_ONLY_HIGH"))
+                .build()),
+            (SafetySetting.builder()
+                .category(new HarmCategory("HARM_CATEGORY_DANGEROUS_CONTENT"))
+                .threshold(new HarmBlockThreshold("BLOCK_LOW_AND_ABOVE"))
+                .build()));
     BatchJobSource src =
         BatchJobSource.builder()
             .inlinedRequests(
                 InlinedRequest.builder()
-                    .contents(Content.builder().parts(Part.fromText("Hello!")).role("user")))
+                    .contents(Content.builder().parts(Part.fromText("Hello!")).role("user"))
+                    .metadata(ImmutableMap.of("key", "request-1"))
+                    .config(GenerateContentConfig.builder().safetySettings(safetySettings)))
             .build();
 
     // Act
@@ -207,7 +226,7 @@ public class AsyncBatchesTest {
       ExecutionException exception =
           assertThrows(
               ExecutionException.class,
-              () -> client.async.batches.create("gemini-1.5-flash-002", src, null).get());
+              () -> client.async.batches.create("gemini-2.5-flash-lite", src, null).get());
 
       // Assert
       assertTrue(exception.getCause() instanceof GenAiIOException);
@@ -217,7 +236,7 @@ public class AsyncBatchesTest {
               .getMessage()
               .equals("inlinedRequests is not supported for Vertex AI."));
     } else {
-      BatchJob batchJob = client.async.batches.create("gemini-1.5-flash-002", src, null).get();
+      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash-lite", src, null).get();
 
       // Assert
       assertNotNull(batchJob);
