@@ -2974,6 +2974,16 @@ public final class Models {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode googleMapsToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"authConfig"}))) {
+      throw new IllegalArgumentException("authConfig parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"}) != null) {
@@ -4051,8 +4061,14 @@ public final class Models {
           "enterpriseWebSearch parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"googleMaps"}))) {
-      throw new IllegalArgumentException("googleMaps parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"googleMaps"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleMaps"},
+          googleMapsToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"googleMaps"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"urlContext"}) != null) {
