@@ -225,13 +225,13 @@ public final class Operations {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generatedVideoFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"video"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"video"},
           videoFromMldev(
               JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"_self"})),
+                  Common.getValueByPath(fromObject, new String[] {"video"})),
               toObject));
     }
 
@@ -283,19 +283,16 @@ public final class Operations {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode videoFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"video", "uri"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"uri"}) != null) {
       Common.setValueByPath(
-          toObject,
-          new String[] {"uri"},
-          Common.getValueByPath(fromObject, new String[] {"video", "uri"}));
+          toObject, new String[] {"uri"}, Common.getValueByPath(fromObject, new String[] {"uri"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"video", "encodedVideo"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"encodedVideo"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"videoBytes"},
-          Transformers.tBytes(
-              Common.getValueByPath(fromObject, new String[] {"video", "encodedVideo"})));
+          Transformers.tBytes(Common.getValueByPath(fromObject, new String[] {"encodedVideo"})));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"encoding"}) != null) {

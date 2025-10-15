@@ -2751,13 +2751,13 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode generatedVideoFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"video"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"video"},
           videoFromMldev(
               JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"_self"})),
+                  Common.getValueByPath(fromObject, new String[] {"video"})),
               toObject));
     }
 
@@ -4446,19 +4446,16 @@ public final class Models {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode videoFromMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"video", "uri"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"uri"}) != null) {
       Common.setValueByPath(
-          toObject,
-          new String[] {"uri"},
-          Common.getValueByPath(fromObject, new String[] {"video", "uri"}));
+          toObject, new String[] {"uri"}, Common.getValueByPath(fromObject, new String[] {"uri"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"video", "encodedVideo"}) != null) {
+    if (Common.getValueByPath(fromObject, new String[] {"encodedVideo"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"videoBytes"},
-          Transformers.tBytes(
-              Common.getValueByPath(fromObject, new String[] {"video", "encodedVideo"})));
+          Transformers.tBytes(Common.getValueByPath(fromObject, new String[] {"encodedVideo"})));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"encoding"}) != null) {
@@ -4575,15 +4572,13 @@ public final class Models {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"uri"}) != null) {
       Common.setValueByPath(
-          toObject,
-          new String[] {"video", "uri"},
-          Common.getValueByPath(fromObject, new String[] {"uri"}));
+          toObject, new String[] {"uri"}, Common.getValueByPath(fromObject, new String[] {"uri"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"videoBytes"}) != null) {
       Common.setValueByPath(
           toObject,
-          new String[] {"video", "encodedVideo"},
+          new String[] {"encodedVideo"},
           Transformers.tBytes(Common.getValueByPath(fromObject, new String[] {"videoBytes"})));
     }
 
@@ -6337,6 +6332,28 @@ public final class Models {
    */
   public GenerateVideosOperation generateVideos(
       String model, GenerateVideosSource source, GenerateVideosConfig config) {
+    if (!this.apiClient.vertexAI()) {
+      if (source != null
+          && source.video().isPresent()
+          && source.video().get().uri().isPresent()
+          && source.video().get().videoBytes().isPresent()) {
+
+        Video.Builder videoBuilder = Video.builder().uri(source.video().get().uri().get());
+        if (source.video().get().mimeType().isPresent()) {
+          videoBuilder = videoBuilder.mimeType(source.video().get().mimeType().get());
+        }
+
+        GenerateVideosSource.Builder sourceBuilder =
+            GenerateVideosSource.builder().video(videoBuilder.build());
+        if (source.prompt().isPresent()) {
+          sourceBuilder = sourceBuilder.prompt(source.prompt().get());
+        }
+        if (source.image().isPresent()) {
+          sourceBuilder = sourceBuilder.image(source.image().get());
+        }
+        source = sourceBuilder.build();
+      }
+    }
     return privateGenerateVideos(model, null, null, null, source, config);
   }
 
@@ -6358,6 +6375,16 @@ public final class Models {
    */
   public GenerateVideosOperation generateVideos(
       String model, String prompt, Image image, Video video, GenerateVideosConfig config) {
+    if (!this.apiClient.vertexAI()) {
+      if (video != null && video.uri().isPresent() && video.videoBytes().isPresent()) {
+
+        Video.Builder videoBuilder = Video.builder().uri(video.uri().get());
+        if (video.mimeType().isPresent()) {
+          videoBuilder = videoBuilder.mimeType(video.mimeType().get());
+        }
+        video = videoBuilder.build();
+      }
+    }
     return privateGenerateVideos(model, prompt, image, video, null, config);
   }
 
