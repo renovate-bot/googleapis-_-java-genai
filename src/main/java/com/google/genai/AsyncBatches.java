@@ -139,7 +139,28 @@ public final class AsyncBatches {
    */
   public CompletableFuture<BatchJob> create(
       String model, BatchJobSource src, CreateBatchJobConfig config) {
-    return CompletableFuture.supplyAsync(() -> batches.create(model, src, config));
+    if (this.apiClient.vertexAI()) {
+      if (src.inlinedRequests().isPresent()) {
+        throw new GenAiIOException("inlinedRequests is not supported for Vertex AI.");
+      }
+      if (src.fileName().isPresent()) {
+        throw new GenAiIOException("fileName is not supported for Vertex AI.");
+      }
+      if (src.gcsUri().isPresent() && src.bigqueryUri().isPresent()) {
+        throw new GenAiIOException("Only one of gcsUri and bigqueryUri can be set.");
+      }
+      if (!src.gcsUri().isPresent() && !src.bigqueryUri().isPresent()) {
+        throw new GenAiIOException("One of gcsUri and bigqueryUri must be set.");
+      }
+    } else {
+      if (src.fileName().isPresent() && src.inlinedRequests().isPresent()) {
+        throw new GenAiIOException("Only one of fileName and InlinedRequests can be set.");
+      }
+      if (!src.fileName().isPresent() && !src.inlinedRequests().isPresent()) {
+        throw new GenAiIOException("one of fileName and InlinedRequests must be set.");
+      }
+    }
+    return this.privateCreate(model, src, config);
   }
 
   /**
@@ -159,10 +180,8 @@ public final class AsyncBatches {
                 "Internal error: Pager expected ListBatchJobsConfig but received "
                     + requestConfig.getClass().getName());
           }
-          return CompletableFuture.supplyAsync(
-              () ->
-                  JsonSerializable.toJsonNode(
-                      batches.privateList((ListBatchJobsConfig) requestConfig)));
+          return this.privateList((ListBatchJobsConfig) requestConfig)
+              .thenApply(JsonSerializable::toJsonNode);
         };
     return CompletableFuture.supplyAsync(
         () ->
