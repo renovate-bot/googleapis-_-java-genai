@@ -231,9 +231,8 @@ public final class AsyncFiles {
                 "Internal error: Pager expected ListFilesConfig but received "
                     + requestConfig.getClass().getName());
           }
-          return CompletableFuture.supplyAsync(
-              () ->
-                  JsonSerializable.toJsonNode(files.privateList((ListFilesConfig) requestConfig)));
+          return this.privateList((ListFilesConfig) requestConfig)
+              .thenApply(JsonSerializable::toJsonNode);
         };
     return CompletableFuture.supplyAsync(
         () ->

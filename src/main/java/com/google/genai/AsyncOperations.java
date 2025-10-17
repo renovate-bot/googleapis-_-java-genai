@@ -73,6 +73,19 @@ public final class AsyncOperations {
    */
   public CompletableFuture<GenerateVideosOperation> getVideosOperation(
       GenerateVideosOperation operation, GetOperationConfig config) {
-    return CompletableFuture.supplyAsync(() -> operations.getVideosOperation(operation, config));
+    if (!operation.name().isPresent()) {
+      throw new Error("Operation name is required.");
+    }
+
+    if (this.apiClient.vertexAI()) {
+      String resourceName = operation.name().get().split("/operations/")[0];
+
+      FetchPredictOperationConfig fetchConfig = FetchPredictOperationConfig.builder().build();
+
+      return this.privateFetchPredictVideosOperation(
+          operation.name().get(), resourceName, fetchConfig);
+    } else {
+      return this.privateGetVideosOperation(operation.name().get(), config);
+    }
   }
 }
