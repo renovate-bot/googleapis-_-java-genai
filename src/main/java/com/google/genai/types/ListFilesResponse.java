@@ -37,11 +37,11 @@ public abstract class ListFilesResponse extends JsonSerializable {
   @JsonProperty("sdkHttpResponse")
   public abstract Optional<HttpResponse> sdkHttpResponse();
 
-  /** A token to retrieve next page of results. */
+  /** A token that can be sent as a `page_token` into a subsequent `ListFiles` call. */
   @JsonProperty("nextPageToken")
   public abstract Optional<String> nextPageToken();
 
-  /** The list of files. */
+  /** The list of `File`s. */
   @JsonProperty("files")
   public abstract Optional<List<File>> files();
 
@@ -83,7 +83,8 @@ public abstract class ListFilesResponse extends JsonSerializable {
     /**
      * Setter for nextPageToken.
      *
-     * <p>nextPageToken: A token to retrieve next page of results.
+     * <p>nextPageToken: A token that can be sent as a `page_token` into a subsequent `ListFiles`
+     * call.
      */
     @JsonProperty("nextPageToken")
     public abstract Builder nextPageToken(String nextPageToken);
@@ -91,7 +92,7 @@ public abstract class ListFilesResponse extends JsonSerializable {
     /**
      * Setter for files.
      *
-     * <p>files: The list of files.
+     * <p>files: The list of `File`s.
      */
     @JsonProperty("files")
     public abstract Builder files(List<File> files);
@@ -99,7 +100,7 @@ public abstract class ListFilesResponse extends JsonSerializable {
     /**
      * Setter for files.
      *
-     * <p>files: The list of files.
+     * <p>files: The list of `File`s.
      */
     public Builder files(File... files) {
       return files(Arrays.asList(files));
@@ -108,7 +109,7 @@ public abstract class ListFilesResponse extends JsonSerializable {
     /**
      * Setter for files builder.
      *
-     * <p>files: The list of files.
+     * <p>files: The list of `File`s.
      */
     public Builder files(File.Builder... filesBuilders) {
       return files(

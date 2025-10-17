@@ -139,7 +139,7 @@ public abstract class GenerationConfig extends JsonSerializable {
    * models that don't support thinking.
    */
   @JsonProperty("thinkingConfig")
-  public abstract Optional<GenerationConfigThinkingConfig> thinkingConfig();
+  public abstract Optional<ThinkingConfig> thinkingConfig();
 
   /** Optional. If specified, top-k sampling will be used. */
   @JsonProperty("topK")
@@ -148,6 +148,10 @@ public abstract class GenerationConfig extends JsonSerializable {
   /** Optional. If specified, nucleus sampling will be used. */
   @JsonProperty("topP")
   public abstract Optional<Float> topP();
+
+  /** Optional. Enables enhanced civic answers. It may not be available for all models. */
+  @JsonProperty("enableEnhancedCivicAnswers")
+  public abstract Optional<Boolean> enableEnhancedCivicAnswers();
 
   /** Instantiates a builder for GenerationConfig. */
   @ExcludeFromGeneratedCoverageReport
@@ -468,7 +472,7 @@ public abstract class GenerationConfig extends JsonSerializable {
      * field is set for models that don't support thinking.
      */
     @JsonProperty("thinkingConfig")
-    public abstract Builder thinkingConfig(GenerationConfigThinkingConfig thinkingConfig);
+    public abstract Builder thinkingConfig(ThinkingConfig thinkingConfig);
 
     /**
      * Setter for thinkingConfig builder.
@@ -476,7 +480,7 @@ public abstract class GenerationConfig extends JsonSerializable {
      * <p>thinkingConfig: Optional. Config for thinking features. An error will be returned if this
      * field is set for models that don't support thinking.
      */
-    public Builder thinkingConfig(GenerationConfigThinkingConfig.Builder thinkingConfigBuilder) {
+    public Builder thinkingConfig(ThinkingConfig.Builder thinkingConfigBuilder) {
       return thinkingConfig(thinkingConfigBuilder.build());
     }
 
@@ -495,6 +499,15 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("topP")
     public abstract Builder topP(Float topP);
+
+    /**
+     * Setter for enableEnhancedCivicAnswers.
+     *
+     * <p>enableEnhancedCivicAnswers: Optional. Enables enhanced civic answers. It may not be
+     * available for all models.
+     */
+    @JsonProperty("enableEnhancedCivicAnswers")
+    public abstract Builder enableEnhancedCivicAnswers(boolean enableEnhancedCivicAnswers);
 
     public abstract GenerationConfig build();
   }

@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** None */
+/** TunedModel for the Tuned Model of a Tuning Job. */
 @AutoValue
 @JsonDeserialize(builder = TunedModel.Builder.class)
 public abstract class TunedModel extends JsonSerializable {

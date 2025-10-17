@@ -2940,6 +2940,12 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"topP"}));
     }
 
+    if (!Common.isZero(
+        Common.getValueByPath(fromObject, new String[] {"enableEnhancedCivicAnswers"}))) {
+      throw new IllegalArgumentException(
+          "enableEnhancedCivicAnswers parameter is not supported in Vertex AI.");
+    }
+
     return toObject;
   }
 

@@ -620,62 +620,6 @@ public final class Tunings {
               toObject));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"customBaseModel"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"customBaseModel"},
-          Common.getValueByPath(fromObject, new String[] {"customBaseModel"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"experiment"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"experiment"},
-          Common.getValueByPath(fromObject, new String[] {"experiment"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"labels"},
-          Common.getValueByPath(fromObject, new String[] {"labels"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"outputUri"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"outputUri"},
-          Common.getValueByPath(fromObject, new String[] {"outputUri"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"pipelineJob"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"pipelineJob"},
-          Common.getValueByPath(fromObject, new String[] {"pipelineJob"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"serviceAccount"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"serviceAccount"},
-          Common.getValueByPath(fromObject, new String[] {"serviceAccount"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"tunedModelDisplayName"},
-          Common.getValueByPath(fromObject, new String[] {"tunedModelDisplayName"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"veoTuningSpec"},
-          Common.getValueByPath(fromObject, new String[] {"veoTuningSpec"}));
-    }
-
     return toObject;
   }
 

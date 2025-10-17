@@ -40,7 +40,7 @@ public abstract class GoogleSearch extends JsonSerializable {
 
   /**
    * Optional. List of domains to be excluded from the search results. The default limit is 2000
-   * domains.
+   * domains. Example: ["amazon.com", "facebook.com"].
    */
   @JsonProperty("excludeDomains")
   public abstract Optional<List<String>> excludeDomains();
@@ -86,7 +86,7 @@ public abstract class GoogleSearch extends JsonSerializable {
      * Setter for excludeDomains.
      *
      * <p>excludeDomains: Optional. List of domains to be excluded from the search results. The
-     * default limit is 2000 domains.
+     * default limit is 2000 domains. Example: ["amazon.com", "facebook.com"].
      */
     @JsonProperty("excludeDomains")
     public abstract Builder excludeDomains(List<String> excludeDomains);
@@ -95,7 +95,7 @@ public abstract class GoogleSearch extends JsonSerializable {
      * Setter for excludeDomains.
      *
      * <p>excludeDomains: Optional. List of domains to be excluded from the search results. The
-     * default limit is 2000 domains.
+     * default limit is 2000 domains. Example: ["amazon.com", "facebook.com"].
      */
     public Builder excludeDomains(String... excludeDomains) {
       return excludeDomains(Arrays.asList(excludeDomains));
