@@ -451,9 +451,9 @@ public class AsyncModelsTest {
       // Assert
       assertTrue(response.generatedImages().get().get(0).image().isPresent());
     } else {
-      CompletionException exception =
+      UnsupportedOperationException exception =
           assertThrows(
-              CompletionException.class,
+              UnsupportedOperationException.class,
               () ->
                   client
                       .async
@@ -466,8 +466,7 @@ public class AsyncModelsTest {
                       .join());
       // Assert
       assertEquals(
-          "This method is only supported in the Vertex AI client.",
-          exception.getCause().getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 
@@ -643,9 +642,9 @@ public class AsyncModelsTest {
       // Assert
       assertTrue(response.generatedImages().get().get(0).image().isPresent());
     } else {
-      CompletionException exception =
+      UnsupportedOperationException exception =
           assertThrows(
-              CompletionException.class,
+              UnsupportedOperationException.class,
               () ->
                   client
                       .async
@@ -654,8 +653,7 @@ public class AsyncModelsTest {
                       .join());
       // Assert
       assertEquals(
-          "This method is only supported in the Vertex AI client.",
-          exception.getCause().getMessage());
+          "This method is only supported in the Vertex AI client.", exception.getMessage());
     }
   }
 

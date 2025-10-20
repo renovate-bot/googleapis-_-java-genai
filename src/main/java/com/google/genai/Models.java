@@ -6201,21 +6201,8 @@ public final class Models {
     return computeTokens(model, Transformers.tContents(text), config);
   }
 
-  /**
-   * Generates images given a GenAI model and a prompt.
-   *
-   * @param model the name of the GenAI model to use for generating images
-   * @param prompt the prompt to generate images
-   * @param config a {@link com.google.genai.types.GenerateImagesConfig} instance that specifies the
-   *     optional configurations
-   * @return a {@link com.google.genai.types.GenerateImagesResponse} instance that contains the
-   *     generated images.
-   */
-  public GenerateImagesResponse generateImages(
-      String model, String prompt, GenerateImagesConfig config) {
-
-    GenerateImagesResponse apiResponse = privateGenerateImages(model, prompt, config);
-
+  /** Post processes the GenerateImagesResponse from the API. */
+  GenerateImagesResponse postProcessGenerateImagesResponse(GenerateImagesResponse apiResponse) {
     SafetyAttributes positivePromptSafetyAttributes = null;
     List<GeneratedImage> generatedImages = new ArrayList<>();
 
@@ -6243,8 +6230,22 @@ public final class Models {
       builder = builder.positivePromptSafetyAttributes(positivePromptSafetyAttributes);
     }
 
-    GenerateImagesResponse response = builder.build();
-    return response;
+    return builder.build();
+  }
+
+  /**
+   * Generates images given a GenAI model and a prompt.
+   *
+   * @param model the name of the GenAI model to use for generating images
+   * @param prompt the prompt to generate images
+   * @param config a {@link com.google.genai.types.GenerateImagesConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateImagesResponse} instance that contains the
+   *     generated images.
+   */
+  public GenerateImagesResponse generateImages(
+      String model, String prompt, GenerateImagesConfig config) {
+    return postProcessGenerateImagesResponse(privateGenerateImages(model, prompt, config));
   }
 
   /**
@@ -6276,20 +6277,8 @@ public final class Models {
     return privateEditImage(model, prompt, referenceImagesAPI, config);
   }
 
-  /**
-   * Upscales an image given a GenAI model and an image and an upscale factor.
-   *
-   * @param model the name of the GenAI model to use for upscaling
-   * @param image a {@link com.google.genai.types.Image} to send to the generative model
-   * @param upscaleFactor the factor to upscale the image
-   * @param config a {@link com.google.genai.types.UpscaleImageConfig} instance that specifies the
-   *     optional configurations
-   * @return a {@link com.google.genai.types.UpscaleImageResponse} instance that contains the
-   *     upscaled image.
-   */
-  public UpscaleImageResponse upscaleImage(
-      String model, Image image, String upscaleFactor, UpscaleImageConfig config) {
-
+  /** Preprocesses the UpscaleImageConfig for the API. */
+  UpscaleImageAPIConfig preProcessUpscaleImageConfig(UpscaleImageConfig config) {
     UpscaleImageAPIConfig.Builder builder = UpscaleImageAPIConfig.builder();
     if (config != null) {
       if (config.outputGcsUri().isPresent()) {
@@ -6318,26 +6307,27 @@ public final class Models {
     builder = builder.mode("upscale");
     builder = builder.numberOfImages(1);
 
-    UpscaleImageAPIConfig apiConfig = builder.build();
-
-    return privateUpscaleImage(model, image, upscaleFactor, apiConfig);
+    return builder.build();
   }
 
   /**
-   * Generates videos given a GenAI model, and a GenerateVideosSource source.
+   * Upscales an image given a GenAI model and an image and an upscale factor.
    *
-   * <p>This method is experimental.
-   *
-   * @param model the name of the GenAI model to use for generating videos
-   * @param source a {@link com.google.genai.types.GenerateVideosSource} that specifies the inputs
-   *     (prompt, image, and/or video) to generate videos.
-   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   * @param model the name of the GenAI model to use for upscaling
+   * @param image a {@link com.google.genai.types.Image} to send to the generative model
+   * @param upscaleFactor the factor to upscale the image
+   * @param config a {@link com.google.genai.types.UpscaleImageConfig} instance that specifies the
    *     optional configurations
-   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
-   *     generated videos.
+   * @return a {@link com.google.genai.types.UpscaleImageResponse} instance that contains the
+   *     upscaled image.
    */
-  public GenerateVideosOperation generateVideos(
-      String model, GenerateVideosSource source, GenerateVideosConfig config) {
+  public UpscaleImageResponse upscaleImage(
+      String model, Image image, String upscaleFactor, UpscaleImageConfig config) {
+    return privateUpscaleImage(model, image, upscaleFactor, preProcessUpscaleImageConfig(config));
+  }
+
+  /** Preprocesses the GenerateVideosSource for the API. */
+  GenerateVideosSource preProcessGenerateVideosSource(GenerateVideosSource source) {
     if (!this.apiClient.vertexAI()) {
       if (source != null
           && source.video().isPresent()
@@ -6360,7 +6350,41 @@ public final class Models {
         source = sourceBuilder.build();
       }
     }
-    return privateGenerateVideos(model, null, null, null, source, config);
+    return source;
+  }
+
+  /**
+   * Generates videos given a GenAI model, and a GenerateVideosSource source.
+   *
+   * <p>This method is experimental.
+   *
+   * @param model the name of the GenAI model to use for generating videos
+   * @param source a {@link com.google.genai.types.GenerateVideosSource} that specifies the inputs
+   *     (prompt, image, and/or video) to generate videos.
+   * @param config a {@link com.google.genai.types.GenerateVideosConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateVideosOperation} instance that contains the
+   *     generated videos.
+   */
+  public GenerateVideosOperation generateVideos(
+      String model, GenerateVideosSource source, GenerateVideosConfig config) {
+    return privateGenerateVideos(
+        model, null, null, null, preProcessGenerateVideosSource(source), config);
+  }
+
+  /** Preprocesses the Video for the API. */
+  Video preProcessVideo(Video video) {
+    if (!this.apiClient.vertexAI()) {
+      if (video != null && video.uri().isPresent() && video.videoBytes().isPresent()) {
+
+        Video.Builder videoBuilder = Video.builder().uri(video.uri().get());
+        if (video.mimeType().isPresent()) {
+          videoBuilder = videoBuilder.mimeType(video.mimeType().get());
+        }
+        video = videoBuilder.build();
+      }
+    }
+    return video;
   }
 
   /**
@@ -6381,17 +6405,7 @@ public final class Models {
    */
   public GenerateVideosOperation generateVideos(
       String model, String prompt, Image image, Video video, GenerateVideosConfig config) {
-    if (!this.apiClient.vertexAI()) {
-      if (video != null && video.uri().isPresent() && video.videoBytes().isPresent()) {
-
-        Video.Builder videoBuilder = Video.builder().uri(video.uri().get());
-        if (video.mimeType().isPresent()) {
-          videoBuilder = videoBuilder.mimeType(video.mimeType().get());
-        }
-        video = videoBuilder.build();
-      }
-    }
-    return privateGenerateVideos(model, prompt, image, video, null, config);
+    return privateGenerateVideos(model, prompt, image, preProcessVideo(video), null, config);
   }
 
   /**
