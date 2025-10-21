@@ -58,7 +58,10 @@ public class HarmCategory {
     HARM_CATEGORY_IMAGE_HARASSMENT,
 
     /** The harm category is image sexually explicit content. */
-    HARM_CATEGORY_IMAGE_SEXUALLY_EXPLICIT
+    HARM_CATEGORY_IMAGE_SEXUALLY_EXPLICIT,
+
+    /** The harm category is for jailbreak prompts. */
+    HARM_CATEGORY_JAILBREAK
   }
 
   private Known harmCategoryEnum;
