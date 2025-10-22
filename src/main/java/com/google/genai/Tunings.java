@@ -850,8 +850,8 @@ public final class Tunings {
 
     if (Common.getValueByPath(fromObject, new String[] {"vertexDatasetResource"}) != null) {
       Common.setValueByPath(
-          parentObject,
-          new String[] {"supervisedTuningSpec", "trainingDatasetUri"},
+          toObject,
+          new String[] {"validationDatasetUri"},
           Common.getValueByPath(fromObject, new String[] {"vertexDatasetResource"}));
     }
 

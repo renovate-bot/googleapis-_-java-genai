@@ -35,10 +35,7 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   @JsonProperty("httpOptions")
   public abstract Optional<HttpOptions> httpOptions();
 
-  /**
-   * Cloud Storage path to file containing training dataset for tuning. The dataset must be
-   * formatted as a JSONL file.
-   */
+  /** Validation dataset for tuning. The dataset must be formatted as a JSONL file. */
   @JsonProperty("validationDataset")
   public abstract Optional<TuningValidationDataset> validationDataset();
 
@@ -138,8 +135,8 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     /**
      * Setter for validationDataset.
      *
-     * <p>validationDataset: Cloud Storage path to file containing training dataset for tuning. The
-     * dataset must be formatted as a JSONL file.
+     * <p>validationDataset: Validation dataset for tuning. The dataset must be formatted as a JSONL
+     * file.
      */
     @JsonProperty("validationDataset")
     public abstract Builder validationDataset(TuningValidationDataset validationDataset);
@@ -147,8 +144,8 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     /**
      * Setter for validationDataset builder.
      *
-     * <p>validationDataset: Cloud Storage path to file containing training dataset for tuning. The
-     * dataset must be formatted as a JSONL file.
+     * <p>validationDataset: Validation dataset for tuning. The dataset must be formatted as a JSONL
+     * file.
      */
     public Builder validationDataset(TuningValidationDataset.Builder validationDatasetBuilder) {
       return validationDataset(validationDatasetBuilder.build());
