@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** A pre-tuned model for continuous tuning. */
+/** A pre-tuned model for continuous tuning. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = PreTunedModel.Builder.class)
 public abstract class PreTunedModel extends JsonSerializable {

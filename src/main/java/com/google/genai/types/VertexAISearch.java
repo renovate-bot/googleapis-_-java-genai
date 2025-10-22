@@ -31,7 +31,8 @@ import java.util.Optional;
 
 /**
  * Retrieve from Vertex AI Search datastore or engine for grounding. datastore and engine are
- * mutually exclusive. See https://cloud.google.com/products/agent-builder
+ * mutually exclusive. See https://cloud.google.com/products/agent-builder. This data type is not
+ * supported in Gemini API.
  */
 @AutoValue
 @JsonDeserialize(builder = VertexAISearch.Builder.class)

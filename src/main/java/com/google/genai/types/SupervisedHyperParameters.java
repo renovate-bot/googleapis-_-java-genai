@@ -27,7 +27,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Hyperparameters for SFT. */
+/** Hyperparameters for SFT. This data type is not supported in Gemini API. */
 @AutoValue
 @InternalApi
 @JsonDeserialize(builder = SupervisedHyperParameters.Builder.class)

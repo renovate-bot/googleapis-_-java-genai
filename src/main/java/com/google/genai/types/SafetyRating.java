@@ -50,7 +50,7 @@ public abstract class SafetyRating extends JsonSerializable {
   @JsonProperty("probability")
   public abstract Optional<HarmProbability> probability();
 
-  /** Output only. Harm probability score. */
+  /** Output only. Harm probability score. This field is not supported in Gemini API. */
   @JsonProperty("probabilityScore")
   public abstract Optional<Float> probabilityScore();
 
@@ -58,7 +58,7 @@ public abstract class SafetyRating extends JsonSerializable {
   @JsonProperty("severity")
   public abstract Optional<HarmSeverity> severity();
 
-  /** Output only. Harm severity score. */
+  /** Output only. Harm severity score. This field is not supported in Gemini API. */
   @JsonProperty("severityScore")
   public abstract Optional<Float> severityScore();
 
@@ -182,7 +182,8 @@ public abstract class SafetyRating extends JsonSerializable {
     /**
      * Setter for probabilityScore.
      *
-     * <p>probabilityScore: Output only. Harm probability score.
+     * <p>probabilityScore: Output only. Harm probability score. This field is not supported in
+     * Gemini API.
      */
     @JsonProperty("probabilityScore")
     public abstract Builder probabilityScore(Float probabilityScore);
@@ -218,7 +219,8 @@ public abstract class SafetyRating extends JsonSerializable {
     /**
      * Setter for severityScore.
      *
-     * <p>severityScore: Output only. Harm severity score.
+     * <p>severityScore: Output only. Harm severity score. This field is not supported in Gemini
+     * API.
      */
     @JsonProperty("severityScore")
     public abstract Builder severityScore(Float severityScore);

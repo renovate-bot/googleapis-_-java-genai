@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Config for Hybrid Search. */
+/** Config for Hybrid Search. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = RagRetrievalConfigHybridSearch.Builder.class)
 public abstract class RagRetrievalConfigHybridSearch extends JsonSerializable {

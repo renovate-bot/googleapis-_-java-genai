@@ -33,7 +33,8 @@ import java.util.Optional;
  * environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc).
  * Each `Status` message contains three pieces of data: error code, error message, and error
  * details. You can find out more about this error model and how to work with it in the [API Design
- * Guide](https://cloud.google.com/apis/design/errors).
+ * Guide](https://cloud.google.com/apis/design/errors). This data type is not supported in Gemini
+ * API.
  */
 @AutoValue
 @JsonDeserialize(builder = GoogleRpcStatus.Builder.class)

@@ -49,10 +49,13 @@ public class BlockedReason {
     /** The prompt was blocked because it contains content that is unsafe for image generation. */
     IMAGE_SAFETY,
 
-    /** The prompt was blocked by Model Armor. */
+    /** The prompt was blocked by Model Armor. This enum value is not supported in Gemini API. */
     MODEL_ARMOR,
 
-    /** The prompt was blocked as a jailbreak attempt. */
+    /**
+     * The prompt was blocked as a jailbreak attempt. This enum value is not supported in Gemini
+     * API.
+     */
     JAILBREAK
   }
 

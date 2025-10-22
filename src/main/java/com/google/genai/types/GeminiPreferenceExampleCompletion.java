@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Completion and its preference score. */
+/** Completion and its preference score. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = GeminiPreferenceExampleCompletion.Builder.class)
 public abstract class GeminiPreferenceExampleCompletion extends JsonSerializable {

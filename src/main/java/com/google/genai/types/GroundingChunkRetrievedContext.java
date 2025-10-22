@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Chunk from context retrieved by the retrieval tools. */
+/**
+ * Chunk from context retrieved by the retrieval tools. This data type is not supported in Gemini
+ * API.
+ */
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkRetrievedContext.Builder.class)
 public abstract class GroundingChunkRetrievedContext extends JsonSerializable {

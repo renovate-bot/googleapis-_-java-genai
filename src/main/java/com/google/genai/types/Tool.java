@@ -42,7 +42,7 @@ public abstract class Tool extends JsonSerializable {
   /**
    * Optional. Retrieval tool type. System will always execute the provided retrieval tool(s) to get
    * external knowledge to answer the prompt. Retrieval results are presented to the model for
-   * generation.
+   * generation. This field is not supported in Gemini API.
    */
   @JsonProperty("retrieval")
   public abstract Optional<Retrieval> retrieval();
@@ -146,7 +146,7 @@ public abstract class Tool extends JsonSerializable {
      *
      * <p>retrieval: Optional. Retrieval tool type. System will always execute the provided
      * retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are
-     * presented to the model for generation.
+     * presented to the model for generation. This field is not supported in Gemini API.
      */
     @JsonProperty("retrieval")
     public abstract Builder retrieval(Retrieval retrieval);
@@ -156,7 +156,7 @@ public abstract class Tool extends JsonSerializable {
      *
      * <p>retrieval: Optional. Retrieval tool type. System will always execute the provided
      * retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are
-     * presented to the model for generation.
+     * presented to the model for generation. This field is not supported in Gemini API.
      */
     public Builder retrieval(Retrieval.Builder retrievalBuilder) {
       return retrieval(retrievalBuilder.build());

@@ -28,7 +28,8 @@ import java.util.Optional;
 /**
  * Define data stores within engine to filter on in a search call and configurations for those data
  * stores. For more information, see
- * https://cloud.google.com/generative-ai-app-builder/docs/reference/rpc/google.cloud.discoveryengine.v1#datastorespec
+ * https://cloud.google.com/generative-ai-app-builder/docs/reference/rpc/google.cloud.discoveryengine.v1#datastorespec.
+ * This data type is not supported in Gemini API.
  */
 @AutoValue
 @JsonDeserialize(builder = VertexAISearchDataStoreSpec.Builder.class)

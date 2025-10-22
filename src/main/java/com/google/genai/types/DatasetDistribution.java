@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Distribution computed over a tuning dataset. */
+/** Distribution computed over a tuning dataset. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = DatasetDistribution.Builder.class)
 public abstract class DatasetDistribution extends JsonSerializable {

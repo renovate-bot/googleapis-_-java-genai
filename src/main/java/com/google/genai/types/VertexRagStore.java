@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Retrieve from Vertex RAG Store for grounding. */
+/** Retrieve from Vertex RAG Store for grounding. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = VertexRagStore.Builder.class)
 public abstract class VertexRagStore extends JsonSerializable {

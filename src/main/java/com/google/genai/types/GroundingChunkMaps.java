@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Chunk from Google Maps. */
+/** Chunk from Google Maps. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkMaps.Builder.class)
 public abstract class GroundingChunkMaps extends JsonSerializable {

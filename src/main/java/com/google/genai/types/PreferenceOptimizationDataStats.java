@@ -29,7 +29,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Statistics computed for datasets used for preference optimization. */
+/**
+ * Statistics computed for datasets used for preference optimization. This data type is not
+ * supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = PreferenceOptimizationDataStats.Builder.class)
 public abstract class PreferenceOptimizationDataStats extends JsonSerializable {

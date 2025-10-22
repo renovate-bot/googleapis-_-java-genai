@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Config for LlmRanker. */
+/** Config for LlmRanker. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = RagRetrievalConfigRankingLlmRanker.Builder.class)
 public abstract class RagRetrievalConfigRankingLlmRanker extends JsonSerializable {

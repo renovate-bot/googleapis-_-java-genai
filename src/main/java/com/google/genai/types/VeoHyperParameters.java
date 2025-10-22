@@ -27,7 +27,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Hyperparameters for Veo. */
+/** Hyperparameters for Veo. This data type is not supported in Gemini API. */
 @AutoValue
 @InternalApi
 @JsonDeserialize(builder = VeoHyperParameters.Builder.class)

@@ -25,7 +25,9 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Config for Google Service Account Authentication. */
+/**
+ * Config for Google Service Account Authentication. This data type is not supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = AuthConfigGoogleServiceAccountConfig.Builder.class)
 public abstract class AuthConfigGoogleServiceAccountConfig extends JsonSerializable {

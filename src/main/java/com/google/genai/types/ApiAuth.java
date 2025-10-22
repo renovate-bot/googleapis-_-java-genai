@@ -27,7 +27,8 @@ import java.util.Optional;
 
 /**
  * The generic reusable api auth config. Deprecated. Please use AuthConfig
- * (google/cloud/aiplatform/master/auth.proto) instead.
+ * (google/cloud/aiplatform/master/auth.proto) instead. This data type is not supported in Gemini
+ * API.
  */
 @AutoValue
 @JsonDeserialize(builder = ApiAuth.Builder.class)

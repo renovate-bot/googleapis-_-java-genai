@@ -48,19 +48,26 @@ public class HarmCategory {
      */
     HARM_CATEGORY_CIVIC_INTEGRITY,
 
-    /** The harm category is image hate. */
+    /** The harm category is image hate. This enum value is not supported in Gemini API. */
     HARM_CATEGORY_IMAGE_HATE,
 
-    /** The harm category is image dangerous content. */
+    /**
+     * The harm category is image dangerous content. This enum value is not supported in Gemini API.
+     */
     HARM_CATEGORY_IMAGE_DANGEROUS_CONTENT,
 
-    /** The harm category is image harassment. */
+    /** The harm category is image harassment. This enum value is not supported in Gemini API. */
     HARM_CATEGORY_IMAGE_HARASSMENT,
 
-    /** The harm category is image sexually explicit content. */
+    /**
+     * The harm category is image sexually explicit content. This enum value is not supported in
+     * Gemini API.
+     */
     HARM_CATEGORY_IMAGE_SEXUALLY_EXPLICIT,
 
-    /** The harm category is for jailbreak prompts. */
+    /**
+     * The harm category is for jailbreak prompts. This enum value is not supported in Gemini API.
+     */
     HARM_CATEGORY_JAILBREAK
   }
 

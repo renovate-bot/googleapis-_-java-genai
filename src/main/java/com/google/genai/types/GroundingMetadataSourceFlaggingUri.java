@@ -27,7 +27,7 @@ import java.util.Optional;
 
 /**
  * Source content flagging uri for a place or review. This is currently populated only for Google
- * Maps grounding.
+ * Maps grounding. This data type is not supported in Gemini API.
  */
 @AutoValue
 @JsonDeserialize(builder = GroundingMetadataSourceFlaggingUri.Builder.class)

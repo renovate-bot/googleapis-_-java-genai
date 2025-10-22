@@ -27,6 +27,7 @@ import java.util.Optional;
 
 /**
  * Represents a customer-managed encryption key spec that can be applied to a top-level resource.
+ * This data type is not supported in Gemini API.
  */
 @AutoValue
 @JsonDeserialize(builder = EncryptionSpec.Builder.class)

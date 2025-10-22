@@ -26,7 +26,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Tuning Spec for Supervised Tuning for first party models. */
+/**
+ * Tuning Spec for Supervised Tuning for first party models. This data type is not supported in
+ * Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = SupervisedTuningSpec.Builder.class)
 public abstract class SupervisedTuningSpec extends JsonSerializable {

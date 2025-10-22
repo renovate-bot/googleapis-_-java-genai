@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Defines a retrieval tool that model can call to access external knowledge. */
+/**
+ * Defines a retrieval tool that model can call to access external knowledge. This data type is not
+ * supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = Retrieval.Builder.class)
 public abstract class Retrieval extends JsonSerializable {

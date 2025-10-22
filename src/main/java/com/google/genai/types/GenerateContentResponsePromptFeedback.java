@@ -41,7 +41,10 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
   @JsonProperty("blockReason")
   public abstract Optional<BlockedReason> blockReason();
 
-  /** Output only. A readable message that explains the reason why the prompt was blocked. */
+  /**
+   * Output only. A readable message that explains the reason why the prompt was blocked. This field
+   * is not supported in Gemini API.
+   */
   @JsonProperty("blockReasonMessage")
   public abstract Optional<String> blockReasonMessage();
 
@@ -102,7 +105,7 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
      * Setter for blockReasonMessage.
      *
      * <p>blockReasonMessage: Output only. A readable message that explains the reason why the
-     * prompt was blocked.
+     * prompt was blocked. This field is not supported in Gemini API.
      */
     @JsonProperty("blockReasonMessage")
     public abstract Builder blockReasonMessage(String blockReasonMessage);

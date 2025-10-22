@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Statistics computed for datasets used for distillation. */
+/**
+ * Statistics computed for datasets used for distillation. This data type is not supported in Gemini
+ * API.
+ */
 @AutoValue
 @JsonDeserialize(builder = DistillationDataStats.Builder.class)
 public abstract class DistillationDataStats extends JsonSerializable {

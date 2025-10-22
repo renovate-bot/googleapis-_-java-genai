@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Usage metadata about response(s). */
+/** Usage metadata about response(s). This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = GenerateContentResponseUsageMetadata.Builder.class)
 public abstract class GenerateContentResponseUsageMetadata extends JsonSerializable {

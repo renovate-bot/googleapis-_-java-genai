@@ -25,7 +25,9 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** The tuning data statistic values for TuningJob. */
+/**
+ * The tuning data statistic values for TuningJob. This data type is not supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = TuningDataStats.Builder.class)
 public abstract class TuningDataStats extends JsonSerializable {

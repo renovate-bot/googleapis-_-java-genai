@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Config for HTTP Basic Authentication. */
+/** Config for HTTP Basic Authentication. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = AuthConfigHttpBasicAuthConfig.Builder.class)
 public abstract class AuthConfigHttpBasicAuthConfig extends JsonSerializable {

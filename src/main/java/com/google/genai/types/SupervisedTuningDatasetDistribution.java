@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Dataset distribution for Supervised Tuning. */
+/** Dataset distribution for Supervised Tuning. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = SupervisedTuningDatasetDistribution.Builder.class)
 public abstract class SupervisedTuningDatasetDistribution extends JsonSerializable {

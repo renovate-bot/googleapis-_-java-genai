@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** The definition of the Rag resource. */
+/** The definition of the Rag resource. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = VertexRagStoreRagResource.Builder.class)
 public abstract class VertexRagStoreRagResource extends JsonSerializable {

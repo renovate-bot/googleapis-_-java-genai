@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Dataset bucket used to create a histogram for the distribution given a population of values. */
+/**
+ * Dataset bucket used to create a histogram for the distribution given a population of values. This
+ * data type is not supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = SupervisedTuningDatasetDistributionDatasetBucket.Builder.class)
 public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends JsonSerializable {

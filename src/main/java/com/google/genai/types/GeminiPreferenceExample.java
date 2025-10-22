@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Input example for preference optimization. */
+/** Input example for preference optimization. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = GeminiPreferenceExample.Builder.class)
 public abstract class GeminiPreferenceExample extends JsonSerializable {

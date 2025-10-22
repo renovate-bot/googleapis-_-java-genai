@@ -26,7 +26,7 @@ import com.google.genai.JsonSerializable;
 import java.util.Map;
 import java.util.Optional;
 
-/** Tuning spec for Partner models. */
+/** Tuning spec for Partner models. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = PartnerModelTuningSpec.Builder.class)
 public abstract class PartnerModelTuningSpec extends JsonSerializable {

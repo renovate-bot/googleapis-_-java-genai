@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** The configuration for routing the request to a specific model. */
+/**
+ * The configuration for routing the request to a specific model. This data type is not supported in
+ * Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = GenerationConfigRoutingConfig.Builder.class)
 public abstract class GenerationConfigRoutingConfig extends JsonSerializable {

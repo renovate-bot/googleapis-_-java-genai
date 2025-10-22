@@ -28,7 +28,8 @@ import java.util.Optional;
 
 /**
  * Retrieve from data source powered by external API for grounding. The external API is not owned by
- * Google, but need to follow the pre-defined API spec.
+ * Google, but need to follow the pre-defined API spec. This data type is not supported in Gemini
+ * API.
  */
 @AutoValue
 @JsonDeserialize(builder = ExternalApi.Builder.class)

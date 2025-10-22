@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** A RagChunk includes the content of a chunk of a RagFile, and associated metadata. */
+/**
+ * A RagChunk includes the content of a chunk of a RagFile, and associated metadata. This data type
+ * is not supported in Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = RagChunk.Builder.class)
 public abstract class RagChunk extends JsonSerializable {

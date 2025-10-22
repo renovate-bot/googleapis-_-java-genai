@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Tuning data statistics for Supervised Tuning. */
+/** Tuning data statistics for Supervised Tuning. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = SupervisedTuningDataStats.Builder.class)
 public abstract class SupervisedTuningDataStats extends JsonSerializable {

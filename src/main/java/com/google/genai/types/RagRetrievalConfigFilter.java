@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Config for filters. */
+/** Config for filters. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = RagRetrievalConfigFilter.Builder.class)
 public abstract class RagRetrievalConfigFilter extends JsonSerializable {

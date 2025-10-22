@@ -25,7 +25,10 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** The search parameters to use for the ELASTIC_SEARCH spec. */
+/**
+ * The search parameters to use for the ELASTIC_SEARCH spec. This data type is not supported in
+ * Gemini API.
+ */
 @AutoValue
 @JsonDeserialize(builder = ExternalApiElasticSearchParams.Builder.class)
 public abstract class ExternalApiElasticSearchParams extends JsonSerializable {

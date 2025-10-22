@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** A single example for tuning. */
+/** A single example for tuning. This data type is not supported in Vertex AI. */
 @AutoValue
 @JsonDeserialize(builder = TuningExample.Builder.class)
 public abstract class TuningExample extends JsonSerializable {

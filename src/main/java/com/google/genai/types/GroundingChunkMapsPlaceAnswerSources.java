@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Sources used to generate the place answer. */
+/** Sources used to generate the place answer. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkMapsPlaceAnswerSources.Builder.class)
 public abstract class GroundingChunkMapsPlaceAnswerSources extends JsonSerializable {

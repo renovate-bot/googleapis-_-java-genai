@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Tuning Spec for Veo Model Tuning. */
+/** Tuning Spec for Veo Model Tuning. This data type is not supported in Gemini API. */
 @AutoValue
 @JsonDeserialize(builder = VeoTuningSpec.Builder.class)
 public abstract class VeoTuningSpec extends JsonSerializable {
