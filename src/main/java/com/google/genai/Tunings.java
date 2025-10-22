@@ -292,14 +292,12 @@ public final class Tunings {
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"trainingDataset"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"supervisedTuningSpec", "trainingDatasetUri"},
+      JsonNode unused =
           tuningDatasetToVertex(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"trainingDataset"})),
               toObject,
-              rootObject));
+              rootObject);
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
