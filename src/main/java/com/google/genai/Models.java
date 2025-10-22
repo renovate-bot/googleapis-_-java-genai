@@ -4791,7 +4791,7 @@ public final class Models {
       converterName = "generateContentResponseFromMldev";
     }
     return new ResponseStream<GenerateContentResponse>(
-        GenerateContentResponse.class, response, this, converterName);
+        GenerateContentResponse.class, response, this, converterName, false);
   }
 
   ResponseStream<GenerateContentResponse> privateGenerateContentStream(
