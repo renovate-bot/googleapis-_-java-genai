@@ -646,24 +646,6 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testInitHttpClientVertexWithNoApiKeyAndNoProject_throwsException() throws Exception {
-    IllegalArgumentException exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () ->
-                new HttpApiClient(
-                    Optional.empty(),
-                    Optional.empty(),
-                    Optional.of(LOCATION),
-                    Optional.empty(),
-                    Optional.empty(),
-                    Optional.empty()));
-    assertEquals(
-        "For Vertex AI APIs, either project/location or API key must be set.",
-        exception.getMessage());
-  }
-
-  @Test
   public void testInitHttpClientWithCustomCredentialsAndApiKey_throwsException() throws Exception {
     GoogleCredentials credentials = Mockito.mock(GoogleCredentials.class);
     IllegalArgumentException exception =
@@ -838,20 +820,20 @@ public class HttpApiClientTest {
   }
 
   @Test
-  public void testHttpClientVertexWithNoApiKeyAndNoLocation_throwsException() throws Exception {
+  public void testHttpClientVertexWithNoApiKeyProject_throwsException() throws Exception {
     IllegalArgumentException exception =
         assertThrows(
             IllegalArgumentException.class,
             () ->
                 new HttpApiClient(
                     Optional.empty(),
-                    Optional.of(PROJECT),
+                    Optional.empty(),
                     Optional.empty(),
                     Optional.empty(),
                     Optional.empty(),
                     Optional.empty()));
     assertEquals(
-        "For Vertex AI APIs, either project/location or API key must be set.",
+        "For Vertex AI APIs, either project or API key must be set.",
         exception.getMessage());
   }
 
@@ -1213,5 +1195,152 @@ public class HttpApiClientTest {
 
     assertTrue(client.baseUrl().isPresent());
     assertEquals(client.baseUrl().get(), "https://custom-base-url.googleapis.com/");
+  }
+
+  @Test
+  public void testDefaultLocationToGlobalWhenOnlyProjectIsProvided(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("googleApiKey", "env-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of("fake-project-id"),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("fake-project-id", client.project());
+    assertEquals("global", client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testDefaultLocationToGlobalWhenCredentialsProvidedWithProjectButNoLocation(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("googleApiKey", "env-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of("fake-project-id"),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("fake-project-id", client.project());
+    assertEquals("global", client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testDefaultLocationToGlobalWhenExplicitProjectTakesPrecedenceOverEnvApiKey(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of("googleApiKey", "env-api-key"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of("explicit-project-id"),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("explicit-project-id", client.project());
+    assertEquals("global", client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testDefaultLocationToGlobalWhenEnvProjectTakesPrecedenceOverEnvApiKey(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(
+            ImmutableMap.of("googleApiKey", "env-api-key", "project", "env-project-id"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("env-project-id", client.project());
+    assertEquals("global", client.location());
+    assertNull(client.apiKey());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testNoDefaultLocationToGlobalWhenExplicitLocationIsSet(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of());
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of("fake-project-id"),
+            Optional.of("us-central1"),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("fake-project-id", client.project());
+    assertEquals("us-central1", client.location());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testNoDefaultLocationToGlobalWhenEnvLocationIsSet(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(
+            ImmutableMap.of("project", "fake-project-id", "location", "us-west1"));
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("fake-project-id", client.project());
+    assertEquals("us-west1", client.location());
+    assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testNoDefaultLocationWhenUsingApiKeyOnlyMode(
+      MockedStatic<ApiClient> mockedStaticApiClient) throws Exception {
+    mockedStaticApiClient
+        .when(ApiClient::defaultEnvironmentVariables)
+        .thenReturn(ImmutableMap.of());
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of("vertexai-api-key"),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    assertEquals("vertexai-api-key", client.apiKey());
+    assertNull(client.project());
+    assertNull(client.location());
+    assertTrue(client.vertexAI());
   }
 }

@@ -189,14 +189,18 @@ abstract class ApiClient {
       apiKeyValue = null;
     }
 
+    if (locationValue == null && apiKeyValue == null) {
+      locationValue = "global";
+    }
+
     this.apiKey = Optional.ofNullable(apiKeyValue);
     this.project = Optional.ofNullable(projectValue);
     this.location = Optional.ofNullable(locationValue);
 
     // Validate that either project and location or API key is set.
-    if (!((this.project.isPresent() && this.location.isPresent()) || this.apiKey.isPresent())) {
+    if (!(this.project.isPresent() || this.apiKey.isPresent())) {
       throw new IllegalArgumentException(
-          "For Vertex AI APIs, either project/location or API key must be set.");
+          "For Vertex AI APIs, either project or API key must be set.");
     }
 
     // Only set credentials if using project/location.
