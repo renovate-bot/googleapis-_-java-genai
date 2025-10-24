@@ -675,7 +675,10 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateVideosOperation> responseFuture =
         client.async.models.generateVideos(
-            "veo-2.0-generate-001", "A neon hologram of a cat driving at top speed", null, config);
+            "veo-3.1-generate-preview",
+            "A neon hologram of a cat driving at top speed",
+            null,
+            config);
     GenerateVideosOperation operation = responseFuture.join();
 
     // Assert
