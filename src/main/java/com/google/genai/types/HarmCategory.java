@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Ascii;
 import java.util.Objects;
 
-/** Required. Harm category. */
+/** Harm category. */
 public class HarmCategory {
 
   /** Enum representing the known values for HarmCategory. */
