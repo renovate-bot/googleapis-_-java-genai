@@ -93,11 +93,6 @@
     </dependency>
     <dependency>
       <groupId>com.google.auto.value</groupId>
-      <artifactId>auto-value</artifactId>
-      <version>${auto-value.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.auto.value</groupId>
       <artifactId>auto-value-annotations</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -200,6 +195,9 @@
                 <version>${auto-value.version}</version>
               </path>
             </annotationProcessorPaths>
+            <compilerArgs>
+              <arg>-parameters</arg>
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
@@ -207,15 +205,15 @@
           <version>3.5.2</version>
           <dependencies>
           <!-- tree view output test results: https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit-platform.html#external-extensions-for-the-plugin -->
-              <dependency>
-                  <groupId>me.fabriciorby</groupId>
-                  <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
-                  <version>0.1.0</version>
-              </dependency>
+            <dependency>
+              <groupId>me.fabriciorby</groupId>
+              <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
+              <version>0.1.0</version>
+            </dependency>
           </dependencies>
           <configuration>
-              <reportFormat>plain</reportFormat>
-              <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter"/>
+            <reportFormat>plain</reportFormat>
+            <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
           </configuration>
         </plugin>
         <plugin>
@@ -272,16 +270,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.0</version>
-          <configuration>
-            <compilerArgs>
-              <arg>-parameters</arg>
-            </compilerArgs>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
