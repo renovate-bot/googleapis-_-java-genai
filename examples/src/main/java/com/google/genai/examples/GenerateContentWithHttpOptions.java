@@ -37,20 +37,18 @@
  *
  * <p>mvn clean compile
  *
- * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.RequestLevelHttpOptions"
+ * <p>mvn exec:java -Dexec.mainClass="com.google.genai.examples.GenerateContentWithHttpOptions"
  * -Dexec.args="YOUR_MODEL_ID"
  */
 package com.google.genai.examples;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.Client;
-import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.HttpRetryOptions;
 
-/** An example of setting http options at request level. */
-public final class RequestLevelHttpOptions {
+/** An example of setting http options in a GenerateContent request. */
+public final class GenerateContentWithHttpOptions {
   public static void main(String[] args) {
     final String modelId;
     if (args.length != 0) {
@@ -59,15 +57,16 @@ public final class RequestLevelHttpOptions {
       modelId = Constants.GEMINI_MODEL_NAME;
     }
 
-    // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
-    // key from the environment variable `GOOGLE_API_KEY`. Vertex AI API can be used by setting the
-    // environment variables `GOOGLE_CLOUD_LOCATION` and `GOOGLE_CLOUD_PROJECT`, as well as setting
-    // `GOOGLE_GENAI_USE_VERTEXAI` to "true".
-    //
-    // Note: Some services are only available in a specific API backend (Gemini or Vertex), you will
-    // get a `UnsupportedOperationException` if you try to use a service that is not available in
-    // the backend you are using.
-    Client client = new Client();
+    // Set the client level http options when creating the client. All the API requests will share
+    // the same http options.
+    HttpOptions httpOptions =
+        HttpOptions.builder()
+            .apiVersion("v1")
+            .timeout(5000)
+            .retryOptions(HttpRetryOptions.builder().attempts(3).httpStatusCodes(408, 429, 504))
+            .build();
+
+    Client client = Client.builder().httpOptions(httpOptions).build();
 
     if (client.vertexAI()) {
       System.out.println("Using Vertex AI");
@@ -75,20 +74,11 @@ public final class RequestLevelHttpOptions {
       System.out.println("Using Gemini Developer API");
     }
 
-    // Set a customized header and retry options per request config.
-    GenerateContentConfig config =
-        GenerateContentConfig.builder()
-            .httpOptions(
-                HttpOptions.builder()
-                    .headers(ImmutableMap.of("my-header", "my-value"))
-                    .retryOptions(HttpRetryOptions.builder().attempts(3).httpStatusCodes(408, 429)))
-            .build();
-
     GenerateContentResponse response =
-        client.models.generateContent(modelId, "Tell me the history of LLM", config);
+        client.models.generateContent(modelId, "Tell me the history of LLM in 100 words", null);
 
     System.out.println("Response: " + response.text());
   }
 
-  private RequestLevelHttpOptions() {}
+  private GenerateContentWithHttpOptions() {}
 }

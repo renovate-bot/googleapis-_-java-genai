@@ -31,7 +31,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = HttpRetryOptions.Builder.class)
 public abstract class HttpRetryOptions extends JsonSerializable {
-  /** Maximum number of attempts, including the original request. If 0 or 1, it means no retries. */
+  /**
+   * Maximum number of attempts, including the original request. If 0 or 1, it means no retries. If
+   * not specified, default to 5.
+   */
   @JsonProperty("attempts")
   public abstract Optional<Integer> attempts();
 
@@ -88,7 +91,7 @@ public abstract class HttpRetryOptions extends JsonSerializable {
      * Setter for attempts.
      *
      * <p>attempts: Maximum number of attempts, including the original request. If 0 or 1, it means
-     * no retries.
+     * no retries. If not specified, default to 5.
      */
     @JsonProperty("attempts")
     public abstract Builder attempts(Integer attempts);

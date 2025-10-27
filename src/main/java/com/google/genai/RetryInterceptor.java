@@ -74,6 +74,7 @@ class RetryInterceptor implements Interceptor {
 
     Response response = null;
     int maxAttempts = options.attempts().orElse(RETRY_MAX_ATTEMPTS);
+    maxAttempts = Math.max(maxAttempts, 1);
     List<Integer> httpStatusCodes = options.httpStatusCodes().orElse(RETRY_HTTP_STATUS_CODES);
 
     for (int attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -83,7 +84,7 @@ class RetryInterceptor implements Interceptor {
         // attempt loop.
         if (response.isSuccessful() || !httpStatusCodes.contains(response.code())) {
           break;
-        } else {
+        } else if (attempt < maxAttempts) {
           // Close the unsuccessful response so that the connection can be reused for the next
           // attempt.
           response.close();
