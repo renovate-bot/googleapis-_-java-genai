@@ -520,13 +520,6 @@ public final class Batches {
           Common.getValueByPath(fromObject, new String[] {"finishReason"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"urlContextMetadata"},
-          Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -560,6 +553,13 @@ public final class Batches {
           toObject,
           new String[] {"safetyRatings"},
           Common.getValueByPath(fromObject, new String[] {"safetyRatings"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"urlContextMetadata"},
+          Common.getValueByPath(fromObject, new String[] {"urlContextMetadata"}));
     }
 
     return toObject;
