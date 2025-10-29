@@ -27,13 +27,20 @@ import com.google.genai.JsonSerializable;
 import java.util.Map;
 import java.util.Optional;
 
-/** Supervised fine-tuning job creation request - optional fields. */
+/** Fine-tuning job creation request - optional fields. */
 @AutoValue
 @JsonDeserialize(builder = CreateTuningJobConfig.Builder.class)
 public abstract class CreateTuningJobConfig extends JsonSerializable {
   /** Used to override HTTP request options. */
   @JsonProperty("httpOptions")
   public abstract Optional<HttpOptions> httpOptions();
+
+  /**
+   * The method to use for tuning (SUPERVISED_FINE_TUNING or PREFERENCE_TUNING). If not set, the
+   * default method (SFT) will be used.
+   */
+  @JsonProperty("method")
+  public abstract Optional<TuningMethod> method();
 
   /** Validation dataset for tuning. The dataset must be formatted as a JSONL file. */
   @JsonProperty("validationDataset")
@@ -59,8 +66,8 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   public abstract Optional<Float> learningRateMultiplier();
 
   /**
-   * If set to true, disable intermediate checkpoints for SFT and only the last checkpoint will be
-   * exported. Otherwise, enable intermediate checkpoints for SFT.
+   * If set to true, disable intermediate checkpoints and only the last checkpoint will be exported.
+   * Otherwise, enable intermediate checkpoints.
    */
   @JsonProperty("exportLastCheckpointOnly")
   public abstract Optional<Boolean> exportLastCheckpointOnly();
@@ -97,6 +104,10 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   @JsonProperty("labels")
   public abstract Optional<Map<String, String>> labels();
 
+  /** Weight for KL Divergence regularization, Preference Optimization tuning only. */
+  @JsonProperty("beta")
+  public abstract Optional<Float> beta();
+
   /** Instantiates a builder for CreateTuningJobConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -130,6 +141,37 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
       return httpOptions(httpOptionsBuilder.build());
+    }
+
+    /**
+     * Setter for method.
+     *
+     * <p>method: The method to use for tuning (SUPERVISED_FINE_TUNING or PREFERENCE_TUNING). If not
+     * set, the default method (SFT) will be used.
+     */
+    @JsonProperty("method")
+    public abstract Builder method(TuningMethod method);
+
+    /**
+     * Setter for method given a known enum.
+     *
+     * <p>method: The method to use for tuning (SUPERVISED_FINE_TUNING or PREFERENCE_TUNING). If not
+     * set, the default method (SFT) will be used.
+     */
+    @CanIgnoreReturnValue
+    public Builder method(TuningMethod.Known knownType) {
+      return method(new TuningMethod(knownType));
+    }
+
+    /**
+     * Setter for method given a string.
+     *
+     * <p>method: The method to use for tuning (SUPERVISED_FINE_TUNING or PREFERENCE_TUNING). If not
+     * set, the default method (SFT) will be used.
+     */
+    @CanIgnoreReturnValue
+    public Builder method(String method) {
+      return method(new TuningMethod(method));
     }
 
     /**
@@ -188,9 +230,8 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     /**
      * Setter for exportLastCheckpointOnly.
      *
-     * <p>exportLastCheckpointOnly: If set to true, disable intermediate checkpoints for SFT and
-     * only the last checkpoint will be exported. Otherwise, enable intermediate checkpoints for
-     * SFT.
+     * <p>exportLastCheckpointOnly: If set to true, disable intermediate checkpoints and only the
+     * last checkpoint will be exported. Otherwise, enable intermediate checkpoints.
      */
     @JsonProperty("exportLastCheckpointOnly")
     public abstract Builder exportLastCheckpointOnly(boolean exportLastCheckpointOnly);
@@ -261,6 +302,14 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("labels")
     public abstract Builder labels(Map<String, String> labels);
+
+    /**
+     * Setter for beta.
+     *
+     * <p>beta: Weight for KL Divergence regularization, Preference Optimization tuning only.
+     */
+    @JsonProperty("beta")
+    public abstract Builder beta(Float beta);
 
     public abstract CreateTuningJobConfig build();
   }

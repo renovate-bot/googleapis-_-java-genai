@@ -97,6 +97,10 @@ public abstract class TuningJob extends JsonSerializable {
   @JsonProperty("supervisedTuningSpec")
   public abstract Optional<SupervisedTuningSpec> supervisedTuningSpec();
 
+  /** Tuning Spec for Preference Optimization. */
+  @JsonProperty("preferenceOptimizationSpec")
+  public abstract Optional<PreferenceOptimizationSpec> preferenceOptimizationSpec();
+
   /** Output only. The tuning data statistics associated with this TuningJob. */
   @JsonProperty("tuningDataStats")
   public abstract Optional<TuningDataStats> tuningDataStats();
@@ -362,6 +366,25 @@ public abstract class TuningJob extends JsonSerializable {
      */
     public Builder supervisedTuningSpec(SupervisedTuningSpec.Builder supervisedTuningSpecBuilder) {
       return supervisedTuningSpec(supervisedTuningSpecBuilder.build());
+    }
+
+    /**
+     * Setter for preferenceOptimizationSpec.
+     *
+     * <p>preferenceOptimizationSpec: Tuning Spec for Preference Optimization.
+     */
+    @JsonProperty("preferenceOptimizationSpec")
+    public abstract Builder preferenceOptimizationSpec(
+        PreferenceOptimizationSpec preferenceOptimizationSpec);
+
+    /**
+     * Setter for preferenceOptimizationSpec builder.
+     *
+     * <p>preferenceOptimizationSpec: Tuning Spec for Preference Optimization.
+     */
+    public Builder preferenceOptimizationSpec(
+        PreferenceOptimizationSpec.Builder preferenceOptimizationSpecBuilder) {
+      return preferenceOptimizationSpec(preferenceOptimizationSpecBuilder.build());
     }
 
     /**

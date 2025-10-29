@@ -26,7 +26,7 @@ import com.google.auto.value.AutoValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Supervised fine-tuning job creation parameters - optional fields. */
+/** Fine-tuning job creation parameters - optional fields. */
 @AutoValue
 @InternalApi
 @JsonDeserialize(builder = CreateTuningJobParametersPrivate.Builder.class)
