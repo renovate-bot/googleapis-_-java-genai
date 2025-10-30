@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
+import okhttp3.Headers;
 
 /** An iterable of datatype objects. */
 public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, AutoCloseable {
@@ -48,21 +49,24 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
     private final Class<T> clazz;
     private final Object obj;
     private final Method converter;
+    private final boolean needsRootObject;
+    private final Headers responseHeaders;
     private String nextJson;
     private boolean consumed = false;
-    private boolean needsRootObject = false;
 
     ResponseStreamIterator(
         Class<T> clazz,
         BufferedReader reader,
         Object obj,
         String converterName,
-        boolean needsRootObject) {
+        boolean needsRootObject,
+        Headers responseHeaders) {
       this.reader = reader;
       this.clazz = clazz;
       this.nextJson = readNextJson();
       this.obj = obj;
       this.needsRootObject = needsRootObject;
+      this.responseHeaders = responseHeaders;
       try {
         if (needsRootObject) {
           this.converter =
@@ -110,17 +114,28 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       nextJson = readNextJson();
       try {
         JsonNode currentJsonNode = JsonSerializable.stringToJsonNode(currentJson);
+        if (responseHeaders != null && currentJsonNode.isObject()) {
+          ObjectNode rootNode = (ObjectNode) currentJsonNode;
+          ObjectNode headersNode = JsonSerializable.objectMapper.createObjectNode();
+          for (String headerName : responseHeaders.names()) {
+            headersNode.put(headerName, responseHeaders.get(headerName));
+          }
+          ObjectNode sdkHttpResponseNode = JsonSerializable.objectMapper.createObjectNode();
+          sdkHttpResponseNode.set("headers", headersNode);
+          rootNode.set("sdkHttpResponse", sdkHttpResponseNode);
+          currentJsonNode = rootNode;
+        }
         if (needsRootObject) {
           currentJsonNode = (JsonNode) converter.invoke(obj, currentJsonNode, null, currentJsonNode);
         } else {
           currentJsonNode = (JsonNode) converter.invoke(obj, currentJsonNode, null);
         }
+
+        T response = JsonSerializable.fromJsonNode(currentJsonNode, clazz);
         if (recordingHistory) {
-          T response = JsonSerializable.fromJsonNode(currentJsonNode, clazz);
           history.add(response);
-          return response;
         }
-        return JsonSerializable.fromJsonNode(currentJsonNode, clazz);
+        return response;
       } catch (IllegalAccessException | InvocationTargetException e) {
         throw new IllegalStateException("Failed to convert JSON object " + currentJson, e);
       }
@@ -156,7 +171,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
 
   public ResponseStream(
       Class<T> clazz, ApiResponse response, Object obj, String converterName) {
-    this(clazz, response, obj, converterName, false);
+    this(clazz, response, obj, converterName, false, false);
   }
 
   ResponseStream(
@@ -164,11 +179,17 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       ApiResponse response,
       Object obj,
       String converterName,
-      boolean needsRootObject) {
+      boolean needsRootObject,
+      boolean canReturnHttpHeaders) {
     InputStream responseStream = response.getBody().byteStream();
     this.reader = new BufferedReader(new InputStreamReader(responseStream, StandardCharsets.UTF_8));
+    Headers headers = null;
+    if (canReturnHttpHeaders) {
+      headers = response.getHeaders();
+    }
     this.iterator =
-        new ResponseStreamIterator(clazz, this.reader, obj, converterName, needsRootObject);
+        new ResponseStreamIterator(
+            clazz, this.reader, obj, converterName, needsRootObject, headers);
     this.response = response;
   }
 

@@ -211,6 +211,7 @@ public class AsyncModelsTest {
     for (GenerateContentResponse response : responseStream) {
       chunks++;
       assertNotNull(response.text());
+      assertNotNull(response.sdkHttpResponse().get().headers());
     }
     assertTrue(chunks > 2);
     assertTrue(responseStream.isConsumed());
@@ -242,6 +243,7 @@ public class AsyncModelsTest {
     for (GenerateContentResponse response : responseStream) {
       chunks++;
       assertNotNull(response.text());
+      assertNotNull(response.sdkHttpResponse().get().headers());
     }
     assertTrue(chunks > 2);
     assertTrue(responseStream.isConsumed());
@@ -273,6 +275,7 @@ public class AsyncModelsTest {
     int chunks = 0;
     for (GenerateContentResponse response : responseStream) {
       chunks++;
+      assertNotNull(response.sdkHttpResponse().get().headers());
     }
     assertTrue(chunks > 2);
     assertTrue(responseStream.isConsumed());
@@ -347,6 +350,7 @@ public class AsyncModelsTest {
     for (GenerateContentResponse response : responseStream) {
       chunks++;
       assertNotNull(response.text());
+      assertNotNull(response.sdkHttpResponse().get().headers());
     }
     assertTrue(chunks > 2);
     assertTrue(responseStream.isConsumed());
