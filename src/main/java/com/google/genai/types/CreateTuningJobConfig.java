@@ -139,8 +139,19 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      *
      * <p>httpOptions: Used to override HTTP request options.
      */
+    @CanIgnoreReturnValue
     public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
       return httpOptions(httpOptionsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder httpOptions(Optional<HttpOptions> httpOptions);
+
+    /** Clears the value of httpOptions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHttpOptions() {
+      return httpOptions(Optional.empty());
     }
 
     /**
@@ -151,6 +162,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("method")
     public abstract Builder method(TuningMethod method);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder method(Optional<TuningMethod> method);
+
+    /** Clears the value of method field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMethod() {
+      return method(Optional.empty());
+    }
 
     /**
      * Setter for method given a known enum.
@@ -189,8 +210,19 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      * <p>validationDataset: Validation dataset for tuning. The dataset must be formatted as a JSONL
      * file.
      */
+    @CanIgnoreReturnValue
     public Builder validationDataset(TuningValidationDataset.Builder validationDatasetBuilder) {
       return validationDataset(validationDatasetBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder validationDataset(Optional<TuningValidationDataset> validationDataset);
+
+    /** Clears the value of validationDataset field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearValidationDataset() {
+      return validationDataset(Optional.empty());
     }
 
     /**
@@ -202,6 +234,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("tunedModelDisplayName")
     public abstract Builder tunedModelDisplayName(String tunedModelDisplayName);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder tunedModelDisplayName(Optional<String> tunedModelDisplayName);
+
+    /** Clears the value of tunedModelDisplayName field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTunedModelDisplayName() {
+      return tunedModelDisplayName(Optional.empty());
+    }
+
     /**
      * Setter for description.
      *
@@ -209,6 +251,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("description")
     public abstract Builder description(String description);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder description(Optional<String> description);
+
+    /** Clears the value of description field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearDescription() {
+      return description(Optional.empty());
+    }
 
     /**
      * Setter for epochCount.
@@ -219,6 +271,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("epochCount")
     public abstract Builder epochCount(Integer epochCount);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder epochCount(Optional<Integer> epochCount);
+
+    /** Clears the value of epochCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEpochCount() {
+      return epochCount(Optional.empty());
+    }
+
     /**
      * Setter for learningRateMultiplier.
      *
@@ -226,6 +288,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("learningRateMultiplier")
     public abstract Builder learningRateMultiplier(Float learningRateMultiplier);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder learningRateMultiplier(Optional<Float> learningRateMultiplier);
+
+    /** Clears the value of learningRateMultiplier field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLearningRateMultiplier() {
+      return learningRateMultiplier(Optional.empty());
+    }
 
     /**
      * Setter for exportLastCheckpointOnly.
@@ -236,6 +308,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("exportLastCheckpointOnly")
     public abstract Builder exportLastCheckpointOnly(boolean exportLastCheckpointOnly);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder exportLastCheckpointOnly(Optional<Boolean> exportLastCheckpointOnly);
+
+    /** Clears the value of exportLastCheckpointOnly field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearExportLastCheckpointOnly() {
+      return exportLastCheckpointOnly(Optional.empty());
+    }
+
     /**
      * Setter for preTunedModelCheckpointId.
      *
@@ -245,6 +327,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("preTunedModelCheckpointId")
     public abstract Builder preTunedModelCheckpointId(String preTunedModelCheckpointId);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder preTunedModelCheckpointId(Optional<String> preTunedModelCheckpointId);
+
+    /** Clears the value of preTunedModelCheckpointId field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearPreTunedModelCheckpointId() {
+      return preTunedModelCheckpointId(Optional.empty());
+    }
+
     /**
      * Setter for adapterSize.
      *
@@ -252,6 +344,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("adapterSize")
     public abstract Builder adapterSize(AdapterSize adapterSize);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder adapterSize(Optional<AdapterSize> adapterSize);
+
+    /** Clears the value of adapterSize field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAdapterSize() {
+      return adapterSize(Optional.empty());
+    }
 
     /**
      * Setter for adapterSize given a known enum.
@@ -282,6 +384,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("batchSize")
     public abstract Builder batchSize(Integer batchSize);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder batchSize(Optional<Integer> batchSize);
+
+    /** Clears the value of batchSize field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBatchSize() {
+      return batchSize(Optional.empty());
+    }
+
     /**
      * Setter for learningRate.
      *
@@ -290,6 +402,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("learningRate")
     public abstract Builder learningRate(Float learningRate);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder learningRate(Optional<Float> learningRate);
+
+    /** Clears the value of learningRate field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLearningRate() {
+      return learningRate(Optional.empty());
+    }
 
     /**
      * Setter for labels.
@@ -303,6 +425,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @JsonProperty("labels")
     public abstract Builder labels(Map<String, String> labels);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder labels(Optional<Map<String, String>> labels);
+
+    /** Clears the value of labels field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLabels() {
+      return labels(Optional.empty());
+    }
+
     /**
      * Setter for beta.
      *
@@ -310,6 +442,16 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
      */
     @JsonProperty("beta")
     public abstract Builder beta(Float beta);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder beta(Optional<Float> beta);
+
+    /** Clears the value of beta field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBeta() {
+      return beta(Optional.empty());
+    }
 
     public abstract CreateTuningJobConfig build();
   }

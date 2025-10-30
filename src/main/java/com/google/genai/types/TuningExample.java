@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -63,6 +64,16 @@ public abstract class TuningExample extends JsonSerializable {
     @JsonProperty("output")
     public abstract Builder output(String output);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder output(Optional<String> output);
+
+    /** Clears the value of output field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearOutput() {
+      return output(Optional.empty());
+    }
+
     /**
      * Setter for textInput.
      *
@@ -70,6 +81,16 @@ public abstract class TuningExample extends JsonSerializable {
      */
     @JsonProperty("textInput")
     public abstract Builder textInput(String textInput);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder textInput(Optional<String> textInput);
+
+    /** Clears the value of textInput field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTextInput() {
+      return textInput(Optional.empty());
+    }
 
     public abstract TuningExample build();
   }

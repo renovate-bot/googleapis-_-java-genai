@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -76,6 +77,16 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
     @JsonProperty("audioDurationSeconds")
     public abstract Builder audioDurationSeconds(Integer audioDurationSeconds);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder audioDurationSeconds(Optional<Integer> audioDurationSeconds);
+
+    /** Clears the value of audioDurationSeconds field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAudioDurationSeconds() {
+      return audioDurationSeconds(Optional.empty());
+    }
+
     /**
      * Setter for imageCount.
      *
@@ -83,6 +94,16 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
      */
     @JsonProperty("imageCount")
     public abstract Builder imageCount(Integer imageCount);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder imageCount(Optional<Integer> imageCount);
+
+    /** Clears the value of imageCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImageCount() {
+      return imageCount(Optional.empty());
+    }
 
     /**
      * Setter for textCount.
@@ -92,6 +113,16 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
     @JsonProperty("textCount")
     public abstract Builder textCount(Integer textCount);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder textCount(Optional<Integer> textCount);
+
+    /** Clears the value of textCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTextCount() {
+      return textCount(Optional.empty());
+    }
+
     /**
      * Setter for totalTokenCount.
      *
@@ -99,6 +130,16 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
      */
     @JsonProperty("totalTokenCount")
     public abstract Builder totalTokenCount(Integer totalTokenCount);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder totalTokenCount(Optional<Integer> totalTokenCount);
+
+    /** Clears the value of totalTokenCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTotalTokenCount() {
+      return totalTokenCount(Optional.empty());
+    }
 
     /**
      * Setter for videoDurationSeconds.
@@ -108,6 +149,16 @@ public abstract class CachedContentUsageMetadata extends JsonSerializable {
      */
     @JsonProperty("videoDurationSeconds")
     public abstract Builder videoDurationSeconds(Integer videoDurationSeconds);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder videoDurationSeconds(Optional<Integer> videoDurationSeconds);
+
+    /** Clears the value of videoDurationSeconds field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearVideoDurationSeconds() {
+      return videoDurationSeconds(Optional.empty());
+    }
 
     public abstract CachedContentUsageMetadata build();
   }

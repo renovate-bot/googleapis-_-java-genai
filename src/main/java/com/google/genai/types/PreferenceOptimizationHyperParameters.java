@@ -80,6 +80,16 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
     @JsonProperty("adapterSize")
     public abstract Builder adapterSize(AdapterSize adapterSize);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder adapterSize(Optional<AdapterSize> adapterSize);
+
+    /** Clears the value of adapterSize field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAdapterSize() {
+      return adapterSize(Optional.empty());
+    }
+
     /**
      * Setter for adapterSize given a known enum.
      *
@@ -108,6 +118,16 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
     @JsonProperty("beta")
     public abstract Builder beta(Double beta);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder beta(Optional<Double> beta);
+
+    /** Clears the value of beta field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBeta() {
+      return beta(Optional.empty());
+    }
+
     /**
      * Setter for epochCount.
      *
@@ -117,6 +137,16 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
     @JsonProperty("epochCount")
     public abstract Builder epochCount(Long epochCount);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder epochCount(Optional<Long> epochCount);
+
+    /** Clears the value of epochCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEpochCount() {
+      return epochCount(Optional.empty());
+    }
+
     /**
      * Setter for learningRateMultiplier.
      *
@@ -124,6 +154,16 @@ public abstract class PreferenceOptimizationHyperParameters extends JsonSerializ
      */
     @JsonProperty("learningRateMultiplier")
     public abstract Builder learningRateMultiplier(Double learningRateMultiplier);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder learningRateMultiplier(Optional<Double> learningRateMultiplier);
+
+    /** Clears the value of learningRateMultiplier field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLearningRateMultiplier() {
+      return learningRateMultiplier(Optional.empty());
+    }
 
     public abstract PreferenceOptimizationHyperParameters build();
   }

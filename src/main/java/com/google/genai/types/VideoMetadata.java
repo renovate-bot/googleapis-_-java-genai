@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.time.Duration;
 import java.util.Optional;
@@ -71,6 +72,16 @@ public abstract class VideoMetadata extends JsonSerializable {
     @JsonProperty("endOffset")
     public abstract Builder endOffset(Duration endOffset);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder endOffset(Optional<Duration> endOffset);
+
+    /** Clears the value of endOffset field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEndOffset() {
+      return endOffset(Optional.empty());
+    }
+
     /**
      * Setter for fps.
      *
@@ -80,6 +91,16 @@ public abstract class VideoMetadata extends JsonSerializable {
     @JsonProperty("fps")
     public abstract Builder fps(Double fps);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder fps(Optional<Double> fps);
+
+    /** Clears the value of fps field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFps() {
+      return fps(Optional.empty());
+    }
+
     /**
      * Setter for startOffset.
      *
@@ -87,6 +108,16 @@ public abstract class VideoMetadata extends JsonSerializable {
      */
     @JsonProperty("startOffset")
     public abstract Builder startOffset(Duration startOffset);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder startOffset(Optional<Duration> startOffset);
+
+    /** Clears the value of startOffset field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearStartOffset() {
+      return startOffset(Optional.empty());
+    }
 
     public abstract VideoMetadata build();
   }

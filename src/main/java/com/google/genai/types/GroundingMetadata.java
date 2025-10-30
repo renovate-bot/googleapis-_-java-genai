@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -103,6 +104,16 @@ public abstract class GroundingMetadata extends JsonSerializable {
     @JsonProperty("googleMapsWidgetContextToken")
     public abstract Builder googleMapsWidgetContextToken(String googleMapsWidgetContextToken);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder googleMapsWidgetContextToken(Optional<String> googleMapsWidgetContextToken);
+
+    /** Clears the value of googleMapsWidgetContextToken field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGoogleMapsWidgetContextToken() {
+      return googleMapsWidgetContextToken(Optional.empty());
+    }
+
     /**
      * Setter for groundingChunks.
      *
@@ -116,6 +127,7 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
      */
+    @CanIgnoreReturnValue
     public Builder groundingChunks(GroundingChunk... groundingChunks) {
       return groundingChunks(Arrays.asList(groundingChunks));
     }
@@ -125,11 +137,22 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
      */
+    @CanIgnoreReturnValue
     public Builder groundingChunks(GroundingChunk.Builder... groundingChunksBuilders) {
       return groundingChunks(
           Arrays.asList(groundingChunksBuilders).stream()
               .map(GroundingChunk.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder groundingChunks(Optional<List<GroundingChunk>> groundingChunks);
+
+    /** Clears the value of groundingChunks field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGroundingChunks() {
+      return groundingChunks(Optional.empty());
     }
 
     /**
@@ -145,6 +168,7 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>groundingSupports: Optional. List of grounding support.
      */
+    @CanIgnoreReturnValue
     public Builder groundingSupports(GroundingSupport... groundingSupports) {
       return groundingSupports(Arrays.asList(groundingSupports));
     }
@@ -154,11 +178,22 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>groundingSupports: Optional. List of grounding support.
      */
+    @CanIgnoreReturnValue
     public Builder groundingSupports(GroundingSupport.Builder... groundingSupportsBuilders) {
       return groundingSupports(
           Arrays.asList(groundingSupportsBuilders).stream()
               .map(GroundingSupport.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder groundingSupports(Optional<List<GroundingSupport>> groundingSupports);
+
+    /** Clears the value of groundingSupports field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGroundingSupports() {
+      return groundingSupports(Optional.empty());
     }
 
     /**
@@ -174,8 +209,19 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>retrievalMetadata: Optional. Output only. Retrieval metadata.
      */
+    @CanIgnoreReturnValue
     public Builder retrievalMetadata(RetrievalMetadata.Builder retrievalMetadataBuilder) {
       return retrievalMetadata(retrievalMetadataBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder retrievalMetadata(Optional<RetrievalMetadata> retrievalMetadata);
+
+    /** Clears the value of retrievalMetadata field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRetrievalMetadata() {
+      return retrievalMetadata(Optional.empty());
     }
 
     /**
@@ -193,8 +239,19 @@ public abstract class GroundingMetadata extends JsonSerializable {
      * <p>retrievalQueries: Optional. Queries executed by the retrieval tools. This field is not
      * supported in Gemini API.
      */
+    @CanIgnoreReturnValue
     public Builder retrievalQueries(String... retrievalQueries) {
       return retrievalQueries(Arrays.asList(retrievalQueries));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder retrievalQueries(Optional<List<String>> retrievalQueries);
+
+    /** Clears the value of retrievalQueries field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRetrievalQueries() {
+      return retrievalQueries(Optional.empty());
     }
 
     /**
@@ -210,8 +267,19 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>searchEntryPoint: Optional. Google search entry for the following-up web searches.
      */
+    @CanIgnoreReturnValue
     public Builder searchEntryPoint(SearchEntryPoint.Builder searchEntryPointBuilder) {
       return searchEntryPoint(searchEntryPointBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder searchEntryPoint(Optional<SearchEntryPoint> searchEntryPoint);
+
+    /** Clears the value of searchEntryPoint field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSearchEntryPoint() {
+      return searchEntryPoint(Optional.empty());
     }
 
     /**
@@ -230,6 +298,7 @@ public abstract class GroundingMetadata extends JsonSerializable {
      * <p>sourceFlaggingUris: Optional. Output only. List of source flagging uris. This is currently
      * populated only for Google Maps grounding. This field is not supported in Gemini API.
      */
+    @CanIgnoreReturnValue
     public Builder sourceFlaggingUris(GroundingMetadataSourceFlaggingUri... sourceFlaggingUris) {
       return sourceFlaggingUris(Arrays.asList(sourceFlaggingUris));
     }
@@ -240,12 +309,24 @@ public abstract class GroundingMetadata extends JsonSerializable {
      * <p>sourceFlaggingUris: Optional. Output only. List of source flagging uris. This is currently
      * populated only for Google Maps grounding. This field is not supported in Gemini API.
      */
+    @CanIgnoreReturnValue
     public Builder sourceFlaggingUris(
         GroundingMetadataSourceFlaggingUri.Builder... sourceFlaggingUrisBuilders) {
       return sourceFlaggingUris(
           Arrays.asList(sourceFlaggingUrisBuilders).stream()
               .map(GroundingMetadataSourceFlaggingUri.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder sourceFlaggingUris(
+        Optional<List<GroundingMetadataSourceFlaggingUri>> sourceFlaggingUris);
+
+    /** Clears the value of sourceFlaggingUris field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSourceFlaggingUris() {
+      return sourceFlaggingUris(Optional.empty());
     }
 
     /**
@@ -261,8 +342,19 @@ public abstract class GroundingMetadata extends JsonSerializable {
      *
      * <p>webSearchQueries: Optional. Web search queries for the following-up web search.
      */
+    @CanIgnoreReturnValue
     public Builder webSearchQueries(String... webSearchQueries) {
       return webSearchQueries(Arrays.asList(webSearchQueries));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder webSearchQueries(Optional<List<String>> webSearchQueries);
+
+    /** Clears the value of webSearchQueries field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearWebSearchQueries() {
+      return webSearchQueries(Optional.empty());
     }
 
     public abstract GroundingMetadata build();

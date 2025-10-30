@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Map;
 import java.util.Optional;
@@ -84,6 +85,16 @@ public abstract class HttpOptions extends JsonSerializable {
     @JsonProperty("baseUrl")
     public abstract Builder baseUrl(String baseUrl);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder baseUrl(Optional<String> baseUrl);
+
+    /** Clears the value of baseUrl field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBaseUrl() {
+      return baseUrl(Optional.empty());
+    }
+
     /**
      * Setter for apiVersion.
      *
@@ -91,6 +102,16 @@ public abstract class HttpOptions extends JsonSerializable {
      */
     @JsonProperty("apiVersion")
     public abstract Builder apiVersion(String apiVersion);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder apiVersion(Optional<String> apiVersion);
+
+    /** Clears the value of apiVersion field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearApiVersion() {
+      return apiVersion(Optional.empty());
+    }
 
     /**
      * Setter for headers.
@@ -100,6 +121,16 @@ public abstract class HttpOptions extends JsonSerializable {
     @JsonProperty("headers")
     public abstract Builder headers(Map<String, String> headers);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder headers(Optional<Map<String, String>> headers);
+
+    /** Clears the value of headers field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHeaders() {
+      return headers(Optional.empty());
+    }
+
     /**
      * Setter for timeout.
      *
@@ -107,6 +138,16 @@ public abstract class HttpOptions extends JsonSerializable {
      */
     @JsonProperty("timeout")
     public abstract Builder timeout(Integer timeout);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder timeout(Optional<Integer> timeout);
+
+    /** Clears the value of timeout field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTimeout() {
+      return timeout(Optional.empty());
+    }
 
     /**
      * Setter for extraBody.
@@ -118,6 +159,16 @@ public abstract class HttpOptions extends JsonSerializable {
      */
     @JsonProperty("extraBody")
     public abstract Builder extraBody(Map<String, Object> extraBody);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder extraBody(Optional<Map<String, Object>> extraBody);
+
+    /** Clears the value of extraBody field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearExtraBody() {
+      return extraBody(Optional.empty());
+    }
 
     /**
      * Setter for retryOptions.
@@ -132,8 +183,19 @@ public abstract class HttpOptions extends JsonSerializable {
      *
      * <p>retryOptions: HTTP retry options for the request.
      */
+    @CanIgnoreReturnValue
     public Builder retryOptions(HttpRetryOptions.Builder retryOptionsBuilder) {
       return retryOptions(retryOptionsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder retryOptions(Optional<HttpRetryOptions> retryOptions);
+
+    /** Clears the value of retryOptions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRetryOptions() {
+      return retryOptions(Optional.empty());
     }
 
     public abstract HttpOptions build();

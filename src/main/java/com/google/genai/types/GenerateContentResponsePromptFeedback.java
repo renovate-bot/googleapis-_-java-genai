@@ -81,6 +81,16 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     @JsonProperty("blockReason")
     public abstract Builder blockReason(BlockedReason blockReason);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder blockReason(Optional<BlockedReason> blockReason);
+
+    /** Clears the value of blockReason field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBlockReason() {
+      return blockReason(Optional.empty());
+    }
+
     /**
      * Setter for blockReason given a known enum.
      *
@@ -110,6 +120,16 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
     @JsonProperty("blockReasonMessage")
     public abstract Builder blockReasonMessage(String blockReasonMessage);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder blockReasonMessage(Optional<String> blockReasonMessage);
+
+    /** Clears the value of blockReasonMessage field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBlockReasonMessage() {
+      return blockReasonMessage(Optional.empty());
+    }
+
     /**
      * Setter for safetyRatings.
      *
@@ -125,6 +145,7 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
      * <p>safetyRatings: Output only. A list of safety ratings for the prompt. There is one rating
      * per category.
      */
+    @CanIgnoreReturnValue
     public Builder safetyRatings(SafetyRating... safetyRatings) {
       return safetyRatings(Arrays.asList(safetyRatings));
     }
@@ -135,11 +156,22 @@ public abstract class GenerateContentResponsePromptFeedback extends JsonSerializ
      * <p>safetyRatings: Output only. A list of safety ratings for the prompt. There is one rating
      * per category.
      */
+    @CanIgnoreReturnValue
     public Builder safetyRatings(SafetyRating.Builder... safetyRatingsBuilders) {
       return safetyRatings(
           Arrays.asList(safetyRatingsBuilders).stream()
               .map(SafetyRating.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder safetyRatings(Optional<List<SafetyRating>> safetyRatings);
+
+    /** Clears the value of safetyRatings field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSafetyRatings() {
+      return safetyRatings(Optional.empty());
     }
 
     public abstract GenerateContentResponsePromptFeedback build();

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -68,8 +69,19 @@ public abstract class RagRetrievalConfigRanking extends JsonSerializable {
      *
      * <p>llmRanker: Optional. Config for LlmRanker.
      */
+    @CanIgnoreReturnValue
     public Builder llmRanker(RagRetrievalConfigRankingLlmRanker.Builder llmRankerBuilder) {
       return llmRanker(llmRankerBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder llmRanker(Optional<RagRetrievalConfigRankingLlmRanker> llmRanker);
+
+    /** Clears the value of llmRanker field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLlmRanker() {
+      return llmRanker(Optional.empty());
     }
 
     /**
@@ -85,8 +97,19 @@ public abstract class RagRetrievalConfigRanking extends JsonSerializable {
      *
      * <p>rankService: Optional. Config for Rank Service.
      */
+    @CanIgnoreReturnValue
     public Builder rankService(RagRetrievalConfigRankingRankService.Builder rankServiceBuilder) {
       return rankService(rankServiceBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder rankService(Optional<RagRetrievalConfigRankingRankService> rankService);
+
+    /** Clears the value of rankService field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRankService() {
+      return rankService(Optional.empty());
     }
 
     public abstract RagRetrievalConfigRanking build();

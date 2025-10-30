@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -76,8 +77,19 @@ public abstract class FunctionResponsePart extends JsonSerializable {
      *
      * <p>inlineData: Optional. Inline media bytes.
      */
+    @CanIgnoreReturnValue
     public Builder inlineData(FunctionResponseBlob.Builder inlineDataBuilder) {
       return inlineData(inlineDataBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder inlineData(Optional<FunctionResponseBlob> inlineData);
+
+    /** Clears the value of inlineData field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearInlineData() {
+      return inlineData(Optional.empty());
     }
 
     /**
@@ -93,8 +105,19 @@ public abstract class FunctionResponsePart extends JsonSerializable {
      *
      * <p>fileData: Optional. URI based data.
      */
+    @CanIgnoreReturnValue
     public Builder fileData(FunctionResponseFileData.Builder fileDataBuilder) {
       return fileData(fileDataBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder fileData(Optional<FunctionResponseFileData> fileData);
+
+    /** Clears the value of fileData field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFileData() {
+      return fileData(Optional.empty());
     }
 
     public abstract FunctionResponsePart build();

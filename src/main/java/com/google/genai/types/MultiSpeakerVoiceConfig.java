@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -68,6 +69,7 @@ public abstract class MultiSpeakerVoiceConfig extends JsonSerializable {
      *
      * <p>speakerVoiceConfigs: Required. All the enabled speaker voices.
      */
+    @CanIgnoreReturnValue
     public Builder speakerVoiceConfigs(SpeakerVoiceConfig... speakerVoiceConfigs) {
       return speakerVoiceConfigs(Arrays.asList(speakerVoiceConfigs));
     }
@@ -77,11 +79,22 @@ public abstract class MultiSpeakerVoiceConfig extends JsonSerializable {
      *
      * <p>speakerVoiceConfigs: Required. All the enabled speaker voices.
      */
+    @CanIgnoreReturnValue
     public Builder speakerVoiceConfigs(SpeakerVoiceConfig.Builder... speakerVoiceConfigsBuilders) {
       return speakerVoiceConfigs(
           Arrays.asList(speakerVoiceConfigsBuilders).stream()
               .map(SpeakerVoiceConfig.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder speakerVoiceConfigs(Optional<List<SpeakerVoiceConfig>> speakerVoiceConfigs);
+
+    /** Clears the value of speakerVoiceConfigs field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSpeakerVoiceConfigs() {
+      return speakerVoiceConfigs(Optional.empty());
     }
 
     public abstract MultiSpeakerVoiceConfig build();

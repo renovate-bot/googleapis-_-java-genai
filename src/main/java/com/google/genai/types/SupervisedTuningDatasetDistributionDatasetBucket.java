@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -73,6 +74,16 @@ public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends J
     @JsonProperty("count")
     public abstract Builder count(Double count);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder count(Optional<Double> count);
+
+    /** Clears the value of count field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearCount() {
+      return count(Optional.empty());
+    }
+
     /**
      * Setter for left.
      *
@@ -81,6 +92,16 @@ public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends J
     @JsonProperty("left")
     public abstract Builder left(Double left);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder left(Optional<Double> left);
+
+    /** Clears the value of left field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLeft() {
+      return left(Optional.empty());
+    }
+
     /**
      * Setter for right.
      *
@@ -88,6 +109,16 @@ public abstract class SupervisedTuningDatasetDistributionDatasetBucket extends J
      */
     @JsonProperty("right")
     public abstract Builder right(Double right);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder right(Optional<Double> right);
+
+    /** Clears the value of right field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRight() {
+      return right(Optional.empty());
+    }
 
     public abstract SupervisedTuningDatasetDistributionDatasetBucket build();
   }

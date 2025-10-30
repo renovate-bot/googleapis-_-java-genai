@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -80,8 +81,19 @@ public abstract class GoogleSearch extends JsonSerializable {
      * default limit is 2000 domains. Example: ["amazon.com", "facebook.com"]. This field is not
      * supported in Gemini API.
      */
+    @CanIgnoreReturnValue
     public Builder excludeDomains(String... excludeDomains) {
       return excludeDomains(Arrays.asList(excludeDomains));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder excludeDomains(Optional<List<String>> excludeDomains);
+
+    /** Clears the value of excludeDomains field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearExcludeDomains() {
+      return excludeDomains(Optional.empty());
     }
 
     /**
@@ -101,8 +113,19 @@ public abstract class GoogleSearch extends JsonSerializable {
      * set a start time, they must set an end time (and vice versa). This field is not supported in
      * Vertex AI.
      */
+    @CanIgnoreReturnValue
     public Builder timeRangeFilter(Interval.Builder timeRangeFilterBuilder) {
       return timeRangeFilter(timeRangeFilterBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder timeRangeFilter(Optional<Interval> timeRangeFilter);
+
+    /** Clears the value of timeRangeFilter field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTimeRangeFilter() {
+      return timeRangeFilter(Optional.empty());
     }
 
     public abstract GoogleSearch build();

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -70,6 +71,16 @@ public abstract class SpeechConfig extends JsonSerializable {
     @JsonProperty("languageCode")
     public abstract Builder languageCode(String languageCode);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder languageCode(Optional<String> languageCode);
+
+    /** Clears the value of languageCode field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLanguageCode() {
+      return languageCode(Optional.empty());
+    }
+
     /**
      * Setter for voiceConfig.
      *
@@ -83,8 +94,19 @@ public abstract class SpeechConfig extends JsonSerializable {
      *
      * <p>voiceConfig: The configuration for the speaker to use.
      */
+    @CanIgnoreReturnValue
     public Builder voiceConfig(VoiceConfig.Builder voiceConfigBuilder) {
       return voiceConfig(voiceConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder voiceConfig(Optional<VoiceConfig> voiceConfig);
+
+    /** Clears the value of voiceConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearVoiceConfig() {
+      return voiceConfig(Optional.empty());
     }
 
     /**
@@ -103,9 +125,21 @@ public abstract class SpeechConfig extends JsonSerializable {
      * <p>multiSpeakerVoiceConfig: Optional. The configuration for the multi-speaker setup. It is
      * mutually exclusive with the voice_config field. This field is not supported in Vertex AI.
      */
+    @CanIgnoreReturnValue
     public Builder multiSpeakerVoiceConfig(
         MultiSpeakerVoiceConfig.Builder multiSpeakerVoiceConfigBuilder) {
       return multiSpeakerVoiceConfig(multiSpeakerVoiceConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder multiSpeakerVoiceConfig(
+        Optional<MultiSpeakerVoiceConfig> multiSpeakerVoiceConfig);
+
+    /** Clears the value of multiSpeakerVoiceConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMultiSpeakerVoiceConfig() {
+      return multiSpeakerVoiceConfig(Optional.empty());
     }
 
     public abstract SpeechConfig build();

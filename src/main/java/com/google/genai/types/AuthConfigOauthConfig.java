@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -73,6 +74,16 @@ public abstract class AuthConfigOauthConfig extends JsonSerializable {
     @JsonProperty("accessToken")
     public abstract Builder accessToken(String accessToken);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder accessToken(Optional<String> accessToken);
+
+    /** Clears the value of accessToken field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAccessToken() {
+      return accessToken(Optional.empty());
+    }
+
     /**
      * Setter for serviceAccount.
      *
@@ -84,6 +95,16 @@ public abstract class AuthConfigOauthConfig extends JsonSerializable {
      */
     @JsonProperty("serviceAccount")
     public abstract Builder serviceAccount(String serviceAccount);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder serviceAccount(Optional<String> serviceAccount);
+
+    /** Clears the value of serviceAccount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearServiceAccount() {
+      return serviceAccount(Optional.empty());
+    }
 
     public abstract AuthConfigOauthConfig build();
   }

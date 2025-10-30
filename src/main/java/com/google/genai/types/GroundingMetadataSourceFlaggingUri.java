@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -69,6 +70,16 @@ public abstract class GroundingMetadataSourceFlaggingUri extends JsonSerializabl
     @JsonProperty("flagContentUri")
     public abstract Builder flagContentUri(String flagContentUri);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder flagContentUri(Optional<String> flagContentUri);
+
+    /** Clears the value of flagContentUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFlagContentUri() {
+      return flagContentUri(Optional.empty());
+    }
+
     /**
      * Setter for sourceId.
      *
@@ -76,6 +87,16 @@ public abstract class GroundingMetadataSourceFlaggingUri extends JsonSerializabl
      */
     @JsonProperty("sourceId")
     public abstract Builder sourceId(String sourceId);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder sourceId(Optional<String> sourceId);
+
+    /** Clears the value of sourceId field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSourceId() {
+      return sourceId(Optional.empty());
+    }
 
     public abstract GroundingMetadataSourceFlaggingUri build();
   }

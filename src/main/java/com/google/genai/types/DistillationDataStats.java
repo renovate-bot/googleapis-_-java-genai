@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -67,8 +68,19 @@ public abstract class DistillationDataStats extends JsonSerializable {
      *
      * <p>trainingDatasetStats: Output only. Statistics computed for the training dataset.
      */
+    @CanIgnoreReturnValue
     public Builder trainingDatasetStats(DatasetStats.Builder trainingDatasetStatsBuilder) {
       return trainingDatasetStats(trainingDatasetStatsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder trainingDatasetStats(Optional<DatasetStats> trainingDatasetStats);
+
+    /** Clears the value of trainingDatasetStats field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTrainingDatasetStats() {
+      return trainingDatasetStats(Optional.empty());
     }
 
     public abstract DistillationDataStats build();

@@ -67,6 +67,17 @@ public abstract class GenerationConfigRoutingConfigAutoRoutingMode extends JsonS
     @JsonProperty("modelRoutingPreference")
     public abstract Builder modelRoutingPreference(ModelRoutingPreference modelRoutingPreference);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder modelRoutingPreference(
+        Optional<ModelRoutingPreference> modelRoutingPreference);
+
+    /** Clears the value of modelRoutingPreference field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearModelRoutingPreference() {
+      return modelRoutingPreference(Optional.empty());
+    }
+
     /**
      * Setter for modelRoutingPreference given a known enum.
      *

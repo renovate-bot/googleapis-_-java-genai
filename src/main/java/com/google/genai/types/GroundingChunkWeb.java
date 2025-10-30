@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -67,6 +68,16 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
     @JsonProperty("domain")
     public abstract Builder domain(String domain);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder domain(Optional<String> domain);
+
+    /** Clears the value of domain field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearDomain() {
+      return domain(Optional.empty());
+    }
+
     /**
      * Setter for title.
      *
@@ -75,6 +86,16 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
     @JsonProperty("title")
     public abstract Builder title(String title);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder title(Optional<String> title);
+
+    /** Clears the value of title field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTitle() {
+      return title(Optional.empty());
+    }
+
     /**
      * Setter for uri.
      *
@@ -82,6 +103,16 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
      */
     @JsonProperty("uri")
     public abstract Builder uri(String uri);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder uri(Optional<String> uri);
+
+    /** Clears the value of uri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearUri() {
+      return uri(Optional.empty());
+    }
 
     public abstract GroundingChunkWeb build();
   }

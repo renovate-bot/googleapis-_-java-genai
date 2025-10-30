@@ -64,6 +64,16 @@ public abstract class UrlMetadata extends JsonSerializable {
     @JsonProperty("retrievedUrl")
     public abstract Builder retrievedUrl(String retrievedUrl);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder retrievedUrl(Optional<String> retrievedUrl);
+
+    /** Clears the value of retrievedUrl field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRetrievedUrl() {
+      return retrievedUrl(Optional.empty());
+    }
+
     /**
      * Setter for urlRetrievalStatus.
      *
@@ -71,6 +81,16 @@ public abstract class UrlMetadata extends JsonSerializable {
      */
     @JsonProperty("urlRetrievalStatus")
     public abstract Builder urlRetrievalStatus(UrlRetrievalStatus urlRetrievalStatus);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder urlRetrievalStatus(Optional<UrlRetrievalStatus> urlRetrievalStatus);
+
+    /** Clears the value of urlRetrievalStatus field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearUrlRetrievalStatus() {
+      return urlRetrievalStatus(Optional.empty());
+    }
 
     /**
      * Setter for urlRetrievalStatus given a known enum.

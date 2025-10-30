@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -68,6 +69,7 @@ public abstract class UrlContextMetadata extends JsonSerializable {
      *
      * <p>urlMetadata: Output only. List of url context.
      */
+    @CanIgnoreReturnValue
     public Builder urlMetadata(UrlMetadata... urlMetadata) {
       return urlMetadata(Arrays.asList(urlMetadata));
     }
@@ -77,11 +79,22 @@ public abstract class UrlContextMetadata extends JsonSerializable {
      *
      * <p>urlMetadata: Output only. List of url context.
      */
+    @CanIgnoreReturnValue
     public Builder urlMetadata(UrlMetadata.Builder... urlMetadataBuilders) {
       return urlMetadata(
           Arrays.asList(urlMetadataBuilders).stream()
               .map(UrlMetadata.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder urlMetadata(Optional<List<UrlMetadata>> urlMetadata);
+
+    /** Clears the value of urlMetadata field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearUrlMetadata() {
+      return urlMetadata(Optional.empty());
     }
 
     public abstract UrlContextMetadata build();

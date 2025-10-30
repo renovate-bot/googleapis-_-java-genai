@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -78,9 +79,21 @@ public abstract class PreferenceOptimizationSpec extends JsonSerializable {
      *
      * <p>hyperParameters: Optional. Hyperparameters for Preference Optimization.
      */
+    @CanIgnoreReturnValue
     public Builder hyperParameters(
         PreferenceOptimizationHyperParameters.Builder hyperParametersBuilder) {
       return hyperParameters(hyperParametersBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder hyperParameters(
+        Optional<PreferenceOptimizationHyperParameters> hyperParameters);
+
+    /** Clears the value of hyperParameters field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHyperParameters() {
+      return hyperParameters(Optional.empty());
     }
 
     /**
@@ -92,6 +105,16 @@ public abstract class PreferenceOptimizationSpec extends JsonSerializable {
     @JsonProperty("trainingDatasetUri")
     public abstract Builder trainingDatasetUri(String trainingDatasetUri);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder trainingDatasetUri(Optional<String> trainingDatasetUri);
+
+    /** Clears the value of trainingDatasetUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTrainingDatasetUri() {
+      return trainingDatasetUri(Optional.empty());
+    }
+
     /**
      * Setter for validationDatasetUri.
      *
@@ -100,6 +123,16 @@ public abstract class PreferenceOptimizationSpec extends JsonSerializable {
      */
     @JsonProperty("validationDatasetUri")
     public abstract Builder validationDatasetUri(String validationDatasetUri);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder validationDatasetUri(Optional<String> validationDatasetUri);
+
+    /** Clears the value of validationDatasetUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearValidationDatasetUri() {
+      return validationDatasetUri(Optional.empty());
+    }
 
     public abstract PreferenceOptimizationSpec build();
   }

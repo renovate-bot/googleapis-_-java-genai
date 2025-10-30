@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -94,6 +95,16 @@ public abstract class BatchJobDestination extends JsonSerializable {
     @JsonProperty("format")
     public abstract Builder format(String format);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder format(Optional<String> format);
+
+    /** Clears the value of format field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFormat() {
+      return format(Optional.empty());
+    }
+
     /**
      * Setter for gcsUri.
      *
@@ -102,6 +113,16 @@ public abstract class BatchJobDestination extends JsonSerializable {
     @JsonProperty("gcsUri")
     public abstract Builder gcsUri(String gcsUri);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder gcsUri(Optional<String> gcsUri);
+
+    /** Clears the value of gcsUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGcsUri() {
+      return gcsUri(Optional.empty());
+    }
+
     /**
      * Setter for bigqueryUri.
      *
@@ -109,6 +130,16 @@ public abstract class BatchJobDestination extends JsonSerializable {
      */
     @JsonProperty("bigqueryUri")
     public abstract Builder bigqueryUri(String bigqueryUri);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder bigqueryUri(Optional<String> bigqueryUri);
+
+    /** Clears the value of bigqueryUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBigqueryUri() {
+      return bigqueryUri(Optional.empty());
+    }
 
     /**
      * Setter for fileName.
@@ -120,6 +151,16 @@ public abstract class BatchJobDestination extends JsonSerializable {
      */
     @JsonProperty("fileName")
     public abstract Builder fileName(String fileName);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder fileName(Optional<String> fileName);
+
+    /** Clears the value of fileName field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFileName() {
+      return fileName(Optional.empty());
+    }
 
     /**
      * Setter for inlinedResponses.
@@ -136,6 +177,7 @@ public abstract class BatchJobDestination extends JsonSerializable {
      * <p>inlinedResponses: The responses to the requests in the batch. Returned when the batch was
      * built using inlined requests. The responses will be in the same order as the input requests.
      */
+    @CanIgnoreReturnValue
     public Builder inlinedResponses(InlinedResponse... inlinedResponses) {
       return inlinedResponses(Arrays.asList(inlinedResponses));
     }
@@ -146,11 +188,22 @@ public abstract class BatchJobDestination extends JsonSerializable {
      * <p>inlinedResponses: The responses to the requests in the batch. Returned when the batch was
      * built using inlined requests. The responses will be in the same order as the input requests.
      */
+    @CanIgnoreReturnValue
     public Builder inlinedResponses(InlinedResponse.Builder... inlinedResponsesBuilders) {
       return inlinedResponses(
           Arrays.asList(inlinedResponsesBuilders).stream()
               .map(InlinedResponse.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder inlinedResponses(Optional<List<InlinedResponse>> inlinedResponses);
+
+    /** Clears the value of inlinedResponses field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearInlinedResponses() {
+      return inlinedResponses(Optional.empty());
     }
 
     /**
@@ -171,6 +224,7 @@ public abstract class BatchJobDestination extends JsonSerializable {
      * the batch was built using inlined requests. The responses will be in the same order as the
      * input requests.
      */
+    @CanIgnoreReturnValue
     public Builder inlinedEmbedContentResponses(
         InlinedEmbedContentResponse... inlinedEmbedContentResponses) {
       return inlinedEmbedContentResponses(Arrays.asList(inlinedEmbedContentResponses));
@@ -183,12 +237,24 @@ public abstract class BatchJobDestination extends JsonSerializable {
      * the batch was built using inlined requests. The responses will be in the same order as the
      * input requests.
      */
+    @CanIgnoreReturnValue
     public Builder inlinedEmbedContentResponses(
         InlinedEmbedContentResponse.Builder... inlinedEmbedContentResponsesBuilders) {
       return inlinedEmbedContentResponses(
           Arrays.asList(inlinedEmbedContentResponsesBuilders).stream()
               .map(InlinedEmbedContentResponse.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder inlinedEmbedContentResponses(
+        Optional<List<InlinedEmbedContentResponse>> inlinedEmbedContentResponses);
+
+    /** Clears the value of inlinedEmbedContentResponses field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearInlinedEmbedContentResponses() {
+      return inlinedEmbedContentResponses(Optional.empty());
     }
 
     public abstract BatchJobDestination build();

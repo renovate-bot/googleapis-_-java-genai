@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -66,6 +67,16 @@ public abstract class SpeakerVoiceConfig extends JsonSerializable {
     @JsonProperty("speaker")
     public abstract Builder speaker(String speaker);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder speaker(Optional<String> speaker);
+
+    /** Clears the value of speaker field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSpeaker() {
+      return speaker(Optional.empty());
+    }
+
     /**
      * Setter for voiceConfig.
      *
@@ -79,8 +90,19 @@ public abstract class SpeakerVoiceConfig extends JsonSerializable {
      *
      * <p>voiceConfig: Required. The configuration for the voice to use.
      */
+    @CanIgnoreReturnValue
     public Builder voiceConfig(VoiceConfig.Builder voiceConfigBuilder) {
       return voiceConfig(voiceConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder voiceConfig(Optional<VoiceConfig> voiceConfig);
+
+    /** Clears the value of voiceConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearVoiceConfig() {
+      return voiceConfig(Optional.empty());
     }
 
     public abstract SpeakerVoiceConfig build();

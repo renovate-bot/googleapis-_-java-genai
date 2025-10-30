@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +81,16 @@ public abstract class InlinedRequest extends JsonSerializable {
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder model(Optional<String> model);
+
+    /** Clears the value of model field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearModel() {
+      return model(Optional.empty());
+    }
+
     /**
      * Setter for contents.
      *
@@ -93,6 +104,7 @@ public abstract class InlinedRequest extends JsonSerializable {
      *
      * <p>contents: Content of the request.
      */
+    @CanIgnoreReturnValue
     public Builder contents(Content... contents) {
       return contents(Arrays.asList(contents));
     }
@@ -102,11 +114,22 @@ public abstract class InlinedRequest extends JsonSerializable {
      *
      * <p>contents: Content of the request.
      */
+    @CanIgnoreReturnValue
     public Builder contents(Content.Builder... contentsBuilders) {
       return contents(
           Arrays.asList(contentsBuilders).stream()
               .map(Content.Builder::build)
               .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder contents(Optional<List<Content>> contents);
+
+    /** Clears the value of contents field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearContents() {
+      return contents(Optional.empty());
     }
 
     /**
@@ -116,6 +139,16 @@ public abstract class InlinedRequest extends JsonSerializable {
      */
     @JsonProperty("metadata")
     public abstract Builder metadata(Map<String, String> metadata);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder metadata(Optional<Map<String, String>> metadata);
+
+    /** Clears the value of metadata field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMetadata() {
+      return metadata(Optional.empty());
+    }
 
     /**
      * Setter for config.
@@ -130,8 +163,19 @@ public abstract class InlinedRequest extends JsonSerializable {
      *
      * <p>config: Configuration that contains optional model parameters.
      */
+    @CanIgnoreReturnValue
     public Builder config(GenerateContentConfig.Builder configBuilder) {
       return config(configBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder config(Optional<GenerateContentConfig> config);
+
+    /** Clears the value of config field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearConfig() {
+      return config(Optional.empty());
     }
 
     public abstract InlinedRequest build();

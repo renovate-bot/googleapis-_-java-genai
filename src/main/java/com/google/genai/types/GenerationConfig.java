@@ -193,8 +193,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      *
      * <p>modelSelectionConfig: Optional. Config for model selection.
      */
+    @CanIgnoreReturnValue
     public Builder modelSelectionConfig(ModelSelectionConfig.Builder modelSelectionConfigBuilder) {
       return modelSelectionConfig(modelSelectionConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder modelSelectionConfig(Optional<ModelSelectionConfig> modelSelectionConfig);
+
+    /** Clears the value of modelSelectionConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearModelSelectionConfig() {
+      return modelSelectionConfig(Optional.empty());
     }
 
     /**
@@ -206,6 +217,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("audioTimestamp")
     public abstract Builder audioTimestamp(boolean audioTimestamp);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder audioTimestamp(Optional<Boolean> audioTimestamp);
+
+    /** Clears the value of audioTimestamp field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAudioTimestamp() {
+      return audioTimestamp(Optional.empty());
+    }
+
     /**
      * Setter for candidateCount.
      *
@@ -213,6 +234,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("candidateCount")
     public abstract Builder candidateCount(Integer candidateCount);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder candidateCount(Optional<Integer> candidateCount);
+
+    /** Clears the value of candidateCount field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearCandidateCount() {
+      return candidateCount(Optional.empty());
+    }
 
     /**
      * Setter for enableAffectiveDialog.
@@ -223,6 +254,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("enableAffectiveDialog")
     public abstract Builder enableAffectiveDialog(boolean enableAffectiveDialog);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder enableAffectiveDialog(Optional<Boolean> enableAffectiveDialog);
+
+    /** Clears the value of enableAffectiveDialog field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEnableAffectiveDialog() {
+      return enableAffectiveDialog(Optional.empty());
+    }
+
     /**
      * Setter for frequencyPenalty.
      *
@@ -230,6 +271,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("frequencyPenalty")
     public abstract Builder frequencyPenalty(Float frequencyPenalty);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder frequencyPenalty(Optional<Float> frequencyPenalty);
+
+    /** Clears the value of frequencyPenalty field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearFrequencyPenalty() {
+      return frequencyPenalty(Optional.empty());
+    }
 
     /**
      * Setter for logprobs.
@@ -239,6 +290,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("logprobs")
     public abstract Builder logprobs(Integer logprobs);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder logprobs(Optional<Integer> logprobs);
+
+    /** Clears the value of logprobs field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLogprobs() {
+      return logprobs(Optional.empty());
+    }
+
     /**
      * Setter for maxOutputTokens.
      *
@@ -247,6 +308,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("maxOutputTokens")
     public abstract Builder maxOutputTokens(Integer maxOutputTokens);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder maxOutputTokens(Optional<Integer> maxOutputTokens);
+
+    /** Clears the value of maxOutputTokens field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMaxOutputTokens() {
+      return maxOutputTokens(Optional.empty());
+    }
+
     /**
      * Setter for mediaResolution.
      *
@@ -254,6 +325,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("mediaResolution")
     public abstract Builder mediaResolution(MediaResolution mediaResolution);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder mediaResolution(Optional<MediaResolution> mediaResolution);
+
+    /** Clears the value of mediaResolution field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMediaResolution() {
+      return mediaResolution(Optional.empty());
+    }
 
     /**
      * Setter for mediaResolution given a known enum.
@@ -283,6 +364,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("presencePenalty")
     public abstract Builder presencePenalty(Float presencePenalty);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder presencePenalty(Optional<Float> presencePenalty);
+
+    /** Clears the value of presencePenalty field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearPresencePenalty() {
+      return presencePenalty(Optional.empty());
+    }
+
     /**
      * Setter for responseJsonSchema.
      *
@@ -302,6 +393,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("responseJsonSchema")
     public abstract Builder responseJsonSchema(Object responseJsonSchema);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder responseJsonSchema(Optional<Object> responseJsonSchema);
+
+    /** Clears the value of responseJsonSchema field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearResponseJsonSchema() {
+      return responseJsonSchema(Optional.empty());
+    }
+
     /**
      * Setter for responseLogprobs.
      *
@@ -309,6 +410,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("responseLogprobs")
     public abstract Builder responseLogprobs(boolean responseLogprobs);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder responseLogprobs(Optional<Boolean> responseLogprobs);
+
+    /** Clears the value of responseLogprobs field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearResponseLogprobs() {
+      return responseLogprobs(Optional.empty());
+    }
 
     /**
      * Setter for responseMimeType.
@@ -320,6 +431,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("responseMimeType")
     public abstract Builder responseMimeType(String responseMimeType);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder responseMimeType(Optional<String> responseMimeType);
+
+    /** Clears the value of responseMimeType field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearResponseMimeType() {
+      return responseMimeType(Optional.empty());
+    }
 
     /**
      * Setter for responseModalities.
@@ -334,8 +455,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      *
      * <p>responseModalities: Optional. The modalities of the response.
      */
+    @CanIgnoreReturnValue
     public Builder responseModalities(Modality... responseModalities) {
       return responseModalities(Arrays.asList(responseModalities));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder responseModalities(Optional<List<Modality>> responseModalities);
+
+    /** Clears the value of responseModalities field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearResponseModalities() {
+      return responseModalities(Optional.empty());
     }
 
     /**
@@ -403,8 +535,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      * set, a compatible response_mime_type must also be set. Compatible mimetypes:
      * `application/json`: Schema for JSON response.
      */
+    @CanIgnoreReturnValue
     public Builder responseSchema(Schema.Builder responseSchemaBuilder) {
       return responseSchema(responseSchemaBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder responseSchema(Optional<Schema> responseSchema);
+
+    /** Clears the value of responseSchema field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearResponseSchema() {
+      return responseSchema(Optional.empty());
     }
 
     /**
@@ -420,8 +563,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      *
      * <p>routingConfig: Optional. Routing configuration. This field is not supported in Gemini API.
      */
+    @CanIgnoreReturnValue
     public Builder routingConfig(GenerationConfigRoutingConfig.Builder routingConfigBuilder) {
       return routingConfig(routingConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder routingConfig(Optional<GenerationConfigRoutingConfig> routingConfig);
+
+    /** Clears the value of routingConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearRoutingConfig() {
+      return routingConfig(Optional.empty());
     }
 
     /**
@@ -431,6 +585,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("seed")
     public abstract Builder seed(Integer seed);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder seed(Optional<Integer> seed);
+
+    /** Clears the value of seed field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSeed() {
+      return seed(Optional.empty());
+    }
 
     /**
      * Setter for speechConfig.
@@ -445,8 +609,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      *
      * <p>speechConfig: Optional. The speech generation config.
      */
+    @CanIgnoreReturnValue
     public Builder speechConfig(SpeechConfig.Builder speechConfigBuilder) {
       return speechConfig(speechConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder speechConfig(Optional<SpeechConfig> speechConfig);
+
+    /** Clears the value of speechConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSpeechConfig() {
+      return speechConfig(Optional.empty());
     }
 
     /**
@@ -462,8 +637,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      *
      * <p>stopSequences: Optional. Stop sequences.
      */
+    @CanIgnoreReturnValue
     public Builder stopSequences(String... stopSequences) {
       return stopSequences(Arrays.asList(stopSequences));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder stopSequences(Optional<List<String>> stopSequences);
+
+    /** Clears the value of stopSequences field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearStopSequences() {
+      return stopSequences(Optional.empty());
     }
 
     /**
@@ -473,6 +659,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("temperature")
     public abstract Builder temperature(Float temperature);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder temperature(Optional<Float> temperature);
+
+    /** Clears the value of temperature field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTemperature() {
+      return temperature(Optional.empty());
+    }
 
     /**
      * Setter for thinkingConfig.
@@ -489,8 +685,19 @@ public abstract class GenerationConfig extends JsonSerializable {
      * <p>thinkingConfig: Optional. Config for thinking features. An error will be returned if this
      * field is set for models that don't support thinking.
      */
+    @CanIgnoreReturnValue
     public Builder thinkingConfig(ThinkingConfig.Builder thinkingConfigBuilder) {
       return thinkingConfig(thinkingConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder thinkingConfig(Optional<ThinkingConfig> thinkingConfig);
+
+    /** Clears the value of thinkingConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearThinkingConfig() {
+      return thinkingConfig(Optional.empty());
     }
 
     /**
@@ -501,6 +708,16 @@ public abstract class GenerationConfig extends JsonSerializable {
     @JsonProperty("topK")
     public abstract Builder topK(Float topK);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder topK(Optional<Float> topK);
+
+    /** Clears the value of topK field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTopK() {
+      return topK(Optional.empty());
+    }
+
     /**
      * Setter for topP.
      *
@@ -508,6 +725,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("topP")
     public abstract Builder topP(Float topP);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder topP(Optional<Float> topP);
+
+    /** Clears the value of topP field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTopP() {
+      return topP(Optional.empty());
+    }
 
     /**
      * Setter for enableEnhancedCivicAnswers.
@@ -517,6 +744,16 @@ public abstract class GenerationConfig extends JsonSerializable {
      */
     @JsonProperty("enableEnhancedCivicAnswers")
     public abstract Builder enableEnhancedCivicAnswers(boolean enableEnhancedCivicAnswers);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder enableEnhancedCivicAnswers(Optional<Boolean> enableEnhancedCivicAnswers);
+
+    /** Clears the value of enableEnhancedCivicAnswers field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEnableEnhancedCivicAnswers() {
+      return enableEnhancedCivicAnswers(Optional.empty());
+    }
 
     public abstract GenerationConfig build();
   }

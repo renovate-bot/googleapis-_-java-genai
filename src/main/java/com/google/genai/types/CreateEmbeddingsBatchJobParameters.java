@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.api.core.InternalApi;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -72,6 +73,16 @@ public abstract class CreateEmbeddingsBatchJobParameters extends JsonSerializabl
     @JsonProperty("model")
     public abstract Builder model(String model);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder model(Optional<String> model);
+
+    /** Clears the value of model field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearModel() {
+      return model(Optional.empty());
+    }
+
     /**
      * Setter for src.
      *
@@ -85,8 +96,19 @@ public abstract class CreateEmbeddingsBatchJobParameters extends JsonSerializabl
      *
      * <p>src: input data to run batch job".
      */
+    @CanIgnoreReturnValue
     public Builder src(EmbeddingsBatchJobSource.Builder srcBuilder) {
       return src(srcBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder src(Optional<EmbeddingsBatchJobSource> src);
+
+    /** Clears the value of src field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSrc() {
+      return src(Optional.empty());
     }
 
     /**
@@ -102,8 +124,19 @@ public abstract class CreateEmbeddingsBatchJobParameters extends JsonSerializabl
      *
      * <p>config: Optional parameters for creating a BatchJob.
      */
+    @CanIgnoreReturnValue
     public Builder config(CreateEmbeddingsBatchJobConfig.Builder configBuilder) {
       return config(configBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder config(Optional<CreateEmbeddingsBatchJobConfig> config);
+
+    /** Clears the value of config field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearConfig() {
+      return config(Optional.empty());
     }
 
     public abstract CreateEmbeddingsBatchJobParameters build();

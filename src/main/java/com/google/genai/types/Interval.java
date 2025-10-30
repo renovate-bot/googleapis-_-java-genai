@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.time.Instant;
 import java.util.Optional;
@@ -76,6 +77,16 @@ public abstract class Interval extends JsonSerializable {
     @JsonProperty("endTime")
     public abstract Builder endTime(Instant endTime);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder endTime(Optional<Instant> endTime);
+
+    /** Clears the value of endTime field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEndTime() {
+      return endTime(Optional.empty());
+    }
+
     /**
      * Setter for startTime.
      *
@@ -84,6 +95,16 @@ public abstract class Interval extends JsonSerializable {
      */
     @JsonProperty("startTime")
     public abstract Builder startTime(Instant startTime);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder startTime(Optional<Instant> startTime);
+
+    /** Clears the value of startTime field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearStartTime() {
+      return startTime(Optional.empty());
+    }
 
     public abstract Interval build();
   }

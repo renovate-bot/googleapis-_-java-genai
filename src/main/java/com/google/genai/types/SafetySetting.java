@@ -71,6 +71,16 @@ public abstract class SafetySetting extends JsonSerializable {
     @JsonProperty("category")
     public abstract Builder category(HarmCategory category);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder category(Optional<HarmCategory> category);
+
+    /** Clears the value of category field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearCategory() {
+      return category(Optional.empty());
+    }
+
     /**
      * Setter for category given a known enum.
      *
@@ -100,6 +110,16 @@ public abstract class SafetySetting extends JsonSerializable {
      */
     @JsonProperty("method")
     public abstract Builder method(HarmBlockMethod method);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder method(Optional<HarmBlockMethod> method);
+
+    /** Clears the value of method field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMethod() {
+      return method(Optional.empty());
+    }
 
     /**
      * Setter for method given a known enum.
@@ -132,6 +152,16 @@ public abstract class SafetySetting extends JsonSerializable {
      */
     @JsonProperty("threshold")
     public abstract Builder threshold(HarmBlockThreshold threshold);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder threshold(Optional<HarmBlockThreshold> threshold);
+
+    /** Clears the value of threshold field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearThreshold() {
+      return threshold(Optional.empty());
+    }
 
     /**
      * Setter for threshold given a known enum.

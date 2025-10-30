@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -68,8 +69,19 @@ public abstract class ApiAuth extends JsonSerializable {
      *
      * <p>apiKeyConfig: The API secret.
      */
+    @CanIgnoreReturnValue
     public Builder apiKeyConfig(ApiAuthApiKeyConfig.Builder apiKeyConfigBuilder) {
       return apiKeyConfig(apiKeyConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder apiKeyConfig(Optional<ApiAuthApiKeyConfig> apiKeyConfig);
+
+    /** Clears the value of apiKeyConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearApiKeyConfig() {
+      return apiKeyConfig(Optional.empty());
     }
 
     public abstract ApiAuth build();

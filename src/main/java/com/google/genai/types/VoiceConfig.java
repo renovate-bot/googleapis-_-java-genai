@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -64,8 +65,19 @@ public abstract class VoiceConfig extends JsonSerializable {
      *
      * <p>prebuiltVoiceConfig: The configuration for the prebuilt voice to use.
      */
+    @CanIgnoreReturnValue
     public Builder prebuiltVoiceConfig(PrebuiltVoiceConfig.Builder prebuiltVoiceConfigBuilder) {
       return prebuiltVoiceConfig(prebuiltVoiceConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder prebuiltVoiceConfig(Optional<PrebuiltVoiceConfig> prebuiltVoiceConfig);
+
+    /** Clears the value of prebuiltVoiceConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearPrebuiltVoiceConfig() {
+      return prebuiltVoiceConfig(Optional.empty());
     }
 
     public abstract VoiceConfig build();

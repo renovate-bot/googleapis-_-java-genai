@@ -124,8 +124,19 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      *
      * <p>httpOptions: Used to override HTTP request options.
      */
+    @CanIgnoreReturnValue
     public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
       return httpOptions(httpOptionsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder httpOptions(Optional<HttpOptions> httpOptions);
+
+    /** Clears the value of httpOptions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHttpOptions() {
+      return httpOptions(Optional.empty());
     }
 
     /**
@@ -136,6 +147,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("outputGcsUri")
     public abstract Builder outputGcsUri(String outputGcsUri);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder outputGcsUri(Optional<String> outputGcsUri);
+
+    /** Clears the value of outputGcsUri field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearOutputGcsUri() {
+      return outputGcsUri(Optional.empty());
+    }
+
     /**
      * Setter for safetyFilterLevel.
      *
@@ -143,6 +164,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      */
     @JsonProperty("safetyFilterLevel")
     public abstract Builder safetyFilterLevel(SafetyFilterLevel safetyFilterLevel);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder safetyFilterLevel(Optional<SafetyFilterLevel> safetyFilterLevel);
+
+    /** Clears the value of safetyFilterLevel field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSafetyFilterLevel() {
+      return safetyFilterLevel(Optional.empty());
+    }
 
     /**
      * Setter for safetyFilterLevel given a known enum.
@@ -172,6 +203,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("personGeneration")
     public abstract Builder personGeneration(PersonGeneration personGeneration);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder personGeneration(Optional<PersonGeneration> personGeneration);
+
+    /** Clears the value of personGeneration field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearPersonGeneration() {
+      return personGeneration(Optional.empty());
+    }
+
     /**
      * Setter for personGeneration given a known enum.
      *
@@ -200,6 +241,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("includeRaiReason")
     public abstract Builder includeRaiReason(boolean includeRaiReason);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder includeRaiReason(Optional<Boolean> includeRaiReason);
+
+    /** Clears the value of includeRaiReason field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearIncludeRaiReason() {
+      return includeRaiReason(Optional.empty());
+    }
+
     /**
      * Setter for outputMimeType.
      *
@@ -207,6 +258,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      */
     @JsonProperty("outputMimeType")
     public abstract Builder outputMimeType(String outputMimeType);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder outputMimeType(Optional<String> outputMimeType);
+
+    /** Clears the value of outputMimeType field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearOutputMimeType() {
+      return outputMimeType(Optional.empty());
+    }
 
     /**
      * Setter for outputCompressionQuality.
@@ -217,6 +278,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("outputCompressionQuality")
     public abstract Builder outputCompressionQuality(Integer outputCompressionQuality);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder outputCompressionQuality(Optional<Integer> outputCompressionQuality);
+
+    /** Clears the value of outputCompressionQuality field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearOutputCompressionQuality() {
+      return outputCompressionQuality(Optional.empty());
+    }
+
     /**
      * Setter for enhanceInputImage.
      *
@@ -225,6 +296,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      */
     @JsonProperty("enhanceInputImage")
     public abstract Builder enhanceInputImage(boolean enhanceInputImage);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder enhanceInputImage(Optional<Boolean> enhanceInputImage);
+
+    /** Clears the value of enhanceInputImage field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEnhanceInputImage() {
+      return enhanceInputImage(Optional.empty());
+    }
 
     /**
      * Setter for imagePreservationFactor.
@@ -236,6 +317,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("imagePreservationFactor")
     public abstract Builder imagePreservationFactor(Float imagePreservationFactor);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder imagePreservationFactor(Optional<Float> imagePreservationFactor);
+
+    /** Clears the value of imagePreservationFactor field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImagePreservationFactor() {
+      return imagePreservationFactor(Optional.empty());
+    }
+
     /**
      * Setter for labels.
      *
@@ -243,6 +334,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      */
     @JsonProperty("labels")
     public abstract Builder labels(Map<String, String> labels);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder labels(Optional<Map<String, String>> labels);
+
+    /** Clears the value of labels field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLabels() {
+      return labels(Optional.empty());
+    }
 
     /**
      * Setter for numberOfImages.
@@ -252,6 +353,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
     @JsonProperty("numberOfImages")
     public abstract Builder numberOfImages(Integer numberOfImages);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder numberOfImages(Optional<Integer> numberOfImages);
+
+    /** Clears the value of numberOfImages field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearNumberOfImages() {
+      return numberOfImages(Optional.empty());
+    }
+
     /**
      * Setter for mode.
      *
@@ -259,6 +370,16 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
      */
     @JsonProperty("mode")
     public abstract Builder mode(String mode);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder mode(Optional<String> mode);
+
+    /** Clears the value of mode field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMode() {
+      return mode(Optional.empty());
+    }
 
     public abstract UpscaleImageAPIConfig build();
   }

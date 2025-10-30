@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
@@ -68,8 +69,19 @@ public abstract class GoogleMaps extends JsonSerializable {
      *
      * <p>authConfig: Optional. Auth config for the Google Maps tool.
      */
+    @CanIgnoreReturnValue
     public Builder authConfig(AuthConfig.Builder authConfigBuilder) {
       return authConfig(authConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder authConfig(Optional<AuthConfig> authConfig);
+
+    /** Clears the value of authConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAuthConfig() {
+      return authConfig(Optional.empty());
     }
 
     /**
@@ -79,6 +91,16 @@ public abstract class GoogleMaps extends JsonSerializable {
      */
     @JsonProperty("enableWidget")
     public abstract Builder enableWidget(boolean enableWidget);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder enableWidget(Optional<Boolean> enableWidget);
+
+    /** Clears the value of enableWidget field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEnableWidget() {
+      return enableWidget(Optional.empty());
+    }
 
     public abstract GoogleMaps build();
   }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
@@ -96,6 +97,16 @@ public abstract class HttpRetryOptions extends JsonSerializable {
     @JsonProperty("attempts")
     public abstract Builder attempts(Integer attempts);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder attempts(Optional<Integer> attempts);
+
+    /** Clears the value of attempts field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearAttempts() {
+      return attempts(Optional.empty());
+    }
+
     /**
      * Setter for initialDelay.
      *
@@ -104,6 +115,16 @@ public abstract class HttpRetryOptions extends JsonSerializable {
      */
     @JsonProperty("initialDelay")
     public abstract Builder initialDelay(Double initialDelay);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder initialDelay(Optional<Double> initialDelay);
+
+    /** Clears the value of initialDelay field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearInitialDelay() {
+      return initialDelay(Optional.empty());
+    }
 
     /**
      * Setter for maxDelay.
@@ -114,6 +135,16 @@ public abstract class HttpRetryOptions extends JsonSerializable {
     @JsonProperty("maxDelay")
     public abstract Builder maxDelay(Double maxDelay);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder maxDelay(Optional<Double> maxDelay);
+
+    /** Clears the value of maxDelay field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMaxDelay() {
+      return maxDelay(Optional.empty());
+    }
+
     /**
      * Setter for expBase.
      *
@@ -123,6 +154,16 @@ public abstract class HttpRetryOptions extends JsonSerializable {
     @JsonProperty("expBase")
     public abstract Builder expBase(Double expBase);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder expBase(Optional<Double> expBase);
+
+    /** Clears the value of expBase field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearExpBase() {
+      return expBase(Optional.empty());
+    }
+
     /**
      * Setter for jitter.
      *
@@ -130,6 +171,16 @@ public abstract class HttpRetryOptions extends JsonSerializable {
      */
     @JsonProperty("jitter")
     public abstract Builder jitter(Double jitter);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder jitter(Optional<Double> jitter);
+
+    /** Clears the value of jitter field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearJitter() {
+      return jitter(Optional.empty());
+    }
 
     /**
      * Setter for httpStatusCodes.
@@ -146,8 +197,19 @@ public abstract class HttpRetryOptions extends JsonSerializable {
      * <p>httpStatusCodes: List of HTTP status codes that should trigger a retry. If not specified,
      * a default set of retryable codes (408, 429, and 5xx) may be used.
      */
+    @CanIgnoreReturnValue
     public Builder httpStatusCodes(Integer... httpStatusCodes) {
       return httpStatusCodes(Arrays.asList(httpStatusCodes));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder httpStatusCodes(Optional<List<Integer>> httpStatusCodes);
+
+    /** Clears the value of httpStatusCodes field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHttpStatusCodes() {
+      return httpStatusCodes(Optional.empty());
     }
 
     public abstract HttpRetryOptions build();

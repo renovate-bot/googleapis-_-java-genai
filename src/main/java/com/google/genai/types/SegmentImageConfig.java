@@ -99,8 +99,19 @@ public abstract class SegmentImageConfig extends JsonSerializable {
      *
      * <p>httpOptions: Used to override HTTP request options.
      */
+    @CanIgnoreReturnValue
     public Builder httpOptions(HttpOptions.Builder httpOptionsBuilder) {
       return httpOptions(httpOptionsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder httpOptions(Optional<HttpOptions> httpOptions);
+
+    /** Clears the value of httpOptions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearHttpOptions() {
+      return httpOptions(Optional.empty());
     }
 
     /**
@@ -110,6 +121,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
      */
     @JsonProperty("mode")
     public abstract Builder mode(SegmentMode mode);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder mode(Optional<SegmentMode> mode);
+
+    /** Clears the value of mode field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMode() {
+      return mode(Optional.empty());
+    }
 
     /**
      * Setter for mode given a known enum.
@@ -140,6 +161,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
     @JsonProperty("maxPredictions")
     public abstract Builder maxPredictions(Integer maxPredictions);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder maxPredictions(Optional<Integer> maxPredictions);
+
+    /** Clears the value of maxPredictions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMaxPredictions() {
+      return maxPredictions(Optional.empty());
+    }
+
     /**
      * Setter for confidenceThreshold.
      *
@@ -149,6 +180,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
     @JsonProperty("confidenceThreshold")
     public abstract Builder confidenceThreshold(Float confidenceThreshold);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder confidenceThreshold(Optional<Float> confidenceThreshold);
+
+    /** Clears the value of confidenceThreshold field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearConfidenceThreshold() {
+      return confidenceThreshold(Optional.empty());
+    }
+
     /**
      * Setter for maskDilation.
      *
@@ -157,6 +198,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
      */
     @JsonProperty("maskDilation")
     public abstract Builder maskDilation(Float maskDilation);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder maskDilation(Optional<Float> maskDilation);
+
+    /** Clears the value of maskDilation field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMaskDilation() {
+      return maskDilation(Optional.empty());
+    }
 
     /**
      * Setter for binaryColorThreshold.
@@ -168,6 +219,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
     @JsonProperty("binaryColorThreshold")
     public abstract Builder binaryColorThreshold(Float binaryColorThreshold);
 
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder binaryColorThreshold(Optional<Float> binaryColorThreshold);
+
+    /** Clears the value of binaryColorThreshold field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBinaryColorThreshold() {
+      return binaryColorThreshold(Optional.empty());
+    }
+
     /**
      * Setter for labels.
      *
@@ -175,6 +236,16 @@ public abstract class SegmentImageConfig extends JsonSerializable {
      */
     @JsonProperty("labels")
     public abstract Builder labels(Map<String, String> labels);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder labels(Optional<Map<String, String>> labels);
+
+    /** Clears the value of labels field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLabels() {
+      return labels(Optional.empty());
+    }
 
     public abstract SegmentImageConfig build();
   }
