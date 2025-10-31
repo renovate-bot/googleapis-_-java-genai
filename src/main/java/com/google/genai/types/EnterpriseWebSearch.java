@@ -42,6 +42,13 @@ public abstract class EnterpriseWebSearch extends JsonSerializable {
   @JsonProperty("excludeDomains")
   public abstract Optional<List<String>> excludeDomains();
 
+  /**
+   * Optional. Sites with confidence level chosen & above this value will be blocked from the search
+   * results.
+   */
+  @JsonProperty("blockingConfidence")
+  public abstract Optional<PhishBlockThreshold> blockingConfidence();
+
   /** Instantiates a builder for EnterpriseWebSearch. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -88,6 +95,47 @@ public abstract class EnterpriseWebSearch extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearExcludeDomains() {
       return excludeDomains(Optional.empty());
+    }
+
+    /**
+     * Setter for blockingConfidence.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results.
+     */
+    @JsonProperty("blockingConfidence")
+    public abstract Builder blockingConfidence(PhishBlockThreshold blockingConfidence);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder blockingConfidence(Optional<PhishBlockThreshold> blockingConfidence);
+
+    /** Clears the value of blockingConfidence field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBlockingConfidence() {
+      return blockingConfidence(Optional.empty());
+    }
+
+    /**
+     * Setter for blockingConfidence given a known enum.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results.
+     */
+    @CanIgnoreReturnValue
+    public Builder blockingConfidence(PhishBlockThreshold.Known knownType) {
+      return blockingConfidence(new PhishBlockThreshold(knownType));
+    }
+
+    /**
+     * Setter for blockingConfidence given a string.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results.
+     */
+    @CanIgnoreReturnValue
+    public Builder blockingConfidence(String blockingConfidence) {
+      return blockingConfidence(new PhishBlockThreshold(blockingConfidence));
     }
 
     public abstract EnterpriseWebSearch build();

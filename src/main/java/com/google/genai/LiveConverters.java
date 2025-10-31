@@ -349,6 +349,11 @@ final class LiveConverters {
           "excludeDomains parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"blockingConfidence"}))) {
+      throw new IllegalArgumentException(
+          "blockingConfidence parameter is not supported in Gemini API.");
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"timeRangeFilter"}) != null) {
       Common.setValueByPath(
           toObject,

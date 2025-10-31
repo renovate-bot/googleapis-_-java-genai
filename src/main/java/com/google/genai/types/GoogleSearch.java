@@ -40,6 +40,13 @@ public abstract class GoogleSearch extends JsonSerializable {
   public abstract Optional<List<String>> excludeDomains();
 
   /**
+   * Optional. Sites with confidence level chosen & above this value will be blocked from the search
+   * results. This field is not supported in Gemini API.
+   */
+  @JsonProperty("blockingConfidence")
+  public abstract Optional<PhishBlockThreshold> blockingConfidence();
+
+  /**
    * Optional. Filter search results to a specific time range. If customers set a start time, they
    * must set an end time (and vice versa). This field is not supported in Vertex AI.
    */
@@ -94,6 +101,47 @@ public abstract class GoogleSearch extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearExcludeDomains() {
       return excludeDomains(Optional.empty());
+    }
+
+    /**
+     * Setter for blockingConfidence.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results. This field is not supported in Gemini API.
+     */
+    @JsonProperty("blockingConfidence")
+    public abstract Builder blockingConfidence(PhishBlockThreshold blockingConfidence);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder blockingConfidence(Optional<PhishBlockThreshold> blockingConfidence);
+
+    /** Clears the value of blockingConfidence field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBlockingConfidence() {
+      return blockingConfidence(Optional.empty());
+    }
+
+    /**
+     * Setter for blockingConfidence given a known enum.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results. This field is not supported in Gemini API.
+     */
+    @CanIgnoreReturnValue
+    public Builder blockingConfidence(PhishBlockThreshold.Known knownType) {
+      return blockingConfidence(new PhishBlockThreshold(knownType));
+    }
+
+    /**
+     * Setter for blockingConfidence given a string.
+     *
+     * <p>blockingConfidence: Optional. Sites with confidence level chosen & above this value will
+     * be blocked from the search results. This field is not supported in Gemini API.
+     */
+    @CanIgnoreReturnValue
+    public Builder blockingConfidence(String blockingConfidence) {
+      return blockingConfidence(new PhishBlockThreshold(blockingConfidence));
     }
 
     /**
