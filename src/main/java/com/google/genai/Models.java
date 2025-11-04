@@ -2790,6 +2790,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"audioTimestamp"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -2844,13 +2851,6 @@ public final class Models {
           toObject,
           new String[] {"presencePenalty"},
           Common.getValueByPath(fromObject, new String[] {"presencePenalty"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"responseJsonSchema"},
-          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"responseLogprobs"}) != null) {
