@@ -43,13 +43,11 @@ public abstract class GenerateVideosOperation
   public GenerateVideosOperation fromApiResponse(JsonNode apiResponse, boolean isVertexAi) {
     OperationsConverters converter = new OperationsConverters(null);
     JsonNode response;
-
     if (isVertexAi) {
       response = converter.generateVideosOperationFromVertex(apiResponse, null);
     } else {
       response = converter.generateVideosOperationFromMldev(apiResponse, null);
     }
-
     return JsonSerializable.fromJsonNode(response, GenerateVideosOperation.class);
   }
 

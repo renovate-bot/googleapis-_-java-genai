@@ -66,10 +66,6 @@ public abstract class Tool extends JsonSerializable {
   @JsonProperty("computerUse")
   public abstract Optional<ComputerUse> computerUse();
 
-  /** Optional. Tool to retrieve knowledge from the File Search Stores. */
-  @JsonProperty("fileSearch")
-  public abstract Optional<FileSearch> fileSearch();
-
   /** Optional. CodeExecution tool type. Enables the model to execute code as part of generation. */
   @JsonProperty("codeExecution")
   public abstract Optional<ToolCodeExecution> codeExecution();
@@ -276,34 +272,6 @@ public abstract class Tool extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearComputerUse() {
       return computerUse(Optional.empty());
-    }
-
-    /**
-     * Setter for fileSearch.
-     *
-     * <p>fileSearch: Optional. Tool to retrieve knowledge from the File Search Stores.
-     */
-    @JsonProperty("fileSearch")
-    public abstract Builder fileSearch(FileSearch fileSearch);
-
-    /**
-     * Setter for fileSearch builder.
-     *
-     * <p>fileSearch: Optional. Tool to retrieve knowledge from the File Search Stores.
-     */
-    @CanIgnoreReturnValue
-    public Builder fileSearch(FileSearch.Builder fileSearchBuilder) {
-      return fileSearch(fileSearchBuilder.build());
-    }
-
-    @ExcludeFromGeneratedCoverageReport
-    abstract Builder fileSearch(Optional<FileSearch> fileSearch);
-
-    /** Clears the value of fileSearch field. */
-    @ExcludeFromGeneratedCoverageReport
-    @CanIgnoreReturnValue
-    public Builder clearFileSearch() {
-      return fileSearch(Optional.empty());
     }
 
     /**
