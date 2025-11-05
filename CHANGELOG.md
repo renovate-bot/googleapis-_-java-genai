@@ -8,7 +8,6 @@
 * Add clearXxx methods to data type builders ([a4900c9](https://github.com/googleapis/java-genai/commit/a4900c97ec7c256b45b729ae68404aea4fbf5830))
 * add complete stats to BatchJob ([659c65c](https://github.com/googleapis/java-genai/commit/659c65cc777c35ae5dc8ef84caf00f4aa30bb3db))
 * Add FileSearch tool and associated FileSearchStore management APIs ([8ada6ef](https://github.com/googleapis/java-genai/commit/8ada6efb0c2b2a2231acc08c952e2fc76e20a29d))
-* Add FileSearch tool and associated FileSearchStore management APIs ([e4df737](https://github.com/googleapis/java-genai/commit/e4df73794ef34aabc0ee346a313a6762ce3357fa))
 * Add image_size to ImageConfig (Early Access Program) ([c1af981](https://github.com/googleapis/java-genai/commit/c1af981dc19fad22db68126ec6153d9fa20ec734))
 * Added phish filtering feature. ([ed4e12c](https://github.com/googleapis/java-genai/commit/ed4e12c44e9fec3c2131a52d995cb0602dc246a0))
 * Return response headers for generateContentStream ([82a8118](https://github.com/googleapis/java-genai/commit/82a8118968bb5da37ec81dce83580bd86767bf62))
