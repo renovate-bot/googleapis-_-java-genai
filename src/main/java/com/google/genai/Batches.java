@@ -328,6 +328,13 @@ public final class Batches {
               toObject));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"completionStats"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"completionStats"},
+          Common.getValueByPath(fromObject, new String[] {"completionStats"}));
+    }
+
     return toObject;
   }
 

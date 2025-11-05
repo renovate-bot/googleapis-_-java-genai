@@ -57,7 +57,7 @@ public abstract class BatchJob extends JsonSerializable {
   @JsonProperty("startTime")
   public abstract Optional<Instant> startTime();
 
-  /** The time when the BatchJob was completed. */
+  /** The time when the BatchJob was completed. This field is for Vertex AI only. */
   @JsonProperty("endTime")
   public abstract Optional<Instant> endTime();
 
@@ -69,13 +69,17 @@ public abstract class BatchJob extends JsonSerializable {
   @JsonProperty("model")
   public abstract Optional<String> model();
 
-  /** Configuration for the input data. */
+  /** Configuration for the input data. This field is for Vertex AI only. */
   @JsonProperty("src")
   public abstract Optional<BatchJobSource> src();
 
   /** Configuration for the output data. */
   @JsonProperty("dest")
   public abstract Optional<BatchJobDestination> dest();
+
+  /** Statistics on completed and failed prediction instances. This field is for Vertex AI only. */
+  @JsonProperty("completionStats")
+  public abstract Optional<CompletionStats> completionStats();
 
   /** Instantiates a builder for BatchJob. */
   @ExcludeFromGeneratedCoverageReport
@@ -239,7 +243,7 @@ public abstract class BatchJob extends JsonSerializable {
     /**
      * Setter for endTime.
      *
-     * <p>endTime: The time when the BatchJob was completed.
+     * <p>endTime: The time when the BatchJob was completed. This field is for Vertex AI only.
      */
     @JsonProperty("endTime")
     public abstract Builder endTime(Instant endTime);
@@ -293,7 +297,7 @@ public abstract class BatchJob extends JsonSerializable {
     /**
      * Setter for src.
      *
-     * <p>src: Configuration for the input data.
+     * <p>src: Configuration for the input data. This field is for Vertex AI only.
      */
     @JsonProperty("src")
     public abstract Builder src(BatchJobSource src);
@@ -301,7 +305,7 @@ public abstract class BatchJob extends JsonSerializable {
     /**
      * Setter for src builder.
      *
-     * <p>src: Configuration for the input data.
+     * <p>src: Configuration for the input data. This field is for Vertex AI only.
      */
     @CanIgnoreReturnValue
     public Builder src(BatchJobSource.Builder srcBuilder) {
@@ -344,6 +348,36 @@ public abstract class BatchJob extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearDest() {
       return dest(Optional.empty());
+    }
+
+    /**
+     * Setter for completionStats.
+     *
+     * <p>completionStats: Statistics on completed and failed prediction instances. This field is
+     * for Vertex AI only.
+     */
+    @JsonProperty("completionStats")
+    public abstract Builder completionStats(CompletionStats completionStats);
+
+    /**
+     * Setter for completionStats builder.
+     *
+     * <p>completionStats: Statistics on completed and failed prediction instances. This field is
+     * for Vertex AI only.
+     */
+    @CanIgnoreReturnValue
+    public Builder completionStats(CompletionStats.Builder completionStatsBuilder) {
+      return completionStats(completionStatsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder completionStats(Optional<CompletionStats> completionStats);
+
+    /** Clears the value of completionStats field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearCompletionStats() {
+      return completionStats(Optional.empty());
     }
 
     public abstract BatchJob build();
