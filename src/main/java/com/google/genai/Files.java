@@ -638,7 +638,9 @@ public final class Files {
   private String createFileInApi(
       UploadFileConfig config, Optional<String> mimeType, Optional<String> fileName, long size) {
     File.Builder apiFileBuilder = File.builder();
+    Optional<HttpOptions> userHttpOptions = Optional.empty();
     if (config != null) {
+      userHttpOptions = config.httpOptions();
       if (config.name().isPresent()) {
         apiFileBuilder.name(config.name().get());
       }
@@ -655,29 +657,13 @@ public final class Files {
     if (apiFile.name().isPresent() && !apiFile.name().get().startsWith("files/")) {
       apiFile = apiFile.toBuilder().name("files/" + apiFile.name().get()).build();
     }
-
-    String actualMimeType =
-        mimeType.orElse(
-            apiFile
-                .mimeType()
-                .orElseThrow(
-                    () ->
-                        new IllegalArgumentException(
-                            "Unknown mime type: Could not determine mime type for your file, please"
-                                + " set the mimeType config argument")));
-
-    Map<String, String> createFileHeaders = new HashMap<>();
-    createFileHeaders.put("Content-Type", "application/json");
-    createFileHeaders.put("X-Goog-Upload-Protocol", "resumable");
-    createFileHeaders.put("X-Goog-Upload-Command", "start");
-    createFileHeaders.put("X-Goog-Upload-Header-Content-Length", "" + size);
-    createFileHeaders.put("X-Goog-Upload-Header-Content-Type", actualMimeType);
-    if (fileName.isPresent()) {
-      createFileHeaders.put("X-Goog-Upload-File-Name", fileName.get());
-    }
-
+    Optional<String> mimeTypeToUse =
+        mimeType.isPresent()
+            ? mimeType
+            : apiFile.mimeType().isPresent() ? apiFile.mimeType() : Optional.empty();
     HttpOptions createFileHttpOptions =
-        HttpOptions.builder().apiVersion("").headers(createFileHeaders).build();
+        UploadClient.buildResumableUploadHttpOptions(
+            userHttpOptions, mimeTypeToUse, fileName, size);
 
     CreateFileResponse createFileResponse =
         privateCreate(

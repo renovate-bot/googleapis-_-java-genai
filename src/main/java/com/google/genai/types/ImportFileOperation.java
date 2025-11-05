@@ -29,46 +29,40 @@ import com.google.genai.OperationsConverters;
 import java.util.Map;
 import java.util.Optional;
 
-/** A video generation operation. */
+/** Long-running operation for importing a file to a FileSearchStore. */
 @AutoValue
-@JsonDeserialize(builder = GenerateVideosOperation.Builder.class)
-public abstract class GenerateVideosOperation
-    extends Operation<GenerateVideosResponse, GenerateVideosOperation> {
-  /** The generated videos. */
+@JsonDeserialize(builder = ImportFileOperation.Builder.class)
+public abstract class ImportFileOperation
+    extends Operation<ImportFileResponse, ImportFileOperation> {
+  /** The result of the ImportFile operation, available when the operation is done. */
   @JsonProperty("response")
   @Override
-  public abstract Optional<GenerateVideosResponse> response();
+  public abstract Optional<ImportFileResponse> response();
 
   @Override
-  public GenerateVideosOperation fromApiResponse(JsonNode apiResponse, boolean isVertexAi) {
+  public ImportFileOperation fromApiResponse(JsonNode apiResponse, boolean isVertexAi) {
     OperationsConverters converter = new OperationsConverters(null);
     JsonNode response;
-
-    if (isVertexAi) {
-      response = converter.generateVideosOperationFromVertex(apiResponse, null);
-    } else {
-      response = converter.generateVideosOperationFromMldev(apiResponse, null);
-    }
-
-    return JsonSerializable.fromJsonNode(response, GenerateVideosOperation.class);
+    response = converter.importFileOperationFromMldev(apiResponse, null);
+    return JsonSerializable.fromJsonNode(response, ImportFileOperation.class);
   }
 
-  /** Instantiates a builder for GenerateVideosOperation. */
+  /** Instantiates a builder for ImportFileOperation. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
-    return new AutoValue_GenerateVideosOperation.Builder();
+    return new AutoValue_ImportFileOperation.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for GenerateVideosOperation. */
+  /** Builder for ImportFileOperation. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `GenerateVideosOperation.builder()` for instantiation. */
+    /** For internal usage. Please use `ImportFileOperation.builder()` for instantiation. */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_GenerateVideosOperation.Builder();
+      return new AutoValue_ImportFileOperation.Builder();
     }
 
     /**
@@ -152,23 +146,23 @@ public abstract class GenerateVideosOperation
     /**
      * Setter for response.
      *
-     * <p>response: The generated videos.
+     * <p>response: The result of the ImportFile operation, available when the operation is done.
      */
     @JsonProperty("response")
-    public abstract Builder response(GenerateVideosResponse response);
+    public abstract Builder response(ImportFileResponse response);
 
     /**
      * Setter for response builder.
      *
-     * <p>response: The generated videos.
+     * <p>response: The result of the ImportFile operation, available when the operation is done.
      */
     @CanIgnoreReturnValue
-    public Builder response(GenerateVideosResponse.Builder responseBuilder) {
+    public Builder response(ImportFileResponse.Builder responseBuilder) {
       return response(responseBuilder.build());
     }
 
     @ExcludeFromGeneratedCoverageReport
-    abstract Builder response(Optional<GenerateVideosResponse> response);
+    abstract Builder response(Optional<ImportFileResponse> response);
 
     /** Clears the value of response field. */
     @ExcludeFromGeneratedCoverageReport
@@ -177,12 +171,12 @@ public abstract class GenerateVideosOperation
       return response(Optional.empty());
     }
 
-    public abstract GenerateVideosOperation build();
+    public abstract ImportFileOperation build();
   }
 
-  /** Deserializes a JSON string to a GenerateVideosOperation object. */
+  /** Deserializes a JSON string to a ImportFileOperation object. */
   @ExcludeFromGeneratedCoverageReport
-  public static GenerateVideosOperation fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, GenerateVideosOperation.class);
+  public static ImportFileOperation fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, ImportFileOperation.class);
   }
 }

@@ -4071,6 +4071,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"computerUse"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileSearch"},
+          Common.getValueByPath(fromObject, new String[] {"fileSearch"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -4147,6 +4154,10 @@ public final class Models {
           toObject,
           new String[] {"computerUse"},
           Common.getValueByPath(fromObject, new String[] {"computerUse"}));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"fileSearch"}))) {
+      throw new IllegalArgumentException("fileSearch parameter is not supported in Vertex AI.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {

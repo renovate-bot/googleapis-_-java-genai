@@ -29,46 +29,44 @@ import com.google.genai.OperationsConverters;
 import java.util.Map;
 import java.util.Optional;
 
-/** A video generation operation. */
+/** Long-running operation for uploading a file to a FileSearchStore. */
 @AutoValue
-@JsonDeserialize(builder = GenerateVideosOperation.Builder.class)
-public abstract class GenerateVideosOperation
-    extends Operation<GenerateVideosResponse, GenerateVideosOperation> {
-  /** The generated videos. */
+@JsonDeserialize(builder = UploadToFileSearchStoreOperation.Builder.class)
+public abstract class UploadToFileSearchStoreOperation
+    extends Operation<UploadToFileSearchStoreResponse, UploadToFileSearchStoreOperation> {
+  /** The result of the UploadToFileSearchStore operation, available when the operation is done. */
   @JsonProperty("response")
   @Override
-  public abstract Optional<GenerateVideosResponse> response();
+  public abstract Optional<UploadToFileSearchStoreResponse> response();
 
   @Override
-  public GenerateVideosOperation fromApiResponse(JsonNode apiResponse, boolean isVertexAi) {
+  public UploadToFileSearchStoreOperation fromApiResponse(
+      JsonNode apiResponse, boolean isVertexAi) {
     OperationsConverters converter = new OperationsConverters(null);
     JsonNode response;
-
-    if (isVertexAi) {
-      response = converter.generateVideosOperationFromVertex(apiResponse, null);
-    } else {
-      response = converter.generateVideosOperationFromMldev(apiResponse, null);
-    }
-
-    return JsonSerializable.fromJsonNode(response, GenerateVideosOperation.class);
+    response = converter.uploadToFileSearchStoreOperationFromMldev(apiResponse, null);
+    return JsonSerializable.fromJsonNode(response, UploadToFileSearchStoreOperation.class);
   }
 
-  /** Instantiates a builder for GenerateVideosOperation. */
+  /** Instantiates a builder for UploadToFileSearchStoreOperation. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
-    return new AutoValue_GenerateVideosOperation.Builder();
+    return new AutoValue_UploadToFileSearchStoreOperation.Builder();
   }
 
   /** Creates a builder with the same values as this instance. */
   public abstract Builder toBuilder();
 
-  /** Builder for GenerateVideosOperation. */
+  /** Builder for UploadToFileSearchStoreOperation. */
   @AutoValue.Builder
   public abstract static class Builder {
-    /** For internal usage. Please use `GenerateVideosOperation.builder()` for instantiation. */
+    /**
+     * For internal usage. Please use `UploadToFileSearchStoreOperation.builder()` for
+     * instantiation.
+     */
     @JsonCreator
     private static Builder create() {
-      return new AutoValue_GenerateVideosOperation.Builder();
+      return new AutoValue_UploadToFileSearchStoreOperation.Builder();
     }
 
     /**
@@ -152,23 +150,25 @@ public abstract class GenerateVideosOperation
     /**
      * Setter for response.
      *
-     * <p>response: The generated videos.
+     * <p>response: The result of the UploadToFileSearchStore operation, available when the
+     * operation is done.
      */
     @JsonProperty("response")
-    public abstract Builder response(GenerateVideosResponse response);
+    public abstract Builder response(UploadToFileSearchStoreResponse response);
 
     /**
      * Setter for response builder.
      *
-     * <p>response: The generated videos.
+     * <p>response: The result of the UploadToFileSearchStore operation, available when the
+     * operation is done.
      */
     @CanIgnoreReturnValue
-    public Builder response(GenerateVideosResponse.Builder responseBuilder) {
+    public Builder response(UploadToFileSearchStoreResponse.Builder responseBuilder) {
       return response(responseBuilder.build());
     }
 
     @ExcludeFromGeneratedCoverageReport
-    abstract Builder response(Optional<GenerateVideosResponse> response);
+    abstract Builder response(Optional<UploadToFileSearchStoreResponse> response);
 
     /** Clears the value of response field. */
     @ExcludeFromGeneratedCoverageReport
@@ -177,12 +177,12 @@ public abstract class GenerateVideosOperation
       return response(Optional.empty());
     }
 
-    public abstract GenerateVideosOperation build();
+    public abstract UploadToFileSearchStoreOperation build();
   }
 
-  /** Deserializes a JSON string to a GenerateVideosOperation object. */
+  /** Deserializes a JSON string to a UploadToFileSearchStoreOperation object. */
   @ExcludeFromGeneratedCoverageReport
-  public static GenerateVideosOperation fromJson(String jsonString) {
-    return JsonSerializable.fromJsonString(jsonString, GenerateVideosOperation.class);
+  public static UploadToFileSearchStoreOperation fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(jsonString, UploadToFileSearchStoreOperation.class);
   }
 }
