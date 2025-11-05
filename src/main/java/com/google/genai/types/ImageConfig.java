@@ -37,6 +37,13 @@ public abstract class ImageConfig extends JsonSerializable {
   @JsonProperty("aspectRatio")
   public abstract Optional<String> aspectRatio();
 
+  /**
+   * Optional. Specifies the size of generated images. Supported values are `1K`, `2K`, `4K`. If not
+   * specified, the model will use default value `1K`.
+   */
+  @JsonProperty("imageSize")
+  public abstract Optional<String> imageSize();
+
   /** Instantiates a builder for ImageConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -72,6 +79,25 @@ public abstract class ImageConfig extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearAspectRatio() {
       return aspectRatio(Optional.empty());
+    }
+
+    /**
+     * Setter for imageSize.
+     *
+     * <p>imageSize: Optional. Specifies the size of generated images. Supported values are `1K`,
+     * `2K`, `4K`. If not specified, the model will use default value `1K`.
+     */
+    @JsonProperty("imageSize")
+    public abstract Builder imageSize(String imageSize);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder imageSize(Optional<String> imageSize);
+
+    /** Clears the value of imageSize field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImageSize() {
+      return imageSize(Optional.empty());
     }
 
     public abstract ImageConfig build();
