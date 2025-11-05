@@ -217,28 +217,26 @@ final class AfcUtil {
                 + argsFromModel);
       }
       Object argValueFromModel = argsFromModel.get(parameterName);
-      switch (argValueFromModel.getClass().getName()) {
-        case "java.lang.String":
-          argsListFromModel.add(argValueFromModel);
-          break;
-        case "java.lang.Integer":
-          argsListFromModel.add(Integer.parseInt(argValueFromModel.toString()));
-          break;
-        case "java.lang.Double":
-          argsListFromModel.add(Double.parseDouble(argValueFromModel.toString()));
-          break;
-        case "java.lang.Float":
-          argsListFromModel.add(Float.parseFloat(argValueFromModel.toString()));
-          break;
-        case "java.lang.Boolean":
-          argsListFromModel.add(Boolean.parseBoolean(argValueFromModel.toString()));
-          break;
-        default:
-          throw new IllegalArgumentException(
-              "The value type of the parameter \""
-                  + parameterName
-                  + "\" is not supported. Supported types are String, Integer, Double, Float, and"
-                  + " Boolean.");
+      String className = argValueFromModel.getClass().getName();
+
+      if (className.equals("java.lang.String")) {
+        argsListFromModel.add(argValueFromModel);
+      } else if (className.equals("java.lang.Integer")) {
+        argsListFromModel.add(Integer.parseInt(argValueFromModel.toString()));
+      } else if (className.equals("java.lang.Double")) {
+        argsListFromModel.add(Double.parseDouble(argValueFromModel.toString()));
+      } else if (className.equals("java.lang.Float")) {
+        argsListFromModel.add(Float.parseFloat(argValueFromModel.toString()));
+      } else if (className.equals("java.lang.Boolean")) {
+        argsListFromModel.add(Boolean.parseBoolean(argValueFromModel.toString()));
+      } else if (argValueFromModel instanceof List) {
+        argsListFromModel.add(argValueFromModel);
+      } else {
+        throw new IllegalArgumentException(
+            "The value type of the parameter \""
+                + parameterName
+                + "\" is not supported. Supported types are String, Integer, Double, Float,"
+                + " Boolean, and List.");
       }
     }
 

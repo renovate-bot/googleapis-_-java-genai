@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.google.common.collect.ImmutableList;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -35,13 +36,17 @@ public class FunctionDeclarationTest {
   private static final String DOUBLE_PARAM_NAME = "doubleParam";
   private static final String FLOAT_PARAM_NAME = "floatParam";
   private static final String BOOLEAN_PARAM_NAME = "booleanParam";
+  private static final String LIST_STRING_PARAM_NAME = "listStringParam";
+  private static final String LIST_BOOL_PARAM_NAME = "listBoolParam";
   private static final ImmutableList<String> REQUIRED_PARAM_NAMES =
       ImmutableList.of(
           STRING_PARAM_NAME,
           INTEGER_PARAM_NAME,
           DOUBLE_PARAM_NAME,
           FLOAT_PARAM_NAME,
-          BOOLEAN_PARAM_NAME);
+          BOOLEAN_PARAM_NAME,
+          LIST_STRING_PARAM_NAME,
+          LIST_BOOL_PARAM_NAME);
 
   private static final FunctionDeclaration EXPECTED_FUNCTION_DECLARATION =
       FunctionDeclaration.builder()
@@ -71,6 +76,28 @@ public class FunctionDeclarationTest {
     properties.put(
         BOOLEAN_PARAM_NAME,
         Schema.builder().type(Type.Known.BOOLEAN).title(BOOLEAN_PARAM_NAME).build());
+    properties.put(
+        LIST_STRING_PARAM_NAME,
+        Schema.builder()
+            .type(Type.Known.ARRAY)
+            .items(
+                Schema.builder()
+                    .type(Type.Known.STRING)
+                    .title(LIST_STRING_PARAM_NAME + "Item")
+                    .build())
+            .title(LIST_STRING_PARAM_NAME)
+            .build());
+    properties.put(
+        LIST_BOOL_PARAM_NAME,
+        Schema.builder()
+            .type(Type.Known.ARRAY)
+            .items(
+                Schema.builder()
+                    .type(Type.Known.BOOLEAN)
+                    .title(LIST_BOOL_PARAM_NAME + "Item")
+                    .build())
+            .title(LIST_BOOL_PARAM_NAME)
+            .build());
     return properties;
   }
 
@@ -80,7 +107,9 @@ public class FunctionDeclarationTest {
       int integerParam,
       double doubleParam,
       float floatParam,
-      boolean booleanParam) {
+      boolean booleanParam,
+      List<String> listStringParam,
+      List<Boolean> listBoolParam) {
     return 0;
   }
 
@@ -102,7 +131,14 @@ public class FunctionDeclarationTest {
       throws NoSuchMethodException {
     Method method =
         FunctionDeclarationTest.class.getMethod(
-            FUNCTION_NAME, String.class, int.class, double.class, float.class, boolean.class);
+            FUNCTION_NAME,
+            String.class,
+            int.class,
+            double.class,
+            float.class,
+            boolean.class,
+            List.class,
+            List.class);
 
     IllegalStateException thrown =
         assertThrows(
@@ -119,7 +155,14 @@ public class FunctionDeclarationTest {
       throws NoSuchMethodException {
     Method method =
         FunctionDeclarationTest.class.getMethod(
-            FUNCTION_NAME, String.class, int.class, double.class, float.class, boolean.class);
+            FUNCTION_NAME,
+            String.class,
+            int.class,
+            double.class,
+            float.class,
+            boolean.class,
+            List.class,
+            List.class);
 
     FunctionDeclaration functionDeclaration =
         FunctionDeclaration.fromMethod(
@@ -129,7 +172,9 @@ public class FunctionDeclarationTest {
             INTEGER_PARAM_NAME,
             DOUBLE_PARAM_NAME,
             FLOAT_PARAM_NAME,
-            BOOLEAN_PARAM_NAME);
+            BOOLEAN_PARAM_NAME,
+            LIST_STRING_PARAM_NAME,
+            LIST_BOOL_PARAM_NAME);
 
     assertEquals(EXPECTED_FUNCTION_DECLARATION.toString(), functionDeclaration.toString());
   }
@@ -161,7 +206,7 @@ public class FunctionDeclarationTest {
         "Unsupported parameter type "
             + Object.class.getName()
             + " for parameter objectParam. Currently, supported types are String, boolean, Boolean,"
-            + " int, Integer, Long, double, Double, float, Float.",
+            + " int, Integer, Long, double, Double, float, Float, and List<T>.",
         thrown.getMessage());
   }
 
@@ -170,7 +215,14 @@ public class FunctionDeclarationTest {
       throws NoSuchMethodException {
     Method method =
         FunctionDeclarationTest.class.getMethod(
-            FUNCTION_NAME, String.class, int.class, double.class, float.class, boolean.class);
+            FUNCTION_NAME,
+            String.class,
+            int.class,
+            double.class,
+            float.class,
+            boolean.class,
+            List.class,
+            List.class);
 
     IllegalArgumentException thrown =
         assertThrows(

@@ -47,6 +47,8 @@ import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Tool;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ArrayList;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
 public final class GenerateContentWithFunctionCall {
@@ -58,6 +60,14 @@ public final class GenerateContentWithFunctionCall {
   /** A callable function to divide two integers. */
   public static Integer divideTwoIntegers(int numerator, int denominator) {
     return numerator / denominator;
+  }
+
+  public static Integer sumInts(List<Integer> items) {
+    int sum = 0;
+    for (Integer item : items) {
+      sum += item;
+    }
+    return sum;
   }
 
   public static void main(String[] args) throws NoSuchMethodException {
@@ -92,13 +102,20 @@ public final class GenerateContentWithFunctionCall {
     Method method2 =
         GenerateContentWithFunctionCall.class.getMethod("divideTwoIntegers", int.class, int.class);
 
+    Method method3 = GenerateContentWithFunctionCall.class.getMethod("sumInts", List.class);
+
     // Add the two methods as callable functions to the list of tools.
     GenerateContentConfig config =
-        GenerateContentConfig.builder().tools(Tool.builder().functions(method1, method2)).build();
+        GenerateContentConfig.builder()
+            .tools(Tool.builder().functions(method1, method2, method3))
+            .build();
 
     GenerateContentResponse response =
         client.models.generateContent(
-            modelId, "What is the weather in Vancouver? And can you divide 10 by 0?", config);
+            modelId,
+            "What is the weather in Vancouver? And can you divide 10 by 0? And can you sum the"
+                + " integers 1, 2, 3, 4, and 5?",
+            config);
 
     System.out.println("The response is: " + response.text());
     System.out.println(

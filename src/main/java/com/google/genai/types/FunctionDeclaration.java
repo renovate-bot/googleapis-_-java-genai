@@ -27,6 +27,8 @@ import com.google.genai.JsonSerializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -369,7 +371,8 @@ public abstract class FunctionDeclaration extends JsonSerializable {
       } else {
         parameterName = orderedParameterNames[i];
       }
-      properties.put(parameterName, buildTypeSchema(parameterName, parameters[i].getType()));
+      properties.put(
+          parameterName, buildTypeSchema(parameterName, parameters[i].getParameterizedType()));
       required.add(parameterName);
     }
     parametersBuilder.properties(properties).required(required);
@@ -385,40 +388,67 @@ public abstract class FunctionDeclaration extends JsonSerializable {
    * Builds a Schema object for a given parameter name and type.
    *
    * @param parameterName The name of the parameter.
-   * @param parameterType The type of the parameter as a Class object.
+   * @param parameterType The type of the parameter as a Type object.
    * @return A Schema object representing the parameter's type and metadata.
    * @throws IllegalArgumentException If the parameter type is unsupported.
    */
-  private static Schema buildTypeSchema(String parameterName, Class<?> parameterType) {
+  private static Schema buildTypeSchema(String parameterName, Type parameterType) {
     Schema.Builder parameterSchemaBuilder = Schema.builder().title(parameterName);
 
-    switch (parameterType.getName()) {
-      case "java.lang.String":
-        parameterSchemaBuilder = parameterSchemaBuilder.type("STRING");
-        break;
-      case "boolean":
-      case "java.lang.Boolean":
-        parameterSchemaBuilder = parameterSchemaBuilder.type("BOOLEAN");
-        break;
-      case "int":
-      case "java.lang.Integer":
-      case "java.lang.Long":
-        parameterSchemaBuilder = parameterSchemaBuilder.type("INTEGER");
-        break;
-      case "double":
-      case "java.lang.Double":
-      case "float":
-      case "java.lang.Float":
-        parameterSchemaBuilder = parameterSchemaBuilder.type("NUMBER");
-        break;
-      default:
+    String typeName = parameterType.getTypeName();
+
+    if (parameterType instanceof Class) {
+      Class<?> parameterClass = (Class<?>) parameterType;
+      typeName = parameterClass.getName();
+      switch (typeName) {
+        case "java.lang.String":
+          parameterSchemaBuilder = parameterSchemaBuilder.type("STRING");
+          break;
+        case "boolean":
+        case "java.lang.Boolean":
+          parameterSchemaBuilder = parameterSchemaBuilder.type("BOOLEAN");
+          break;
+        case "int":
+        case "java.lang.Integer":
+        case "java.lang.Long":
+          parameterSchemaBuilder = parameterSchemaBuilder.type("INTEGER");
+          break;
+        case "double":
+        case "java.lang.Double":
+        case "float":
+        case "java.lang.Float":
+          parameterSchemaBuilder = parameterSchemaBuilder.type("NUMBER");
+          break;
+        default:
+          throw new IllegalArgumentException(
+              "Unsupported parameter type "
+                  + typeName
+                  + " for parameter "
+                  + parameterName
+                  + ". Currently, supported types are String, boolean, Boolean, int, Integer,"
+                  + " Long, double, Double, float, Float, and List<T>.");
+      }
+    } else if (parameterType instanceof ParameterizedType) {
+      ParameterizedType pType = (ParameterizedType) parameterType;
+      if (pType.getRawType().equals(List.class)) {
+        Type itemType = pType.getActualTypeArguments()[0];
+        Schema itemSchema = buildTypeSchema(parameterName + "Item", itemType);
+        parameterSchemaBuilder.type("ARRAY").items(itemSchema);
+      } else {
         throw new IllegalArgumentException(
-            "Unsupported parameter type "
-                + parameterType.getName()
+            "Unsupported parameterized type "
+                + pType.getRawType().getTypeName()
                 + " for parameter "
-                + parameterName
-                + ". Currently, supported types are String, boolean, Boolean, int, Integer, Long,"
-                + " double, Double, float, Float.");
+                + parameterName);
+      }
+    } else {
+      throw new IllegalArgumentException(
+          "Unsupported type "
+              + typeName
+              + " for parameter "
+              + parameterName
+              + ". Currently, supported types are String, boolean, Boolean, int, Integer, Long,"
+              + " double, Double, float, Float, and List<T>.");
     }
     return parameterSchemaBuilder.build();
   }

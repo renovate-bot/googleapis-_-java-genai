@@ -38,6 +38,8 @@ import com.google.genai.types.Tool;
 import com.google.genai.types.ToolCodeExecution;
 import com.google.genai.types.ComputerUse;
 import com.google.genai.types.Type;
+import java.util.List;
+import java.util.ArrayList;
 import com.google.genai.types.UrlContext;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,26 @@ public final class AfcUtilTest {
 
   public static Integer testFunction2(Integer a, Integer b) {
     return a / b;
+  }
+
+  public static String testFunctionJoinListOfStrings(List<String> items) {
+    return String.join(",", items);
+  }
+
+  public static Integer testFunctionSumListOfIntegers(List<Integer> items) {
+    int sum = 0;
+    for (Integer item : items) {
+      sum += item;
+    }
+    return sum;
+  }
+
+  public static List<String> testFunctionReturnListOfStrings(List<List<String>> items) {
+    List<String> result = new ArrayList<>();
+    for (List<String> item : items) {
+      result.add(String.join("", item));
+    }
+    return result;
   }
 
   private static FunctionDeclaration testFunctionDeclaration1 =
@@ -317,6 +339,85 @@ public final class AfcUtilTest {
             Part.fromFunctionResponse(
                 "testFunction2",
                 ImmutableMap.of("error", "java.lang.reflect.InvocationTargetException")));
+    assertEquals(1, functionResponseParts.size());
+    assertEquals(expectedFunctionResponseParts.toString(), functionResponseParts.toString());
+  }
+
+  @Test
+  public void getFunctionResponseParts_withListOfStringsParameter_returnsFunctionResponseParts()
+      throws NoSuchMethodException {
+    FunctionCall functionCall =
+        FunctionCall.builder()
+            .name("testFunctionJoinListOfStrings")
+            .args(ImmutableMap.of("items", ImmutableList.of("a", "b", "c")))
+            .build();
+    ImmutableMap<String, Method> functionMap =
+        ImmutableMap.of(
+            "testFunctionJoinListOfStrings",
+            AfcUtilTest.class.getMethod("testFunctionJoinListOfStrings", java.util.List.class));
+    Content content = Content.builder().parts(Part.builder().functionCall(functionCall)).build();
+    GenerateContentResponse response =
+        GenerateContentResponse.builder().candidates(Candidate.builder().content(content)).build();
+    ImmutableList<Part> functionResponseParts =
+        AfcUtil.getFunctionResponseParts(response, functionMap);
+    ImmutableList<Part> expectedFunctionResponseParts =
+        ImmutableList.of(
+            Part.fromFunctionResponse(
+                "testFunctionJoinListOfStrings", ImmutableMap.of("result", "a,b,c")));
+    assertEquals(1, functionResponseParts.size());
+    assertEquals(expectedFunctionResponseParts.toString(), functionResponseParts.toString());
+  }
+
+  @Test
+  public void getFunctionResponseParts_withListOfIntsParameter_returnsFunctionResponseParts()
+      throws NoSuchMethodException {
+    FunctionCall functionCall =
+        FunctionCall.builder()
+            .name("testFunctionSumListOfIntegers")
+            .args(ImmutableMap.of("items", ImmutableList.of(1, 2, 3)))
+            .build();
+    ImmutableMap<String, Method> functionMap =
+        ImmutableMap.of(
+            "testFunctionSumListOfIntegers",
+            AfcUtilTest.class.getMethod("testFunctionSumListOfIntegers", java.util.List.class));
+    Content content = Content.builder().parts(Part.builder().functionCall(functionCall)).build();
+    GenerateContentResponse response =
+        GenerateContentResponse.builder().candidates(Candidate.builder().content(content)).build();
+    ImmutableList<Part> functionResponseParts =
+        AfcUtil.getFunctionResponseParts(response, functionMap);
+    ImmutableList<Part> expectedFunctionResponseParts =
+        ImmutableList.of(
+            Part.fromFunctionResponse(
+                "testFunctionSumListOfIntegers", ImmutableMap.of("result", 6)));
+    assertEquals(1, functionResponseParts.size());
+    assertEquals(expectedFunctionResponseParts.toString(), functionResponseParts.toString());
+  }
+
+  @Test
+  public void getFunctionResponseParts_withListOfListsParameter_returnsFunctionResponseParts()
+      throws NoSuchMethodException {
+    FunctionCall functionCall =
+        FunctionCall.builder()
+            .name("testFunctionReturnListOfStrings")
+            .args(
+                ImmutableMap.of(
+                    "items",
+                    ImmutableList.of(ImmutableList.of("a", "b"), ImmutableList.of("c", "d"))))
+            .build();
+    ImmutableMap<String, Method> functionMap =
+        ImmutableMap.of(
+            "testFunctionReturnListOfStrings",
+            AfcUtilTest.class.getMethod("testFunctionReturnListOfStrings", java.util.List.class));
+    Content content = Content.builder().parts(Part.builder().functionCall(functionCall)).build();
+    GenerateContentResponse response =
+        GenerateContentResponse.builder().candidates(Candidate.builder().content(content)).build();
+    ImmutableList<Part> functionResponseParts =
+        AfcUtil.getFunctionResponseParts(response, functionMap);
+    ImmutableList<Part> expectedFunctionResponseParts =
+        ImmutableList.of(
+            Part.fromFunctionResponse(
+                "testFunctionReturnListOfStrings",
+                ImmutableMap.of("result", ImmutableList.of("ab", "cd"))));
     assertEquals(1, functionResponseParts.size());
     assertEquals(expectedFunctionResponseParts.toString(), functionResponseParts.toString());
   }
