@@ -66,10 +66,14 @@ public final class TableTest {
       }
       return dynamicTests;
     }
-    String originalModuleName = segments[0];
-    String moduleName = Common.snakeToCamel(originalModuleName);
-    String originalMethodName = segments[1];
+    String originalMethodName = segments[segments.length - 1];
     String methodName = Common.snakeToCamel(originalMethodName);
+
+    List<String> modulePath = new ArrayList<>();
+    for (int i = 0; i < segments.length - 1; i++) {
+      modulePath.add(segments[i]);
+    }
+    String originalModuleName = String.join(".", modulePath);
 
     if (methodName.equals("privateTune") && !vertexAI) {
       methodName = "privateTuneMldev";
@@ -85,11 +89,17 @@ public final class TableTest {
     }
 
     // Finds the module and methods.
-    Field module = null;
     List<Method> methods = new ArrayList<>();
     try {
-      module = Client.class.getDeclaredField(moduleName);
-      Class<?> moduleClass = module.getType();
+      // Traverse the module path to find the final module class.
+      Class<?> currentClass = Client.class;
+      for (String moduleSegment : modulePath) {
+        String camelSegment = Common.snakeToCamel(moduleSegment);
+        Field field = currentClass.getDeclaredField(camelSegment);
+        currentClass = field.getType();
+      }
+      Class<?> moduleClass = currentClass;
+
       for (Method candidate : moduleClass.getDeclaredMethods()) {
         if (candidate.getName().equals(methodName)) {
           methods.add(candidate);
@@ -136,7 +146,13 @@ public final class TableTest {
       }
       dynamicTests.addAll(
           createTestCases(
-              testName, testTableItem, module, vertexAI, methods, parameterNames, clientReplayId));
+              testName,
+              testTableItem,
+              modulePath,
+              vertexAI,
+              methods,
+              parameterNames,
+              clientReplayId));
     }
     return dynamicTests;
   }
@@ -145,7 +161,7 @@ public final class TableTest {
   private static Collection<DynamicTest> createTestCases(
       String testName,
       TestTableItem testTableItem,
-      Field module,
+      List<String> modulePath,
       boolean vertexAI,
       List<Method> methods,
       List<String> parameterNames,
@@ -210,18 +226,31 @@ public final class TableTest {
                 () -> {
                   try {
                     client.setReplayId(replayId);
+
+                    // Get the target module instance by traversing the client object
+                    Object targetModuleInstance = client;
+                    for (String moduleSegment : modulePath) {
+                      String camelSegment = Common.snakeToCamel(moduleSegment);
+                      Field field = targetModuleInstance.getClass().getDeclaredField(camelSegment);
+                      field.setAccessible(true);
+                      targetModuleInstance = field.get(targetModuleInstance);
+                    }
+
                     // May throw IllegalAccessException or InvocationTargetException here
                     // InvocationTargetException is sometimes expected, when exceptionIfMldev or
                     // exceptionIfVertex is present.
-                    Object response = method.invoke(module.get(client), parameters.toArray());
+                    Object response = method.invoke(targetModuleInstance, parameters.toArray());
                   } catch (IllegalAccessException
                       | InvocationTargetException
-                      | IllegalArgumentException e) {
+                      | IllegalArgumentException
+                      | NoSuchFieldException e) {
+                    Throwable cause = e instanceof InvocationTargetException ? e.getCause() : e;
+
                     // Handle expected exceptions here
                     Optional<String> exceptionIfMldev = testTableItem.exceptionIfMldev();
                     Optional<String> exceptionIfVertex = testTableItem.exceptionIfVertex();
                     if (exceptionIfMldev.isPresent() && !client.vertexAI()) {
-                      String exceptionMessage = e.getCause().getMessage();
+                      String exceptionMessage = cause.getMessage();
 
                       // TODO(fix in future): hack for camelCase variable name mismatch with
                       // expected snake_case name in exception messages.
@@ -241,10 +270,10 @@ public final class TableTest {
                                 "'%s' failed to match expected exception:\n"
                                     + "Expected exception: %s\n"
                                     + " Actual exception: %s\n",
-                                testName, exceptionIfMldev.get(), e.getCause().getMessage()));
+                                testName, exceptionIfMldev.get(), cause.getMessage()));
                       }
                     } else if (exceptionIfVertex.isPresent() && client.vertexAI()) {
-                      String exceptionMessage = e.getCause().getMessage();
+                      String exceptionMessage = cause.getMessage();
 
                       // TODO(fix in future): hack for camelCase variable name mismatch with
                       // expected snake_case name in exception messages.
@@ -263,10 +292,10 @@ public final class TableTest {
                                 "'%s' failed to match expected exception:\n"
                                     + "Expected exception: %s\n"
                                     + " Actual exception: %s\n",
-                                testName, exceptionIfVertex.get(), e.getCause().getMessage()));
+                                testName, exceptionIfVertex.get(), cause.getMessage()));
                       }
                     } else {
-                      fail(String.format("'%s' failed: %s", testName, e.getCause()));
+                      fail(String.format("'%s' failed: %s", testName, cause));
                     }
                   } finally {
                     client.close();

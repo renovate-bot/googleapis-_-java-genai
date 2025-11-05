@@ -16,8 +16,8 @@
 
 package com.google.genai;
 
-import com.google.genai.errors.GenAiIOException;
 import com.google.common.collect.ImmutableMap;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -48,6 +50,35 @@ final class UploadClient {
   public UploadClient(ApiClient apiClient, int chunkSize) {
     this.apiClient = apiClient;
     this.chunkSize = chunkSize;
+  }
+
+  public static HttpOptions buildResumableUploadHttpOptions(
+      Optional<HttpOptions> userOptions,
+      Optional<String> mimeType,
+      Optional<String> fileName,
+      long size) {
+    String actualMimeType =
+        mimeType.orElseThrow(
+            () ->
+                new IllegalArgumentException(
+                    "Unknown mime type: Could not determine mime type for your file, please"
+                        + " set the mimeType config argument"));
+    HttpOptions.Builder httpOptionsBuilder = HttpOptions.builder();
+    if (userOptions.isPresent()) {
+      httpOptionsBuilder = userOptions.get().toBuilder();
+    }
+
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Content-Type", "application/json");
+    headers.put("X-Goog-Upload-Protocol", "resumable");
+    headers.put("X-Goog-Upload-Command", "start");
+    headers.put("X-Goog-Upload-Header-Content-Length", "" + size);
+    headers.put("X-Goog-Upload-Header-Content-Type", actualMimeType);
+    if (fileName.isPresent()) {
+      headers.put("X-Goog-Upload-File-Name", fileName.get());
+    }
+
+    return httpOptionsBuilder.apiVersion("").headers(headers).build();
   }
 
   public ResponseBody upload(String uploadUrl, String filePath) {

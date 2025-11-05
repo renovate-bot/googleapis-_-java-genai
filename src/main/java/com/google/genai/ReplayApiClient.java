@@ -183,7 +183,7 @@ final class ReplayApiClient extends ApiClient {
     }
 
     // Match request url.
-    String replayPath = replayRequest.url().orElse("");
+    String replayPath = formatUrl(replayRequest.url().orElse(""));
     String actualPath = redactRequestUrl(actualRequest.url().toString());
     if (!equalsIgnoreKeyCase(replayPath, actualPath)) {
       throw new AssertionError(
@@ -230,6 +230,12 @@ final class ReplayApiClient extends ApiClient {
     Headers headers = Headers.of(replayResponse.headers().orElse(ImmutableMap.of()));
     return new ReplayApiResponse(
         (ArrayNode) bodyNode, replayResponse.statusCode().orElse(0), headers);
+  }
+
+  private static String formatUrl(String url) {
+    String result = url.replace("True", "true");
+    result = result.replace("False", "false");
+    return result;
   }
 
   /**

@@ -22,10 +22,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.BatchJob;
 import com.google.genai.types.CachedContent;
+import com.google.genai.types.Document;
 import com.google.genai.types.File;
+import com.google.genai.types.FileSearchStore;
 import com.google.genai.types.HttpResponse;
 import com.google.genai.types.ListBatchJobsConfig;
 import com.google.genai.types.ListCachedContentsConfig;
+import com.google.genai.types.ListDocumentsConfig;
+import com.google.genai.types.ListFileSearchStoresConfig;
 import com.google.genai.types.ListFilesConfig;
 import com.google.genai.types.ListModelsConfig;
 import com.google.genai.types.ListTuningJobsConfig;
@@ -43,7 +47,9 @@ abstract class BasePager<T extends JsonSerializable> {
     CACHED_CONTENTS("cachedContents", CachedContent.class, ListCachedContentsConfig.class),
     FILES("files", File.class, ListFilesConfig.class),
     BATCH_JOBS("batchJobs", BatchJob.class, ListBatchJobsConfig.class),
-    TUNING_JOBS("tuningJobs", TuningJob.class, ListTuningJobsConfig.class);
+    TUNING_JOBS("tuningJobs", TuningJob.class, ListTuningJobsConfig.class),
+    DOCUMENTS("documents", Document.class, ListDocumentsConfig.class),
+    FILE_SEARCH_STORES("fileSearchStores", FileSearchStore.class, ListFileSearchStoresConfig.class);
 
     private final String fieldName;
     private final Class<? extends JsonSerializable> itemClass;

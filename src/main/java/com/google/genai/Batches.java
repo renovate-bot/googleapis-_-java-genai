@@ -1663,6 +1663,13 @@ public final class Batches {
           Common.getValueByPath(fromObject, new String[] {"computerUse"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"fileSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"fileSearch"},
+          Common.getValueByPath(fromObject, new String[] {"fileSearch"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
