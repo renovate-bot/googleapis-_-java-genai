@@ -39,7 +39,7 @@ import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GetModelConfig;
-import com.google.genai.types.GoogleSearchRetrieval;
+import com.google.genai.types.GoogleSearch;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.Image;
 import com.google.genai.types.ListModelsConfig;
@@ -478,20 +478,20 @@ public class AsyncModelsTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
-  public void testGoogleSearchRetrievalAsync(boolean vertexAI) throws Exception {
+  public void testGoogleSearchAsync(boolean vertexAI) throws Exception {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
         TestUtils.createClient(
             vertexAI,
-            "tests/models/generate_content_tools/test_google_search_retrieval." + suffix + ".json");
+            "tests/models/generate_content_tools/test_google_search." + suffix + ".json");
 
-    Tool tool = Tool.builder().googleSearchRetrieval(GoogleSearchRetrieval.builder()).build();
+    Tool tool = Tool.builder().googleSearch(GoogleSearch.builder()).build();
     GenerateContentConfig config = GenerateContentConfig.builder().tools(tool).build();
 
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
-        client.async.models.generateContent("gemini-1.5-flash", "Why is the sky blue?", config);
+        client.async.models.generateContent("gemini-2.5-flash", "Why is the sky blue?", config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -521,7 +521,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-1.5-flash", "what is vertex ai search?", config);
+            "gemini-2.5-flash", "what is vertex ai search?", config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -544,7 +544,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-1.5-flash",
+            "gemini-2.5-flash",
             "What is the sum of the first 50 prime numbers? Generate and run code for the"
                 + " calculation, and make sure you get all 50.",
             config);
