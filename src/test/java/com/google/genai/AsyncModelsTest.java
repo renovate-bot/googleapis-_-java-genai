@@ -388,7 +388,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<CountTokensResponse> responseFuture =
-        client.async.models.countTokens("gemini-1.5-flash", "Tell me a story in 300 words.", null);
+        client.async.models.countTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
     CountTokensResponse response = responseFuture.join();
 
     // Assert
@@ -411,7 +411,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<ComputeTokensResponse> responseFuture =
         client.async.models.computeTokens(
-            "gemini-1.5-flash", "Tell me a story in 300 words.", null);
+            "gemini-2.5-flash", "Tell me a story in 300 words.", null);
     ComputeTokensResponse response = responseFuture.join();
 
     // Assert

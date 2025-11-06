@@ -307,7 +307,7 @@ public class ModelsTest {
 
     // Act
     CountTokensResponse response =
-        client.models.countTokens(GEMINI_MODEL_NAME, "Tell me a story in 300 words.", null);
+        client.models.countTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
 
     // Assert
     assertTrue(response.totalTokens().isPresent());
@@ -329,7 +329,7 @@ public class ModelsTest {
 
     // Act
     ComputeTokensResponse response =
-        client.models.computeTokens(GEMINI_MODEL_NAME, "Tell me a story in 300 words.", null);
+        client.models.computeTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
 
     // Assert
     assertTrue(response.tokensInfo().isPresent());
