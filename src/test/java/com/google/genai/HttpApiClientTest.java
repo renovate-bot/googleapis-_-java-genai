@@ -872,7 +872,7 @@ public class HttpApiClientTest {
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
-    assertEquals(5000, httpClient.connectTimeoutMillis());
+    assertEquals(5000, httpClient.callTimeoutMillis());
     assertEquals(API_KEY, client.apiKey());
     assertFalse(client.vertexAI());
   }
@@ -892,7 +892,7 @@ public class HttpApiClientTest {
     OkHttpClient httpClient = client.httpClient();
     assertNotNull(httpClient);
 
-    assertEquals(4999, httpClient.connectTimeoutMillis());
+    assertEquals(4999, httpClient.callTimeoutMillis());
     assertEquals(PROJECT, client.project());
     assertEquals(LOCATION, client.location());
     assertTrue(client.vertexAI());

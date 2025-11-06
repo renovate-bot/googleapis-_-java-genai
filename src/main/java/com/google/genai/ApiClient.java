@@ -231,7 +231,7 @@ abstract class ApiClient {
 
     httpOptions
         .timeout()
-        .ifPresent(connectTimeout -> builder.connectTimeout(Duration.ofMillis(connectTimeout)));
+        .ifPresent(timeout -> builder.callTimeout(Duration.ofMillis(timeout)));
 
     HttpRetryOptions retryOptions =
         httpOptions.retryOptions().orElse(HttpRetryOptions.builder().build());
