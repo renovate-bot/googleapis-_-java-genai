@@ -41,6 +41,7 @@
 package com.google.genai.examples;
 
 import com.google.genai.Client;
+import com.google.genai.JsonSerializable;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
@@ -72,6 +73,11 @@ public final class GenerateVideos {
     } else {
       System.out.println("Using Gemini Developer API");
     }
+
+    // Optinoal: If the default 20MB limit is not enough for the generated video response, you can
+    // increase the limit via system property `genai.json.maxReadLength` or via this static method
+    // `JsonSerializable.setMaxReadLength`.
+    JsonSerializable.setMaxReadLength(100_000_000);
 
     GenerateVideosConfig.Builder generateVideosConfigBuilder =
         GenerateVideosConfig.builder().numberOfVideos(1);

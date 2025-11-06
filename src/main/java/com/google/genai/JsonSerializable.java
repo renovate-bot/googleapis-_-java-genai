@@ -18,8 +18,10 @@ package com.google.genai;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.StreamReadConstraints;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,18 +29,25 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import com.google.api.core.InternalApi;
 import com.google.genai.errors.GenAiIOException;
+import java.util.logging.Logger;
 
 /** A class that can be serialized to JSON and deserialized from JSON. */
 public abstract class JsonSerializable {
 
   @InternalApi protected static final ObjectMapper objectMapper = new ObjectMapper();
+  private static final Logger logger = Logger.getLogger(JsonSerializable.class.getName());
+
+  /**
+   * System property to override the default max JSON string length (20MB) in read constraints.
+   * E.g., if you want to change the limit to 100MB, you can set it via
+   * `-Dgenai.json.maxReadLength=100000000`.
+   */
+  public static final String MAX_READ_LENGTH_PROPERTY = "genai.json.maxReadLength";
 
   /** Custom Jackson serializer for {@link java.time.Duration} to output "Xs" format. */
   static class CustomDurationSerializer extends JsonSerializer<java.time.Duration> {
@@ -84,6 +93,17 @@ public abstract class JsonSerializable {
     }
   }
 
+  /** Configures the stream read constraints for the JSON parser. */
+  private static void configureStreamReadConstraints(int maxReadLength) {
+    if (maxReadLength <= 0) {
+      throw new IllegalArgumentException("Invalid JSON max read length: " + maxReadLength);
+    }
+    logger.info("Overriding default JSON max string length. New value = " + maxReadLength);
+    StreamReadConstraints constraints =
+        StreamReadConstraints.builder().maxStringLength(maxReadLength).build();
+    objectMapper.getFactory().setStreamReadConstraints(constraints);
+  }
+
   static {
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT);
     objectMapper.registerModule(new Jdk8Module());
@@ -101,6 +121,19 @@ public abstract class JsonSerializable {
     // provided by JavaTimeModule.
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.registerModule(customModule);
+
+    try {
+      String propertyValue = System.getProperty(MAX_READ_LENGTH_PROPERTY);
+      if (propertyValue != null && !propertyValue.isEmpty()) {
+        int maxStringLength = Integer.parseInt(propertyValue);
+        configureStreamReadConstraints(maxStringLength);
+      }
+    } catch (NumberFormatException e) {
+      logger.warning(
+          "Failed to parse system property ["
+              + MAX_READ_LENGTH_PROPERTY
+              + "]. Using default 20MB limit.");
+    }
   }
 
   /** Serializes the instance to a Json string. */
@@ -150,5 +183,17 @@ public abstract class JsonSerializable {
     } catch (JsonProcessingException e) {
       throw new GenAiIOException("Failed to parse the JSON string.", e);
     }
+  }
+
+  /**
+   * Overrides the default maximum JSON string length (20MB) for the JSON parser.
+   *
+   * <p><b>Warning:</b> This modifies a global static setting. It will overrides the system property
+   * setting via {@link #MAX_READ_LENGTH_PROPERTY}. This method is <b>not thread-safe</b>.
+   *
+   * @param maxReadLength the new maximum string length in bytes (e.g., 100_000_000 for 100MB).
+   */
+  public static void setMaxReadLength(int maxReadLength) {
+    configureStreamReadConstraints(maxReadLength);
   }
 }
