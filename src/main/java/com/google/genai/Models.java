@@ -3380,6 +3380,41 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"supportedGenerationMethods"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"temperature"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"temperature"},
+          Common.getValueByPath(fromObject, new String[] {"temperature"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxTemperature"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxTemperature"},
+          Common.getValueByPath(fromObject, new String[] {"maxTemperature"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topP"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topP"},
+          Common.getValueByPath(fromObject, new String[] {"topP"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topK"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topK"},
+          Common.getValueByPath(fromObject, new String[] {"topK"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinking"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"thinking"},
+          Common.getValueByPath(fromObject, new String[] {"thinking"}));
+    }
+
     return toObject;
   }
 

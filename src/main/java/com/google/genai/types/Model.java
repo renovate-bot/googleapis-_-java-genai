@@ -90,6 +90,46 @@ public abstract class Model extends JsonSerializable {
   @JsonProperty("checkpoints")
   public abstract Optional<List<Checkpoint>> checkpoints();
 
+  /**
+   * Temperature value used for sampling set when the dataset was saved. This value is used to tune
+   * the degree of randomness.
+   */
+  @JsonProperty("temperature")
+  public abstract Optional<Float> temperature();
+
+  /**
+   * The maximum temperature value used for sampling set when the dataset was saved. This value is
+   * used to tune the degree of randomness.
+   */
+  @JsonProperty("maxTemperature")
+  public abstract Optional<Float> maxTemperature();
+
+  /**
+   * Optional. Specifies the nucleus sampling threshold. The model considers only the smallest set
+   * of tokens whose cumulative probability is at least `top_p`. This helps generate more diverse
+   * and less repetitive responses. For example, a `top_p` of 0.9 means the model considers tokens
+   * until the cumulative probability of the tokens to select from reaches 0.9. It's recommended to
+   * adjust either temperature or `top_p`, but not both.
+   */
+  @JsonProperty("topP")
+  public abstract Optional<Float> topP();
+
+  /**
+   * Optional. Specifies the top-k sampling threshold. The model considers only the top k most
+   * probable tokens for the next token. This can be useful for generating more coherent and less
+   * random text. For example, a `top_k` of 40 means the model will choose the next word from the 40
+   * most likely words.
+   */
+  @JsonProperty("topK")
+  public abstract Optional<Integer> topK();
+
+  /**
+   * Whether the model supports thinking features. If true, thoughts are returned only if the model
+   * supports thought and thoughts are available.
+   */
+  @JsonProperty("thinking")
+  public abstract Optional<Boolean> thinking();
+
   /** Instantiates a builder for Model. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -393,6 +433,106 @@ public abstract class Model extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearCheckpoints() {
       return checkpoints(Optional.empty());
+    }
+
+    /**
+     * Setter for temperature.
+     *
+     * <p>temperature: Temperature value used for sampling set when the dataset was saved. This
+     * value is used to tune the degree of randomness.
+     */
+    @JsonProperty("temperature")
+    public abstract Builder temperature(Float temperature);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder temperature(Optional<Float> temperature);
+
+    /** Clears the value of temperature field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTemperature() {
+      return temperature(Optional.empty());
+    }
+
+    /**
+     * Setter for maxTemperature.
+     *
+     * <p>maxTemperature: The maximum temperature value used for sampling set when the dataset was
+     * saved. This value is used to tune the degree of randomness.
+     */
+    @JsonProperty("maxTemperature")
+    public abstract Builder maxTemperature(Float maxTemperature);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder maxTemperature(Optional<Float> maxTemperature);
+
+    /** Clears the value of maxTemperature field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearMaxTemperature() {
+      return maxTemperature(Optional.empty());
+    }
+
+    /**
+     * Setter for topP.
+     *
+     * <p>topP: Optional. Specifies the nucleus sampling threshold. The model considers only the
+     * smallest set of tokens whose cumulative probability is at least `top_p`. This helps generate
+     * more diverse and less repetitive responses. For example, a `top_p` of 0.9 means the model
+     * considers tokens until the cumulative probability of the tokens to select from reaches 0.9.
+     * It's recommended to adjust either temperature or `top_p`, but not both.
+     */
+    @JsonProperty("topP")
+    public abstract Builder topP(Float topP);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder topP(Optional<Float> topP);
+
+    /** Clears the value of topP field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTopP() {
+      return topP(Optional.empty());
+    }
+
+    /**
+     * Setter for topK.
+     *
+     * <p>topK: Optional. Specifies the top-k sampling threshold. The model considers only the top k
+     * most probable tokens for the next token. This can be useful for generating more coherent and
+     * less random text. For example, a `top_k` of 40 means the model will choose the next word from
+     * the 40 most likely words.
+     */
+    @JsonProperty("topK")
+    public abstract Builder topK(Integer topK);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder topK(Optional<Integer> topK);
+
+    /** Clears the value of topK field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearTopK() {
+      return topK(Optional.empty());
+    }
+
+    /**
+     * Setter for thinking.
+     *
+     * <p>thinking: Whether the model supports thinking features. If true, thoughts are returned
+     * only if the model supports thought and thoughts are available.
+     */
+    @JsonProperty("thinking")
+    public abstract Builder thinking(boolean thinking);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder thinking(Optional<Boolean> thinking);
+
+    /** Clears the value of thinking field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearThinking() {
+      return thinking(Optional.empty());
     }
 
     public abstract Model build();
