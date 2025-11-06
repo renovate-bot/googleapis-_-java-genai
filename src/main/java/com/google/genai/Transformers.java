@@ -74,6 +74,9 @@ final class Transformers {
     if (model.isEmpty()) {
       throw new IllegalArgumentException("model is required.");
     }
+    if (model.contains("..") || model.contains("?") || model.contains("&")) {
+      throw new IllegalArgumentException("invalid model parameter.");
+    }
     if (apiClient.vertexAI()) {
       if (model.startsWith("publishers/")
           || model.startsWith("projects/")
