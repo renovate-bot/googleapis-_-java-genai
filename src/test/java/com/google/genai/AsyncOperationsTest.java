@@ -46,8 +46,8 @@ public class AsyncOperationsTest {
 
     String operationName =
         vertexAI
-            ? "projects/<project>/locations/<location>/publishers/google/models/veo-3.1-generate-preview/operations/6a55ba83-558a-4b29-9999-325b1eb218cf"
-            : "models/veo-3.1-generate-preview/operations/9jwcbmi5tkvw";
+            ? "projects/<project>/locations/<location>/publishers/google/models/veo-3.1-generate-preview/operations/9d2fc0b5-5bdf-4b5f-9a41-82970515e20b"
+            : "models/veo-3.1-generate-preview/operations/vz341u0pmdlc";
 
     // Act
     GenerateVideosOperation generateVideosOperation =
