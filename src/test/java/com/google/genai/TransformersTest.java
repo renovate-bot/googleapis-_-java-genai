@@ -205,7 +205,8 @@ public class TransformersTest {
                                 "integerParam",
                                 "doubleParam",
                                 "floatParam",
-                                "booleanParam")),
+                                "booleanParam"))
+                    .response(Schema.builder().type("INTEGER").title("return type")),
                 FunctionDeclaration.builder()
                     .name("functionName1")
                     .description("functionDescription1")

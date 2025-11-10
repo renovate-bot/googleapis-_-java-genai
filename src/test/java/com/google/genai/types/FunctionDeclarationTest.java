@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ public class FunctionDeclarationTest {
                   .type(Type.Known.OBJECT)
                   .properties(buildPropertiesMap())
                   .required(REQUIRED_PARAM_NAMES))
+          .response(Schema.builder().type(Type.Known.INTEGER).title("return type"))
           .build();
 
   /** Helper method to build the properties map. */
@@ -121,6 +123,11 @@ public class FunctionDeclarationTest {
   /** A function with invalid parameter type to test fromMethod. */
   public static int functionWithInvalidType(Object objectParam) {
     return 2;
+  }
+
+  /** A function with invalid return type to test fromMethod. */
+  public static Part functionWithInvalidReturnType(String stringParam) {
+    return Part.fromText(stringParam);
   }
 
   @Disabled(
@@ -203,11 +210,41 @@ public class FunctionDeclarationTest {
             IllegalArgumentException.class,
             () -> FunctionDeclaration.fromMethod(FUNCTION_DESCRIPTION, method, "objectParam"));
     assertEquals(
-        "Unsupported parameter type "
+        "Unsupported type "
             + Object.class.getName()
             + " for parameter objectParam. Currently, supported types are String, boolean, Boolean,"
             + " int, Integer, Long, double, Double, float, Float, and List<T>.",
         thrown.getMessage());
+  }
+
+  @Test
+  public void fromMethodWithInvalidReturnType_returnsFunctionDeclaration()
+      throws NoSuchMethodException {
+    Method method =
+        FunctionDeclarationTest.class.getMethod("functionWithInvalidReturnType", String.class);
+    FunctionDeclaration functionDeclaration =
+        FunctionDeclaration.fromMethod(FUNCTION_DESCRIPTION, method, STRING_PARAM_NAME);
+
+    // Invalid return type is mapped to a default object type.
+    FunctionDeclaration expectedFunctionDeclaration =
+        FunctionDeclaration.builder()
+            .name("functionWithInvalidReturnType")
+            .description(FUNCTION_DESCRIPTION)
+            .parameters(
+                Schema.builder()
+                    .type(Type.Known.OBJECT)
+                    .properties(
+                        ImmutableMap.of(
+                            STRING_PARAM_NAME,
+                            Schema.builder()
+                                .type(Type.Known.STRING)
+                                .title(STRING_PARAM_NAME)
+                                .build()))
+                    .required(STRING_PARAM_NAME))
+            .response(Schema.builder().type(Type.Known.OBJECT).title("return type"))
+            .build();
+
+    assertEquals(expectedFunctionDeclaration, functionDeclaration);
   }
 
   @Test

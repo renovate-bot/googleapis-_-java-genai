@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.AutomaticFunctionCallingConfig;
 import com.google.genai.types.Candidate;
+import com.google.genai.types.ComputerUse;
 import com.google.genai.types.Content;
 import com.google.genai.types.EnterpriseWebSearch;
 import com.google.genai.types.FunctionCall;
@@ -36,12 +37,11 @@ import com.google.genai.types.Retrieval;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Tool;
 import com.google.genai.types.ToolCodeExecution;
-import com.google.genai.types.ComputerUse;
 import com.google.genai.types.Type;
-import java.util.List;
-import java.util.ArrayList;
 import com.google.genai.types.UrlContext;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public final class AfcUtilTest {
@@ -84,6 +84,7 @@ public final class AfcUtilTest {
                       ImmutableMap.of(
                           "input", Schema.builder().type(Type.Known.STRING).title("input").build()))
                   .required("input"))
+          .response(Schema.builder().type(Type.Known.STRING).title("return type"))
           .build();
 
   private static FunctionDeclaration testFunctionDeclaration2 =
@@ -97,6 +98,7 @@ public final class AfcUtilTest {
                           "input2",
                           Schema.builder().type(Type.Known.STRING).title("input2").build()))
                   .required("input2"))
+          .response(Schema.builder().type(Type.Known.INTEGER).title("return type"))
           .build();
 
   @Test
