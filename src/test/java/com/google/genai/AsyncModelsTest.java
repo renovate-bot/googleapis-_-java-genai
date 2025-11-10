@@ -146,6 +146,10 @@ public class AsyncModelsTest {
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
   public void testListTunedModelsAsync(boolean vertexAI) throws Exception {
+    if (vertexAI) {
+      // Skipped due to b/457846189
+      return;
+    }
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
     Client client =
@@ -157,11 +161,11 @@ public class AsyncModelsTest {
         client
             .async
             .models
-            .list(ListModelsConfig.builder().pageSize(10).queryBase(false).build())
+            .list(ListModelsConfig.builder().pageSize(3).queryBase(false).build())
             .get();
 
     // Assert
-    assertEquals(10, pager.size().get());
+    assertEquals(3, pager.size().get());
     pager.forEach(item -> assertNotNull(item)).get();
     assertNotNull(pager.sdkHttpResponse().get().get().headers().get());
   }

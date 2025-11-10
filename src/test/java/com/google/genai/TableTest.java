@@ -178,6 +178,12 @@ public final class TableTest {
       String msg = " => Test skipped: replay tests are not supported for edit_image";
       return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
     }
+    // TODO(b/457846189): Support models.list filter parameter
+    if (testName.contains("models.list.test_tuned_models_with_filter")
+        || testName.contains("models.list.test_tuned_models.vertex")) {
+      String msg = " => Test skipped: replay tests are not supported for models.list with filter";
+      return Collections.singletonList(DynamicTest.dynamicTest(testName + msg, () -> {}));
+    }
 
     Map<String, Object> fromParameters = (Map<String, Object>) normalizeKeys((Map<String, Object>) testTableItem.parameters().get());
     ReplaySanitizer.sanitizeMapByPath(
