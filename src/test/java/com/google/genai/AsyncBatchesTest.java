@@ -58,8 +58,8 @@ public class AsyncBatchesTest {
         TestUtils.createClient(
             vertexAI, "tests/batches/cancel/test_async_cancel." + suffix + ".json");
 
-    String vertexJob = "2803006536245313536";
-    String mldevJob = "batches/coqrz7leaeit8g83thvdrkzdulz1bxgi8s74";
+    String vertexJob = "6339625664542408704";
+    String mldevJob = "batches/0yew7plxupyybd7appsrq5vw7w0lp3l79lab";
     String name = vertexAI ? vertexJob : mldevJob;
 
     // Act
@@ -96,8 +96,7 @@ public class AsyncBatchesTest {
 
     // Act
     if (vertexAI) {
-      BatchJob batchJob =
-          client.async.batches.create("gemini-1.5-flash-002", bqInput, config).get();
+      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", bqInput, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -106,7 +105,7 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-1.5-flash-002", bqInput, config).get());
+              () -> client.async.batches.create("gemini-2.5-flash", bqInput, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "one of fileName and InlinedRequests must be set.");
@@ -122,7 +121,7 @@ public class AsyncBatchesTest {
     Client client =
         TestUtils.createClient(
             vertexAI, "tests/batches/create_with_file/test_async_create." + suffix + ".json");
-    BatchJobSource src = BatchJobSource.builder().fileName("files/76eifkmq7uxd").build();
+    BatchJobSource src = BatchJobSource.builder().fileName("files/s0pa54alni6w").build();
     CreateBatchJobConfig config = CreateBatchJobConfig.builder().displayName("test_batch").build();
 
     // Act
@@ -130,12 +129,12 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.0-flash", src, config).get());
+              () -> client.async.batches.create("gemini-2.5-flash", src, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "fileName is not supported for Vertex AI.");
     } else {
-      BatchJob batchJob = client.async.batches.create("gemini-2.0-flash", src, config).get();
+      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -170,7 +169,7 @@ public class AsyncBatchesTest {
 
     // Act
     if (vertexAI) {
-      BatchJob batchJob = client.async.batches.create("gemini-1.5-flash-002", src, config).get();
+      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -179,7 +178,7 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-1.5-flash-002", src, config).get());
+              () -> client.async.batches.create("gemini-2.5-flash", src, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "one of fileName and InlinedRequests must be set.");
@@ -221,12 +220,12 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.5-flash-lite", src, null).get());
+              () -> client.async.batches.create("gemini-2.5-flash", src, null).get());
 
       // Assert
       assertTrue(exception.getMessage().equals("inlinedRequests is not supported for Vertex AI."));
     } else {
-      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash-lite", src, null).get();
+      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, null).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -261,7 +260,7 @@ public class AsyncBatchesTest {
         TestUtils.createClient(vertexAI, "tests/batches/get/test_async_get." + suffix + ".json");
 
     String vertexJob = "5798522612028014592";
-    String mldevJob = "batches/2uqn2xn58tohxdg0qnypy4dujme2mvs90gp1";
+    String mldevJob = "batches/0yew7plxupyybd7appsrq5vw7w0lp3l79lab";
     String name = vertexAI ? vertexJob : mldevJob;
 
     // Act
