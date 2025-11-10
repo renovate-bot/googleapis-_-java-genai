@@ -98,7 +98,7 @@ public class AsyncTuningsTest {
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
     TuningJob job =
-        client.async.tunings.tune("gemini-2.0-flash-001", tuningDataset, tuningConfig).get();
+        client.async.tunings.tune("gemini-2.5-flash-lite", tuningDataset, tuningConfig).get();
 
     // Act
     TuningJob currentJob = job;

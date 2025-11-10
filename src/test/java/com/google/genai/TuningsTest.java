@@ -100,7 +100,7 @@ public class TuningsTest {
                 "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
-    TuningJob job = client.tunings.tune("gemini-2.0-flash-001", tuningDataset, tuningConfig);
+    TuningJob job = client.tunings.tune("gemini-2.5-flash-lite", tuningDataset, tuningConfig);
 
     // Act
     TuningJob currentJob = job;
