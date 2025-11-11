@@ -606,13 +606,11 @@ public class GenerateImages {
         client.models.generateImages(
             "imagen-3.0-generate-002", "Robot holding a red skateboard", config);
 
-    response.generatedImages().ifPresent(
-        images -> {
-            System.out.println("Generated " + images.size() + " images.");
-            Image image = images.get(0).image().orElse(null);
-            // Do something with the image.
-        }
-    );
+    if (generatedImagesResponse.images().isEmpty()) {
+      System.out.println("Unable to generate images.");
+    }
+    System.out.println("Generated " + generatedImagesResponse.images().size() + " images.");
+    Image generatedImage = generatedImagesResponse.images().get(0);
   }
 }
 ```

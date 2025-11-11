@@ -82,10 +82,11 @@ public final class GenerateImages {
         client.models.generateImages(
             modelId, "Robot holding a red skateboard", generateImagesConfig);
 
-    System.out.println(
-        "Generated " + generatedImagesResponse.generatedImages().get().size() + " images.");
-
-    Image generatedImage = generatedImagesResponse.generatedImages().get().get(0).image().get();
+    if (generatedImagesResponse.images().isEmpty()) {
+      System.out.println("Unable to generate images.");
+    }
+    System.out.println("Generated " + generatedImagesResponse.images().size() + " images.");
+    Image generatedImage = generatedImagesResponse.images().get(0);
     // Do something with the image.
 
     System.out.println(

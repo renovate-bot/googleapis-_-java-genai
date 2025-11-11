@@ -24,11 +24,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+import org.jspecify.annotations.Nullable;
 
 /** The output images response. */
 @AutoValue
@@ -176,5 +179,26 @@ public abstract class GenerateImagesResponse extends JsonSerializable {
   @ExcludeFromGeneratedCoverageReport
   public static GenerateImagesResponse fromJson(String jsonString) {
     return JsonSerializable.fromJsonString(jsonString, GenerateImagesResponse.class);
+  }
+
+  /**
+   * Returns the list of images from the response.
+   *
+   * <p>Returns null if there are no generated images in the response.
+   */
+  public @Nullable ImmutableList<Image> images() {
+
+    Optional<List<GeneratedImage>> generatedImages = generatedImages();
+    if (!generatedImages.isPresent() || generatedImages.get().isEmpty()) {
+      return null;
+    }
+
+    return ImmutableList.copyOf(
+        generatedImages.get().stream()
+            .map(GeneratedImage::image)
+            .flatMap(
+                optionalImage ->
+                    optionalImage.isPresent() ? Stream.of(optionalImage.get()) : Stream.empty())
+            .collect(toImmutableList()));
   }
 }
