@@ -841,6 +841,87 @@ public class GenerateVideosWithImage {
 }
 ```
 
+### Files API
+
+Gemini models support various input data types, including text, images, and
+audio. The Files API allows you to upload and manage these media files for use
+with Gemini models. **This feature is exclusively supported by the Gemini API**.
+
+#### Usage info
+You can use the Files API to upload and interact with media files. The Files API
+lets you store up to 20 GB of files per project, with a per-file maximum size of
+2 GB. Files are stored for 48 hours. During that time, you can use the API to
+get metadata about the files, but you can't download the files. The Files API is
+available at no cost in all regions where the Gemini API is available.
+
+The basic operations are:
+
+1. **Upload**: You can use the Files API to upload a media file. Always use
+the Files API when the total request size (including the files, text prompt,
+system instructions, etc.) is larger than 20 MB.
+
+2. **Get**: You can verify that the API successfully stored the uploaded file
+and get its metadata.
+
+3. **List**: You can upload multiple files using the Files API. The following
+code gets a list of all the files uploaded.
+
+4. **Delete**: Files are automatically deleted after 48 hours. You can also
+manually delete an uploaded file:
+
+#### Sample usage
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.errors.GenAiIOException;
+import com.google.genai.types.Content;
+import com.google.genai.types.DeleteFileResponse;
+import com.google.genai.types.File;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.ListFilesConfig;
+import com.google.genai.types.Part;
+import com.google.genai.types.UploadFileConfig;
+
+/** An example of how to use the Files module to upload, retrieve, list, and delete files. */
+public final class FileOperations {
+  public static void main(String[] args) {
+    Client client = new Client();
+
+    // Upload a file to the API.
+    try {
+      File file =
+          client.files.upload(
+              "path/to/your/file.pdf",
+              UploadFileConfig.builder().mimeType("application/pdf").build());
+
+      // Use the uploaded file in the generateContent
+      Content content =
+          Content.fromParts(
+              Part.fromText("Summary this pdf."),
+              Part.fromUri(file.name().get(), file.mimeType().get()));
+      GenerateContentResponse response =
+          client.models.generateContent("gemini-2.5-flash", content, null);
+
+      // Get the uploaded file.
+      File retrievedFile = client.files.get(file.name().get(), null);
+
+      // List all files.
+      System.out.println("List files: ");
+      for (File f : client.files.list(ListFilesConfig.builder().pageSize(10).build())) {
+        System.out.println("File name: " + f.name().get());
+      }
+
+      // Delete the uploaded file.
+      client.files.delete(file.name().get(), null);
+
+    } catch (GenAiIOException e) {
+      System.out.println("An error occurred while uploading the file: " + e.getMessage());
+    }
+  }
+}
+```
 
 ## Versioning
 
