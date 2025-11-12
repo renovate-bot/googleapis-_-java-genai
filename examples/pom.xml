@@ -36,6 +36,30 @@
             <cleanupDaemonThreads>false</cleanupDaemonThreads>
           </configuration>
         </plugin>
+        <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>0.11.1</version>
+            <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>build</goal>
+                        <goal>test</goal>
+                    </goals>
+                    <phase>package</phase>
+                </execution>
+            </executions>
+            <configuration>
+                <buildArgs>
+                  <buildArg>-Ob</buildArg>
+                  <buildArg>--no-fallback</buildArg>
+                  <buildArg>--verbose</buildArg>
+                </buildArgs>
+                <mainClass>com.google.genai.examples.GenerateContent</mainClass>
+                <imageName>genai-example-app</imageName>
+            </configuration>
+        </plugin>
       </plugins>
   </build>
 
