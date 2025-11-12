@@ -3607,7 +3607,7 @@ public final class Models {
     if (Common.getValueByPath(fromObject, new String[] {"baseSteps"}) != null) {
       Common.setValueByPath(
           parentObject,
-          new String[] {"parameters", "editConfig", "baseSteps"},
+          new String[] {"parameters", "baseSteps"},
           Common.getValueByPath(fromObject, new String[] {"baseSteps"}));
     }
 
