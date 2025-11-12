@@ -116,6 +116,10 @@ public abstract class TuningJob extends JsonSerializable {
   @JsonProperty("partnerModelTuningSpec")
   public abstract Optional<PartnerModelTuningSpec> partnerModelTuningSpec();
 
+  /** Evaluation config for the tuning job. */
+  @JsonProperty("evaluationConfig")
+  public abstract Optional<EvaluationConfig> evaluationConfig();
+
   /**
    * Optional. The user-provided path to custom model weights. Set this field to tune a custom
    * model. The path must be a Cloud Storage directory that contains the model weights in
@@ -624,6 +628,34 @@ public abstract class TuningJob extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearPartnerModelTuningSpec() {
       return partnerModelTuningSpec(Optional.empty());
+    }
+
+    /**
+     * Setter for evaluationConfig.
+     *
+     * <p>evaluationConfig: Evaluation config for the tuning job.
+     */
+    @JsonProperty("evaluationConfig")
+    public abstract Builder evaluationConfig(EvaluationConfig evaluationConfig);
+
+    /**
+     * Setter for evaluationConfig builder.
+     *
+     * <p>evaluationConfig: Evaluation config for the tuning job.
+     */
+    @CanIgnoreReturnValue
+    public Builder evaluationConfig(EvaluationConfig.Builder evaluationConfigBuilder) {
+      return evaluationConfig(evaluationConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder evaluationConfig(Optional<EvaluationConfig> evaluationConfig);
+
+    /** Clears the value of evaluationConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEvaluationConfig() {
+      return evaluationConfig(Optional.empty());
     }
 
     /**

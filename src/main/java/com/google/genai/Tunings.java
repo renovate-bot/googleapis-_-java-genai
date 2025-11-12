@@ -149,6 +149,11 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"learningRate"}));
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"evaluationConfig"}))) {
+      throw new IllegalArgumentException(
+          "evaluationConfig parameter is not supported in Gemini API.");
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"labels"}))) {
       throw new IllegalArgumentException("labels parameter is not supported in Gemini API.");
     }
@@ -305,6 +310,35 @@ public final class Tunings {
       throw new IllegalArgumentException("learningRate parameter is not supported in Vertex AI.");
     }
 
+    JsonNode discriminatorEvaluationConfig =
+        (JsonNode) Common.getValueByPath(rootObject, new String[] {"config", "method"});
+    String discriminatorValueEvaluationConfig =
+        discriminatorEvaluationConfig == null
+            ? "SUPERVISED_FINE_TUNING"
+            : discriminatorEvaluationConfig.asText();
+    if (discriminatorValueEvaluationConfig.equals("SUPERVISED_FINE_TUNING")) {
+      if (Common.getValueByPath(fromObject, new String[] {"evaluationConfig"}) != null) {
+        Common.setValueByPath(
+            parentObject,
+            new String[] {"supervisedTuningSpec", "evaluationConfig"},
+            evaluationConfigToVertex(
+                JsonSerializable.toJsonNode(
+                    Common.getValueByPath(fromObject, new String[] {"evaluationConfig"})),
+                toObject,
+                rootObject));
+      }
+    } else if (discriminatorValueEvaluationConfig.equals("PREFERENCE_TUNING")) {
+      if (Common.getValueByPath(fromObject, new String[] {"evaluationConfig"}) != null) {
+        Common.setValueByPath(
+            parentObject,
+            new String[] {"preferenceOptimizationSpec", "evaluationConfig"},
+            evaluationConfigToVertex(
+                JsonSerializable.toJsonNode(
+                    Common.getValueByPath(fromObject, new String[] {"evaluationConfig"})),
+                toObject,
+                rootObject));
+      }
+    }
     if (Common.getValueByPath(fromObject, new String[] {"labels"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -395,6 +429,61 @@ public final class Tunings {
                   Common.getValueByPath(fromObject, new String[] {"config"})),
               toObject,
               rootObject);
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode evaluationConfigFromVertex(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"metrics"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"metrics"},
+          Transformers.tMetrics(Common.getValueByPath(fromObject, new String[] {"metrics"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"outputConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"outputConfig"},
+          Common.getValueByPath(fromObject, new String[] {"outputConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"autoraterConfig"},
+          Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode evaluationConfigToVertex(
+      JsonNode fromObject, ObjectNode parentObject, JsonNode rootObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"metrics"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"metrics"},
+          Transformers.tMetrics(Common.getValueByPath(fromObject, new String[] {"metrics"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"outputConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"outputConfig"},
+          Common.getValueByPath(fromObject, new String[] {"outputConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"autoraterConfig"},
+          Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}));
     }
 
     return toObject;
@@ -877,6 +966,16 @@ public final class Tunings {
           toObject,
           new String[] {"partnerModelTuningSpec"},
           Common.getValueByPath(fromObject, new String[] {"partnerModelTuningSpec"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"evaluationConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"evaluationConfig"},
+          evaluationConfigFromVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"evaluationConfig"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"customBaseModel"}) != null) {
@@ -1483,16 +1582,21 @@ public final class Tunings {
   public TuningJob tune(
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
     if (this.apiClient.vertexAI()) {
+      TuningJob tuningJob;
       if (baseModel.startsWith("projects/")) {
         PreTunedModel.Builder preTunedModelBuilder =
             PreTunedModel.builder().tunedModelName(baseModel);
         if (config != null && config.preTunedModelCheckpointId().isPresent()) {
           preTunedModelBuilder.checkpointId(config.preTunedModelCheckpointId().get());
         }
-        return this.privateTune(null, preTunedModelBuilder.build(), trainingDataset, config);
+        tuningJob = this.privateTune(null, preTunedModelBuilder.build(), trainingDataset, config);
       } else {
-        return this.privateTune(baseModel, null, trainingDataset, config);
+        tuningJob = this.privateTune(baseModel, null, trainingDataset, config);
       }
+      if (config != null && config.evaluationConfig().isPresent()) {
+        tuningJob = tuningJob.toBuilder().evaluationConfig(config.evaluationConfig().get()).build();
+      }
+      return tuningJob;
     } else {
       TuningOperation operation = this.privateTuneMldev(baseModel, null, trainingDataset, config);
       String tunedModelName = "";

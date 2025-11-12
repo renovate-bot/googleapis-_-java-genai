@@ -175,16 +175,24 @@ public final class AsyncTunings {
       String baseModel, TuningDataset trainingDataset, CreateTuningJobConfig config) {
 
     if (tunings.apiClient.vertexAI()) {
+      CompletableFuture<TuningJob> tuningJobFuture;
       if (baseModel.startsWith("projects/")) {
         PreTunedModel.Builder preTunedModelBuilder =
             PreTunedModel.builder().tunedModelName(baseModel);
         if (config != null && config.preTunedModelCheckpointId().isPresent()) {
           preTunedModelBuilder.checkpointId(config.preTunedModelCheckpointId().get());
         }
-        return this.privateTune(null, preTunedModelBuilder.build(), trainingDataset, config);
+        tuningJobFuture =
+            this.privateTune(null, preTunedModelBuilder.build(), trainingDataset, config);
       } else {
-        return this.privateTune(baseModel, null, trainingDataset, config);
+        tuningJobFuture = this.privateTune(baseModel, null, trainingDataset, config);
       }
+      if (config != null && config.evaluationConfig().isPresent()) {
+        return tuningJobFuture.thenApply(
+            tuningJob ->
+                tuningJob.toBuilder().evaluationConfig(config.evaluationConfig().get()).build());
+      }
+      return tuningJobFuture;
     } else {
       TuningOperation operation =
           tunings.privateTuneMldev(baseModel, null, trainingDataset, config);

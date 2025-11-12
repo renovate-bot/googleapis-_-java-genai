@@ -21,11 +21,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.ImmutableList;
+import com.google.genai.types.AdapterSize;
+import com.google.genai.types.AutoraterConfig;
 import com.google.genai.types.CreateTuningJobConfig;
+import com.google.genai.types.EvaluationConfig;
+import com.google.genai.types.GcsDestination;
 import com.google.genai.types.JobState;
 import com.google.genai.types.ListTuningJobsConfig;
+import com.google.genai.types.Metric;
+import com.google.genai.types.OutputConfig;
 import com.google.genai.types.TuningDataset;
 import com.google.genai.types.TuningJob;
+import com.google.genai.types.TuningValidationDataset;
+import java.util.List;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -182,5 +191,76 @@ public class TuningsTest {
     assertNotNull(currentContinuousJob);
     assertTrue(
         currentContinuousJob.state().get().knownEnum() == JobState.Known.JOB_STATE_SUCCEEDED);
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  public void testTuneWithEvaluationConfig(boolean vertexAI) {
+    if (!vertexAI) { // MLDev doesn't support tune
+      return;
+    }
+
+    // Arrange
+    String suffix = vertexAI ? "vertex" : "mldev";
+    Client client =
+        TestUtils.createClient(
+            vertexAI, "tests/tunings/tune/test_eval_config_with_metrics." + suffix + ".json");
+
+    TuningDataset tuningDataset =
+        TuningDataset.builder()
+            .gcsUri(
+                "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
+            .build();
+
+    Metric promptRelevance =
+        Metric.builder()
+            .name("prompt_relevance")
+            .promptTemplate(
+                "How well does the response address the prompt?: PROMPT: {request}\n"
+                    + " RESPONSE: {response}\n")
+            .returnRawOutput(true)
+            .judgeModelSystemInstruction(
+                "You are a cat. Make all evaluations from this perspective.")
+            .build();
+
+    Metric bleu = Metric.builder().name("bleu").build();
+    Metric rouge = Metric.builder().name("rouge_1").build();
+
+    List<Metric> metrics = ImmutableList.of(promptRelevance, bleu, rouge);
+
+    EvaluationConfig evaluationConfig =
+        EvaluationConfig.builder()
+            .outputConfig(
+                OutputConfig.builder()
+                    .gcsDestination(
+                        GcsDestination.builder().outputUriPrefix("gs://sararob_test/").build())
+                    .build())
+            .autoraterConfig(
+                AutoraterConfig.builder().autoraterModel("test-model").samplingCount(1).build())
+            .metrics(metrics)
+            .build();
+    CreateTuningJobConfig tuningConfig =
+        CreateTuningJobConfig.builder()
+            .epochCount(1)
+            .learningRateMultiplier(1.0f)
+            .adapterSize(AdapterSize.Known.ADAPTER_SIZE_ONE)
+            .tunedModelDisplayName("tuning job with eval config")
+            .validationDataset(
+                TuningValidationDataset.builder()
+                    .gcsUri(
+                        "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_validation_data.jsonl")
+                    .build())
+            .evaluationConfig(evaluationConfig)
+            .build();
+    TuningJob job = client.tunings.tune("gemini-2.5-flash", tuningDataset, tuningConfig);
+
+    // Act
+    TuningJob currentJob = job;
+    JobState.Known state = job.state().get().knownEnum();
+
+    // Assert
+    assertNotNull(currentJob);
+    assertTrue(currentJob.evaluationConfig().isPresent());
+    assertTrue(currentJob.state().get().knownEnum() == JobState.Known.JOB_STATE_PENDING);
   }
 }

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,6 +32,7 @@ import com.google.genai.types.File;
 import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GeneratedVideo;
 import com.google.genai.types.JobState;
+import com.google.genai.types.Metric;
 import com.google.genai.types.Part;
 import com.google.genai.types.PrebuiltVoiceConfig;
 import com.google.genai.types.Schema;
@@ -41,6 +43,7 @@ import com.google.genai.types.VoiceConfig;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -730,5 +733,69 @@ final class Transformers {
     }
 
     return sb.toString();
+  }
+
+  /**
+   * Prepares the metric payload for the evaluation request.
+   *
+   * @param metrics An object containing the metrics to be transformed.
+   * @return The list of transformed metric payloads.
+   */
+  public static ArrayNode tMetrics(Object metrics) {
+    if (metrics == null) {
+      return JsonNodeFactory.instance.arrayNode();
+    }
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    List<Metric> metricsList =
+        objectMapper.convertValue(metrics, new TypeReference<List<Metric>>() {});
+
+    List<ObjectNode> metricsPayload = new ArrayList<>();
+    for (Metric metricObj : metricsList) {
+      JsonNode metric = JsonSerializable.toJsonNode(metricObj);
+      ObjectNode metricPayloadItem = JsonNodeFactory.instance.objectNode();
+      ArrayNode aggregationMetrics = JsonNodeFactory.instance.arrayNode();
+      aggregationMetrics.add("AVERAGE");
+      aggregationMetrics.add("STANDARD_DEVIATION");
+      metricPayloadItem.set("aggregation_metrics", aggregationMetrics);
+
+      String metricName =
+          metric.has("name") ? metric.get("name").asText().toLowerCase(Locale.ROOT) : "";
+
+      if (metricName.equals("exact_match")) {
+        metricPayloadItem.set("exact_match_spec", JsonNodeFactory.instance.objectNode());
+      } else if (metricName.equals("bleu")) {
+        metricPayloadItem.set("bleu_spec", JsonNodeFactory.instance.objectNode());
+      } else if (metricName.startsWith("rouge")) {
+        String rougeType = metricName.replace("_", "");
+        ObjectNode rougeSpec = JsonNodeFactory.instance.objectNode();
+        rougeSpec.put("rouge_type", rougeType);
+        metricPayloadItem.set("rouge_spec", rougeSpec);
+      } else if (metric.has("promptTemplate") && metric.get("promptTemplate").isTextual()) {
+        ObjectNode pointwiseSpec = JsonNodeFactory.instance.objectNode();
+        pointwiseSpec.set("metric_prompt_template", metric.get("promptTemplate"));
+
+        if (metric.has("judgeModelSystemInstruction")) {
+          pointwiseSpec.set("system_instruction", metric.get("judgeModelSystemInstruction"));
+        }
+
+        if (metric.has("returnRawOutput")) {
+          ObjectNode customOutputFormatConfig = JsonNodeFactory.instance.objectNode();
+          customOutputFormatConfig.set("return_raw_output", metric.get("returnRawOutput"));
+          pointwiseSpec.set("custom_output_format_config", customOutputFormatConfig);
+        }
+        metricPayloadItem.set("pointwise_metric_spec", pointwiseSpec);
+      } else {
+        throw new IllegalArgumentException(
+            "Unsupported metric type or invalid metric name: " + metricName);
+      }
+      metricsPayload.add(metricPayloadItem);
+    }
+
+    ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+    for (ObjectNode node : metricsPayload) {
+      arrayNode.add(node);
+    }
+    return arrayNode;
   }
 }

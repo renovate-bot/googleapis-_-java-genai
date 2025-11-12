@@ -94,6 +94,10 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
   @JsonProperty("learningRate")
   public abstract Optional<Float> learningRate();
 
+  /** Evaluation config for the tuning job. */
+  @JsonProperty("evaluationConfig")
+  public abstract Optional<EvaluationConfig> evaluationConfig();
+
   /**
    * Optional. The labels with user-defined metadata to organize TuningJob and generated resources
    * such as Model and Endpoint. Label keys and values can be no longer than 64 characters (Unicode
@@ -411,6 +415,34 @@ public abstract class CreateTuningJobConfig extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearLearningRate() {
       return learningRate(Optional.empty());
+    }
+
+    /**
+     * Setter for evaluationConfig.
+     *
+     * <p>evaluationConfig: Evaluation config for the tuning job.
+     */
+    @JsonProperty("evaluationConfig")
+    public abstract Builder evaluationConfig(EvaluationConfig evaluationConfig);
+
+    /**
+     * Setter for evaluationConfig builder.
+     *
+     * <p>evaluationConfig: Evaluation config for the tuning job.
+     */
+    @CanIgnoreReturnValue
+    public Builder evaluationConfig(EvaluationConfig.Builder evaluationConfigBuilder) {
+      return evaluationConfig(evaluationConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder evaluationConfig(Optional<EvaluationConfig> evaluationConfig);
+
+    /** Clears the value of evaluationConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearEvaluationConfig() {
+      return evaluationConfig(Optional.empty());
     }
 
     /**
