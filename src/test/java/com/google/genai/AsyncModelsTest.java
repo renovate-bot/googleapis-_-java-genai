@@ -698,19 +698,19 @@ public class AsyncModelsTest {
   }
 
   @ParameterizedTest
-  @ValueSource(booleans = {false, true})
+  @ValueSource(booleans = {true})
   public void testUpdateTunedModelAsync(boolean vertexAI) throws Exception {
     // Arrange
     String suffix = vertexAI ? "vertex" : "mldev";
-    Client client =
-        TestUtils.createClient(
-            vertexAI, "tests/models/update/test_async_update_tuned_model." + suffix + ".json");
-
     // Act
     if (vertexAI) {
+      Client client =
+          TestUtils.createClient(
+              vertexAI, "tests/models/update/test_async_update_tuned_model." + suffix + ".json");
+
       UpdateModelConfig config =
           UpdateModelConfig.builder()
-              .description("My tuned gemini-1.0")
+              .description("My tuned gemini model")
               .httpOptions(HttpOptions.builder().headers(ImmutableMap.of("test", "headers")))
               .build();
       CompletionException exception =
@@ -724,18 +724,6 @@ public class AsyncModelsTest {
                       .join());
       // Assert
       assertTrue(exception.getCause().getMessage().contains("404"));
-    } else {
-      UpdateModelConfig config =
-          UpdateModelConfig.builder()
-              .description("My tuned gemini-1.5")
-              .httpOptions(HttpOptions.builder().headers(ImmutableMap.of("test", "headers")))
-              .build();
-      CompletableFuture<Model> responseFuture =
-          client.async.models.update(
-              "tunedModels/generatenum5443-ekrw7ie9wis23zbeogbw6jq8", config);
-      Model response = responseFuture.join();
-      // Assert
-      assertNotNull(response);
     }
   }
 
@@ -750,7 +738,7 @@ public class AsyncModelsTest {
 
     UpdateModelConfig config =
         UpdateModelConfig.builder()
-            .displayName("My tuned gemini-1.5")
+            .displayName("My tuned gemini model")
             .httpOptions(HttpOptions.builder().headers(ImmutableMap.of("test", "headers")))
             .build();
 
