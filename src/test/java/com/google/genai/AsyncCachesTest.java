@@ -41,9 +41,10 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncCachesTest {
-  private static final String CACHED_CONTENT_NAME_MLDEV = "cachedContents/op47f693jk6b";
+  private static final String CACHED_CONTENT_NAME_MLDEV =
+      "cachedContents/o239k1gxzz0juy9wqstndhncr85krehehf551hqh";
   private static final String CACHED_CONTENT_NAME_VERTEX =
-      "projects/801452371447/locations/us-central1/cachedContents/1899938500610883584";
+      "projects/801452371447/locations/us-central1/cachedContents/2164089915711684608";
 
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
@@ -55,14 +56,14 @@ public class AsyncCachesTest {
         TestUtils.createClient(
             vertexAI, "tests/caches/create/test_async_googleai_file_create." + suffix + ".json");
 
-    String model = "gemini-1.5-pro-001";
+    String model = "gemini-2.5-flash";
     CreateCachedContentConfig config =
         CreateCachedContentConfig.builder()
             .contents(
                 Content.fromParts(
                     Part.fromUri(
                         "https://generativelanguage.googleapis.com/v1beta/files/v200dhvn15h7",
-                        "video/mp4")))
+                        "application/pdf")))
             .displayName("test cache")
             .ttl(Duration.ofSeconds(86400))
             .systemInstruction(Transformers.tContent("What is the sum of the two pdfs?"))
