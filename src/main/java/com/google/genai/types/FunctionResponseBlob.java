@@ -42,6 +42,12 @@ public abstract class FunctionResponseBlob extends JsonSerializable {
   @JsonProperty("data")
   public abstract Optional<byte[]> data();
 
+  /**
+   * Optional. Display name of the blob. Used to provide a label or filename to distinguish blobs.
+   */
+  @JsonProperty("displayName")
+  public abstract Optional<String> displayName();
+
   /** Instantiates a builder for FunctionResponseBlob. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -94,6 +100,25 @@ public abstract class FunctionResponseBlob extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearData() {
       return data(Optional.empty());
+    }
+
+    /**
+     * Setter for displayName.
+     *
+     * <p>displayName: Optional. Display name of the blob. Used to provide a label or filename to
+     * distinguish blobs.
+     */
+    @JsonProperty("displayName")
+    public abstract Builder displayName(String displayName);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder displayName(Optional<String> displayName);
+
+    /** Clears the value of displayName field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearDisplayName() {
+      return displayName(Optional.empty());
     }
 
     public abstract FunctionResponseBlob build();
