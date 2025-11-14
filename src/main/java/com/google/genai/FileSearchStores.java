@@ -20,6 +20,7 @@ package com.google.genai;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Ascii;
 import com.google.genai.Common.BuiltRequest;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.CreateFileSearchStoreConfig;
@@ -30,15 +31,25 @@ import com.google.genai.types.FileSearchStore;
 import com.google.genai.types.GetFileSearchStoreConfig;
 import com.google.genai.types.GetFileSearchStoreParameters;
 import com.google.genai.types.HttpOptions;
+import com.google.genai.types.HttpResponse;
 import com.google.genai.types.ImportFileConfig;
 import com.google.genai.types.ImportFileOperation;
 import com.google.genai.types.ImportFileParameters;
 import com.google.genai.types.ListFileSearchStoresConfig;
 import com.google.genai.types.ListFileSearchStoresParameters;
 import com.google.genai.types.ListFileSearchStoresResponse;
+import com.google.genai.types.UploadToFileSearchStoreConfig;
+import com.google.genai.types.UploadToFileSearchStoreOperation;
+import com.google.genai.types.UploadToFileSearchStoreParameters;
+import com.google.genai.types.UploadToFileSearchStoreResumableResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
 public final class FileSearchStores {
@@ -46,8 +57,11 @@ public final class FileSearchStores {
 
   final ApiClient apiClient;
 
+  private final UploadClient uploadClient;
+
   public FileSearchStores(ApiClient apiClient) {
     this.apiClient = apiClient;
+    this.uploadClient = new UploadClient(apiClient);
     this.documents = new Documents(apiClient);
   }
 
@@ -304,6 +318,77 @@ public final class FileSearchStores {
           toObject,
           new String[] {"fileSearchStores"},
           Common.getValueByPath(fromObject, new String[] {"fileSearchStores"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode uploadToFileSearchStoreConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"displayName"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"displayName"},
+          Common.getValueByPath(fromObject, new String[] {"displayName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"customMetadata"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"customMetadata"},
+          Common.getValueByPath(fromObject, new String[] {"customMetadata"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"chunkingConfig"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"chunkingConfig"},
+          Common.getValueByPath(fromObject, new String[] {"chunkingConfig"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode uploadToFileSearchStoreParametersToMldev(
+      JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"fileSearchStoreName"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "file_search_store_name"},
+          Common.getValueByPath(fromObject, new String[] {"fileSearchStoreName"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      JsonNode unused =
+          uploadToFileSearchStoreConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject);
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode uploadToFileSearchStoreResumableResponseFromMldev(
+      JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"sdkHttpResponse"},
+          Common.getValueByPath(fromObject, new String[] {"sdkHttpResponse"}));
     }
 
     return toObject;
@@ -585,6 +670,107 @@ public final class FileSearchStores {
   }
 
   /** A shared buildRequest method for both sync and async methods. */
+  BuiltRequest buildRequestForPrivateUploadToFileSearchStore(
+      String fileSearchStoreName, UploadToFileSearchStoreConfig config) {
+
+    UploadToFileSearchStoreParameters.Builder parameterBuilder =
+        UploadToFileSearchStoreParameters.builder();
+
+    if (!Common.isZero(fileSearchStoreName)) {
+      parameterBuilder.fileSearchStoreName(fileSearchStoreName);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
+    } else {
+      body = uploadToFileSearchStoreParametersToMldev(parameterNode, null);
+      if (body.get("_url") != null) {
+        path =
+            Common.formatMap(
+                "upload/v1beta/{file_search_store_name}:uploadToFileSearchStore", body.get("_url"));
+      } else {
+        path = "upload/v1beta/{file_search_store_name}:uploadToFileSearchStore";
+      }
+    }
+    body.remove("_url");
+
+    JsonNode queryParams = body.get("_query");
+    if (queryParams != null) {
+      body.remove("_query");
+      path = String.format("%s?%s", path, Common.urlEncode((ObjectNode) queryParams));
+    }
+
+    // TODO: Remove the hack that removes config.
+    Optional<HttpOptions> requestHttpOptions = Optional.empty();
+    if (config != null) {
+      requestHttpOptions = config.httpOptions();
+    }
+
+    return new BuiltRequest(path, JsonSerializable.toJsonString(body), requestHttpOptions);
+  }
+
+  /** A shared processResponse function for both sync and async methods. */
+  UploadToFileSearchStoreResumableResponse processResponseForPrivateUploadToFileSearchStore(
+      ApiResponse response, UploadToFileSearchStoreConfig config) {
+    ResponseBody responseBody = response.getBody();
+    String responseString;
+    try {
+      responseString = responseBody.string();
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read HTTP response.", e);
+    }
+
+    if (config != null && config.shouldReturnHttpResponse().orElse(false)) {
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders == null) {
+        return UploadToFileSearchStoreResumableResponse.builder()
+            .sdkHttpResponse(HttpResponse.builder().body(responseString))
+            .build();
+      }
+      Map<String, String> headers = new HashMap<>();
+      for (String headerName : responseHeaders.names()) {
+        headers.put(headerName, responseHeaders.get(headerName));
+      }
+      return UploadToFileSearchStoreResumableResponse.builder()
+          .sdkHttpResponse(HttpResponse.builder().headers(headers).body(responseString))
+          .build();
+    }
+
+    JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+
+    if (this.apiClient.vertexAI()) {
+      throw new UnsupportedOperationException(
+          "This method is only supported in the Gemini Developer client.");
+    }
+
+    if (!this.apiClient.vertexAI()) {
+      responseNode = uploadToFileSearchStoreResumableResponseFromMldev(responseNode, null);
+    }
+
+    return JsonSerializable.fromJsonNode(
+        responseNode, UploadToFileSearchStoreResumableResponse.class);
+  }
+
+  UploadToFileSearchStoreResumableResponse privateUploadToFileSearchStore(
+      String fileSearchStoreName, UploadToFileSearchStoreConfig config) {
+    BuiltRequest builtRequest =
+        buildRequestForPrivateUploadToFileSearchStore(fileSearchStoreName, config);
+
+    try (ApiResponse response =
+        this.apiClient.request(
+            "post", builtRequest.path, builtRequest.body, builtRequest.httpOptions)) {
+      return processResponseForPrivateUploadToFileSearchStore(response, config);
+    }
+  }
+
+  /** A shared buildRequest method for both sync and async methods. */
   BuiltRequest buildRequestForImportFile(
       String fileSearchStoreName, String fileName, ImportFileConfig config) {
 
@@ -692,5 +878,140 @@ public final class FileSearchStores {
         request,
         (ObjectNode) JsonSerializable.toJsonNode(config),
         JsonSerializable.toJsonNode(privateList(config)));
+  }
+
+  static UploadToFileSearchStoreOperation operationFromResponse(ResponseBody responseBody) {
+    String responseString;
+    try {
+      responseString = responseBody.string();
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read HTTP response.", e);
+    }
+    JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+    return JsonSerializable.fromJsonNode(responseNode, UploadToFileSearchStoreOperation.class);
+  }
+
+  private String getUploadUrl(
+      String fileSearchStoreName,
+      UploadToFileSearchStoreConfig config,
+      Optional<String> mimeType,
+      Optional<String> fileName,
+      long size) {
+    Optional<String> mimeTypeToUse =
+        mimeType.isPresent()
+            ? mimeType
+            : Optional.ofNullable(config).flatMap(UploadToFileSearchStoreConfig::mimeType);
+    Optional<HttpOptions> userHttpOptions =
+        Optional.ofNullable(config).flatMap(UploadToFileSearchStoreConfig::httpOptions);
+    HttpOptions httpOptions =
+        UploadClient.buildResumableUploadHttpOptions(
+            userHttpOptions, mimeTypeToUse, fileName, size);
+    UploadToFileSearchStoreResumableResponse response =
+        privateUploadToFileSearchStore(
+            fileSearchStoreName,
+            UploadToFileSearchStoreConfig.builder()
+                .httpOptions(httpOptions)
+                .shouldReturnHttpResponse(true)
+                .build());
+
+    return response
+        .sdkHttpResponse()
+        .flatMap(HttpResponse::headers)
+        .flatMap(
+            headers ->
+                headers.entrySet().stream()
+                    .filter(entry -> Ascii.equalsIgnoreCase("x-goog-upload-url", entry.getKey()))
+                    .map(entry -> entry.getValue())
+                    .findFirst())
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    "Failed to upload to file search store. Upload URL was not returned in the"
+                        + " resumable response."));
+  }
+
+  /**
+   * Uploads a file to the file search store.
+   *
+   * @param fileSearchStoreName The name of the file search store to upload to.
+   * @param file The file to upload.
+   * @param config The configuration for the upload.
+   * @return The long running operation of uploading.
+   */
+  public UploadToFileSearchStoreOperation uploadToFileSearchStore(
+      String fileSearchStoreName, java.io.File file, UploadToFileSearchStoreConfig config) {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      long size = file.length();
+      String fileName = file.getName();
+      String probedMimeType = java.nio.file.Files.probeContentType(file.toPath());
+      Optional<String> mimeType;
+      if (probedMimeType != null) {
+        mimeType = Optional.of(probedMimeType);
+      } else {
+        mimeType = Optional.empty();
+      }
+      String uploadUrl =
+          getUploadUrl(fileSearchStoreName, config, mimeType, Optional.of(fileName), size);
+      ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+      return operationFromResponse(responseBody);
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to upload file.", e);
+    }
+  }
+
+  /**
+   * Uploads a file in bytes format to the file search store.
+   *
+   * @param fileSearchStoreName The name of the file search store to upload to.
+   * @param bytes The bytes of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The long running operation of uploading.
+   */
+  public UploadToFileSearchStoreOperation uploadToFileSearchStore(
+      String fileSearchStoreName, byte[] bytes, UploadToFileSearchStoreConfig config) {
+    String uploadUrl =
+        getUploadUrl(
+            fileSearchStoreName,
+            config,
+            Optional.<String>empty(),
+            Optional.<String>empty(),
+            bytes.length);
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, bytes);
+    return operationFromResponse(responseBody);
+  }
+
+  /**
+   * Uploads a file as input stream to the API.
+   *
+   * @param fileSearchStoreName The name of the file search store to upload to.
+   * @param inputStream The input stream of the file to upload.
+   * @param size The size of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public UploadToFileSearchStoreOperation uploadToFileSearchStore(
+      String fileSearchStoreName,
+      InputStream inputStream,
+      long size,
+      UploadToFileSearchStoreConfig config) {
+    String uploadUrl =
+        getUploadUrl(
+            fileSearchStoreName, config, Optional.<String>empty(), Optional.<String>empty(), size);
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+    return operationFromResponse(responseBody);
+  }
+
+  /**
+   * Uploads a file to the API.
+   *
+   * @param fileSearchStoreName The name of the file search store to upload to.
+   * @param filePath The path of the file to upload.
+   * @param config The configuration for the upload.
+   * @return The uploaded file.
+   */
+  public UploadToFileSearchStoreOperation uploadToFileSearchStore(
+      String fileSearchStoreName, String filePath, UploadToFileSearchStoreConfig config) {
+    java.io.File file = new java.io.File(filePath);
+    return uploadToFileSearchStore(fileSearchStoreName, file, config);
   }
 }

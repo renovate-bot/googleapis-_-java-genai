@@ -50,8 +50,12 @@ import com.google.genai.types.FileSearchStore;
 import com.google.genai.types.ImportFileOperation;
 import com.google.genai.types.ListFileSearchStoresConfig;
 import com.google.genai.types.UploadFileConfig;
+import com.google.genai.types.UploadToFileSearchStoreOperation;
 
-/** An example of how to use the Files module to upload, retrieve, and delete files. */
+/**
+ * An example of how to use the FileSearchStores module to upload, retrieve, and delete file search
+ * stores.
+ */
 public final class FileSearchStores {
   public static void main(String[] args) {
     final String filePath;
@@ -97,29 +101,45 @@ public final class FileSearchStores {
       // Upload a file to the Files Service.
       File file =
           client.files.upload(filePath, UploadFileConfig.builder().mimeType("text/plain").build());
-      System.out.println("Uploaded file: " + file);
+      System.out.println("Uploaded file: " + file.name().get());
 
       // Import the uploaded file to the file search store.
-      ImportFileOperation operation =
+      ImportFileOperation importOperation =
           client.fileSearchStores.importFile(fileSearchStore.name().get(), file.name().get(), null);
-
-      while (!operation.done().filter(Boolean::booleanValue).isPresent()) {
+      System.out.println("Import file operation: " + importOperation.name().get());
+      while (importOperation.done().filter(Boolean::booleanValue).isEmpty()) {
         try {
           Thread.sleep(5000); // Sleep for 5 seconds.
-          operation = client.operations.get(operation, null);
-          System.out.println("Waiting for operation to complete...");
+          importOperation = client.operations.get(importOperation, null);
+          System.out.println("Waiting for import operation to complete...");
         } catch (InterruptedException e) {
           System.out.println("Thread was interrupted while sleeping.");
           Thread.currentThread().interrupt();
         }
       }
 
-      String documentName = operation.response().get().documentName().get();
-      System.out.println("Imported document: " + documentName);
+      // Upload a file to the file search store.
+      UploadToFileSearchStoreOperation uploadOperation =
+          client.fileSearchStores.uploadToFileSearchStore(
+              fileSearchStore.name().get(), filePath, null);
+      System.out.println("Upload to file search store operation: " + uploadOperation.name().get());
+      while (uploadOperation.done().filter(Boolean::booleanValue).isEmpty()) {
+        try {
+          Thread.sleep(5000); // Sleep for 5 seconds.
+          uploadOperation = client.operations.get(uploadOperation, null);
+          System.out.println("Waiting for upload operation to complete...");
+        } catch (InterruptedException e) {
+          System.out.println("Thread was interrupted while sleeping.");
+          Thread.currentThread().interrupt();
+        }
+      }
+
+      String documentName = uploadOperation.response().get().documentName().get();
+      System.out.println("Uploaded document: " + documentName);
 
       // Get document
       Document retrievedDocument = client.fileSearchStores.documents.get(documentName, null);
-      System.out.println("Retrieved document: " + retrievedDocument);
+      System.out.println("Retrieved document: " + retrievedDocument.name().get());
 
       // List documents
       System.out.println("List documents: ");

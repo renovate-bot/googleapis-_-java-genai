@@ -1,0 +1,95 @@
+/*
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Auto-generated code. Do not edit.
+
+package com.google.genai.types;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.genai.JsonSerializable;
+import java.util.Optional;
+
+/** Response for the resumable upload method. */
+@AutoValue
+@JsonDeserialize(builder = UploadToFileSearchStoreResumableResponse.Builder.class)
+public abstract class UploadToFileSearchStoreResumableResponse extends JsonSerializable {
+  /** Used to retain the full HTTP response. */
+  @JsonProperty("sdkHttpResponse")
+  public abstract Optional<HttpResponse> sdkHttpResponse();
+
+  /** Instantiates a builder for UploadToFileSearchStoreResumableResponse. */
+  @ExcludeFromGeneratedCoverageReport
+  public static Builder builder() {
+    return new AutoValue_UploadToFileSearchStoreResumableResponse.Builder();
+  }
+
+  /** Creates a builder with the same values as this instance. */
+  public abstract Builder toBuilder();
+
+  /** Builder for UploadToFileSearchStoreResumableResponse. */
+  @AutoValue.Builder
+  public abstract static class Builder {
+    /**
+     * For internal usage. Please use `UploadToFileSearchStoreResumableResponse.builder()` for
+     * instantiation.
+     */
+    @JsonCreator
+    private static Builder create() {
+      return new AutoValue_UploadToFileSearchStoreResumableResponse.Builder();
+    }
+
+    /**
+     * Setter for sdkHttpResponse.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @JsonProperty("sdkHttpResponse")
+    public abstract Builder sdkHttpResponse(HttpResponse sdkHttpResponse);
+
+    /**
+     * Setter for sdkHttpResponse builder.
+     *
+     * <p>sdkHttpResponse: Used to retain the full HTTP response.
+     */
+    @CanIgnoreReturnValue
+    public Builder sdkHttpResponse(HttpResponse.Builder sdkHttpResponseBuilder) {
+      return sdkHttpResponse(sdkHttpResponseBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder sdkHttpResponse(Optional<HttpResponse> sdkHttpResponse);
+
+    /** Clears the value of sdkHttpResponse field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSdkHttpResponse() {
+      return sdkHttpResponse(Optional.empty());
+    }
+
+    public abstract UploadToFileSearchStoreResumableResponse build();
+  }
+
+  /** Deserializes a JSON string to a UploadToFileSearchStoreResumableResponse object. */
+  @ExcludeFromGeneratedCoverageReport
+  public static UploadToFileSearchStoreResumableResponse fromJson(String jsonString) {
+    return JsonSerializable.fromJsonString(
+        jsonString, UploadToFileSearchStoreResumableResponse.class);
+  }
+}
