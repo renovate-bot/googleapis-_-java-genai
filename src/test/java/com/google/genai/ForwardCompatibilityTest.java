@@ -51,6 +51,8 @@ public class ForwardCompatibilityTest {
   Client client;
   GenerateContentResponse returnResponse;
   ObjectMapper objectMapper;
+
+  private static final String MODEL_ID = "gemini-2.5-flash";
   private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
   @BeforeEach
@@ -85,7 +87,7 @@ public class ForwardCompatibilityTest {
     apiClientField.set(client.models, mockedClient);
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-exp", "What is your name?", null);
+        client.models.generateContent(MODEL_ID, "What is your name?", null);
 
     assertNotNull(response);
   }
@@ -118,7 +120,7 @@ public class ForwardCompatibilityTest {
     apiClientField.set(client.models, mockedClient);
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-exp", "What is your name?", null);
+        client.models.generateContent(MODEL_ID, "What is your name?", null);
     Optional<FinishReason> finishReason1 = response.candidates().get().get(0).finishReason();
     Optional<FinishReason> finishReason2 = response.candidates().get().get(1).finishReason();
 
@@ -157,7 +159,7 @@ public class ForwardCompatibilityTest {
     apiClientField.set(client.models, mockedClient);
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-exp", "What is your name?", null);
+        client.models.generateContent(MODEL_ID, "What is your name?", null);
 
     Optional<FinishReason> finishReasonResponse = response.candidates().get().get(0).finishReason();
 
@@ -195,7 +197,7 @@ public class ForwardCompatibilityTest {
     apiClientField.set(client.models, mockedClient);
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-exp", "What is your name?", null);
+        client.models.generateContent(MODEL_ID, "What is your name?", null);
 
     Optional<HarmCategory> harmCategory =
         response.candidates().get().get(0).safetyRatings().get().get(0).category();
@@ -235,7 +237,7 @@ public class ForwardCompatibilityTest {
     when(mockedResponse.getBody()).thenReturn(ResponseBody.create("{}", JSON));
 
     GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-exp", "What is your name?", config);
+        client.models.generateContent(MODEL_ID, "What is your name?", config);
 
     ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
     verify(mockedClient).request(anyString(), anyString(), stringCaptor.capture(), any());

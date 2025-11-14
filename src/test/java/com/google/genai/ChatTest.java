@@ -55,6 +55,7 @@ public class ChatTest {
   Client client;
   Chats chatSession;
 
+  private static final String MODEL_ID = "gemini-2.5-flash";
   private static final String STREAMING_RESPONSE_CHUNK_1 = "Once upon ";
   private static final String STREAMING_RESPONSE_CHUNK_2 = "a time, in a land";
   private static final String STREAMING_RESPONSE_CHUNK_3 = " far, far away...";
@@ -146,7 +147,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chat = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chat = client.chats.create(MODEL_ID, null);
 
     assertNotNull(chat);
   }
@@ -166,7 +167,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
     assert chatSession.getHistory(false).size() == 0;
 
     GenerateContentResponse response =
@@ -223,7 +224,7 @@ public class ChatTest {
         ChatTest.class.getDeclaredMethod("findTheaters", String.class, String.class, String.class);
     GenerateContentConfig config =
         GenerateContentConfig.builder().tools(Tool.builder().functions(method)).build();
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", config);
+    Chat chatSession = client.chats.create(MODEL_ID, config);
     assert chatSession.getHistory(false).size() == 0;
 
     GenerateContentResponse response = chatSession.sendMessage(userMessage, null);
@@ -260,7 +261,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp");
+    Chat chatSession = client.chats.create(MODEL_ID);
     assert chatSession.getHistory(false).isEmpty();
 
     GenerateContentResponse response = chatSession.sendMessage("How are you?");
@@ -288,7 +289,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
     GenerateContentConfig config = GenerateContentConfig.builder().candidateCount(2).build();
 
     GenerateContentResponse response =
@@ -313,7 +314,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
     GenerateContentConfig config = GenerateContentConfig.builder().candidateCount(2).build();
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", config);
+    Chat chatSession = client.chats.create(MODEL_ID, config);
 
     GenerateContentResponse response =
         chatSession.sendMessage("Can you give me possible names for a cheese shop?", null);
@@ -344,7 +345,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
 
     List<Part> parts = new ArrayList<>();
     parts.add(Part.builder().text("Can you give me possible names for a cheese shop?").build());
@@ -382,7 +383,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
 
     List<Part> parts = new ArrayList<>();
     parts.add(Part.builder().text("Can you give me possible names for a cheese shop?").build());
@@ -412,7 +413,7 @@ public class ChatTest {
     Field apiClientField = Chats.class.getDeclaredField("apiClient");
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp");
+    Chat chatSession = client.chats.create(MODEL_ID);
 
     List<Part> emptyParts = new ArrayList<>();
     emptyParts.add(Part.fromText("Tell me something about cheese."));
@@ -441,7 +442,7 @@ public class ChatTest {
     Field apiClientField = Chats.class.getDeclaredField("apiClient");
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp");
+    Chat chatSession = client.chats.create(MODEL_ID);
 
     IllegalArgumentException exception =
         assertThrows(
@@ -469,7 +470,7 @@ public class ChatTest {
     Field apiClientField = Chats.class.getDeclaredField("apiClient");
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp");
+    Chat chatSession = client.chats.create(MODEL_ID);
 
     List<Part> parts = new ArrayList<>();
     parts.add(Part.fromText("Can you give me possible names for a cheese shop?"));
@@ -491,7 +492,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
 
     ResponseBody body1 = ResponseBody.create(streamData, MediaType.get("application/json"));
     ResponseBody body2 = ResponseBody.create(streamData2, MediaType.get("application/json"));
@@ -575,7 +576,7 @@ public class ChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.chats, mockedClient);
 
-    Chat chatSession = client.chats.create("gemini-2.0-flash-exp", null);
+    Chat chatSession = client.chats.create(MODEL_ID, null);
 
     ResponseBody body1 = ResponseBody.create(streamData, MediaType.get("application/json"));
     ResponseBody body2 = ResponseBody.create(streamData2, MediaType.get("application/json"));

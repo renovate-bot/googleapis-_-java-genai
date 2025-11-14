@@ -62,7 +62,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class ModelsTest {
 
-  private static final String GEMINI_MODEL_NAME = "gemini-1.5-flash";
+  private static final String GEMINI_MODEL_NAME = "gemini-2.5-flash";
   private static final String EMBEDDING_MODEL_NAME = "text-embedding-004";
   private static final String IMAGEN_CAPABILITY_MODEL_NAME = "imagen-3.0-capability-001";
   private static final String GEMINI_IMAGE_MODALITY_MODEL_NAME =
@@ -138,7 +138,7 @@ public class ModelsTest {
     // Act
     GenerateContentResponse response =
         client.models.generateContent(
-            "gemini-2.5-flash",
+            GEMINI_MODEL_NAME,
             Content.fromParts(Part.fromText("Tell me a story in 300 words.")),
             null);
 
@@ -163,7 +163,7 @@ public class ModelsTest {
             .build();
     ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(
-            "gemini-2.5-flash", "Tell me a story in 300 words.", config);
+            GEMINI_MODEL_NAME, "Tell me a story in 300 words.", config);
 
     // Assert
     int chunks = 0;
@@ -191,7 +191,7 @@ public class ModelsTest {
     // Act
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .maxOutputTokens(400)
+            .maxOutputTokens(1000)
             .topK(2f)
             .temperature(0.5f)
             .topP(0.5f)
@@ -201,7 +201,7 @@ public class ModelsTest {
             .build();
     ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(
-            "gemini-2.0-flash-001",
+            GEMINI_MODEL_NAME,
             Content.fromParts(Part.fromText("tell me a story in 300 words")),
             config);
 
@@ -307,7 +307,7 @@ public class ModelsTest {
 
     // Act
     CountTokensResponse response =
-        client.models.countTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
+        client.models.countTokens(GEMINI_MODEL_NAME, "Tell me a story in 300 words.", null);
 
     // Assert
     assertTrue(response.totalTokens().isPresent());
@@ -329,7 +329,7 @@ public class ModelsTest {
 
     // Act
     ComputeTokensResponse response =
-        client.models.computeTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
+        client.models.computeTokens(GEMINI_MODEL_NAME, "Tell me a story in 300 words.", null);
 
     // Assert
     assertTrue(response.tokensInfo().isPresent());

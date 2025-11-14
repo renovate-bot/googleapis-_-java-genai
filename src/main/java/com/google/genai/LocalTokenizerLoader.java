@@ -51,15 +51,6 @@ final class LocalTokenizerLoader {
 
   static {
     Map<String, String> modelMap = new HashMap<>();
-    modelMap.put("gemini-1.0-pro-001", "gemma2");
-    modelMap.put("gemini-1.0-pro-002", "gemma2");
-    modelMap.put("gemini-1.0-pro", "gemma2");
-    modelMap.put("gemini-1.5-flash-001", "gemma2");
-    modelMap.put("gemini-1.5-flash-002", "gemma2");
-    modelMap.put("gemini-1.5-flash", "gemma2");
-    modelMap.put("gemini-1.5-pro-001", "gemma2");
-    modelMap.put("gemini-1.5-pro-002", "gemma2");
-    modelMap.put("gemini-1.5-pro", "gemma2");
     modelMap.put("gemini-2.0-flash-001", "gemma3");
     modelMap.put("gemini-2.0-flash-lite-001", "gemma3");
     modelMap.put("gemini-2.0-flash-lite", "gemma3");

@@ -45,6 +45,10 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncTuningsTest {
+
+  private static final String MODEL_ID = "gemini-2.5-flash";
+  private static final String LITE_MODEL_ID = "gemini-2.5-flash-lite";
+
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
   public void testAsyncPager(boolean vertexAI) throws ExecutionException, InterruptedException {
@@ -106,8 +110,7 @@ public class AsyncTuningsTest {
                 "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
-    TuningJob job =
-        client.async.tunings.tune("gemini-2.5-flash-lite", tuningDataset, tuningConfig).get();
+    TuningJob job = client.async.tunings.tune(LITE_MODEL_ID, tuningDataset, tuningConfig).get();
 
     // Act
     TuningJob currentJob = job;
@@ -146,8 +149,7 @@ public class AsyncTuningsTest {
                 "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
-    TuningJob job =
-        client.async.tunings.tune("gemini-2.5-flash", tuningDataset, tuningConfig).get();
+    TuningJob job = client.async.tunings.tune(MODEL_ID, tuningDataset, tuningConfig).get();
 
     // Act
     TuningJob currentJob = job;
@@ -258,8 +260,7 @@ public class AsyncTuningsTest {
                     .build())
             .evaluationConfig(evaluationConfig)
             .build();
-    TuningJob job =
-        client.async.tunings.tune("gemini-2.5-flash", tuningDataset, tuningConfig).get();
+    TuningJob job = client.async.tunings.tune(MODEL_ID, tuningDataset, tuningConfig).get();
 
     // Act
     TuningJob currentJob = job;

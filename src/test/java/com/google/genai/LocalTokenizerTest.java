@@ -26,17 +26,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.proto.SentencepieceModel.ModelProto;
 import com.google.genai.proto.SentencepieceModel.ModelProto.SentencePiece;
+import com.google.genai.types.ComputeTokensResult;
 import com.google.genai.types.Content;
 import com.google.genai.types.CountTokensConfig;
 import com.google.genai.types.CountTokensResult;
 import com.google.genai.types.FunctionDeclaration;
-import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerationConfig;
 import com.google.genai.types.Part;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Tool;
-import com.google.genai.types.ComputeTokensResult;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -48,8 +46,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 public class LocalTokenizerTest {
-
-  private static final String TEST_MODEL_NAME = "gemini-pro";
 
   @Mock private LocalTokenizerProcessor mockedProcessor;
   @Mock private ModelProto mockedProto;

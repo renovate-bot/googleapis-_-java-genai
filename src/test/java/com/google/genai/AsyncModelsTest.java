@@ -77,6 +77,12 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncModelsTest {
+  private static final String MODEL_ID = "gemini-2.5-flash";
+  private static final String IMAGE_GENERATION_MODEL_ID = "gemini-2.5-flash-image";
+  private static final String IMAGEN_GENERATE_MODEL_NAME = "imagen-4.0-generate-001";
+  private static final String IMAGEN_UPSCALE_MODEL_NAME = "imagen-4.0-upscale-preview";
+  private static final String TEXT_EMBEDDING_MODEL_ID = "text-embedding-004";
+
   /** Creates a raw reference image for edit image tests. */
   private RawReferenceImage createRawReferenceImage() throws Exception {
     URL resourceUrl = getClass().getClassLoader().getResource("google.png");
@@ -110,9 +116,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.5-flash",
-            Content.fromParts(Part.fromText("Tell me a story in 300 words.")),
-            config);
+            MODEL_ID, Content.fromParts(Part.fromText("Tell me a story in 300 words.")), config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -182,9 +186,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.5-flash",
-            Content.fromParts(Part.fromText("Tell me a story in 300 words.")),
-            null);
+            MODEL_ID, Content.fromParts(Part.fromText("Tell me a story in 300 words.")), null);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -207,7 +209,7 @@ public class AsyncModelsTest {
             .build();
     CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
         client.async.models.generateContentStream(
-            "gemini-2.5-flash", "Tell me a story in 300 words.", config);
+            MODEL_ID, "Tell me a story in 300 words.", config);
     ResponseStream<GenerateContentResponse> responseStream = responseStreamFuture.join();
 
     // Assert
@@ -238,7 +240,7 @@ public class AsyncModelsTest {
             .build();
     CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
         client.async.models.generateContentStream(
-            "gemini-2.5-flash", "Tell me a story in 300 words.", config);
+            MODEL_ID, "Tell me a story in 300 words.", config);
 
     ResponseStream<GenerateContentResponse> responseStream = responseStreamFuture.join();
 
@@ -270,7 +272,7 @@ public class AsyncModelsTest {
         GenerateContentConfig.builder().responseModalities("IMAGE", "TEXT").build();
     CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
         client.async.models.generateContentStream(
-            "gemini-2.0-flash-preview-image-generation",
+            IMAGE_GENERATION_MODEL_ID,
             "Generate an image of the Eiffel tower with fireworks in the background.",
             config);
     ResponseStream<GenerateContentResponse> responseStream = responseStreamFuture.join();
@@ -310,9 +312,7 @@ public class AsyncModelsTest {
             .build();
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.5-flash",
-            Content.fromParts(Part.fromText("tell me a story in 300 words")),
-            config);
+            MODEL_ID, Content.fromParts(Part.fromText("tell me a story in 300 words")), config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -334,7 +334,7 @@ public class AsyncModelsTest {
     // Act
     GenerateContentConfig config =
         GenerateContentConfig.builder()
-            .maxOutputTokens(400)
+            .maxOutputTokens(1000)
             .topK(2f)
             .temperature(0.5f)
             .topP(0.5f)
@@ -344,9 +344,7 @@ public class AsyncModelsTest {
             .build();
     CompletableFuture<ResponseStream<GenerateContentResponse>> responseStreamFuture =
         client.async.models.generateContentStream(
-            "gemini-2.0-flash-001",
-            Content.fromParts(Part.fromText("tell me a story in 300 words")),
-            config);
+            MODEL_ID, Content.fromParts(Part.fromText("tell me a story in 300 words")), config);
     ResponseStream<GenerateContentResponse> responseStream = responseStreamFuture.join();
 
     // Assert
@@ -373,7 +371,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<EmbedContentResponse> responseFuture =
-        client.async.models.embedContent("text-embedding-004", "What is your name?", config);
+        client.async.models.embedContent(TEXT_EMBEDDING_MODEL_ID, "What is your name?", config);
     EmbedContentResponse response = responseFuture.join();
 
     // Assert
@@ -392,7 +390,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<CountTokensResponse> responseFuture =
-        client.async.models.countTokens("gemini-2.5-flash", "Tell me a story in 300 words.", null);
+        client.async.models.countTokens(MODEL_ID, "Tell me a story in 300 words.", null);
     CountTokensResponse response = responseFuture.join();
 
     // Assert
@@ -414,8 +412,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<ComputeTokensResponse> responseFuture =
-        client.async.models.computeTokens(
-            "gemini-2.5-flash", "Tell me a story in 300 words.", null);
+        client.async.models.computeTokens(MODEL_ID, "Tell me a story in 300 words.", null);
     ComputeTokensResponse response = responseFuture.join();
 
     // Assert
@@ -495,7 +492,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
-        client.async.models.generateContent("gemini-2.5-flash", "Why is the sky blue?", config);
+        client.async.models.generateContent(MODEL_ID, "Why is the sky blue?", config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -524,8 +521,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
-        client.async.models.generateContent(
-            "gemini-2.5-flash", "what is vertex ai search?", config);
+        client.async.models.generateContent(MODEL_ID, "what is vertex ai search?", config);
     GenerateContentResponse response = responseFuture.join();
 
     // Assert
@@ -548,7 +544,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.5-flash",
+            MODEL_ID,
             "What is the sum of the first 50 prime numbers? Generate and run code for the"
                 + " calculation, and make sure you get all 50.",
             config);
@@ -589,7 +585,7 @@ public class AsyncModelsTest {
     // Act
     CompletableFuture<GenerateContentResponse> responseFuture =
         client.async.models.generateContent(
-            "gemini-2.0-flash-001",
+            MODEL_ID,
             "How much gain or loss did Google get in the Motorola Mobile deal in 2014?",
             config);
     GenerateContentResponse response = responseFuture.join();
@@ -612,7 +608,7 @@ public class AsyncModelsTest {
 
     // Act
     CompletableFuture<GenerateImagesResponse> responseFuture =
-        client.async.models.generateImages("imagen-4.0-generate-001", "Red skateboard", config);
+        client.async.models.generateImages(IMAGEN_GENERATE_MODEL_NAME, "Red skateboard", config);
     GenerateImagesResponse response = responseFuture.join();
 
     // Assert
@@ -648,7 +644,7 @@ public class AsyncModelsTest {
     // Act
     if (vertexAI) {
       CompletableFuture<UpscaleImageResponse> responseFuture =
-          client.async.models.upscaleImage("imagen-4.0-upscale-preview", image, "x2", config);
+          client.async.models.upscaleImage(IMAGEN_UPSCALE_MODEL_NAME, image, "x2", config);
       UpscaleImageResponse response = responseFuture.join();
 
       // Assert
@@ -661,7 +657,7 @@ public class AsyncModelsTest {
                   client
                       .async
                       .models
-                      .upscaleImage("imagen-4.0-upscale-preview", image, "x2", config)
+                      .upscaleImage(IMAGEN_UPSCALE_MODEL_NAME, image, "x2", config)
                       .join());
       // Assert
       assertEquals(

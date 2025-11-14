@@ -105,7 +105,6 @@ public class LocalTokenizerLoaderTest {
 
   @Test
   void getTokenizerName_supportedModels() {
-    assertEquals("gemma2", LocalTokenizerLoader.getTokenizerName("gemini-1.5-pro"));
     assertEquals("gemma3", LocalTokenizerLoader.getTokenizerName("gemini-2.5-pro"));
   }
 

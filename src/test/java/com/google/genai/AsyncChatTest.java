@@ -49,6 +49,7 @@ public class AsyncChatTest {
   ApiResponse mockedResponse3;
   Client client;
 
+  private static final String MODEL_ID = "gemini-2.5-flash";
   private static final String STREAMING_RESPONSE_CHUNK_1 = "Once upon ";
   private static final String STREAMING_RESPONSE_CHUNK_2 = "a time, in a land";
   private static final String STREAMING_RESPONSE_CHUNK_3 = " far, far away...";
@@ -130,7 +131,7 @@ public class AsyncChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.async.chats, mockedClient);
 
-    AsyncChat chat = client.async.chats.create("gemini-2.0-flash-exp", null);
+    AsyncChat chat = client.async.chats.create(MODEL_ID, null);
 
     assertNotNull(chat);
   }
@@ -159,7 +160,7 @@ public class AsyncChatTest {
             CompletableFuture.completedFuture(mockedResponse1),
             CompletableFuture.completedFuture(mockedResponse2));
 
-    AsyncChat chat = client.async.chats.create("gemini-2.0-flash-exp", null);
+    AsyncChat chat = client.async.chats.create(MODEL_ID, null);
 
     CompletableFuture<GenerateContentResponse> responseFuture =
         chat.sendMessage("Can you tell me a story?");
@@ -194,7 +195,7 @@ public class AsyncChatTest {
             CompletableFuture.completedFuture(mockedResponse1),
             CompletableFuture.completedFuture(mockedResponse2));
 
-    AsyncChat chat = client.async.chats.create("gemini-2.0-flash-exp", null);
+    AsyncChat chat = client.async.chats.create(MODEL_ID, null);
 
     CompletableFuture<GenerateContentResponse> responseFuture =
         chat.sendMessage("Can you tell me a story?");
@@ -215,7 +216,7 @@ public class AsyncChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.async.chats, mockedClient);
 
-    AsyncChat chatSession = client.async.chats.create("gemini-2.0-flash-exp", null);
+    AsyncChat chatSession = client.async.chats.create(MODEL_ID, null);
 
     ResponseBody body1 = ResponseBody.create(streamData, MediaType.get("application/json"));
     ResponseBody body2 = ResponseBody.create(streamData2, MediaType.get("application/json"));
@@ -298,7 +299,7 @@ public class AsyncChatTest {
     apiClientField.setAccessible(true);
     apiClientField.set(client.async.chats, mockedClient);
 
-    AsyncChat chatSession = client.async.chats.create("gemini-2.0-flash-exp", null);
+    AsyncChat chatSession = client.async.chats.create(MODEL_ID, null);
 
     ResponseBody body1 = ResponseBody.create(streamData, MediaType.get("application/json"));
     ResponseBody body2 = ResponseBody.create(streamData2, MediaType.get("application/json"));

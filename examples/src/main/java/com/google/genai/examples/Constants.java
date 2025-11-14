@@ -31,8 +31,7 @@ public final class Constants {
   public static final String GEMINI_LIVE_MODEL_NAME_PREVIEW = "gemini-live-2.5-flash-preview";
 
   /** The name of the image generation model to be used in the examples. */
-  public static final String GEMINI_IMAGE_GENERATION_MODEL_NAME =
-      "gemini-2.0-flash-preview-image-generation";
+  public static final String GEMINI_IMAGE_GENERATION_MODEL_NAME = "gemini-2.5-flash-image";
 
   /** The name of the Imagen generate model to be used in the examples. */
   public static final String IMAGEN_GENERATE_MODEL_NAME = "imagen-4.0-generate-001";

@@ -45,6 +45,10 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class TuningsTest {
+
+  private static final String MODEL_ID = "gemini-2.5-flash";
+  private static final String LITE_MODEL_ID = "gemini-2.5-flash-lite";
+
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
   public void testPager(boolean vertexAI) {
@@ -109,7 +113,7 @@ public class TuningsTest {
                 "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
-    TuningJob job = client.tunings.tune("gemini-2.5-flash-lite", tuningDataset, tuningConfig);
+    TuningJob job = client.tunings.tune(LITE_MODEL_ID, tuningDataset, tuningConfig);
 
     // Act
     TuningJob currentJob = job;
@@ -147,7 +151,7 @@ public class TuningsTest {
                 "gs://cloud-samples-data/ai-platform/generative_ai/gemini-2_0/text/sft_train_data.jsonl")
             .build();
     CreateTuningJobConfig tuningConfig = CreateTuningJobConfig.builder().epochCount(1).build();
-    TuningJob job = client.tunings.tune("gemini-2.5-flash", tuningDataset, tuningConfig);
+    TuningJob job = client.tunings.tune(MODEL_ID, tuningDataset, tuningConfig);
 
     // Act
     TuningJob currentJob = job;
@@ -252,7 +256,7 @@ public class TuningsTest {
                     .build())
             .evaluationConfig(evaluationConfig)
             .build();
-    TuningJob job = client.tunings.tune("gemini-2.5-flash", tuningDataset, tuningConfig);
+    TuningJob job = client.tunings.tune(MODEL_ID, tuningDataset, tuningConfig);
 
     // Act
     TuningJob currentJob = job;

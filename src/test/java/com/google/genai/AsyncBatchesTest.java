@@ -49,6 +49,9 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncBatchesTest {
+
+  private static final String MODEL_ID = "gemini-2.5-flash";
+
   @ParameterizedTest
   @ValueSource(booleans = {false, true})
   public void testAsyncCancel(boolean vertexAI) throws ExecutionException, InterruptedException {
@@ -96,7 +99,7 @@ public class AsyncBatchesTest {
 
     // Act
     if (vertexAI) {
-      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", bqInput, config).get();
+      BatchJob batchJob = client.async.batches.create(MODEL_ID, bqInput, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -105,7 +108,7 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.5-flash", bqInput, config).get());
+              () -> client.async.batches.create(MODEL_ID, bqInput, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "one of fileName and InlinedRequests must be set.");
@@ -129,12 +132,12 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.5-flash", src, config).get());
+              () -> client.async.batches.create(MODEL_ID, src, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "fileName is not supported for Vertex AI.");
     } else {
-      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, config).get();
+      BatchJob batchJob = client.async.batches.create(MODEL_ID, src, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -169,7 +172,7 @@ public class AsyncBatchesTest {
 
     // Act
     if (vertexAI) {
-      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, config).get();
+      BatchJob batchJob = client.async.batches.create(MODEL_ID, src, config).get();
 
       // Assert
       assertNotNull(batchJob);
@@ -178,7 +181,7 @@ public class AsyncBatchesTest {
       GenAiIOException exception =
           assertThrows(
               GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.5-flash", src, config).get());
+              () -> client.async.batches.create(MODEL_ID, src, config).get());
 
       // Assert
       assertEquals(exception.getMessage(), "one of fileName and InlinedRequests must be set.");
@@ -219,13 +222,12 @@ public class AsyncBatchesTest {
     if (vertexAI) {
       GenAiIOException exception =
           assertThrows(
-              GenAiIOException.class,
-              () -> client.async.batches.create("gemini-2.5-flash", src, null).get());
+              GenAiIOException.class, () -> client.async.batches.create(MODEL_ID, src, null).get());
 
       // Assert
       assertTrue(exception.getMessage().equals("inlinedRequests is not supported for Vertex AI."));
     } else {
-      BatchJob batchJob = client.async.batches.create("gemini-2.5-flash", src, null).get();
+      BatchJob batchJob = client.async.batches.create(MODEL_ID, src, null).get();
 
       // Assert
       assertNotNull(batchJob);

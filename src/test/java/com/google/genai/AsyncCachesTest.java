@@ -41,6 +41,7 @@ import org.junit.jupiter.params.provider.ValueSource;
     matches = ".*genai/replays.*")
 @ExtendWith(EnvironmentVariablesMockingExtension.class)
 public class AsyncCachesTest {
+  private static final String MODEL_ID = "gemini-2.5-flash";
   private static final String CACHED_CONTENT_NAME_MLDEV =
       "cachedContents/o239k1gxzz0juy9wqstndhncr85krehehf551hqh";
   private static final String CACHED_CONTENT_NAME_VERTEX =
@@ -56,7 +57,6 @@ public class AsyncCachesTest {
         TestUtils.createClient(
             vertexAI, "tests/caches/create/test_async_googleai_file_create." + suffix + ".json");
 
-    String model = "gemini-2.5-flash";
     CreateCachedContentConfig config =
         CreateCachedContentConfig.builder()
             .contents(
@@ -73,13 +73,13 @@ public class AsyncCachesTest {
     if (vertexAI) {
       ExecutionException exception =
           assertThrows(
-              ExecutionException.class, () -> client.async.caches.create(model, config).get());
+              ExecutionException.class, () -> client.async.caches.create(MODEL_ID, config).get());
 
       // Assert
       assertTrue(exception.getCause() instanceof ServerException);
       assertEquals(exception.getCause().getMessage(), "500 INTERNAL. Internal error encountered.");
     } else {
-      CachedContent response = client.async.caches.create(model, config).get();
+      CachedContent response = client.async.caches.create(MODEL_ID, config).get();
 
       // Assert
       assertNotNull(response);

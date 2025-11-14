@@ -62,7 +62,7 @@ public final class LocalTokenizer {
   /**
    * Creates a new LocalTokenizer for the specified model.
    *
-   * @param modelName the name of the model to load (e.g., "gemini-1.5-flash")
+   * @param modelName the name of the model to load (e.g., "gemini-2.5-flash")
    * @throws IllegalArgumentException if the model name is not supported or the tokenizer cannot be
    *     loaded
    */
