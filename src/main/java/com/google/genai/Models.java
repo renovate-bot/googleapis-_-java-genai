@@ -194,18 +194,18 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"finishReason"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"avgLogprobs"},
-          Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"groundingMetadata"},
           Common.getValueByPath(fromObject, new String[] {"groundingMetadata"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"avgLogprobs"},
+          Common.getValueByPath(fromObject, new String[] {"avgLogprobs"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"index"}) != null) {
@@ -3297,6 +3297,13 @@ public final class Models {
   ObjectNode googleSearchToMldev(
       JsonNode fromObject, ObjectNode parentObject, JsonNode rootObject) {
     ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"searchTypes"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"searchTypes"},
+          Common.getValueByPath(fromObject, new String[] {"searchTypes"}));
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"excludeDomains"}))) {
       throw new IllegalArgumentException(
           "excludeDomains parameter is not supported in Gemini API.");
@@ -3339,6 +3346,11 @@ public final class Models {
           "personGeneration parameter is not supported in Gemini API.");
     }
 
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"prominentPeople"}))) {
+      throw new IllegalArgumentException(
+          "prominentPeople parameter is not supported in Gemini API.");
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"outputMimeType"}))) {
       throw new IllegalArgumentException(
           "outputMimeType parameter is not supported in Gemini API.");
@@ -3376,6 +3388,13 @@ public final class Models {
           toObject,
           new String[] {"personGeneration"},
           Common.getValueByPath(fromObject, new String[] {"personGeneration"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"prominentPeople"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"prominentPeople"},
+          Common.getValueByPath(fromObject, new String[] {"prominentPeople"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputMimeType"}) != null) {
@@ -4518,6 +4537,17 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"fileSearch"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleSearch"},
+          googleSearchToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
+              toObject,
+              rootObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -4544,17 +4574,6 @@ public final class Models {
           googleMapsToMldev(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleMaps"})),
-              toObject,
-              rootObject));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"googleSearch"},
-          googleSearchToMldev(
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
               toObject,
               rootObject));
     }
@@ -4604,6 +4623,13 @@ public final class Models {
       throw new IllegalArgumentException("fileSearch parameter is not supported in Vertex AI.");
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleSearch"},
+          Common.getValueByPath(fromObject, new String[] {"googleSearch"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -4636,13 +4662,6 @@ public final class Models {
           toObject,
           new String[] {"googleMaps"},
           Common.getValueByPath(fromObject, new String[] {"googleMaps"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"googleSearch"},
-          Common.getValueByPath(fromObject, new String[] {"googleSearch"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"googleSearchRetrieval"}) != null) {

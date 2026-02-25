@@ -30,10 +30,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** Metadata returned to client when grounding is enabled. */
+/** None */
 @AutoValue
 @JsonDeserialize(builder = GroundingMetadata.Builder.class)
 public abstract class GroundingMetadata extends JsonSerializable {
+  /**
+   * Optional. The image search queries that were used to generate the content. This field is
+   * populated only when the grounding source is Google Search with the Image Search search_type
+   * enabled.
+   */
+  @JsonProperty("imageSearchQueries")
+  public abstract Optional<List<String>> imageSearchQueries();
+
+  /**
+   * A list of supporting references retrieved from the grounding source. This field is populated
+   * when the grounding source is Google Search, Vertex AI Search, or Google Maps.
+   */
+  @JsonProperty("groundingChunks")
+  public abstract Optional<List<GroundingChunk>> groundingChunks();
+
   /**
    * Optional. Output only. Resource name of the Google Maps widget context token to be used with
    * the PlacesContextElement widget to render contextual data. This is populated only for Google
@@ -41,10 +56,6 @@ public abstract class GroundingMetadata extends JsonSerializable {
    */
   @JsonProperty("googleMapsWidgetContextToken")
   public abstract Optional<String> googleMapsWidgetContextToken();
-
-  /** List of supporting references retrieved from specified grounding source. */
-  @JsonProperty("groundingChunks")
-  public abstract Optional<List<GroundingChunk>> groundingChunks();
 
   /** Optional. List of grounding support. */
   @JsonProperty("groundingSupports")
@@ -94,6 +105,85 @@ public abstract class GroundingMetadata extends JsonSerializable {
     }
 
     /**
+     * Setter for imageSearchQueries.
+     *
+     * <p>imageSearchQueries: Optional. The image search queries that were used to generate the
+     * content. This field is populated only when the grounding source is Google Search with the
+     * Image Search search_type enabled.
+     */
+    @JsonProperty("imageSearchQueries")
+    public abstract Builder imageSearchQueries(List<String> imageSearchQueries);
+
+    /**
+     * Setter for imageSearchQueries.
+     *
+     * <p>imageSearchQueries: Optional. The image search queries that were used to generate the
+     * content. This field is populated only when the grounding source is Google Search with the
+     * Image Search search_type enabled.
+     */
+    @CanIgnoreReturnValue
+    public Builder imageSearchQueries(String... imageSearchQueries) {
+      return imageSearchQueries(Arrays.asList(imageSearchQueries));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder imageSearchQueries(Optional<List<String>> imageSearchQueries);
+
+    /** Clears the value of imageSearchQueries field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImageSearchQueries() {
+      return imageSearchQueries(Optional.empty());
+    }
+
+    /**
+     * Setter for groundingChunks.
+     *
+     * <p>groundingChunks: A list of supporting references retrieved from the grounding source. This
+     * field is populated when the grounding source is Google Search, Vertex AI Search, or Google
+     * Maps.
+     */
+    @JsonProperty("groundingChunks")
+    public abstract Builder groundingChunks(List<GroundingChunk> groundingChunks);
+
+    /**
+     * Setter for groundingChunks.
+     *
+     * <p>groundingChunks: A list of supporting references retrieved from the grounding source. This
+     * field is populated when the grounding source is Google Search, Vertex AI Search, or Google
+     * Maps.
+     */
+    @CanIgnoreReturnValue
+    public Builder groundingChunks(GroundingChunk... groundingChunks) {
+      return groundingChunks(Arrays.asList(groundingChunks));
+    }
+
+    /**
+     * Setter for groundingChunks builder.
+     *
+     * <p>groundingChunks: A list of supporting references retrieved from the grounding source. This
+     * field is populated when the grounding source is Google Search, Vertex AI Search, or Google
+     * Maps.
+     */
+    @CanIgnoreReturnValue
+    public Builder groundingChunks(GroundingChunk.Builder... groundingChunksBuilders) {
+      return groundingChunks(
+          Arrays.asList(groundingChunksBuilders).stream()
+              .map(GroundingChunk.Builder::build)
+              .collect(toImmutableList()));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder groundingChunks(Optional<List<GroundingChunk>> groundingChunks);
+
+    /** Clears the value of groundingChunks field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGroundingChunks() {
+      return groundingChunks(Optional.empty());
+    }
+
+    /**
      * Setter for googleMapsWidgetContextToken.
      *
      * <p>googleMapsWidgetContextToken: Optional. Output only. Resource name of the Google Maps
@@ -112,47 +202,6 @@ public abstract class GroundingMetadata extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearGoogleMapsWidgetContextToken() {
       return googleMapsWidgetContextToken(Optional.empty());
-    }
-
-    /**
-     * Setter for groundingChunks.
-     *
-     * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
-     */
-    @JsonProperty("groundingChunks")
-    public abstract Builder groundingChunks(List<GroundingChunk> groundingChunks);
-
-    /**
-     * Setter for groundingChunks.
-     *
-     * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
-     */
-    @CanIgnoreReturnValue
-    public Builder groundingChunks(GroundingChunk... groundingChunks) {
-      return groundingChunks(Arrays.asList(groundingChunks));
-    }
-
-    /**
-     * Setter for groundingChunks builder.
-     *
-     * <p>groundingChunks: List of supporting references retrieved from specified grounding source.
-     */
-    @CanIgnoreReturnValue
-    public Builder groundingChunks(GroundingChunk.Builder... groundingChunksBuilders) {
-      return groundingChunks(
-          Arrays.asList(groundingChunksBuilders).stream()
-              .map(GroundingChunk.Builder::build)
-              .collect(toImmutableList()));
-    }
-
-    @ExcludeFromGeneratedCoverageReport
-    abstract Builder groundingChunks(Optional<List<GroundingChunk>> groundingChunks);
-
-    /** Clears the value of groundingChunks field. */
-    @ExcludeFromGeneratedCoverageReport
-    @CanIgnoreReturnValue
-    public Builder clearGroundingChunks() {
-      return groundingChunks(Optional.empty());
     }
 
     /**

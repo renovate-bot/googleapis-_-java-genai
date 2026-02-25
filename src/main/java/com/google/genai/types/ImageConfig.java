@@ -50,6 +50,15 @@ public abstract class ImageConfig extends JsonSerializable {
   @JsonProperty("personGeneration")
   public abstract Optional<String> personGeneration();
 
+  /**
+   * Controls whether prominent people (celebrities) generation is allowed. If used with
+   * personGeneration, personGeneration enum would take precedence. For instance, if ALLOW_NONE is
+   * set, all person generation would be blocked. If this field is unspecified, the default behavior
+   * is to allow prominent people.
+   */
+  @JsonProperty("prominentPeople")
+  public abstract Optional<ProminentPeople> prominentPeople();
+
   /** MIME type of the generated image. This field is not supported in Gemini API. */
   @JsonProperty("outputMimeType")
   public abstract Optional<String> outputMimeType();
@@ -134,6 +143,53 @@ public abstract class ImageConfig extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearPersonGeneration() {
       return personGeneration(Optional.empty());
+    }
+
+    /**
+     * Setter for prominentPeople.
+     *
+     * <p>prominentPeople: Controls whether prominent people (celebrities) generation is allowed. If
+     * used with personGeneration, personGeneration enum would take precedence. For instance, if
+     * ALLOW_NONE is set, all person generation would be blocked. If this field is unspecified, the
+     * default behavior is to allow prominent people.
+     */
+    @JsonProperty("prominentPeople")
+    public abstract Builder prominentPeople(ProminentPeople prominentPeople);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder prominentPeople(Optional<ProminentPeople> prominentPeople);
+
+    /** Clears the value of prominentPeople field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearProminentPeople() {
+      return prominentPeople(Optional.empty());
+    }
+
+    /**
+     * Setter for prominentPeople given a known enum.
+     *
+     * <p>prominentPeople: Controls whether prominent people (celebrities) generation is allowed. If
+     * used with personGeneration, personGeneration enum would take precedence. For instance, if
+     * ALLOW_NONE is set, all person generation would be blocked. If this field is unspecified, the
+     * default behavior is to allow prominent people.
+     */
+    @CanIgnoreReturnValue
+    public Builder prominentPeople(ProminentPeople.Known knownType) {
+      return prominentPeople(new ProminentPeople(knownType));
+    }
+
+    /**
+     * Setter for prominentPeople given a string.
+     *
+     * <p>prominentPeople: Controls whether prominent people (celebrities) generation is allowed. If
+     * used with personGeneration, personGeneration enum would take precedence. For instance, if
+     * ALLOW_NONE is set, all person generation would be blocked. If this field is unspecified, the
+     * default behavior is to allow prominent people.
+     */
+    @CanIgnoreReturnValue
+    public Builder prominentPeople(String prominentPeople) {
+      return prominentPeople(new ProminentPeople(prominentPeople));
     }
 
     /**

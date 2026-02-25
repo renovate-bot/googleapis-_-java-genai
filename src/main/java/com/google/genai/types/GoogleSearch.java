@@ -28,10 +28,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/** GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google. */
+/** Tool to support web search. */
 @AutoValue
 @JsonDeserialize(builder = GoogleSearch.Builder.class)
 public abstract class GoogleSearch extends JsonSerializable {
+  /** Different types of search that can be enabled on the GoogleSearch tool. */
+  @JsonProperty("searchTypes")
+  public abstract Optional<SearchTypes> searchTypes();
+
   /**
    * Optional. List of domains to be excluded from the search results. The default limit is 2000
    * domains. Example: ["amazon.com", "facebook.com"]. This field is not supported in Gemini API.
@@ -69,6 +73,34 @@ public abstract class GoogleSearch extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_GoogleSearch.Builder();
+    }
+
+    /**
+     * Setter for searchTypes.
+     *
+     * <p>searchTypes: Different types of search that can be enabled on the GoogleSearch tool.
+     */
+    @JsonProperty("searchTypes")
+    public abstract Builder searchTypes(SearchTypes searchTypes);
+
+    /**
+     * Setter for searchTypes builder.
+     *
+     * <p>searchTypes: Different types of search that can be enabled on the GoogleSearch tool.
+     */
+    @CanIgnoreReturnValue
+    public Builder searchTypes(SearchTypes.Builder searchTypesBuilder) {
+      return searchTypes(searchTypesBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder searchTypes(Optional<SearchTypes> searchTypes);
+
+    /** Clears the value of searchTypes field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearSearchTypes() {
+      return searchTypes(Optional.empty());
     }
 
     /**

@@ -57,13 +57,16 @@ public abstract class Candidate extends JsonSerializable {
   @JsonProperty("finishReason")
   public abstract Optional<FinishReason> finishReason();
 
+  /**
+   * Output only. Metadata returned when grounding is enabled. It contains the sources used to
+   * ground the generated content.
+   */
+  @JsonProperty("groundingMetadata")
+  public abstract Optional<GroundingMetadata> groundingMetadata();
+
   /** Output only. Average log probability score of the candidate. */
   @JsonProperty("avgLogprobs")
   public abstract Optional<Double> avgLogprobs();
-
-  /** Output only. Metadata specifies sources used to ground generated content. */
-  @JsonProperty("groundingMetadata")
-  public abstract Optional<GroundingMetadata> groundingMetadata();
 
   /** Output only. Index of the candidate. */
   @JsonProperty("index")
@@ -236,6 +239,36 @@ public abstract class Candidate extends JsonSerializable {
     }
 
     /**
+     * Setter for groundingMetadata.
+     *
+     * <p>groundingMetadata: Output only. Metadata returned when grounding is enabled. It contains
+     * the sources used to ground the generated content.
+     */
+    @JsonProperty("groundingMetadata")
+    public abstract Builder groundingMetadata(GroundingMetadata groundingMetadata);
+
+    /**
+     * Setter for groundingMetadata builder.
+     *
+     * <p>groundingMetadata: Output only. Metadata returned when grounding is enabled. It contains
+     * the sources used to ground the generated content.
+     */
+    @CanIgnoreReturnValue
+    public Builder groundingMetadata(GroundingMetadata.Builder groundingMetadataBuilder) {
+      return groundingMetadata(groundingMetadataBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder groundingMetadata(Optional<GroundingMetadata> groundingMetadata);
+
+    /** Clears the value of groundingMetadata field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearGroundingMetadata() {
+      return groundingMetadata(Optional.empty());
+    }
+
+    /**
      * Setter for avgLogprobs.
      *
      * <p>avgLogprobs: Output only. Average log probability score of the candidate.
@@ -251,36 +284,6 @@ public abstract class Candidate extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearAvgLogprobs() {
       return avgLogprobs(Optional.empty());
-    }
-
-    /**
-     * Setter for groundingMetadata.
-     *
-     * <p>groundingMetadata: Output only. Metadata specifies sources used to ground generated
-     * content.
-     */
-    @JsonProperty("groundingMetadata")
-    public abstract Builder groundingMetadata(GroundingMetadata groundingMetadata);
-
-    /**
-     * Setter for groundingMetadata builder.
-     *
-     * <p>groundingMetadata: Output only. Metadata specifies sources used to ground generated
-     * content.
-     */
-    @CanIgnoreReturnValue
-    public Builder groundingMetadata(GroundingMetadata.Builder groundingMetadataBuilder) {
-      return groundingMetadata(groundingMetadataBuilder.build());
-    }
-
-    @ExcludeFromGeneratedCoverageReport
-    abstract Builder groundingMetadata(Optional<GroundingMetadata> groundingMetadata);
-
-    /** Clears the value of groundingMetadata field. */
-    @ExcludeFromGeneratedCoverageReport
-    @CanIgnoreReturnValue
-    public Builder clearGroundingMetadata() {
-      return groundingMetadata(Optional.empty());
     }
 
     /**

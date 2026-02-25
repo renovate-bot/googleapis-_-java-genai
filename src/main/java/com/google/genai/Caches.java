@@ -539,6 +539,13 @@ public final class Caches {
   @ExcludeFromGeneratedCoverageReport
   ObjectNode googleSearchToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"searchTypes"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"searchTypes"},
+          Common.getValueByPath(fromObject, new String[] {"searchTypes"}));
+    }
+
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"excludeDomains"}))) {
       throw new IllegalArgumentException(
           "excludeDomains parameter is not supported in Gemini API.");
@@ -819,6 +826,16 @@ public final class Caches {
           Common.getValueByPath(fromObject, new String[] {"fileSearch"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleSearch"},
+          googleSearchToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
+              toObject));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -845,16 +862,6 @@ public final class Caches {
           googleMapsToMldev(
               JsonSerializable.toJsonNode(
                   Common.getValueByPath(fromObject, new String[] {"googleMaps"})),
-              toObject));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"googleSearch"},
-          googleSearchToMldev(
-              JsonSerializable.toJsonNode(
-                  Common.getValueByPath(fromObject, new String[] {"googleSearch"})),
               toObject));
     }
 
@@ -903,6 +910,13 @@ public final class Caches {
       throw new IllegalArgumentException("fileSearch parameter is not supported in Vertex AI.");
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"googleSearch"},
+          Common.getValueByPath(fromObject, new String[] {"googleSearch"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"codeExecution"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -934,13 +948,6 @@ public final class Caches {
           toObject,
           new String[] {"googleMaps"},
           Common.getValueByPath(fromObject, new String[] {"googleMaps"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"googleSearch"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"googleSearch"},
-          Common.getValueByPath(fromObject, new String[] {"googleSearch"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"googleSearchRetrieval"}) != null) {

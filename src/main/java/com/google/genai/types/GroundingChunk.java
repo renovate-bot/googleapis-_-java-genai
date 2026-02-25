@@ -26,10 +26,19 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
-/** Grounding chunk. */
+/**
+ * A piece of evidence that supports a claim made by the model.
+ *
+ * <p>This is used to show a citation for a claim made by the model. When grounding is enabled, the
+ * model returns a `GroundingChunk` that contains a reference to the source of the information.
+ */
 @AutoValue
 @JsonDeserialize(builder = GroundingChunk.Builder.class)
 public abstract class GroundingChunk extends JsonSerializable {
+  /** A grounding chunk from an image search result. See the `Image` message for details. */
+  @JsonProperty("image")
+  public abstract Optional<GroundingChunkImage> image();
+
   /** Grounding chunk from Google Maps. This field is not supported in Gemini API. */
   @JsonProperty("maps")
   public abstract Optional<GroundingChunkMaps> maps();
@@ -61,6 +70,34 @@ public abstract class GroundingChunk extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_GroundingChunk.Builder();
+    }
+
+    /**
+     * Setter for image.
+     *
+     * <p>image: A grounding chunk from an image search result. See the `Image` message for details.
+     */
+    @JsonProperty("image")
+    public abstract Builder image(GroundingChunkImage image);
+
+    /**
+     * Setter for image builder.
+     *
+     * <p>image: A grounding chunk from an image search result. See the `Image` message for details.
+     */
+    @CanIgnoreReturnValue
+    public Builder image(GroundingChunkImage.Builder imageBuilder) {
+      return image(imageBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder image(Optional<GroundingChunkImage> image);
+
+    /** Clears the value of image field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImage() {
+      return image(Optional.empty());
     }
 
     /**
