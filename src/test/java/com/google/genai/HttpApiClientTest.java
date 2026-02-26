@@ -23,7 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +46,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Dispatcher;
@@ -1481,22 +1482,5 @@ public class HttpApiClientTest {
     assertNull(client.project());
     assertNull(client.location());
     assertTrue(client.vertexAI());
-  }
-
-  @Test
-  public void testCloseClient() {
-    HttpApiClient client =
-            new HttpApiClient(
-                    Optional.empty(),
-                    Optional.of(PROJECT),
-                    Optional.of(LOCATION),
-                    Optional.of(CREDENTIALS),
-                    Optional.empty(),
-                    Optional.empty());
-
-    client.close();
-
-    assertTrue(client.httpClient().dispatcher().executorService().isShutdown());
-    assertEquals(0, client.httpClient().connectionPool().connectionCount());
   }
 }

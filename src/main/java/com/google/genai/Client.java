@@ -20,8 +20,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.ClientOptions;
 import com.google.genai.types.HttpOptions;
+import java.io.IOException;
 import java.util.Optional;
 
 /** Client class for GenAI. This class is thread-safe. */
@@ -328,7 +330,15 @@ public final class Client implements AutoCloseable {
   /** Closes the Client instance together with its instantiated http client. */
   @Override
   public void close() {
-    apiClient.close();
+    try {
+      apiClient.httpClient().dispatcher().executorService().shutdown();
+      apiClient.httpClient().connectionPool().evictAll();
+      if (apiClient.httpClient().cache() != null) {
+        apiClient.httpClient().cache().close();
+      }
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to close the client.", e);
+    }
   }
 
   /**
