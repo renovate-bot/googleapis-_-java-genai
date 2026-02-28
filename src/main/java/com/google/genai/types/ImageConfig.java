@@ -70,6 +70,10 @@ public abstract class ImageConfig extends JsonSerializable {
   @JsonProperty("outputCompressionQuality")
   public abstract Optional<Integer> outputCompressionQuality();
 
+  /** Optional. The image output format for generated images. */
+  @JsonProperty("imageOutputOptions")
+  public abstract Optional<ImageConfigImageOutputOptions> imageOutputOptions();
+
   /** Instantiates a builder for ImageConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -228,6 +232,35 @@ public abstract class ImageConfig extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearOutputCompressionQuality() {
       return outputCompressionQuality(Optional.empty());
+    }
+
+    /**
+     * Setter for imageOutputOptions.
+     *
+     * <p>imageOutputOptions: Optional. The image output format for generated images.
+     */
+    @JsonProperty("imageOutputOptions")
+    public abstract Builder imageOutputOptions(ImageConfigImageOutputOptions imageOutputOptions);
+
+    /**
+     * Setter for imageOutputOptions builder.
+     *
+     * <p>imageOutputOptions: Optional. The image output format for generated images.
+     */
+    @CanIgnoreReturnValue
+    public Builder imageOutputOptions(
+        ImageConfigImageOutputOptions.Builder imageOutputOptionsBuilder) {
+      return imageOutputOptions(imageOutputOptionsBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder imageOutputOptions(Optional<ImageConfigImageOutputOptions> imageOutputOptions);
+
+    /** Clears the value of imageOutputOptions field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearImageOutputOptions() {
+      return imageOutputOptions(Optional.empty());
     }
 
     public abstract ImageConfig build();
