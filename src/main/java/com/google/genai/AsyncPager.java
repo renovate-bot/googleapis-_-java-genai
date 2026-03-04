@@ -101,8 +101,7 @@ public class AsyncPager<T extends JsonSerializable> extends BasePager<T> {
       failedFuture.completeExceptionally(new IllegalArgumentException("Action cannot be null."));
       return failedFuture;
     }
-    return initializationFuture
-        .thenCompose(v -> processPageItemsAndContinue(page, itemAction));
+    return initializationFuture.thenCompose(v -> processPageItemsAndContinue(page, itemAction));
   }
 
   private CompletableFuture<Void> processPageItemsAndContinue(

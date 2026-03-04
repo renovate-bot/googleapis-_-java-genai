@@ -68,7 +68,8 @@ public abstract class JsonSerializable {
   /** Custom Jackson deserializer for {@link java.time.Duration} to parse "Xs" format. */
   static class CustomDurationDeserializer extends JsonDeserializer<java.time.Duration> {
     @Override
-    public java.time.Duration deserialize(JsonParser p, DeserializationContext ctxt) throws java.io.IOException, JsonProcessingException {
+    public java.time.Duration deserialize(JsonParser p, DeserializationContext ctxt)
+        throws java.io.IOException, JsonProcessingException {
       String value = p.getValueAsString();
 
       if (value == null || value.isEmpty()) {

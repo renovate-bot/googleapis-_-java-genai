@@ -16,6 +16,10 @@
 
 package com.google.genai;
 
+import com.google.genai.proto.SentencepieceModel.ModelProto;
+import com.google.genai.proto.SentencepieceModel.ModelProto.SentencePiece;
+import com.google.genai.proto.SentencepieceModel.NormalizerSpec;
+import com.google.genai.proto.SentencepieceModel.TrainerSpec;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +30,6 @@ import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import com.google.genai.proto.SentencepieceModel.ModelProto;
-import com.google.genai.proto.SentencepieceModel.ModelProto.SentencePiece;
-import com.google.genai.proto.SentencepieceModel.NormalizerSpec;
-import com.google.genai.proto.SentencepieceModel.TrainerSpec;
 
 // IMPORTANT: Fetching tokenizer in unit test can pass locally but will fail in github workflow
 // because github test env gets messed up and setup in a file affects other files.

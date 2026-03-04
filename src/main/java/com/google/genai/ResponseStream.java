@@ -126,7 +126,8 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
           currentJsonNode = rootNode;
         }
         if (needsRootObject) {
-          currentJsonNode = (JsonNode) converter.invoke(obj, currentJsonNode, null, currentJsonNode);
+          currentJsonNode =
+              (JsonNode) converter.invoke(obj, currentJsonNode, null, currentJsonNode);
         } else {
           currentJsonNode = (JsonNode) converter.invoke(obj, currentJsonNode, null);
         }
@@ -169,8 +170,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
   private final ApiResponse response;
   private final BufferedReader reader;
 
-  public ResponseStream(
-      Class<T> clazz, ApiResponse response, Object obj, String converterName) {
+  public ResponseStream(Class<T> clazz, ApiResponse response, Object obj, String converterName) {
     this(clazz, response, obj, converterName, false, false);
   }
 

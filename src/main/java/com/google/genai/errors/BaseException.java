@@ -19,9 +19,9 @@ package com.google.genai.errors;
 /**
  * Base exception class for all exceptions specifically originating from the GenAI SDK.
  *
- * <p>This class extends {@link RuntimeException}. The GenAI SDK favors unchecked exceptions
- * to improve developer experience by reducing mandatory {@code try-catch} or {@code throws}
- * clause boilerplate for potentially unrecoverable runtime errors.
+ * <p>This class extends {@link RuntimeException}. The GenAI SDK favors unchecked exceptions to
+ * improve developer experience by reducing mandatory {@code try-catch} or {@code throws} clause
+ * boilerplate for potentially unrecoverable runtime errors.
  */
 class BaseException extends RuntimeException {
 
