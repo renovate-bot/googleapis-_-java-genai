@@ -28,6 +28,7 @@ import com.google.genai.types.CreateTuningJobConfig;
 import com.google.genai.types.CustomOutputFormatConfig;
 import com.google.genai.types.EvaluationConfig;
 import com.google.genai.types.GcsDestination;
+import com.google.genai.types.GenerationConfig;
 import com.google.genai.types.JobState;
 import com.google.genai.types.ListTuningJobsConfig;
 import com.google.genai.types.OutputConfig;
@@ -258,6 +259,8 @@ public class AsyncTuningsTest {
             .autoraterConfig(
                 AutoraterConfig.builder().autoraterModel("test-model").samplingCount(1).build())
             .metrics(metrics)
+            .inferenceGenerationConfig(
+                GenerationConfig.builder().temperature(0.5f).maxOutputTokens(1024).build())
             .build();
     CreateTuningJobConfig tuningConfig =
         CreateTuningJobConfig.builder()
@@ -281,6 +284,7 @@ public class AsyncTuningsTest {
     // Assert
     assertNotNull(currentJob);
     assertTrue(currentJob.evaluationConfig().isPresent());
+    assertTrue(currentJob.evaluationConfig().get().inferenceGenerationConfig().isPresent());
     assertTrue(currentJob.state().get().knownEnum() == JobState.Known.JOB_STATE_PENDING);
   }
 }

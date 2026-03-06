@@ -46,6 +46,10 @@ public abstract class EvaluationConfig extends JsonSerializable {
   @JsonProperty("autoraterConfig")
   public abstract Optional<AutoraterConfig> autoraterConfig();
 
+  /** Generation config for inference. */
+  @JsonProperty("inferenceGenerationConfig")
+  public abstract Optional<GenerationConfig> inferenceGenerationConfig();
+
   /** Instantiates a builder for EvaluationConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -159,6 +163,36 @@ public abstract class EvaluationConfig extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearAutoraterConfig() {
       return autoraterConfig(Optional.empty());
+    }
+
+    /**
+     * Setter for inferenceGenerationConfig.
+     *
+     * <p>inferenceGenerationConfig: Generation config for inference.
+     */
+    @JsonProperty("inferenceGenerationConfig")
+    public abstract Builder inferenceGenerationConfig(GenerationConfig inferenceGenerationConfig);
+
+    /**
+     * Setter for inferenceGenerationConfig builder.
+     *
+     * <p>inferenceGenerationConfig: Generation config for inference.
+     */
+    @CanIgnoreReturnValue
+    public Builder inferenceGenerationConfig(
+        GenerationConfig.Builder inferenceGenerationConfigBuilder) {
+      return inferenceGenerationConfig(inferenceGenerationConfigBuilder.build());
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder inferenceGenerationConfig(
+        Optional<GenerationConfig> inferenceGenerationConfig);
+
+    /** Clears the value of inferenceGenerationConfig field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearInferenceGenerationConfig() {
+      return inferenceGenerationConfig(Optional.empty());
     }
 
     public abstract EvaluationConfig build();

@@ -650,6 +650,17 @@ public final class Tunings {
           Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"inferenceGenerationConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"inferenceGenerationConfig"},
+          generationConfigFromVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inferenceGenerationConfig"})),
+              toObject,
+              rootObject));
+    }
+
     return toObject;
   }
 
@@ -676,6 +687,345 @@ public final class Tunings {
           toObject,
           new String[] {"autoraterConfig"},
           Common.getValueByPath(fromObject, new String[] {"autoraterConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"inferenceGenerationConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"inferenceGenerationConfig"},
+          generationConfigToVertex(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inferenceGenerationConfig"})),
+              toObject,
+              rootObject));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode generationConfigFromVertex(
+      JsonNode fromObject, ObjectNode parentObject, JsonNode rootObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"modelConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"modelSelectionConfig"},
+          Common.getValueByPath(fromObject, new String[] {"modelConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"audioTimestamp"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audioTimestamp"},
+          Common.getValueByPath(fromObject, new String[] {"audioTimestamp"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"candidateCount"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"candidateCount"},
+          Common.getValueByPath(fromObject, new String[] {"candidateCount"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"enableAffectiveDialog"},
+          Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"frequencyPenalty"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"frequencyPenalty"},
+          Common.getValueByPath(fromObject, new String[] {"frequencyPenalty"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"logprobs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"logprobs"},
+          Common.getValueByPath(fromObject, new String[] {"logprobs"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxOutputTokens"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxOutputTokens"},
+          Common.getValueByPath(fromObject, new String[] {"maxOutputTokens"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mediaResolution"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mediaResolution"},
+          Common.getValueByPath(fromObject, new String[] {"mediaResolution"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"presencePenalty"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"presencePenalty"},
+          Common.getValueByPath(fromObject, new String[] {"presencePenalty"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseLogprobs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseLogprobs"},
+          Common.getValueByPath(fromObject, new String[] {"responseLogprobs"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseMimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseMimeType"},
+          Common.getValueByPath(fromObject, new String[] {"responseMimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseModalities"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseModalities"},
+          Common.getValueByPath(fromObject, new String[] {"responseModalities"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseSchema"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"routingConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"routingConfig"},
+          Common.getValueByPath(fromObject, new String[] {"routingConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"seed"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"seed"},
+          Common.getValueByPath(fromObject, new String[] {"seed"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"speechConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"speechConfig"},
+          Common.getValueByPath(fromObject, new String[] {"speechConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"stopSequences"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"stopSequences"},
+          Common.getValueByPath(fromObject, new String[] {"stopSequences"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"temperature"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"temperature"},
+          Common.getValueByPath(fromObject, new String[] {"temperature"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"thinkingConfig"},
+          Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topK"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topK"},
+          Common.getValueByPath(fromObject, new String[] {"topK"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topP"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topP"},
+          Common.getValueByPath(fromObject, new String[] {"topP"}));
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
+  ObjectNode generationConfigToVertex(
+      JsonNode fromObject, ObjectNode parentObject, JsonNode rootObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"modelConfig"},
+          Common.getValueByPath(fromObject, new String[] {"modelSelectionConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseJsonSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseJsonSchema"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"audioTimestamp"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"audioTimestamp"},
+          Common.getValueByPath(fromObject, new String[] {"audioTimestamp"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"candidateCount"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"candidateCount"},
+          Common.getValueByPath(fromObject, new String[] {"candidateCount"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"enableAffectiveDialog"},
+          Common.getValueByPath(fromObject, new String[] {"enableAffectiveDialog"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"frequencyPenalty"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"frequencyPenalty"},
+          Common.getValueByPath(fromObject, new String[] {"frequencyPenalty"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"logprobs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"logprobs"},
+          Common.getValueByPath(fromObject, new String[] {"logprobs"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"maxOutputTokens"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxOutputTokens"},
+          Common.getValueByPath(fromObject, new String[] {"maxOutputTokens"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mediaResolution"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mediaResolution"},
+          Common.getValueByPath(fromObject, new String[] {"mediaResolution"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"presencePenalty"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"presencePenalty"},
+          Common.getValueByPath(fromObject, new String[] {"presencePenalty"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseLogprobs"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseLogprobs"},
+          Common.getValueByPath(fromObject, new String[] {"responseLogprobs"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseMimeType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseMimeType"},
+          Common.getValueByPath(fromObject, new String[] {"responseMimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseModalities"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseModalities"},
+          Common.getValueByPath(fromObject, new String[] {"responseModalities"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseSchema"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseSchema"},
+          Common.getValueByPath(fromObject, new String[] {"responseSchema"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"routingConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"routingConfig"},
+          Common.getValueByPath(fromObject, new String[] {"routingConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"seed"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"seed"},
+          Common.getValueByPath(fromObject, new String[] {"seed"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"speechConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"speechConfig"},
+          Common.getValueByPath(fromObject, new String[] {"speechConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"stopSequences"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"stopSequences"},
+          Common.getValueByPath(fromObject, new String[] {"stopSequences"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"temperature"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"temperature"},
+          Common.getValueByPath(fromObject, new String[] {"temperature"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"thinkingConfig"},
+          Common.getValueByPath(fromObject, new String[] {"thinkingConfig"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topK"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topK"},
+          Common.getValueByPath(fromObject, new String[] {"topK"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"topP"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"topP"},
+          Common.getValueByPath(fromObject, new String[] {"topP"}));
+    }
+
+    if (!Common.isZero(
+        Common.getValueByPath(fromObject, new String[] {"enableEnhancedCivicAnswers"}))) {
+      throw new IllegalArgumentException(
+          "enableEnhancedCivicAnswers parameter is not supported in Vertex AI.");
     }
 
     return toObject;
