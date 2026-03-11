@@ -32,6 +32,8 @@ public final class FakeUploadApiClient extends ApiClient {
 
   public final Map<String, UploadedFile> files;
   private final Map<String, Integer> fileUploadFailureCount;
+  public Map<String, String> lastHeaders;
+
 
   public FakeUploadApiClient() {
     super(
@@ -66,6 +68,7 @@ public final class FakeUploadApiClient extends ApiClient {
     Map<String, String> headers;
     if (httpOptions.isPresent() && httpOptions.get().headers().isPresent()) {
       headers = httpOptions.get().headers().get();
+      this.lastHeaders = headers;
     } else {
       throw new IllegalArgumentException("HttpOptions is required for upload requests.");
     }

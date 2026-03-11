@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.genai.FakeUploadApiClient;
+import com.google.genai.types.HttpOptions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -28,6 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +49,7 @@ public class UploadClientTest {
   @BeforeEach
   public void setUp() {
     API_CLIENT.files.clear();
+    API_CLIENT.lastHeaders = null;
     File file = new File(FILE_PATH);
     Random random = new Random();
     testBytes = new byte[TEST_BYTES_SIZE];
@@ -61,7 +66,7 @@ public class UploadClientTest {
   @Test
   public void upload_file_success() throws IOException {
     UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
-    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, FILE_PATH);
+    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, FILE_PATH, Optional.empty());
     assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
     assertNotNull(responseBody);
   }
@@ -69,7 +74,7 @@ public class UploadClientTest {
   @Test
   public void upload_bytes_success() throws IOException {
     UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
-    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, testBytes);
+    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, testBytes, Optional.empty());
     assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
     assertNotNull(responseBody);
   }
@@ -79,7 +84,7 @@ public class UploadClientTest {
     UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
     ResponseBody responseBody;
     try (InputStream inputStream = new FileInputStream(FILE_PATH)) {
-      responseBody = uploadClient.upload(UPLOAD_URL, inputStream, testBytes.length);
+      responseBody = uploadClient.upload(UPLOAD_URL, inputStream, testBytes.length, Optional.empty());
     }
     assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
     assertNotNull(responseBody);
@@ -89,7 +94,7 @@ public class UploadClientTest {
   public void upload_file_with_retriable_error_success() throws IOException {
     API_CLIENT.makeFileUploadFail(UPLOAD_URL, 1);
     UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
-    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, FILE_PATH);
+    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, FILE_PATH, Optional.empty());
     assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
     assertNotNull(responseBody);
   }
@@ -98,8 +103,48 @@ public class UploadClientTest {
   public void upload_file_retries_exhausted_throws() throws IOException {
     API_CLIENT.makeFileUploadFail(UPLOAD_URL, 4);
     UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
-    assertThrows(IllegalStateException.class, () -> uploadClient.upload(UPLOAD_URL, FILE_PATH));
+    assertThrows(
+        IllegalStateException.class, () -> uploadClient.upload(UPLOAD_URL, FILE_PATH, Optional.empty()));
   }
+
+  @Test
+  public void upload_with_http_options_success() throws IOException {
+    UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
+    Map<String, String> customHeaders = new HashMap<>();
+    customHeaders.put("X-My-Custom-Header", "my-test-value");
+    HttpOptions httpOptions = HttpOptions.builder().headers(customHeaders).build();
+
+    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, testBytes, Optional.of(httpOptions));
+
+    assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
+    assertNotNull(responseBody);
+
+    // Ensure the fake client actually received the custom header intact
+    assertEquals("my-test-value", API_CLIENT.lastHeaders.get("X-My-Custom-Header"));
+  }
+
+
+  @Test
+  public void upload_with_http_options_does_not_override_required_headers() throws IOException {
+    UploadClient uploadClient = new UploadClient(API_CLIENT, CHUNK_SIZE);
+    Map<String, String> customHeaders = new HashMap<>();
+    // User accidentally or maliciously tries to override the upload offset
+    customHeaders.put("X-Goog-Upload-Offset", "99999");
+    customHeaders.put("X-Goog-Upload-Command", "invalid-command");
+    HttpOptions httpOptions = HttpOptions.builder().headers(customHeaders).build();
+
+    ResponseBody responseBody = uploadClient.upload(UPLOAD_URL, testBytes, Optional.of(httpOptions));
+
+    assertBytesEqual(testBytes, API_CLIENT.files.get(UPLOAD_URL).uploadedBytes);
+    assertNotNull(responseBody);
+
+    // Verify that the SDK's calculated offset and commands were used instead of the user's.
+    // FakeUploadApiClient strictly asserts the offset and command, so if the user's "99999" 
+    // had leaked through, FakeUploadApiClient would have thrown an IllegalArgumentException.
+    assertEquals("upload, finalize", API_CLIENT.lastHeaders.get("X-Goog-Upload-Command"));
+    assertEquals(String.valueOf(TEST_BYTES_SIZE - (TEST_BYTES_SIZE % CHUNK_SIZE)), API_CLIENT.lastHeaders.get("X-Goog-Upload-Offset"));
+  }
+
 
   private void assertBytesEqual(byte[] expected, ArrayList<Byte> actual) {
     assertEquals(expected.length, actual.size());

@@ -239,7 +239,9 @@ public final class AsyncFileSearchStores {
                 CompletableFuture.supplyAsync(
                     () -> {
                       try (InputStream inputStream = new FileInputStream(file)) {
-                        return uploadClient.upload(uploadUrl, inputStream, size);
+                        Optional<HttpOptions> httpOptions =
+                            config != null ? config.httpOptions() : Optional.empty();
+                        return uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
                       } catch (IOException e) {
                         throw new GenAiIOException("Failed to upload file.", e);
                       }
@@ -264,7 +266,13 @@ public final class AsyncFileSearchStores {
             Optional.<String>empty(),
             bytes.length)
         .thenCompose(
-            uploadUrl -> CompletableFuture.supplyAsync(() -> uploadClient.upload(uploadUrl, bytes)))
+            uploadUrl ->
+                CompletableFuture.supplyAsync(
+                    () -> {
+                      Optional<HttpOptions> httpOptions =
+                          config != null ? config.httpOptions() : Optional.empty();
+                      return uploadClient.upload(uploadUrl, bytes, httpOptions);
+                    }))
         .thenApply(FileSearchStores::operationFromResponse);
   }
 
@@ -287,7 +295,11 @@ public final class AsyncFileSearchStores {
         .thenCompose(
             uploadUrl ->
                 CompletableFuture.supplyAsync(
-                    () -> uploadClient.upload(uploadUrl, inputStream, size)))
+                    () -> {
+                      Optional<HttpOptions> httpOptions =
+                          config != null ? config.httpOptions() : Optional.empty();
+                      return uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
+                    }))
         .thenApply(FileSearchStores::operationFromResponse);
   }
 

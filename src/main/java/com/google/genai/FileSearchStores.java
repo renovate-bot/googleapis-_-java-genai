@@ -952,7 +952,8 @@ public final class FileSearchStores {
       }
       String uploadUrl =
           getUploadUrl(fileSearchStoreName, config, mimeType, Optional.of(fileName), size);
-      ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+      Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+      ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
       return operationFromResponse(responseBody);
     } catch (IOException e) {
       throw new GenAiIOException("Failed to upload file.", e);
@@ -976,7 +977,8 @@ public final class FileSearchStores {
             Optional.<String>empty(),
             Optional.<String>empty(),
             bytes.length);
-    ResponseBody responseBody = uploadClient.upload(uploadUrl, bytes);
+    Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, bytes, httpOptions);
     return operationFromResponse(responseBody);
   }
 
@@ -997,7 +999,8 @@ public final class FileSearchStores {
     String uploadUrl =
         getUploadUrl(
             fileSearchStoreName, config, Optional.<String>empty(), Optional.<String>empty(), size);
-    ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+    Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
     return operationFromResponse(responseBody);
   }
 

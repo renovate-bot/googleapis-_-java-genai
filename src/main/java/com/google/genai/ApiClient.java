@@ -36,6 +36,8 @@ import com.google.genai.types.ResourceScope.Known;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -444,10 +446,28 @@ public abstract class ApiClient implements AutoCloseable {
       Optional<HttpOptions> requestHttpOptions) {
     HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
 
+    String finalUrl = url;
+    if (mergedHttpOptions.baseUrl().isPresent()) {
+      try {
+        URI originalUri = new URI(url);
+        URI baseUri = new URI(mergedHttpOptions.baseUrl().get());
+        finalUrl =
+            new URI(
+                    baseUri.getScheme(),
+                    baseUri.getAuthority(),
+                    originalUri.getPath(),
+                    originalUri.getQuery(),
+                    originalUri.getFragment())
+                .toString();
+      } catch (URISyntaxException e) {
+        logger.warning("Failed to rewrite upload URL with base URL: " + e.getMessage());
+      }
+    }
+
     if (httpMethod.equalsIgnoreCase("POST")) {
       RequestBody body =
           RequestBody.create(requestBytes, MediaType.get("application/octet-stream"));
-      Request.Builder requestBuilder = new Request.Builder().url(url).post(body);
+      Request.Builder requestBuilder = new Request.Builder().url(finalUrl).post(body);
       requestHttpOptions.ifPresent(
           httpOptions -> {
             if (httpOptions.retryOptions().isPresent()) {

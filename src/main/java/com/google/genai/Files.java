@@ -791,7 +791,8 @@ public final class Files {
         mimeType = Optional.empty();
       }
       String uploadUrl = createFileInApi(config, mimeType, Optional.of(fileName), size);
-      ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+      Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+      ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
       return fileFromUploadResponseBody(responseBody);
     } catch (IOException e) {
       throw new GenAiIOException("Failed to upload file.", e);
@@ -808,7 +809,8 @@ public final class Files {
   public File upload(byte[] bytes, UploadFileConfig config) {
     String uploadUrl =
         createFileInApi(config, Optional.<String>empty(), Optional.<String>empty(), bytes.length);
-    ResponseBody responseBody = uploadClient.upload(uploadUrl, bytes);
+    Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, bytes, httpOptions);
     return fileFromUploadResponseBody(responseBody);
   }
 
@@ -823,7 +825,8 @@ public final class Files {
   public File upload(InputStream inputStream, long size, UploadFileConfig config) {
     String uploadUrl =
         createFileInApi(config, Optional.<String>empty(), Optional.<String>empty(), size);
-    ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size);
+    Optional<HttpOptions> httpOptions = config != null ? config.httpOptions() : Optional.empty();
+    ResponseBody responseBody = uploadClient.upload(uploadUrl, inputStream, size, httpOptions);
     return fileFromUploadResponseBody(responseBody);
   }
 

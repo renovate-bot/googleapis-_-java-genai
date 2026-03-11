@@ -1572,6 +1572,30 @@ public class HttpApiClientTest {
   }
 
   @Test
+  public void testBuildRequest_byteArray_rewritesAbsoluteUrlWithBaseUrl() throws Exception {
+    // 1. User configures a custom enterprise proxy base URL
+    HttpOptions httpOptions = HttpOptions.builder().baseUrl("https://my-proxy.company.com").build();
+    HttpApiClient client = new HttpApiClient(
+        Optional.of("api-key"),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(httpOptions),
+        Optional.empty());
+
+    byte[] payload = new byte[]{1, 2, 3};
+    // 2. The server returns an absolute Google URL during the resumable upload initialization
+    String absoluteGoogleUrl = "https://generativelanguage.googleapis.com/upload/v1beta/files?uploadType=resumable";
+
+    // 3. We call the byte[] overload used by UploadClient
+    Request request = client.buildRequest("POST", absoluteGoogleUrl, payload, Optional.empty());
+
+    // 4. Verify the scheme and authority were rewritten, but path and query remained intact
+    assertEquals("https://my-proxy.company.com/upload/v1beta/files?uploadType=resumable", request.url().toString());
+  }
+
+
+  @Test
   public void testCloseClient() {
     HttpApiClient client =
             new HttpApiClient(

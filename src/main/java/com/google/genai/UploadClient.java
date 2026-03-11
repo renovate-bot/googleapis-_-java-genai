@@ -16,7 +16,6 @@
 
 package com.google.genai;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.ByteArrayInputStream;
@@ -81,28 +80,32 @@ final class UploadClient {
     return httpOptionsBuilder.apiVersion("").headers(headers).build();
   }
 
-  public ResponseBody upload(String uploadUrl, String filePath) {
+  public ResponseBody upload(String uploadUrl, String filePath, Optional<HttpOptions> httpOptions) {
     File file = new File(filePath);
     ResponseBody responseBody;
     try (InputStream inputStream = new FileInputStream(file)) {
-      responseBody = upload(uploadUrl, inputStream, file.length());
+      responseBody = upload(uploadUrl, inputStream, file.length(), httpOptions);
     } catch (IOException e) {
       throw new GenAiIOException("Failed to process input stream", e);
     }
     return responseBody;
   }
 
-  public ResponseBody upload(String uploadUrl, byte[] bytes) {
+  public ResponseBody upload(String uploadUrl, byte[] bytes, Optional<HttpOptions> httpOptions) {
     ResponseBody responseBody;
     try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
-      responseBody = upload(uploadUrl, inputStream, bytes.length);
+      responseBody = upload(uploadUrl, inputStream, bytes.length, httpOptions);
     } catch (IOException e) {
       throw new GenAiIOException("Failed to process input stream", e);
     }
     return responseBody;
   }
 
-  public ResponseBody upload(String uploadUrl, InputStream inputStream, long size) {
+  public ResponseBody upload(
+      String uploadUrl,
+      InputStream inputStream,
+      long size,
+      Optional<HttpOptions> httpOptions) {
     String uploadCommand = "upload";
     byte[] buffer = new byte[chunkSize];
     int bytesRead;
@@ -110,7 +113,7 @@ final class UploadClient {
     try {
       while ((bytesRead = inputStream.read(buffer, 0, chunkSize)) == chunkSize) {
         UploadChunkResponse uploadChunkResponse =
-            uploadChunk(uploadUrl, buffer, offset, uploadCommand);
+            uploadChunk(uploadUrl, buffer, offset, uploadCommand, httpOptions);
         String uploadStatus = uploadChunkResponse.getUploadStatus();
         offset += bytesRead;
         if (uploadStatus == null || !uploadStatus.equals("active")) {
@@ -123,7 +126,8 @@ final class UploadClient {
     }
     buffer = Arrays.copyOfRange(buffer, 0, bytesRead);
     uploadCommand = uploadCommand + ", finalize";
-    UploadChunkResponse uploadChunkResponse = uploadChunk(uploadUrl, buffer, offset, uploadCommand);
+    UploadChunkResponse uploadChunkResponse =
+        uploadChunk(uploadUrl, buffer, offset, uploadCommand, httpOptions);
     String uploadStatus = uploadChunkResponse.getUploadStatus();
     if (uploadStatus == null || !uploadStatus.equals("final")) {
       throw new IllegalStateException(
@@ -133,26 +137,31 @@ final class UploadClient {
   }
 
   private UploadChunkResponse uploadChunk(
-      String uploadUrl, byte[] chunk, long offset, String uploadCommand) {
-    HttpOptions httpOptions =
-        HttpOptions.builder()
-            .headers(
-                ImmutableMap.of(
-                    "X-Goog-Upload-Command",
-                    uploadCommand,
-                    "X-Goog-Upload-Offset",
-                    Long.toString(offset)))
-            .build();
+      String uploadUrl,
+      byte[] chunk,
+      long offset,
+      String uploadCommand,
+      Optional<HttpOptions> httpOptions) {
+    HttpOptions.Builder optionsBuilder =
+        httpOptions.isPresent() ? httpOptions.get().toBuilder() : HttpOptions.builder();
 
+    Map<String, String> headers = new HashMap<>();
+    if (httpOptions.isPresent() && httpOptions.get().headers().isPresent()) {
+      headers.putAll(httpOptions.get().headers().get());
+    }
+    headers.put("X-Goog-Upload-Command", uploadCommand);
+    headers.put("X-Goog-Upload-Offset", Long.toString(offset));
+
+    HttpOptions finalHttpOptions = optionsBuilder.headers(headers).build();
     int retryCount = 0;
     boolean uploadStatusHeaderFound = false;
     String uploadStatus = "";
     ApiResponse response = null;
     while (retryCount < MAX_RETRY_COUNT) {
-      response = apiClient.request("POST", uploadUrl, chunk, Optional.of(httpOptions));
-      Headers headers = response.getHeaders();
-      if (headers != null) {
-        String headerValue = headers.get("X-Goog-Upload-Status");
+      response = apiClient.request("POST", uploadUrl, chunk, Optional.of(finalHttpOptions));
+      Headers responseHeaders = response.getHeaders();
+      if (responseHeaders != null) {
+        String headerValue = responseHeaders.get("X-Goog-Upload-Status");
         if (headerValue != null) {
           uploadStatusHeaderFound = true;
           uploadStatus = headerValue;
