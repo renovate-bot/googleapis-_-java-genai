@@ -35,6 +35,10 @@ public abstract class HttpOptions extends JsonSerializable {
   @JsonProperty("baseUrl")
   public abstract Optional<String> baseUrl();
 
+  /** The resource scope used to constructing the resource name when base_url is set */
+  @JsonProperty("baseUrlResourceScope")
+  public abstract Optional<ResourceScope> baseUrlResourceScope();
+
   /** Specifies the version of the API to use. */
   @JsonProperty("apiVersion")
   public abstract Optional<String> apiVersion();
@@ -93,6 +97,47 @@ public abstract class HttpOptions extends JsonSerializable {
     @CanIgnoreReturnValue
     public Builder clearBaseUrl() {
       return baseUrl(Optional.empty());
+    }
+
+    /**
+     * Setter for baseUrlResourceScope.
+     *
+     * <p>baseUrlResourceScope: The resource scope used to constructing the resource name when
+     * base_url is set
+     */
+    @JsonProperty("baseUrlResourceScope")
+    public abstract Builder baseUrlResourceScope(ResourceScope baseUrlResourceScope);
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder baseUrlResourceScope(Optional<ResourceScope> baseUrlResourceScope);
+
+    /** Clears the value of baseUrlResourceScope field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearBaseUrlResourceScope() {
+      return baseUrlResourceScope(Optional.empty());
+    }
+
+    /**
+     * Setter for baseUrlResourceScope given a known enum.
+     *
+     * <p>baseUrlResourceScope: The resource scope used to constructing the resource name when
+     * base_url is set
+     */
+    @CanIgnoreReturnValue
+    public Builder baseUrlResourceScope(ResourceScope.Known knownType) {
+      return baseUrlResourceScope(new ResourceScope(knownType));
+    }
+
+    /**
+     * Setter for baseUrlResourceScope given a string.
+     *
+     * <p>baseUrlResourceScope: The resource scope used to constructing the resource name when
+     * base_url is set
+     */
+    @CanIgnoreReturnValue
+    public Builder baseUrlResourceScope(String baseUrlResourceScope) {
+      return baseUrlResourceScope(new ResourceScope(baseUrlResourceScope));
     }
 
     /**

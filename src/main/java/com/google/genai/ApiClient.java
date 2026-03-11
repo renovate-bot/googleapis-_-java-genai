@@ -32,6 +32,7 @@ import com.google.genai.types.HttpOptions;
 import com.google.genai.types.HttpRetryOptions;
 import com.google.genai.types.ProxyOptions;
 import com.google.genai.types.ProxyType;
+import com.google.genai.types.ResourceScope.Known;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -72,6 +73,7 @@ public abstract class ApiClient implements AutoCloseable {
   HttpOptions httpOptions;
   final boolean vertexAI;
   final Optional<ClientOptions> clientOptions;
+  final Optional<String> customBaseUrl;
   // For Google AI APIs
   final Optional<String> apiKey;
   // For Vertex AI APIs
@@ -102,8 +104,12 @@ public abstract class ApiClient implements AutoCloseable {
     this.credentials = Optional.empty();
     this.vertexAI = false;
     this.clientOptions = clientOptions;
+    this.customBaseUrl =
+        customHttpOptions.flatMap(HttpOptions::baseUrl).map(url -> url.replaceAll("/$", ""));
 
-    this.httpOptions = defaultHttpOptions(/* vertexAI= */ false, this.location, this.apiKey);
+    this.httpOptions =
+        defaultHttpOptions(
+            /* vertexAI= */ false, this.location, this.apiKey, this.customBaseUrl, Optional.empty());
 
     if (customHttpOptions.isPresent()) {
       this.httpOptions = mergeHttpOptions(customHttpOptions.get());
@@ -148,6 +154,9 @@ public abstract class ApiClient implements AutoCloseable {
     boolean hasCredentials = credentials != null && credentials.isPresent();
     boolean hasProject = project != null && project.isPresent();
     boolean hasLocation = location != null && location.isPresent();
+
+    Optional<String> customBaseUrl =
+        customHttpOptions.flatMap(HttpOptions::baseUrl).map(url -> url.replaceAll("/$", ""));
 
     // Validate constructor arguments combinations.
     if (hasProject && hasApiKey) {
@@ -197,19 +206,41 @@ public abstract class ApiClient implements AutoCloseable {
       apiKeyValue = null;
     }
 
-    if (locationValue == null && apiKeyValue == null) {
+    if (locationValue == null && apiKeyValue == null && !customBaseUrl.isPresent()) {
       locationValue = "global";
+    } else if (locationValue == null
+        && apiKeyValue == null
+        && customBaseUrl.isPresent()
+        && customBaseUrl.get().endsWith(".googleapis.com")) {
+      locationValue = "global";
+    }
+
+    boolean hasSufficientAuth =
+        (projectValue != null && locationValue != null) || apiKeyValue != null;
+    if (!hasSufficientAuth && !customBaseUrl.isPresent()) {
+      throw new IllegalArgumentException(
+          "Authentication is not set up. Please provide either a project and location, or an API"
+              + " key, or a custom base URL.");
+    }
+
+    boolean hasConstructorAuth = (hasProject && hasLocation) || hasApiKey;
+    HttpOptions.Builder initHttpOptionsBuilder = HttpOptions.builder();
+    if (customBaseUrl.isPresent() && !hasConstructorAuth) {
+      initHttpOptionsBuilder.baseUrl(customBaseUrl.get());
+      projectValue = null;
+      locationValue = null;
+    } else if (apiKeyValue != null
+        || (locationValue != null && locationValue.equals("global") && !customBaseUrl.isPresent())) {
+      initHttpOptionsBuilder.baseUrl("https://aiplatform.googleapis.com");
+    } else if (locationValue != null && !customBaseUrl.isPresent()) {
+      initHttpOptionsBuilder.baseUrl(
+          String.format("https://%s-aiplatform.googleapis.com", locationValue));
     }
 
     this.apiKey = Optional.ofNullable(apiKeyValue);
     this.project = Optional.ofNullable(projectValue);
     this.location = Optional.ofNullable(locationValue);
-
-    // Validate that either project and location or API key is set.
-    if (!(this.project.isPresent() || this.apiKey.isPresent())) {
-      throw new IllegalArgumentException(
-          "For Vertex AI APIs, either project or API key must be set.");
-    }
+    this.customBaseUrl = customBaseUrl;
 
     // Only set credentials if using project/location.
     this.credentials =
@@ -219,7 +250,13 @@ public abstract class ApiClient implements AutoCloseable {
 
     this.clientOptions = clientOptions;
 
-    this.httpOptions = defaultHttpOptions(/* vertexAI= */ true, this.location, this.apiKey);
+    this.httpOptions =
+        defaultHttpOptions(
+            /* vertexAI= */ true,
+            this.location,
+            this.apiKey,
+            this.customBaseUrl,
+            initHttpOptionsBuilder.build().baseUrl());
 
     if (customHttpOptions.isPresent()) {
       this.httpOptions = mergeHttpOptions(customHttpOptions.get());
@@ -324,18 +361,16 @@ public abstract class ApiClient implements AutoCloseable {
       String requestJson,
       Optional<HttpOptions> requestHttpOptions) {
     String capitalizedHttpMethod = Ascii.toUpperCase(httpMethod);
-    boolean queryBaseModel =
-        capitalizedHttpMethod.equals("GET") && path.startsWith("publishers/google/models");
-    if (this.vertexAI()
-        && !this.apiKey.isPresent()
-        && !path.startsWith("projects/")
-        && !queryBaseModel) {
+    HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
+
+    boolean prependProjectLocation =
+        shouldPrependVertexProjectPath(capitalizedHttpMethod, path, mergedHttpOptions);
+
+    if (prependProjectLocation) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
               + path;
     }
-
-    HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
 
     String requestUrl;
 
@@ -408,6 +443,7 @@ public abstract class ApiClient implements AutoCloseable {
       byte[] requestBytes,
       Optional<HttpOptions> requestHttpOptions) {
     HttpOptions mergedHttpOptions = mergeHttpOptions(requestHttpOptions.orElse(null));
+
     if (httpMethod.equalsIgnoreCase("POST")) {
       RequestBody body =
           RequestBody.create(requestBytes, MediaType.get("application/octet-stream"));
@@ -437,9 +473,8 @@ public abstract class ApiClient implements AutoCloseable {
     if (apiKey.isPresent()) {
       // Sets API key for Gemini Developer API or Vertex AI Express mode
       request.header("x-goog-api-key", apiKey.get());
-    } else {
-      GoogleCredentials cred =
-          credentials.orElseThrow(() -> new IllegalStateException("credentials is required"));
+    } else if (credentials.isPresent()) {
+      GoogleCredentials cred = credentials.get();
       try {
         cred.refreshIfExpired();
       } catch (IOException e) {
@@ -451,6 +486,8 @@ public abstract class ApiClient implements AutoCloseable {
       if (cred.getQuotaProjectId() != null) {
         request.header("x-goog-user-project", cred.getQuotaProjectId());
       }
+    } else if (!customBaseUrl.isPresent()) {
+      throw new IllegalStateException("credentials is required");
     }
   }
 
@@ -504,9 +541,19 @@ public abstract class ApiClient implements AutoCloseable {
     return apiKey.orElse(null);
   }
 
+  /** Returns the custom base URL if provided. */
+  public @Nullable String customBaseUrl() {
+    return customBaseUrl.orElse(null);
+  }
+
   /** Returns the HttpClient for API calls. */
   public OkHttpClient httpClient() {
     return httpClient;
+  }
+
+  /** Returns the GoogleCredentials for Vertex AI APIs. */
+  public @Nullable GoogleCredentials credentials() {
+    return credentials.orElse(null);
   }
 
   /** Returns the HTTP options for API calls. */
@@ -577,6 +624,7 @@ public abstract class ApiClient implements AutoCloseable {
     HttpOptions.Builder mergedHttpOptionsBuilder = this.httpOptions.toBuilder();
 
     httpOptionsToApply.baseUrl().ifPresent(mergedHttpOptionsBuilder::baseUrl);
+    httpOptionsToApply.baseUrlResourceScope().ifPresent(mergedHttpOptionsBuilder::baseUrlResourceScope);
     httpOptionsToApply.apiVersion().ifPresent(mergedHttpOptionsBuilder::apiVersion);
     httpOptionsToApply.timeout().ifPresent(mergedHttpOptionsBuilder::timeout);
     httpOptionsToApply.extraBody().ifPresent(mergedHttpOptionsBuilder::extraBody);
@@ -602,7 +650,11 @@ public abstract class ApiClient implements AutoCloseable {
   }
 
   static HttpOptions defaultHttpOptions(
-      boolean vertexAI, Optional<String> location, Optional<String> apiKey) {
+      boolean vertexAI,
+      Optional<String> location,
+      Optional<String> apiKey,
+      Optional<String> customBaseUrl,
+      Optional<String> initBaseUrl) {
     ImmutableMap.Builder<String, String> defaultHeaders = ImmutableMap.builder();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("user-agent", libraryVersion());
@@ -618,6 +670,12 @@ public abstract class ApiClient implements AutoCloseable {
           vertexBaseUrl.orElseGet(() -> defaultEnvironmentVariables.get("vertexBaseUrl"));
       if (defaultBaseUrl != null) {
         defaultHttpOptionsBuilder.baseUrl(defaultBaseUrl);
+      } else if (initBaseUrl.isPresent()) {
+        defaultHttpOptionsBuilder.baseUrl(initBaseUrl.get());
+      } else if (customBaseUrl.isPresent()
+          && !customBaseUrl.get().endsWith(".googleapis.com")
+          && !(location.isPresent() || apiKey.isPresent())) {
+        defaultHttpOptionsBuilder.baseUrl(customBaseUrl.get());
       } else if (apiKey.isPresent() || location.get().equalsIgnoreCase("global")) {
         defaultHttpOptionsBuilder.baseUrl("https://aiplatform.googleapis.com");
       } else {
@@ -636,6 +694,30 @@ public abstract class ApiClient implements AutoCloseable {
     }
 
     return defaultHttpOptionsBuilder.build();
+  }
+
+  boolean shouldPrependVertexProjectPath(
+      String httpMethod, String path, HttpOptions httpOptions) {
+    if (httpOptions.baseUrlResourceScope().isPresent()
+        && httpOptions.baseUrl().isPresent()
+        && httpOptions.baseUrlResourceScope().get().knownEnum() == Known.COLLECTION) {
+      return false;
+    }
+    if (this.apiKey.isPresent()) {
+      return false;
+    }
+    if (!this.vertexAI) {
+      return false;
+    }
+    if (path.startsWith("projects/")) {
+      return false;
+    }
+    // These paths are used by Vertex's models.get and models.list calls. For base models Vertex
+    // does not accept a project/location prefix (for tuned model the prefix is required).
+    if (httpMethod.equals("GET") && path.startsWith("publishers/google/models")) {
+      return false;
+    }
+    return true;
   }
 
   GoogleCredentials defaultCredentials() {

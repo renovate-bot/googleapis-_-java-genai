@@ -87,7 +87,7 @@ public class AsyncLive {
 
   /** Gets the URI for the websocket connection. */
   private URI getWebSocketUri() {
-    String baseUrl = apiClient.httpOptions.baseUrl().orElse(null);
+    String baseUrl = apiClient.httpOptions().baseUrl().orElse(null);
     if (baseUrl == null) {
       throw new IllegalArgumentException("No base URL provided in the client.");
     }
@@ -102,13 +102,20 @@ public class AsyncLive {
                   baseUri.getFragment())
               .toString();
 
+      boolean hasStandardAuth =
+          (apiClient.project() != null && apiClient.location() != null)
+              || apiClient.apiKey() != null;
+      if (apiClient.customBaseUrl() != null && !hasStandardAuth) {
+        return new URI(wsBaseUrl);
+      }
+
       if (!apiClient.vertexAI()) {
         String method;
-        if (apiClient.apiKey().startsWith("auth_tokens/")) {
+        if (apiClient.apiKey() != null && apiClient.apiKey().startsWith("auth_tokens/")) {
           logger.warning(
               "Warning: Ephemeral token support is experimental and may change in future"
                   + " versions.");
-          if (!apiClient.httpOptions.apiVersion().orElse("v1beta").equals("v1alpha")) {
+          if (!apiClient.httpOptions().apiVersion().orElse("v1beta").equals("v1alpha")) {
             logger.warning(
                 "Warning: The SDK's ephemeral token support is in v1alpha only. Please use  client"
                     + " = Client.builder().httpOptions(HttpOptions.builder().apiVersion(\"v1alpha\").build()).build()"
@@ -121,12 +128,12 @@ public class AsyncLive {
         return new URI(
             String.format(
                 "%s/ws/google.ai.generativelanguage.%s.GenerativeService.%s",
-                wsBaseUrl, apiClient.httpOptions.apiVersion().orElse("v1beta"), method));
+                wsBaseUrl, apiClient.httpOptions().apiVersion().orElse("v1beta"), method));
       } else {
         return new URI(
             String.format(
                 "%s/ws/google.cloud.aiplatform.%s.LlmBidiService/BidiGenerateContent",
-                wsBaseUrl, apiClient.httpOptions.apiVersion().orElse("v1beta1")));
+                wsBaseUrl, apiClient.httpOptions().apiVersion().orElse("v1beta1")));
       }
     } catch (URISyntaxException e) {
       throw new IllegalStateException("Failed to parse URL.", e);
@@ -136,16 +143,22 @@ public class AsyncLive {
   /** Gets the headers for the websocket connection. */
   private Map<String, String> getWebSocketHeaders() {
     Map<String, String> headers = new HashMap<>();
-    apiClient.httpOptions.headers().ifPresent(headers::putAll);
+    apiClient.httpOptions().headers().ifPresent(headers::putAll);
 
     if (apiClient.vertexAI()) {
-      try {
-        GoogleCredentials credentials =
-            apiClient.credentials.orElseGet(() -> apiClient.defaultCredentials());
-        credentials.refreshIfExpired();
-        headers.put("Authorization", "Bearer " + credentials.getAccessToken().getTokenValue());
-      } catch (IOException e) {
-        throw new GenAiIOException("Failed to refresh credentials for Vertex AI.", e);
+      if (apiClient.credentials() != null) {
+        try {
+          GoogleCredentials credentials = apiClient.credentials();
+          credentials.refreshIfExpired();
+          headers.put("Authorization", "Bearer " + credentials.getAccessToken().getTokenValue());
+          if (credentials.getQuotaProjectId() != null) {
+            headers.put("x-goog-user-project", credentials.getQuotaProjectId());
+          }
+        } catch (IOException e) {
+          throw new GenAiIOException("Failed to refresh credentials for Vertex AI.", e);
+        }
+      } else if (apiClient.apiKey() != null) {
+        headers.put("x-goog-api-key", apiClient.apiKey());
       }
     } else {
       @Nullable String apiKey = apiClient.apiKey();
@@ -165,7 +178,10 @@ public class AsyncLive {
 
     String transformedModel = Transformers.tModel(apiClient, model);
     // Vertex requires the full resource path for the model.
-    if (apiClient.vertexAI() && transformedModel.startsWith("publishers/")) {
+    if (apiClient.vertexAI()
+        && transformedModel.startsWith("publishers/")
+        && apiClient.project() != null
+        && apiClient.location() != null) {
       model =
           String.format(
               "projects/%s/locations/%s/%s",

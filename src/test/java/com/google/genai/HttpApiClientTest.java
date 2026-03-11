@@ -74,9 +74,11 @@ public class HttpApiClientTest {
   private static final String PROXY_USERNAME = "user";
   private static final String PROXY_PASSWORD = "pass";
   private static final HttpOptions defaultHttpOptionsMLDev =
-      HttpApiClient.defaultHttpOptions(false, Optional.empty(), Optional.of(API_KEY));
+      HttpApiClient.defaultHttpOptions(
+          false, Optional.empty(), Optional.of(API_KEY), Optional.empty(), Optional.empty());
   private static final HttpOptions defaultHttpOptionsVertex =
-      HttpApiClient.defaultHttpOptions(true, Optional.of(LOCATION), Optional.empty());
+      HttpApiClient.defaultHttpOptions(
+          true, Optional.of(LOCATION), Optional.empty(), Optional.empty(), Optional.empty());
   private static final Optional<HttpOptions> REQUEST_HTTP_OPTIONS =
       Optional.of(
           HttpOptions.builder()
@@ -831,7 +833,8 @@ public class HttpApiClientTest {
                     Optional.empty(),
                     Optional.empty()));
     assertEquals(
-        "For Vertex AI APIs, either project or API key must be set.",
+        "Authentication is not set up. Please provide either a project and location, or an API"
+            + " key, or a custom base URL.",
         exception.getMessage());
   }
 
@@ -1481,6 +1484,91 @@ public class HttpApiClientTest {
     assertNull(client.project());
     assertNull(client.location());
     assertTrue(client.vertexAI());
+  }
+
+  @Test
+  public void testRequestWithResourceScopeCollection() throws Exception {
+    HttpOptions httpOptions =
+        HttpOptions.builder()
+            .baseUrl("https://my-endpoint.com")
+            .baseUrlResourceScope(com.google.genai.types.ResourceScope.Known.COLLECTION)
+            .build();
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.of(CREDENTIALS),
+            Optional.of(httpOptions),
+            Optional.empty());
+
+    String path = "models/my-model";
+    Request request = client.buildRequest("GET", path, (String) null, Optional.empty());
+
+    assertEquals("https://my-endpoint.com/v1beta1/models/my-model", request.url().toString());
+  }
+
+  @Test
+  public void testRequestWithVertexAiAndApiKey_noPrepend() throws Exception {
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(API_KEY),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty());
+
+    String path = "models/my-model";
+    Request request = client.buildRequest("GET", path, (String) null, Optional.empty());
+
+    // Should NOT prepend projects/...
+    assertTrue(request.url().toString().contains("v1beta1/models/my-model"));
+    assertFalse(request.url().toString().contains("projects/"));
+  }
+
+  @Test
+  public void testRequestWithVertexAiAndPathStartingWithPublishers_noPrepend() throws Exception {
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    String path = "publishers/google/models/gemini-pro";
+    Request request = client.buildRequest("GET", path, (String) null, Optional.empty());
+
+    // Should NOT prepend projects/... for publishers/google/models
+    assertEquals(
+        String.format(
+            "https://%s-aiplatform.googleapis.com/v1beta1/publishers/google/models/gemini-pro",
+            LOCATION),
+        request.url().toString());
+  }
+
+  @Test
+  public void testRequestWithVertexAiAndPathStartingWithPublishers_Post_shouldPrepend() throws Exception {
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.empty(),
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.of(CREDENTIALS),
+            Optional.empty(),
+            Optional.empty());
+
+    String path = "publishers/google/models/gemini-pro:predict";
+    Request request = client.buildRequest("POST", path, "{}", Optional.empty());
+
+    // Should prepend projects/... for publishers/google/models if POST
+    assertEquals(
+        String.format(
+            "https://%s-aiplatform.googleapis.com/v1beta1/projects/%s/locations/%s/publishers/google/models/gemini-pro:predict",
+            LOCATION, PROJECT, LOCATION),
+        request.url().toString());
   }
 
   @Test

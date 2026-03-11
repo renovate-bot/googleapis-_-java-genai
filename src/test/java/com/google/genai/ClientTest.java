@@ -188,4 +188,36 @@ public class ClientTest {
     // Reset the base URLs after the test.
     Client.setDefaultBaseUrls(Optional.empty(), Optional.empty());
   }
+
+  @Test
+  public void testInitClientFromBuilder_globalLocation() {
+    // Act
+    Client client =
+        Client.builder()
+            .project(PROJECT)
+            .location("global")
+            .credentials(CREDENTIALS)
+            .vertexAI(true)
+            .build();
+
+    // Assert
+    assertEquals("global", client.location());
+    assertTrue(client.vertexAI());
+    assertEquals("https://aiplatform.googleapis.com", client.baseUrl().orElse(null));
+  }
+
+  @Test
+  public void testInitClientFromBuilder_globalLocationWithCustomBaseUrl() {
+    // Act
+    Client client =
+        Client.builder()
+            .httpOptions(HttpOptions.builder().baseUrl("https://my-endpoint.com").build())
+            .vertexAI(true)
+            .build();
+
+    // Assert
+    assertEquals(null, client.location());
+    assertTrue(client.vertexAI());
+    assertEquals("https://my-endpoint.com", client.baseUrl().orElse(null));
+  }
 }
