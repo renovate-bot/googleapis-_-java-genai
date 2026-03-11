@@ -72,7 +72,7 @@ public abstract class ApiClient implements AutoCloseable {
   HttpOptions httpOptions;
   final boolean vertexAI;
   final Optional<ClientOptions> clientOptions;
-  // For Gemini APIs
+  // For Google AI APIs
   final Optional<String> apiKey;
   // For Vertex AI APIs
   final Optional<String> project;
