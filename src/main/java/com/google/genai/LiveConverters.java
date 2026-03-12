@@ -32,6 +32,16 @@ final class LiveConverters {
   }
 
   @ExcludeFromGeneratedCoverageReport
+  ObjectNode audioTranscriptionConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"languageCodes"}))) {
+      throw new IllegalArgumentException("languageCodes parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode authConfigToMldev(JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper().createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"apiKey"}) != null) {
@@ -761,14 +771,20 @@ final class LiveConverters {
       Common.setValueByPath(
           toObject,
           new String[] {"inputAudioTranscription"},
-          Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}));
+          audioTranscriptionConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"outputAudioTranscription"},
-          Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}));
+          audioTranscriptionConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"proactivity"}) != null) {
@@ -992,14 +1008,20 @@ final class LiveConverters {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "inputAudioTranscription"},
-          Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"}));
+          audioTranscriptionConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"inputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}) != null) {
       Common.setValueByPath(
           parentObject,
           new String[] {"setup", "outputAudioTranscription"},
-          Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"}));
+          audioTranscriptionConfigToMldev(
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"outputAudioTranscription"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"realtimeInputConfig"}) != null) {

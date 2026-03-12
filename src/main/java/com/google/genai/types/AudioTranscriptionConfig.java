@@ -19,14 +19,27 @@
 package com.google.genai.types;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.genai.JsonSerializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /** The audio transcription configuration in Setup. */
 @AutoValue
 @JsonDeserialize(builder = AudioTranscriptionConfig.Builder.class)
 public abstract class AudioTranscriptionConfig extends JsonSerializable {
+  /**
+   * The language codes of the audio. BCP-47 language code. If not set, the transcription will be in
+   * the language detected by the model. If set, the server will use the language code specified in
+   * the model config as a hint for the language of the audio
+   */
+  @JsonProperty("languageCodes")
+  public abstract Optional<List<String>> languageCodes();
+
   /** Instantiates a builder for AudioTranscriptionConfig. */
   @ExcludeFromGeneratedCoverageReport
   public static Builder builder() {
@@ -43,6 +56,38 @@ public abstract class AudioTranscriptionConfig extends JsonSerializable {
     @JsonCreator
     private static Builder create() {
       return new AutoValue_AudioTranscriptionConfig.Builder();
+    }
+
+    /**
+     * Setter for languageCodes.
+     *
+     * <p>languageCodes: The language codes of the audio. BCP-47 language code. If not set, the
+     * transcription will be in the language detected by the model. If set, the server will use the
+     * language code specified in the model config as a hint for the language of the audio
+     */
+    @JsonProperty("languageCodes")
+    public abstract Builder languageCodes(List<String> languageCodes);
+
+    /**
+     * Setter for languageCodes.
+     *
+     * <p>languageCodes: The language codes of the audio. BCP-47 language code. If not set, the
+     * transcription will be in the language detected by the model. If set, the server will use the
+     * language code specified in the model config as a hint for the language of the audio
+     */
+    @CanIgnoreReturnValue
+    public Builder languageCodes(String... languageCodes) {
+      return languageCodes(Arrays.asList(languageCodes));
+    }
+
+    @ExcludeFromGeneratedCoverageReport
+    abstract Builder languageCodes(Optional<List<String>> languageCodes);
+
+    /** Clears the value of languageCodes field. */
+    @ExcludeFromGeneratedCoverageReport
+    @CanIgnoreReturnValue
+    public Builder clearLanguageCodes() {
+      return languageCodes(Optional.empty());
     }
 
     public abstract AudioTranscriptionConfig build();
