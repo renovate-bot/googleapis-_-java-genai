@@ -131,7 +131,6 @@ public abstract class GenerateContentConfig extends JsonSerializable {
    * Output response mimetype of the generated candidate text. Supported mimetype: - `text/plain`:
    * (default) Text output. - `application/json`: JSON response in the candidates. The model needs
    * to be prompted to output the appropriate response type, otherwise the behavior is undefined.
-   * This is a preview feature.
    */
   @JsonProperty("responseMimeType")
   public abstract Optional<String> responseMimeType();
@@ -563,7 +562,7 @@ public abstract class GenerateContentConfig extends JsonSerializable {
      * <p>responseMimeType: Output response mimetype of the generated candidate text. Supported
      * mimetype: - `text/plain`: (default) Text output. - `application/json`: JSON response in the
      * candidates. The model needs to be prompted to output the appropriate response type, otherwise
-     * the behavior is undefined. This is a preview feature.
+     * the behavior is undefined.
      */
     @JsonProperty("responseMimeType")
     public abstract Builder responseMimeType(String responseMimeType);
