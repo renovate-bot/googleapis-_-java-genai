@@ -58,7 +58,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class ApiClient implements AutoCloseable {
 
   // {x-version-update-start:google-genai:released}
-  private static final String SDK_VERSION = "1.42.0";
+  private static final String SDK_VERSION = "1.43.0";
   // {x-version-update-end:google-genai:released}
   private static final Logger logger = Logger.getLogger(ApiClient.class.getName());
 
@@ -232,7 +232,9 @@ public abstract class ApiClient implements AutoCloseable {
       projectValue = null;
       locationValue = null;
     } else if (apiKeyValue != null
-        || (locationValue != null && locationValue.equals("global") && !customBaseUrl.isPresent())) {
+        || (locationValue != null
+            && locationValue.equals("global")
+            && !customBaseUrl.isPresent())) {
       initHttpOptionsBuilder.baseUrl("https://aiplatform.googleapis.com");
     } else if (locationValue != null && !customBaseUrl.isPresent()) {
       initHttpOptionsBuilder.baseUrl(
