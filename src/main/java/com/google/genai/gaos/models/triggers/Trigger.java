@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.genai.gaos.models.interactions.Interaction;
+import com.google.genai.gaos.models.interactions.CreateAgentInteraction;
 import com.google.genai.gaos.utils.Utils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -84,10 +84,10 @@ public class Trigger {
     private String id;
 
     /**
-     * The Interaction resource.
+     * Interaction for generating the completion using agents.
      */
     @JsonProperty("interaction")
-    private Interaction interaction;
+    private CreateAgentInteraction interaction;
 
     /**
      * Output only. The time when the trigger was last paused.
@@ -167,7 +167,7 @@ public class Trigger {
             @JsonProperty("environment_id") @Nullable String environmentId,
             @JsonProperty("execution_timeout_seconds") @Nullable Integer executionTimeoutSeconds,
             @JsonProperty("id") @Nonnull String id,
-            @JsonProperty("interaction") @Nonnull Interaction interaction,
+            @JsonProperty("interaction") @Nonnull CreateAgentInteraction interaction,
             @JsonProperty("last_pause_time") @Nullable OffsetDateTime lastPauseTime,
             @JsonProperty("last_resume_time") @Nullable OffsetDateTime lastResumeTime,
             @JsonProperty("last_run_time") @Nullable OffsetDateTime lastRunTime,
@@ -203,7 +203,7 @@ public class Trigger {
     
     public Trigger(
             @Nonnull String id,
-            @Nonnull Interaction interaction,
+            @Nonnull CreateAgentInteraction interaction,
             @Nonnull String schedule,
             @Nonnull String timeZone) {
         this(null, null, null,
@@ -260,9 +260,9 @@ public class Trigger {
     }
 
     /**
-     * The Interaction resource.
+     * Interaction for generating the completion using agents.
      */
-    public Optional<Interaction> interaction() {
+    public Optional<CreateAgentInteraction> interaction() {
         return Optional.ofNullable(this.interaction);
     }
 
@@ -401,9 +401,9 @@ public class Trigger {
 
 
     /**
-     * The Interaction resource.
+     * Interaction for generating the completion using agents.
      */
-    public Trigger withInteraction(@Nonnull Interaction interaction) {
+    public Trigger withInteraction(@Nonnull CreateAgentInteraction interaction) {
         this.interaction = Utils.checkNotNull(interaction, "interaction");
         return this;
     }
@@ -578,7 +578,7 @@ public class Trigger {
 
         private String id;
 
-        private Interaction interaction;
+        private CreateAgentInteraction interaction;
 
         private OffsetDateTime lastPauseTime;
 
@@ -656,9 +656,9 @@ public class Trigger {
         }
 
         /**
-         * The Interaction resource.
+         * Interaction for generating the completion using agents.
          */
-        public Builder interaction(@Nonnull Interaction interaction) {
+        public Builder interaction(@Nonnull CreateAgentInteraction interaction) {
             this.interaction = Utils.checkNotNull(interaction, "interaction");
             return this;
         }

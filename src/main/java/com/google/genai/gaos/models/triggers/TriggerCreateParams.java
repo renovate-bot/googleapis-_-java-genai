@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.genai.gaos.models.interactions.CreateAgentInteraction;
 import com.google.genai.gaos.utils.Utils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -59,10 +60,10 @@ public class TriggerCreateParams {
     private Integer executionTimeoutSeconds;
 
     /**
-     * Required. The interaction request template to be executed.
+     * Interaction for generating the completion using agents.
      */
     @JsonProperty("interaction")
-    private Interaction interaction;
+    private CreateAgentInteraction interaction;
 
     /**
      * Optional. The maximum number of consecutive failures allowed before
@@ -90,7 +91,7 @@ public class TriggerCreateParams {
             @JsonProperty("display_name") @Nullable String displayName,
             @JsonProperty("environment_id") @Nullable String environmentId,
             @JsonProperty("execution_timeout_seconds") @Nullable Integer executionTimeoutSeconds,
-            @JsonProperty("interaction") @Nonnull Interaction interaction,
+            @JsonProperty("interaction") @Nonnull CreateAgentInteraction interaction,
             @JsonProperty("max_consecutive_failures") @Nullable Integer maxConsecutiveFailures,
             @JsonProperty("schedule") @Nonnull String schedule,
             @JsonProperty("time_zone") @Nonnull String timeZone) {
@@ -107,7 +108,7 @@ public class TriggerCreateParams {
     }
     
     public TriggerCreateParams(
-            @Nonnull Interaction interaction,
+            @Nonnull CreateAgentInteraction interaction,
             @Nonnull String schedule,
             @Nonnull String timeZone) {
         this(null, null, null,
@@ -137,9 +138,9 @@ public class TriggerCreateParams {
     }
 
     /**
-     * Required. The interaction request template to be executed.
+     * Interaction for generating the completion using agents.
      */
-    public Optional<Interaction> interaction() {
+    public Optional<CreateAgentInteraction> interaction() {
         return Optional.ofNullable(this.interaction);
     }
 
@@ -199,9 +200,9 @@ public class TriggerCreateParams {
 
 
     /**
-     * Required. The interaction request template to be executed.
+     * Interaction for generating the completion using agents.
      */
-    public TriggerCreateParams withInteraction(@Nonnull Interaction interaction) {
+    public TriggerCreateParams withInteraction(@Nonnull CreateAgentInteraction interaction) {
         this.interaction = Utils.checkNotNull(interaction, "interaction");
         return this;
     }
@@ -284,7 +285,7 @@ public class TriggerCreateParams {
 
         private Integer executionTimeoutSeconds;
 
-        private Interaction interaction;
+        private CreateAgentInteraction interaction;
 
         private Integer maxConsecutiveFailures;
 
@@ -321,9 +322,9 @@ public class TriggerCreateParams {
         }
 
         /**
-         * Required. The interaction request template to be executed.
+         * Interaction for generating the completion using agents.
          */
-        public Builder interaction(@Nonnull Interaction interaction) {
+        public Builder interaction(@Nonnull CreateAgentInteraction interaction) {
             this.interaction = Utils.checkNotNull(interaction, "interaction");
             return this;
         }

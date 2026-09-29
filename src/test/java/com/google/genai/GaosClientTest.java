@@ -409,9 +409,8 @@ public final class GaosClientTest {
               return createMockResponse(
                   request,
                   200,
-                  "{\"id\": \"test-trigger-id\", \"interaction\": {\"id\": \"int-1\","
-                      + " \"status\": \"completed\"}, \"schedule\": \"0 * * * *\","
-                      + " \"time_zone\": \"UTC\"}");
+                  "{\"id\": \"test-trigger-id\", \"interaction\": {\"agent\": \"test-agent-1\"},"
+                      + " \"schedule\": \"0 * * * *\", \"time_zone\": \"UTC\"}");
             }
             return createMockResponse(request, 200, "{\"id\": \"test-credential-id\"}");
           }
