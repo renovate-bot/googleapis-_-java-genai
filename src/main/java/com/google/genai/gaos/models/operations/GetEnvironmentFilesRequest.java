@@ -38,11 +38,15 @@ public class GetEnvironmentFilesRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=api_version")
     private String apiVersion;
 
-
+    /**
+     * The ID of the environment whose snapshot to read.
+     */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=environment")
     private String environment;
 
-
+    /**
+     * Path of the file or directory inside the environment workspace, relative to its root (e.g. src).
+     */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,allowReserved=true,name=path")
     private String path;
 
@@ -96,10 +100,16 @@ public class GetEnvironmentFilesRequest {
         return Optional.ofNullable(this.apiVersion);
     }
 
+    /**
+     * The ID of the environment whose snapshot to read.
+     */
     public Optional<String> environment() {
         return Optional.ofNullable(this.environment);
     }
 
+    /**
+     * Path of the file or directory inside the environment workspace, relative to its root (e.g. src).
+     */
     public Optional<String> path() {
         return Optional.ofNullable(this.path);
     }
@@ -139,12 +149,18 @@ public class GetEnvironmentFilesRequest {
     }
 
 
+    /**
+     * The ID of the environment whose snapshot to read.
+     */
     public GetEnvironmentFilesRequest withEnvironment(@Nonnull String environment) {
         this.environment = Utils.checkNotNull(environment, "environment");
         return this;
     }
 
 
+    /**
+     * Path of the file or directory inside the environment workspace, relative to its root (e.g. src).
+     */
     public GetEnvironmentFilesRequest withPath(@Nonnull String path) {
         this.path = Utils.checkNotNull(path, "path");
         return this;
@@ -241,11 +257,17 @@ public class GetEnvironmentFilesRequest {
             return this;
         }
 
+        /**
+         * The ID of the environment whose snapshot to read.
+         */
         public Builder environment(@Nonnull String environment) {
             this.environment = Utils.checkNotNull(environment, "environment");
             return this;
         }
 
+        /**
+         * Path of the file or directory inside the environment workspace, relative to its root (e.g. src).
+         */
         public Builder path(@Nonnull String path) {
             this.path = Utils.checkNotNull(path, "path");
             return this;
