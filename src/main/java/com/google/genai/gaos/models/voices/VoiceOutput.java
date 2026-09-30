@@ -71,8 +71,10 @@ public class VoiceOutput {
 
     /**
      * Output only. The timestamp at which a custom stored voice (`store = true`)
-     * or replicated voice key (`store = false`) expires. Unset for prebuilt
-     * catalog voices (`"prebuilt"`), which do not expire.
+     * or replicated voice key (`store = false`) expires. For custom stored voices
+     * (`store = true`), this expiration time is extended when the voice is used
+     * for speech synthesis or as a `base_voice` in `CreateVoice`. Unset for
+     * prebuilt catalog voices (`"prebuilt"`), which do not expire.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("expire_time")
@@ -260,8 +262,10 @@ public class VoiceOutput {
 
     /**
      * Output only. The timestamp at which a custom stored voice (`store = true`)
-     * or replicated voice key (`store = false`) expires. Unset for prebuilt
-     * catalog voices (`"prebuilt"`), which do not expire.
+     * or replicated voice key (`store = false`) expires. For custom stored voices
+     * (`store = true`), this expiration time is extended when the voice is used
+     * for speech synthesis or as a `base_voice` in `CreateVoice`. Unset for
+     * prebuilt catalog voices (`"prebuilt"`), which do not expire.
      */
     public Optional<OffsetDateTime> expireTime() {
         return Optional.ofNullable(this.expireTime);
@@ -412,8 +416,10 @@ public class VoiceOutput {
 
     /**
      * Output only. The timestamp at which a custom stored voice (`store = true`)
-     * or replicated voice key (`store = false`) expires. Unset for prebuilt
-     * catalog voices (`"prebuilt"`), which do not expire.
+     * or replicated voice key (`store = false`) expires. For custom stored voices
+     * (`store = true`), this expiration time is extended when the voice is used
+     * for speech synthesis or as a `base_voice` in `CreateVoice`. Unset for
+     * prebuilt catalog voices (`"prebuilt"`), which do not expire.
      */
     public VoiceOutput withExpireTime(@Nullable OffsetDateTime expireTime) {
         this.expireTime = expireTime;
@@ -684,8 +690,10 @@ public class VoiceOutput {
 
         /**
          * Output only. The timestamp at which a custom stored voice (`store = true`)
-         * or replicated voice key (`store = false`) expires. Unset for prebuilt
-         * catalog voices (`"prebuilt"`), which do not expire.
+         * or replicated voice key (`store = false`) expires. For custom stored voices
+         * (`store = true`), this expiration time is extended when the voice is used
+         * for speech synthesis or as a `base_voice` in `CreateVoice`. Unset for
+         * prebuilt catalog voices (`"prebuilt"`), which do not expire.
          */
         public Builder expireTime(@Nullable OffsetDateTime expireTime) {
             this.expireTime = expireTime;
