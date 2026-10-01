@@ -90,7 +90,14 @@ public class FinishReason {
     IMAGE_RECITATION,
 
     /** Image generation stopped for a reason not otherwise specified. */
-    IMAGE_OTHER
+    IMAGE_OTHER,
+
+    /**
+     * Token generation stopped because the response reached the per-request token limit, but
+     * generation is not yet complete. The response can be continued by passing the returned
+     * `continuation_token` in a subsequent request.
+     */
+    CONTINUATION
   }
 
   private Known finishReasonEnum;
