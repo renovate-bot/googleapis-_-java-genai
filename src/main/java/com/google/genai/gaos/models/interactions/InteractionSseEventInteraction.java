@@ -47,6 +47,13 @@ public class InteractionSseEventInteraction {
     private String agent;
 
     /**
+     * Output only. Opaque token to resume a long decode when status is incomplete.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("continuation_token")
+    private String continuationToken;
+
+    /**
      * Output only. The time at which the response was created in ISO 8601 format.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -108,6 +115,7 @@ public class InteractionSseEventInteraction {
     @JsonCreator
     public InteractionSseEventInteraction(
             @JsonProperty("agent") @Nullable String agent,
+            @JsonProperty("continuation_token") @Nullable String continuationToken,
             @JsonProperty("created") @Nullable String created,
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("model") @Nullable String model,
@@ -118,6 +126,7 @@ public class InteractionSseEventInteraction {
             @JsonProperty("updated") @Nullable String updated,
             @JsonProperty("usage") @Nullable Usage usage) {
         this.agent = agent;
+        this.continuationToken = continuationToken;
         this.created = created;
         this.id = Optional.ofNullable(id)
             .orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
@@ -134,10 +143,10 @@ public class InteractionSseEventInteraction {
     public InteractionSseEventInteraction(
             @Nonnull String id,
             @Nonnull InteractionSseEventInteractionStatus status) {
-        this(null, null, id,
-            null, null, null,
-            status, null, null,
-            null);
+        this(null, null, null,
+            id, null, null,
+            null, status, null,
+            null, null);
     }
 
     /**
@@ -145,6 +154,13 @@ public class InteractionSseEventInteraction {
      */
     public Optional<String> agent() {
         return Optional.ofNullable(this.agent);
+    }
+
+    /**
+     * Output only. Opaque token to resume a long decode when status is incomplete.
+     */
+    public Optional<String> continuationToken() {
+        return Optional.ofNullable(this.continuationToken);
     }
 
     /**
@@ -217,6 +233,15 @@ public class InteractionSseEventInteraction {
      */
     public InteractionSseEventInteraction withAgent(@Nullable String agent) {
         this.agent = agent;
+        return this;
+    }
+
+
+    /**
+     * Output only. Opaque token to resume a long decode when status is incomplete.
+     */
+    public InteractionSseEventInteraction withContinuationToken(@Nullable String continuationToken) {
+        this.continuationToken = continuationToken;
         return this;
     }
 
@@ -310,6 +335,7 @@ public class InteractionSseEventInteraction {
         InteractionSseEventInteraction other = (InteractionSseEventInteraction) o;
         return 
             Utils.enhancedDeepEquals(this.agent, other.agent) &&
+            Utils.enhancedDeepEquals(this.continuationToken, other.continuationToken) &&
             Utils.enhancedDeepEquals(this.created, other.created) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.model, other.model) &&
@@ -324,16 +350,17 @@ public class InteractionSseEventInteraction {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            agent, created, id,
-            model, object, serviceTier,
-            status, steps, updated,
-            usage);
+            agent, continuationToken, created,
+            id, model, object,
+            serviceTier, status, steps,
+            updated, usage);
     }
     
     @Override
     public String toString() {
         return Utils.toString(InteractionSseEventInteraction.class,
                 "agent", agent,
+                "continuationToken", continuationToken,
                 "created", created,
                 "id", id,
                 "model", model,
@@ -349,6 +376,8 @@ public class InteractionSseEventInteraction {
     public final static class Builder {
 
         private String agent;
+
+        private String continuationToken;
 
         private String created;
 
@@ -377,6 +406,14 @@ public class InteractionSseEventInteraction {
          */
         public Builder agent(@Nullable String agent) {
             this.agent = agent;
+            return this;
+        }
+
+        /**
+         * Output only. Opaque token to resume a long decode when status is incomplete.
+         */
+        public Builder continuationToken(@Nullable String continuationToken) {
+            this.continuationToken = continuationToken;
             return this;
         }
 
@@ -451,10 +488,10 @@ public class InteractionSseEventInteraction {
 
         public InteractionSseEventInteraction build() {
             return new InteractionSseEventInteraction(
-                agent, created, id,
-                model, object, serviceTier,
-                status, steps, updated,
-                usage);
+                agent, continuationToken, created,
+                id, model, object,
+                serviceTier, status, steps,
+                updated, usage);
         }
 
     }
